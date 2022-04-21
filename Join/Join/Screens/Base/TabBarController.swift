@@ -12,10 +12,10 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTabBar()
-        // Do any additional setup after loading the view.
+        // 임시로 만들어놓은 탭바 컨트롤러
+        // 보통 탭바 커스텀시에 코드를 많이 사용하길래
+        // 스토리보드 대신 코드로 연결을 해놓았습니다.
     }
-
-
 }
 
 extension TabBarController {

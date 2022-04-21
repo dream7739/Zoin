@@ -13,18 +13,22 @@ import RxCocoa
 import RxSwift
 
 class LoginVC: BaseViewController {
+    // BaseViewController를 따로 만들어서
+    // 네비게이션 처리나, 화면배경색 처리를 미리 해놓을 수 있음
+    // UI 관련 요소 추가
     private let LoginButton = UIButton().then {
         $0.setTitle("메인으로", for: .normal)
         $0.setTitleColor(.black, for: .normal)
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         bind()
-        // Do any additional setup after loading the view.
     }
 }
 
+// 익스텐션에는 레이아웃 그려주는 함수나 액션함수들 한 번에 집어넣는 편 (개인적 습관)
 extension LoginVC {
     private func setLayout() {
         view.addSubview(LoginButton)
