@@ -25,6 +25,8 @@
 		F29FE107281679C50034C8A2 /* RegisterNicknameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE106281679C50034C8A2 /* RegisterNicknameVC.swift */; };
 		F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10828167A140034C8A2 /* RegisterIdVC.swift */; };
 		F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */; };
+		F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10C28167CF10034C8A2 /* UIView+.swift */; };
+		F29FE110281683350034C8A2 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10F281683350034C8A2 /* SplashVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,8 @@
 		F29FE106281679C50034C8A2 /* RegisterNicknameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterNicknameVC.swift; sourceTree = "<group>"; };
 		F29FE10828167A140034C8A2 /* RegisterIdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterIdVC.swift; sourceTree = "<group>"; };
 		F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProfileVC.swift; sourceTree = "<group>"; };
+		F29FE10C28167CF10034C8A2 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		F29FE10F281683350034C8A2 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,7 @@
 				F214201828101704000D102D /* Resources */,
 				F2142017281016EA000D102D /* App */,
 				F214202228101B8A000D102D /* Network */,
+				F29FE10E28167D1F0034C8A2 /* Extensions */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -184,6 +189,7 @@
 				F29FE106281679C50034C8A2 /* RegisterNicknameVC.swift */,
 				F29FE10828167A140034C8A2 /* RegisterIdVC.swift */,
 				F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */,
+				F29FE10F281683350034C8A2 /* SplashVC.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -210,6 +216,14 @@
 				F214202028101AE3000D102D /* BaseTargetType.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		F29FE10E28167D1F0034C8A2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F29FE10C28167CF10034C8A2 /* UIView+.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,6 +352,8 @@
 				F29FE107281679C50034C8A2 /* RegisterNicknameVC.swift in Sources */,
 				F214200C28100AFA000D102D /* TabBarController.swift in Sources */,
 				F29FE105281678500034C8A2 /* RegsiterPasswordVC.swift in Sources */,
+				F29FE110281683350034C8A2 /* SplashVC.swift in Sources */,
+				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
 				F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */,
