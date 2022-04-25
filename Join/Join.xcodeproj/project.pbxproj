@@ -27,6 +27,7 @@
 		F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */; };
 		F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10C28167CF10034C8A2 /* UIView+.swift */; };
 		F29FE110281683350034C8A2 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10F281683350034C8A2 /* SplashVC.swift */; };
+		F2C727C928170C81002B1915 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C727C828170C81002B1915 /* UIColor+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProfileVC.swift; sourceTree = "<group>"; };
 		F29FE10C28167CF10034C8A2 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		F29FE10F281683350034C8A2 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
+		F2C727C828170C81002B1915 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				F29FE10C28167CF10034C8A2 /* UIView+.swift */,
+				F2C727C828170C81002B1915 /* UIColor+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
 				F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */,
+				F2C727C928170C81002B1915 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
