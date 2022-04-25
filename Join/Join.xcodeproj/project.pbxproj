@@ -19,6 +19,12 @@
 		F214201228100BCF000D102D /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F214201128100BCF000D102D /* ProfileVC.swift */; };
 		F214201428100C5B000D102D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F214201328100C5B000D102D /* BaseViewController.swift */; };
 		F214202128101AE3000D102D /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F214202028101AE3000D102D /* BaseTargetType.swift */; };
+		F29FE101281678080034C8A2 /* RegsiterEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE100281678080034C8A2 /* RegsiterEmailVC.swift */; };
+		F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */; };
+		F29FE105281678500034C8A2 /* RegsiterPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE104281678500034C8A2 /* RegsiterPasswordVC.swift */; };
+		F29FE107281679C50034C8A2 /* RegisterNicknameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE106281679C50034C8A2 /* RegisterNicknameVC.swift */; };
+		F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10828167A140034C8A2 /* RegisterIdVC.swift */; };
+		F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +44,12 @@
 		F214201128100BCF000D102D /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		F214201328100C5B000D102D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		F214202028101AE3000D102D /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
+		F29FE100281678080034C8A2 /* RegsiterEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegsiterEmailVC.swift; sourceTree = "<group>"; };
+		F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailVC.swift; sourceTree = "<group>"; };
+		F29FE104281678500034C8A2 /* RegsiterPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegsiterPasswordVC.swift; sourceTree = "<group>"; };
+		F29FE106281679C50034C8A2 /* RegisterNicknameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterNicknameVC.swift; sourceTree = "<group>"; };
+		F29FE10828167A140034C8A2 /* RegisterIdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterIdVC.swift; sourceTree = "<group>"; };
+		F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProfileVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +178,12 @@
 			isa = PBXGroup;
 			children = (
 				F2141FFB280FA61E000D102D /* LoginVC.swift */,
+				F29FE100281678080034C8A2 /* RegsiterEmailVC.swift */,
+				F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */,
+				F29FE104281678500034C8A2 /* RegsiterPasswordVC.swift */,
+				F29FE106281679C50034C8A2 /* RegisterNicknameVC.swift */,
+				F29FE10828167A140034C8A2 /* RegisterIdVC.swift */,
+				F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -308,12 +326,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */,
+				F29FE101281678080034C8A2 /* RegsiterEmailVC.swift in Sources */,
 				F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */,
 				F214200E28100B74000D102D /* MainVC.swift in Sources */,
+				F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */,
+				F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */,
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
 				F214201228100BCF000D102D /* ProfileVC.swift in Sources */,
 				F214201028100BBF000D102D /* JoinVC.swift in Sources */,
+				F29FE107281679C50034C8A2 /* RegisterNicknameVC.swift in Sources */,
 				F214200C28100AFA000D102D /* TabBarController.swift in Sources */,
+				F29FE105281678500034C8A2 /* RegsiterPasswordVC.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
 				F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */,

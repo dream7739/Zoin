@@ -21,6 +21,16 @@ class LoginVC: BaseViewController {
         $0.setTitleColor(.black, for: .normal)
     }
 
+    private let SignInButton = UIButton().then {
+        $0.setTitle("이메일 로그인", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+    }
+
+    private let SignUpButton = UIButton().then {
+        $0.setTitle("이메일 회원가입", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
