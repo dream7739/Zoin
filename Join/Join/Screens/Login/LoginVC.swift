@@ -76,7 +76,7 @@ extension LoginVC {
         SignUpButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let viewController = RegsiterEmailVC()
+                let viewController = RegisterEmailVC()
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)

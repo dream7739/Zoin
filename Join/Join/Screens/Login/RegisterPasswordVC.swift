@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegsiterPasswordVC: BaseViewController {
+class RegisterPasswordVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
