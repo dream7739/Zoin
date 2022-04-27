@@ -50,7 +50,7 @@ extension BaseViewController {
         }
     }
 
-    private func setNavigationBar(isHidden: Bool) {
+    func setNavigationBar(isHidden: Bool) {
       navigationController?.setNavigationBarHidden(isHidden, animated: true)
     }
 
