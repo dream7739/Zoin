@@ -63,6 +63,11 @@ class MainVC: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         setLayout()
+        bind()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setTabBarHidden(isHidden: false)
     }
     
 
@@ -118,6 +123,16 @@ extension MainVC {
 
         }
 
+    }
+    
+    func bind(){
+        searchJoinListBtn.rx.tap
+        .subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            let joinListVC = JoinListVC()
+            self.navigationController?.pushViewController(joinListVC, animated: true)
+        })
+        .disposed(by: disposeBag)
     }
 }
 

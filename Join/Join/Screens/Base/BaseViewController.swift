@@ -49,6 +49,16 @@ extension BaseViewController {
             navigationItem.leftBarButtonItem = backButton
         }
     }
+    
+    func setNavigationName(title: String){
+        if navigationController?.children.count ?? 0 > 1 {
+            navigationItem.title = title
+        }
+    }
+    
+    func setTabBarHidden(isHidden: Bool){
+        self.navigationController?.tabBarController?.tabBar.isHidden = isHidden
+    }
 
     private func setNavigationBar(isHidden: Bool) {
       navigationController?.setNavigationBarHidden(isHidden, animated: true)

@@ -49,6 +49,7 @@ extension TabBarController {
         
         self.tabBar.addSubview(middleButton)
         self.view.layoutIfNeeded()
+        
         let mainView = MainVC()
         let mainViewTabItem = UITabBarItem(
             title: "",
