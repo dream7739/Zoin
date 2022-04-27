@@ -13,6 +13,7 @@ target 'Join' do
   pod 'ReactorKit', '~> 2.1.1'
   pod 'RxCocoa', '~> 5.0'
   pod 'RxGesture'
+  pod 'RxKeyboard'
   pod 'SnapKit', '~> 5.0.0'
   pod 'SwiftKeychainWrapper', '~> 4.0.1'
   pod 'Then', '~> 2.7.0'
