@@ -30,10 +30,11 @@ class VerifyEmailVC: BaseViewController {
     }
 
     private let verifyTextField = UITextField().then {
-        $0.placeholder = "  인증번호 6자리"
+        $0.placeholder = "인증번호 6자리"
         $0.tintColor = .black
         $0.backgroundColor = .lightGray
         $0.borderStyle = .roundedRect
+        $0.addLeftPadding()
     }
 
     private let guideButton = UIButton().then {
