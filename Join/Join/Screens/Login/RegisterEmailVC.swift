@@ -29,10 +29,11 @@ class RegisterEmailVC: BaseViewController {
         $0.textColor = .black
     }
     private let emailTextField = UITextField().then {
-        $0.placeholder = "  bungae@buangae.com"
+        $0.placeholder = "bungae@buangae.com"
         $0.tintColor = .black
         $0.backgroundColor = .lightGray
         $0.borderStyle = .roundedRect
+        $0.addLeftPadding()
     }
 
     private let statusLabel = UILabel().then {
