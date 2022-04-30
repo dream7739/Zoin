@@ -8,20 +8,15 @@
 import UIKit
 
 class JoinVC: BaseViewController {
+    
+    var atndFlag = false //참여여부 플래그
+    var joinType = 1 //내 번개인지? 친구 번개인지?(서버 데이터 타입에 맞추기)
+    
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 40
         $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
-    }
-    
-    var toastLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .black
-        $0.textColor = .white
-        $0.textAlignment = .center
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 16
     }
     
     
@@ -102,7 +97,13 @@ class JoinVC: BaseViewController {
 
 
 
-extension JoinVC {
+extension JoinVC: CancelDelegate {
+    func cancelUpdate(isCanceled: Bool) {
+        if(isCanceled){
+            self.showToast(message: "번개 참여가 취소되었어요.")
+        }
+    }
+    
     private func setLayout() {
         self.view.backgroundColor = UIColor(red: 17/255, green: 23/255, blue: 35/255, alpha: 0.6)
             
@@ -192,26 +193,40 @@ extension JoinVC {
     private func bind(){
         joinBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                //토스트 출력 & 참여중 라벨 표시 & 참여취소로 버튼 변경
-                self?.joinBtn.setTitle("참여취소", for: .normal)
-                self?.joinBtn.backgroundColor = .lightGray
-                self?.attendLabel.isHidden = false
-                self?.showToast(message: "친구 번개에 참여했어요!")
-//                guard let self = self else { return }
-//                let viewController = TabBarController()
-//                viewController.modalPresentationStyle = .fullScreen
-//                if let delegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-//                    delegate.window?.rootViewController = viewController
-//                }
-//                self.present(viewController, animated: false)
+                if(!(self!.atndFlag)){
+                    //토스트 출력 & 참여중 라벨 표시 & 참여취소로 버튼 변경
+                    self?.joinBtn.setTitle("참여취소", for: .normal)
+                    self?.joinBtn.backgroundColor = .lightGray
+                    self?.attendLabel.isHidden = false
+                    self?.atndFlag = true
+                    self?.showToast(message: "친구 번개에 참여했어요!")
+                }else{
+                    self?.clickCancelBtn()
+                }
             })
             .disposed(by: disposeBag)
         
     }
     
+    private func clickCancelBtn(){
+        let joinCancelVC = JoinCancelVC()
+        joinCancelVC.delegate = self
+        joinCancelVC.modalPresentationStyle = .overFullScreen
+        self.present(joinCancelVC, animated: true)
+    }
+    
+    
     private func showToast(message : String){
+        let toastLabel = UILabel().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.backgroundColor = .black
+            $0.textColor = .white
+            $0.textAlignment = .center
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 16
+            $0.text = message
+        }
         popupView.addSubview(toastLabel)
-        toastLabel.text = message
         
         toastLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
@@ -220,11 +235,10 @@ extension JoinVC {
             $0.bottom.equalTo(joinBtn.snp.top).offset(-10)
         }
         
-        UIView.animate(withDuration: 2.5, delay: 0.1, animations: {
-            self.toastLabel.alpha = 0.0
+        UIView.animate(withDuration: 1.5, delay: 0.01, animations: {
+           toastLabel.alpha = 0.0
         }, completion: { _ in
-            self.toastLabel.removeFromSuperview()
-            
+           toastLabel.removeFromSuperview()
         })
 
     }
