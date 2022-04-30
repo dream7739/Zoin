@@ -11,9 +11,19 @@ class JoinVC: BaseViewController {
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .white
-        $0.layer.cornerRadius = 30
+        $0.layer.cornerRadius = 40
         $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
     }
+    
+    var toastLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .black
+        $0.textColor = .white
+        $0.textAlignment = .center
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 16
+    }
+    
     
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -52,6 +62,28 @@ class JoinVC: BaseViewController {
         $0.text = "여의나루역 2번 출구 앞"
     }
     
+    var lineImage = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .lightGray
+    }
+    
+    var contentLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "이따 학원끝나고 시간나는김에 카페 한번 들리려하는데 나 놀아줄사람..?ㅠㅠ"
+        $0.numberOfLines = 0
+    }
+    
+    var attendLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "참여중"
+        $0.backgroundColor  = .lightGray
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 5
+        $0.font = UIFont.systemFont(ofSize:13)
+        $0.textAlignment = .center
+        $0.isHidden = true //초기에 보이지 않다가 참여 액션이 있을 때 보임
+    }
+    
     var joinBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .darkGray
@@ -63,10 +95,12 @@ class JoinVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        bind()
     }
     
-
 }
+
+
 
 extension JoinVC {
     private func setLayout() {
@@ -82,6 +116,9 @@ extension JoinVC {
             titleLabel,
             dateLabel,
             placeLabel,
+            lineImage,
+            contentLabel,
+            attendLabel,
             joinBtn
         ])
         
@@ -92,8 +129,8 @@ extension JoinVC {
         
         profileImg.snp.makeConstraints {
             $0.width.height.equalTo(50)
-            $0.top.equalToSuperview().offset(20)
-            $0.leading.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(40)
+            $0.leading.equalToSuperview().offset(20)
         }
         
         nameLabel.snp.makeConstraints {
@@ -126,13 +163,73 @@ extension JoinVC {
             $0.top.equalTo(placeLabel.snp.bottom).offset(5)
         }
         
+        lineImage.snp.makeConstraints {
+            $0.height.equalTo(1)
+            $0.top.equalTo(countLabel.snp.bottom).offset(5)
+            $0.leading.equalTo(profileImg.snp.leading)
+            $0.trailing.equalToSuperview().offset(-20)
+        }
+        
+        contentLabel.snp.makeConstraints {
+            $0.top.equalTo(lineImage.snp.bottom).offset(10)
+            $0.leading.trailing.equalTo(lineImage)
+        }
+        
+        attendLabel.snp.makeConstraints {
+            $0.leading.equalTo(countLabel.snp.trailing).offset(5)
+            $0.centerY.equalTo(countLabel)
+            $0.width.equalTo(40)
+        }
+        
         joinBtn.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-30)
-            $0.height.equalTo(48)
-            $0.width.equalTo(327)
-            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-45)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.height.equalTo(56)
         }
     }
+    
+    private func bind(){
+        joinBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                //토스트 출력 & 참여중 라벨 표시 & 참여취소로 버튼 변경
+                self?.joinBtn.setTitle("참여취소", for: .normal)
+                self?.joinBtn.backgroundColor = .lightGray
+                self?.attendLabel.isHidden = false
+                self?.showToast(message: "친구 번개에 참여했어요!")
+//                guard let self = self else { return }
+//                let viewController = TabBarController()
+//                viewController.modalPresentationStyle = .fullScreen
+//                if let delegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+//                    delegate.window?.rootViewController = viewController
+//                }
+//                self.present(viewController, animated: false)
+            })
+            .disposed(by: disposeBag)
+        
+    }
+    
+    private func showToast(message : String){
+        popupView.addSubview(toastLabel)
+        toastLabel.text = message
+        
+        toastLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.height.equalTo(56)
+            $0.bottom.equalTo(joinBtn.snp.top).offset(-10)
+        }
+        
+        UIView.animate(withDuration: 2.5, delay: 0.1, animations: {
+            self.toastLabel.alpha = 0.0
+        }, completion: { _ in
+            self.toastLabel.removeFromSuperview()
+            
+        })
+
+    }
+    
+    
     
     
 }
