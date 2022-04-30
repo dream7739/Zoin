@@ -76,13 +76,15 @@ class MainVC: BaseViewController {
 
 extension MainVC {
     private func setLayout() {
-        view.addSubview(collectionView)
-        view.addSubview(mainEffectImageView)
-        view.addSubview(statusLabel)
-        view.addSubview(mentLabel)
-        view.addSubview(searchJoinListBtn)
-        view.addSubview(alarmBtn)
-        view.addSubview(storageBtn)
+        view.adds([
+            collectionView,
+            mainEffectImageView,
+            statusLabel,
+            mentLabel,
+            searchJoinListBtn,
+            alarmBtn,
+            storageBtn
+        ])
         
         collectionView.snp.makeConstraints {
                       $0.edges.equalTo(view.safeAreaLayoutGuide)
@@ -136,6 +138,15 @@ extension MainVC {
     }
 }
 
+extension MainVC: MainCellDelegate {
+    func selectedJoinBtn(index: Int){
+        //셀 클릭 시 index에 해당하는 정보를 넘겨주면서 modal로 present함
+        let joinVC = JoinVC()
+        joinVC.modalPresentationStyle = .overFullScreen
+        self.present(joinVC, animated: true)
+    }
+}
+
 extension MainVC : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -144,6 +155,8 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
+        cell.delegate = self
+        cell.index = indexPath.row
         return cell
     }
         

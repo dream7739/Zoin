@@ -12,20 +12,17 @@ import CoreLocation
 import Foundation
 import Then
 
+
+// 셀 클릭 이벤트를 정의 - 메인VC에서 처리
+protocol MainCellDelegate {
+    func selectedJoinBtn(index: Int)
+}
+
 class MainCollectionViewCell : UICollectionViewCell {
     
-    /**
-     프로필 사진
-     이름
-     아이디
-     참여자수
-     제목
-     시간
-     장소
-     참여버튼
-     **/
-    
     static let identifier = "mainCell"
+    var delegate: MainCellDelegate!
+    var index: Int = 0
     
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -74,31 +71,38 @@ class MainCollectionViewCell : UICollectionViewCell {
 
     }
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.masksToBounds = true
         layer.cornerRadius = 32.0
-
         self.cellSetting()
+        self.joinBtn.addTarget(self, action: #selector(onTapBtn), for: .touchUpInside)
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(c`oder:) has not been implemented")
     }
     
+    @objc func onTapBtn(){
+        self.delegate.selectedJoinBtn(index: index)
+    }
+    
+    
     func cellSetting() {
 
         self.backgroundColor = .lightGray
         
-        self.addSubview(profileImg)
-        self.addSubview(nameLabel)
-        self.addSubview(idLabel)
-        self.addSubview(countLabel)
-        self.addSubview(titleLabel)
-        self.addSubview(dateLabel)
-        self.addSubview(placeLabel)
-        self.addSubview(joinBtn)
+        self.adds([
+            profileImg,
+            nameLabel,
+            idLabel,
+            countLabel,
+            titleLabel,
+            dateLabel,
+            placeLabel,
+            joinBtn
+        ])
         
         profileImg.contentMode = .scaleToFill
         
