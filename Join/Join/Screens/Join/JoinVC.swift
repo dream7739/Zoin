@@ -11,12 +11,21 @@ class JoinVC: BaseViewController {
     
     var atndFlag = false //참여여부 플래그
     var joinType = 1 //내 번개인지? 친구 번개인지?(서버 데이터 타입에 맞추기)
+    var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
+
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 40
         $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
+    }
+    
+    var indicatorLabel = UILabel().then{
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .lightGray
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 5
     }
     
     
@@ -110,6 +119,7 @@ extension JoinVC: CancelDelegate {
         view.add(popupView)
         
         popupView.adds([
+            indicatorLabel,
             profileImg,
             nameLabel,
             idLabel,
@@ -123,9 +133,22 @@ extension JoinVC: CancelDelegate {
             joinBtn
         ])
         
+        //dismiss gesture 추가
+        viewTranslation = CGPoint(x: popupView.frame.minX, y: popupView.frame.minY)
+       
+        popupView.addGestureRecognizer(UIPanGestureRecognizer(target:self, action: #selector(handleDismiss)))
+        
         popupView.snp.makeConstraints{
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(681)
+        }
+        
+        indicatorLabel.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(15)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(50)
+            $0.height.equalTo(8)
+
         }
         
         profileImg.snp.makeConstraints {
@@ -206,6 +229,28 @@ extension JoinVC: CancelDelegate {
             })
             .disposed(by: disposeBag)
         
+    }
+    
+    @objc func handleDismiss(sender: UIPanGestureRecognizer){
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: self.popupView)
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                if(self.view.frame.minY < self.viewTranslation.y){
+                self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+                }
+            })
+        case .ended:
+            if viewTranslation.y < 200 {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.transform = .identity
+                })
+            } else {
+                dismiss(animated: true, completion: nil)
+            }
+        default:
+            break
+        }
     }
     
     private func clickCancelBtn(){
