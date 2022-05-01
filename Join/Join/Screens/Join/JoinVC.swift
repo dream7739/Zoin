@@ -10,7 +10,7 @@ import UIKit
 class JoinVC: BaseViewController {
     
     var atndFlag = false //참여여부 플래그
-    var joinType = 1 //내 번개인지? 친구 번개인지?(서버 데이터 타입에 맞추기)
+    var joinType = 1 //임시 -> 1: 친구 번개 / 2: 내 번개
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
 
     
@@ -19,6 +19,13 @@ class JoinVC: BaseViewController {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 40
         $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
+    }
+    
+    let btnStackView = UIStackView().then{
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .horizontal
+        $0.spacing = 7
+        $0.distribution = .fillEqually
     }
     
     var indicatorLabel = UILabel().then{
@@ -32,6 +39,26 @@ class JoinVC: BaseViewController {
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(named: "profile")
+    }
+    
+    var moreImg = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "icon_more")
+    }
+    
+    var timeImg = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "icon_time")
+    }
+    
+    var placeImg = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "icon_place")
+    }
+    
+    var attendImg = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "icon_attend")
     }
     
     var nameLabel = UILabel().then {
@@ -96,6 +123,22 @@ class JoinVC: BaseViewController {
         $0.layer.cornerRadius = 16
     }
     
+    var attendConfirmBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .lightGray
+        $0.setTitle("참여자 확인하기", for: .normal)
+        $0.contentHorizontalAlignment = .center
+        $0.layer.cornerRadius = 16
+    }
+    
+    var finishBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .darkGray
+        $0.setTitle("마감하기", for: .normal)
+        $0.contentHorizontalAlignment = .center
+        $0.layer.cornerRadius = 16
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -118,9 +161,16 @@ extension JoinVC: CancelDelegate {
             
         view.add(popupView)
         
+        btnStackView.addArrangedSubview(attendConfirmBtn)
+        btnStackView.addArrangedSubview(finishBtn)
+        
         popupView.adds([
             indicatorLabel,
             profileImg,
+            moreImg,
+            timeImg,
+            placeImg,
+            attendImg,
             nameLabel,
             idLabel,
             countLabel,
@@ -130,8 +180,19 @@ extension JoinVC: CancelDelegate {
             lineImage,
             contentLabel,
             attendLabel,
-            joinBtn
+            joinBtn,
+            btnStackView
         ])
+        
+        
+        if(joinType == 1){
+            moreImg.isHidden = true
+            attendConfirmBtn.isHidden = true
+            finishBtn.isHidden = true
+        }else{
+            joinBtn.isHidden = true
+        }
+        
         
         //dismiss gesture 추가
         viewTranslation = CGPoint(x: popupView.frame.minX, y: popupView.frame.minY)
@@ -144,17 +205,41 @@ extension JoinVC: CancelDelegate {
         }
         
         indicatorLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(12)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(50)
-            $0.height.equalTo(8)
+            $0.width.equalTo(48)
+            $0.height.equalTo(6)
 
         }
         
         profileImg.snp.makeConstraints {
             $0.width.height.equalTo(50)
-            $0.top.equalToSuperview().offset(40)
-            $0.leading.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(50)
+            $0.leading.equalToSuperview().offset(24)
+        }
+        
+        moreImg.snp.makeConstraints {
+            $0.width.height.equalTo(24)
+            $0.top.equalTo(profileImg)
+            $0.trailing.equalToSuperview().offset(-24)
+        }
+        
+        timeImg.snp.makeConstraints {
+            $0.width.height.equalTo(22)
+            $0.leading.equalTo(titleLabel.snp.leading)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
+        }
+        
+        placeImg.snp.makeConstraints {
+            $0.width.height.equalTo(22)
+            $0.leading.equalTo(timeImg.snp.leading)
+            $0.top.equalTo(timeImg.snp.bottom).offset(4)
+        }
+        
+        attendImg.snp.makeConstraints {
+            $0.width.height.equalTo(22)
+            $0.leading.equalTo(placeImg.snp.leading)
+            $0.top.equalTo(placeImg.snp.bottom).offset(4)
         }
         
         nameLabel.snp.makeConstraints {
@@ -169,29 +254,29 @@ extension JoinVC: CancelDelegate {
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalTo(profileImg.snp.leading)
-            $0.top.equalTo(profileImg.snp.bottom).offset(24)
+            $0.top.equalTo(profileImg.snp.bottom).offset(32)
         }
         
         dateLabel.snp.makeConstraints {
-            $0.leading.equalTo(profileImg.snp.leading)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(30)
+            $0.leading.equalTo(timeImg.snp.trailing).offset(4)
+            $0.centerY.equalTo(timeImg.snp.centerY)
         }
         
         placeLabel.snp.makeConstraints {
-            $0.leading.equalTo(dateLabel.snp.leading)
-            $0.top.equalTo(dateLabel.snp.bottom).offset(5)
+            $0.leading.equalTo(placeImg.snp.trailing).offset(4)
+            $0.centerY.equalTo(placeImg.snp.centerY)
         }
         
         countLabel.snp.makeConstraints {
-            $0.leading.equalTo(placeLabel.snp.leading)
-            $0.top.equalTo(placeLabel.snp.bottom).offset(5)
+            $0.leading.equalTo(attendImg.snp.trailing).offset(4)
+            $0.centerY.equalTo(attendImg.snp.centerY)
         }
         
         lineImage.snp.makeConstraints {
             $0.height.equalTo(1)
-            $0.top.equalTo(countLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(profileImg.snp.leading)
-            $0.trailing.equalToSuperview().offset(-20)
+            $0.top.equalTo(attendImg.snp.bottom).offset(16)
+            $0.leading.equalTo(attendImg.snp.leading)
+            $0.trailing.equalToSuperview().offset(-24)
         }
         
         contentLabel.snp.makeConstraints {
@@ -209,6 +294,13 @@ extension JoinVC: CancelDelegate {
             $0.bottom.equalToSuperview().offset(-45)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
+            $0.height.equalTo(56)
+        }
+        
+        btnStackView.snp.makeConstraints{
+            $0.bottom.equalToSuperview().offset(-46)
+            $0.leading.equalTo(contentLabel.snp.leading)
+            $0.trailing.equalTo(contentLabel.snp.trailing)
             $0.height.equalTo(56)
         }
     }

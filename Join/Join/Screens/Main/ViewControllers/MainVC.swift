@@ -142,6 +142,9 @@ extension MainVC: MainCellDelegate {
     func selectedJoinBtn(index: Int){
         //셀 클릭 시 index에 해당하는 정보를 넘겨주면서 modal로 present함
         let joinVC = JoinVC()
+        if index == 1 {
+            joinVC.joinType = 2
+        }
         joinVC.modalPresentationStyle = .overFullScreen
         self.present(joinVC, animated: true)
     }
