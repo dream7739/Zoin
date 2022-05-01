@@ -145,6 +145,7 @@ class JoinVC: BaseViewController {
         bind()
     }
     
+    
 }
 
 
@@ -187,8 +188,7 @@ extension JoinVC: CancelDelegate {
         
         if(joinType == 1){
             moreImg.isHidden = true
-            attendConfirmBtn.isHidden = true
-            finishBtn.isHidden = true
+            btnStackView.isHidden = true
         }else{
             joinBtn.isHidden = true
         }
@@ -320,8 +320,8 @@ extension JoinVC: CancelDelegate {
                 }
             })
             .disposed(by: disposeBag)
-        
     }
+    
     
     @objc func handleDismiss(sender: UIPanGestureRecognizer){
         switch sender.state {
