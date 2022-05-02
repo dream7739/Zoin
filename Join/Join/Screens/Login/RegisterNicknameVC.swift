@@ -13,7 +13,7 @@ import RxCocoa
 import RxSwift
 
 class RegisterNicknameVC: BaseViewController {
-
+    
     private let titleFirstLabel = UILabel().then {
         $0.text = "번개에 오신걸 환영해요⚡️"
         $0.textColor = .black
