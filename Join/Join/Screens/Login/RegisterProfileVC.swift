@@ -23,10 +23,26 @@ class RegisterProfileVC: BaseViewController {
         $0.text = "프로필 사진을 등록해 주세요.📸"
         $0.textColor = .black
     }
+
+    private let profileImageView = UIImageView().then {
+        $0.image = UIImage(named: "Group 1751")
+        $0.layer.cornerRadius = 12
+        $0.layer.masksToBounds = true
+    }
+
+    private let passButton = UIButton().then {
+        $0.setTitleColor(.lightGray, for: .normal)
+        $0.setTitle("다음에 할래요", for: .normal)
+        $0.setUnderline()
+    }
     // TODO: - UI 요소 더 채우기
-    // 프로필 사진 이미지 원형
     // 사진 변경 버튼 hidden -> unhidden
-    // 다음에 할래요 버튼
+    // 사진 추가 시 changeProfileButton 등장
+    private let changeProfileButton = UIButton().then {
+        $0.setImage(UIImage(named: "Group 1714"), for: .normal)
+        $0.layer.masksToBounds = true
+    }
+
     private let guideButton = UIButton().then {
         $0.backgroundColor = .lightGray
         $0.setTitleColor(.black, for: .normal)
@@ -55,6 +71,9 @@ extension RegisterProfileVC {
         view.adds([
             titleFirstLabel,
             titleSecondLabel,
+            profileImageView,
+            changeProfileButton,
+            passButton,
             guideButton
         ])
         titleFirstLabel.snp.makeConstraints { (make) in
@@ -66,6 +85,23 @@ extension RegisterProfileVC {
             make.top.equalTo(titleFirstLabel.snp.bottom).offset(6)
             make.width.equalTo(250)
             make.leading.equalTo(titleFirstLabel.snp.leading)
+        }
+        profileImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(titleSecondLabel.snp.bottom).offset(35)
+            make.width.equalTo(140)
+            make.height.equalTo(140)
+            make.centerX.equalToSuperview()
+            //make.leading.equalToSuperview().offset(118)
+            //make.trailing.equalToSuperview().offset(-117)
+        }
+        changeProfileButton.snp.makeConstraints { (make) in
+            make.size.equalTo(36)
+            make.trailing.bottom.equalTo(self.profileImageView).inset(-1)
+        }
+        passButton.snp.makeConstraints { (make) in
+            make.top.equalTo(profileImageView.snp.bottom).offset(52)
+            make.leading.equalToSuperview().offset(144)
+            make.trailing.equalToSuperview().offset(-144)
         }
         // TODO: - 추가될 UI요소 constraint 설정하기
         guideButton.snp.makeConstraints { (make) in
