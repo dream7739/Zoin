@@ -11,6 +11,7 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
+import RxKeyboard
 
 class RegisterIdVC: BaseViewController {
 
@@ -128,5 +129,26 @@ extension RegisterIdVC {
             })
             .disposed(by: disposeBag)
 
+        RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
+            guard let self = self else { return }
+            UIView.animate(withDuration: 0) {
+                if keyboardHeight == 0 {
+                    self.guideButton.snp.updateConstraints { make in
+                        make.bottom.equalToSuperview().offset(-30)
+                    }
+                } else {
+                    let totalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
+                    self.guideButton.snp.updateConstraints { (make) in
+                        make.bottom.equalToSuperview().offset(-totalHeight+(-60))
+                    }
+                }
+                self.view.layoutIfNeeded()
+            }
+        })
+            .disposed(by: disposeBag)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
