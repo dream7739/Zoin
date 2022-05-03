@@ -11,6 +11,7 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
+import RxKeyboard
 
 class RegisterEmailVC: BaseViewController {
 
@@ -106,6 +107,8 @@ extension RegisterEmailVC {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.bottom.equalToSuperview().offset(-30)
+            // make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top)
+            // 15버전부터만 사용가능한거 실화니..
             make.width.equalTo(327)
             make.height.equalTo(56)
         }
@@ -129,6 +132,28 @@ extension RegisterEmailVC {
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
+
+        RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
+            guard let self = self else { return }
+            UIView.animate(withDuration: 0) {
+                if keyboardHeight == 0 {
+                    self.guideButton.snp.updateConstraints { make in
+                        make.bottom.equalToSuperview().offset(-30)
+                    }
+                } else {
+                    let totalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
+                    self.guideButton.snp.updateConstraints { (make) in
+                        make.bottom.equalToSuperview().offset(-totalHeight+(-60))
+                    }
+                }
+                self.view.layoutIfNeeded()
+            }
+        })
+            .disposed(by: disposeBag)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 

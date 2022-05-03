@@ -38,6 +38,7 @@ class RegisterProfileVC: BaseViewController {
     // TODO: - UI 요소 더 채우기
     // 사진 변경 버튼 hidden -> unhidden
     // 사진 추가 시 changeProfileButton 등장
+    // 카메라 접근권한 허용시키기
     private let changeProfileButton = UIButton().then {
         $0.setImage(UIImage(named: "Group 1714"), for: .normal)
         $0.layer.masksToBounds = true
@@ -91,8 +92,6 @@ extension RegisterProfileVC {
             make.width.equalTo(140)
             make.height.equalTo(140)
             make.centerX.equalToSuperview()
-            //make.leading.equalToSuperview().offset(118)
-            //make.trailing.equalToSuperview().offset(-117)
         }
         changeProfileButton.snp.makeConstraints { (make) in
             make.size.equalTo(36)
@@ -127,9 +126,8 @@ extension RegisterProfileVC {
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                // 프로필 완성 화면으로 전환하기
-                // let viewController = RegisterProfileVC()
-                // self.navigationController?.pushViewController(viewController, animated: true)
+                let viewController = CompleteProfileVC()
+                self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
     }
