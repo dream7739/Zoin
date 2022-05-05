@@ -10,6 +10,7 @@
 		1BD04677B4AC9D10F7A80A6E /* Pods_Join.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B2BA62B0E6B67E8E8F474 /* Pods_Join.framework */; };
 		881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */; };
 		8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */; };
+		8896D41A28236C730061CEAE /* JoinFinishVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8896D41928236C730061CEAE /* JoinFinishVC.swift */; };
 		889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889CE38C281D60FD0098371B /* JoinCancelVC.swift */; };
 		889E497C2816D8EA00AA2D9C /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E497B2816D8EA00AA2D9C /* TabBarVC.swift */; };
 		889E497E2816ED1900AA2D9C /* JoinListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E497D2816ED1900AA2D9C /* JoinListVC.swift */; };
@@ -41,6 +42,7 @@
 		3A469DD7351BAD9248C3A089 /* Pods-Join.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Join.release.xcconfig"; path = "Target Support Files/Pods-Join/Pods-Join.release.xcconfig"; sourceTree = "<group>"; };
 		881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinListTableViewCell.swift; sourceTree = "<group>"; };
+		8896D41928236C730061CEAE /* JoinFinishVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinFinishVC.swift; sourceTree = "<group>"; };
 		889CE38C281D60FD0098371B /* JoinCancelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCancelVC.swift; sourceTree = "<group>"; };
 		889E497B2816D8EA00AA2D9C /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		889E497D2816ED1900AA2D9C /* JoinListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinListVC.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 			children = (
 				F214200F28100BBF000D102D /* JoinVC.swift */,
 				889CE38C281D60FD0098371B /* JoinCancelVC.swift */,
+				8896D41928236C730061CEAE /* JoinFinishVC.swift */,
 			);
 			path = Join;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
 				F214201228100BCF000D102D /* ProfileVC.swift in Sources */,
 				889E497E2816ED1900AA2D9C /* JoinListVC.swift in Sources */,
+				8896D41A28236C730061CEAE /* JoinFinishVC.swift in Sources */,
 				F214201028100BBF000D102D /* JoinVC.swift in Sources */,
 				F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */,
 				F29FE107281679C50034C8A2 /* RegisterNicknameVC.swift in Sources */,

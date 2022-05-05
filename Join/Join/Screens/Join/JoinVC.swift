@@ -6,13 +6,24 @@
 //
 
 import UIKit
+import SnapKit
+import Then
+import RxCocoa
+import RxSwift
+
+
+protocol FinishMainDelegate {
+    func finishMainUpdate()
+}
+
 
 class JoinVC: BaseViewController {
     
     var atndFlag = false //참여여부 플래그
     var joinType = 1 //임시 -> 1: 친구 번개 / 2: 내 번개
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
-
+    var delegate: FinishMainDelegate?
+    var popupViewTopConstraint: Constraint? = nil
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -150,11 +161,17 @@ class JoinVC: BaseViewController {
 
 
 
-extension JoinVC: CancelDelegate {
+extension JoinVC: CancelDelegate, FinishDelegate {
     func cancelUpdate(isCanceled: Bool) {
         if(isCanceled){
             self.showToast(message: "번개 참여가 취소되었어요.")
         }
+    }
+    
+    func finishUpdate() {
+      dismiss(animated: true, completion: {
+                self.delegate?.finishMainUpdate() //메인에서 팝업 노출
+      })
     }
     
     private func setLayout() {
@@ -201,7 +218,8 @@ extension JoinVC: CancelDelegate {
         
         popupView.snp.makeConstraints{
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(681)
+            popupViewTopConstraint = $0.top.equalToSuperview().offset(131).constraint
+            
         }
         
         indicatorLabel.snp.makeConstraints{
@@ -320,6 +338,13 @@ extension JoinVC: CancelDelegate {
                 }
             })
             .disposed(by: disposeBag)
+        
+        
+        finishBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.clickFinishBtn()
+            })
+            .disposed(by: disposeBag)
     }
     
     
@@ -327,15 +352,19 @@ extension JoinVC: CancelDelegate {
         switch sender.state {
         case .changed:
             viewTranslation = sender.translation(in: self.popupView)
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                if(self.view.frame.minY < self.viewTranslation.y){
-                self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+            if(self.view.frame.minY < self.viewTranslation.y){
+                let newPosition = 131 + self.viewTranslation.y
+                self.popupView.snp.updateConstraints{
+                    self.popupViewTopConstraint =  $0.top.equalToSuperview().offset(newPosition).constraint
                 }
-            })
+            }
+            
         case .ended:
             if viewTranslation.y < 200 {
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.transform = .identity
+                    self.popupView.snp.updateConstraints{
+                        self.popupViewTopConstraint =  $0.top.equalToSuperview().offset(131).constraint
+                    }
                 })
             } else {
                 dismiss(animated: true, completion: nil)
@@ -350,6 +379,13 @@ extension JoinVC: CancelDelegate {
         joinCancelVC.delegate = self
         joinCancelVC.modalPresentationStyle = .overFullScreen
         self.present(joinCancelVC, animated: true)
+    }
+    
+    private func clickFinishBtn(){
+        let joinFinishVC = JoinFinishVC()
+        joinFinishVC.delegate = self
+        joinFinishVC.modalPresentationStyle = .overFullScreen
+        self.present(joinFinishVC, animated: true)
     }
     
     
