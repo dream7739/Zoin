@@ -23,6 +23,9 @@
 		F214201228100BCF000D102D /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F214201128100BCF000D102D /* ProfileVC.swift */; };
 		F214201428100C5B000D102D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F214201328100C5B000D102D /* BaseViewController.swift */; };
 		F214202128101AE3000D102D /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F214202028101AE3000D102D /* BaseTargetType.swift */; };
+		F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429EF28218EEB00E54B57 /* UIButton+.swift */; };
+		F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F12821968D00E54B57 /* CompleteProfileVC.swift */; };
+		F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F328219BA400E54B57 /* OnboardingVC.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
 		F29FE101281678080034C8A2 /* RegisterEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE100281678080034C8A2 /* RegisterEmailVC.swift */; };
 		F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */; };
@@ -56,6 +59,9 @@
 		F214201128100BCF000D102D /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		F214201328100C5B000D102D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		F214202028101AE3000D102D /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
+		F21429EF28218EEB00E54B57 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
+		F21429F12821968D00E54B57 /* CompleteProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileVC.swift; sourceTree = "<group>"; };
+		F21429F328219BA400E54B57 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		F29FE100281678080034C8A2 /* RegisterEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEmailVC.swift; sourceTree = "<group>"; };
 		F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailVC.swift; sourceTree = "<group>"; };
@@ -222,6 +228,8 @@
 				F29FE10828167A140034C8A2 /* RegisterIdVC.swift */,
 				F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */,
 				F29FE10F281683350034C8A2 /* SplashVC.swift */,
+				F21429F12821968D00E54B57 /* CompleteProfileVC.swift */,
+				F21429F328219BA400E54B57 /* OnboardingVC.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -256,6 +264,7 @@
 				F29FE10C28167CF10034C8A2 /* UIView+.swift */,
 				F2C727C828170C81002B1915 /* UIColor+.swift */,
 				F27595E2281912BC00B4E7C7 /* UITextField+.swift */,
+				F21429EF28218EEB00E54B57 /* UIButton+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -381,6 +390,7 @@
 				F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */,
 				F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */,
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
+				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
 				F214201228100BCF000D102D /* ProfileVC.swift in Sources */,
 				889E497E2816ED1900AA2D9C /* JoinListVC.swift in Sources */,
 				F214201028100BBF000D102D /* JoinVC.swift in Sources */,
@@ -391,6 +401,8 @@
 				F29FE110281683350034C8A2 /* SplashVC.swift in Sources */,
 				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
+				F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */,
+				F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */,
 				881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */,
 				8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */,
 				889E497C2816D8EA00AA2D9C /* TabBarVC.swift in Sources */,
