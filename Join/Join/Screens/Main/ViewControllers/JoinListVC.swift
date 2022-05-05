@@ -24,6 +24,7 @@ class JoinListVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTabBarHidden(isHidden: true)
+        setNavigationBar(isHidden: false)
         setNavigationName(title: "전체보기")
         setLayout()
         bind()

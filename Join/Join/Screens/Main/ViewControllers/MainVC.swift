@@ -110,6 +110,7 @@ class MainVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: false)
+        setNavigationBar(isHidden: true)
     }
     
 
@@ -227,6 +228,14 @@ extension MainVC {
             self.navigationController?.pushViewController(joinListVC, animated: true)
         })
         .disposed(by: disposeBag)
+        
+        confirmBtn.rx.tap
+        .subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            self.popupBackgroundView.isHidden = true
+
+        })
+        .disposed(by: disposeBag)
     }
 }
 
@@ -246,7 +255,7 @@ extension MainVC: MainCellDelegate {
 extension MainVC: FinishMainDelegate {
    //마감 시 홈으로 나오면서 팝업 노출
     func finishMainUpdate() {
-        
+        self.popupBackgroundView.isHidden = false
     }
     
     
