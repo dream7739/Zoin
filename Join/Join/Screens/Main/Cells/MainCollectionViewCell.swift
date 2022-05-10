@@ -84,6 +84,13 @@ class MainCollectionViewCell : UICollectionViewCell {
         fatalError("init(c`oder:) has not been implemented")
     }
     
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        let mainLayoutAttributes = layoutAttributes as! MainCollectionViewLayoutAttributes
+         self.layer.anchorPoint = mainLayoutAttributes.anchorPoint
+         self.center.y += (mainLayoutAttributes.anchorPoint.y - 0.5) * self.bounds.height
+    }
+    
     @objc func onTapBtn(){
         self.delegate.selectedJoinBtn(index: index)
     }

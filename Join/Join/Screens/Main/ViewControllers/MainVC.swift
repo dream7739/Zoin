@@ -13,19 +13,27 @@ import RxCocoa
 import RxSwift
 
 class MainVC: BaseViewController {
+    var currentPage: Int = 0
+    var previousOffset: CGFloat = 0
+    var spacing:CGFloat = 0.0
     
     //메인 뷰
     var collectionView: UICollectionView = {
-          
-          let layout = UICollectionViewFlowLayout()
-          layout.minimumLineSpacing = 0
-          layout.scrollDirection = .horizontal
-          layout.sectionInset = .zero
-          
-          let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-          return cv
-      }()
-     
+        
+        let layout = MainCollectionViewLayout()
+        //   layout.minimumLineSpacing = 0
+        //   layout.scrollDirection = .horizontal
+        //   layout.sectionInset = .zero
+        
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.decelerationRate = UIScrollView.DecelerationRate.fast
+        cv.showsHorizontalScrollIndicator = false
+        
+      // cv.isPagingEnabled = true
+        
+        return cv
+    }()
+    
     var mainEffectImageView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(named: "mainEft")
@@ -102,9 +110,10 @@ class MainVC: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setLayout()
         collectionView.delegate = self
         collectionView.dataSource = self
-        setLayout()
+        
         bind()
     }
     
@@ -113,7 +122,7 @@ class MainVC: BaseViewController {
         setNavigationBar(isHidden: true)
     }
     
-
+    
 }
 
 
@@ -142,10 +151,11 @@ extension MainVC {
         
         //메인뷰 레이아웃 설정
         collectionView.snp.makeConstraints {
-                      $0.edges.equalTo(view.safeAreaLayoutGuide)
-                          .inset(UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0))
-                  }
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
+                .inset(UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0))
+        }
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "mainCell")
+        
         
         mainEffectImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(60)
@@ -177,7 +187,7 @@ extension MainVC {
         storageBtn.snp.makeConstraints{
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(12)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-24)
-
+            
         }
         
         //팝업뷰 레이아웃 설정
@@ -215,27 +225,27 @@ extension MainVC {
             $0.trailing.equalTo(finishPopupView.snp.trailing).offset(-24)
             $0.top.equalTo(subTitleLabel.snp.bottom).offset(32)
         }
-
+        
         popupBackgroundView.isHidden = true
-
+        
     }
     
     func bind(){
         searchJoinListBtn.rx.tap
-        .subscribe(onNext: { [weak self] _ in
-            guard let self = self else { return }
-            let joinListVC = JoinListVC()
-            self.navigationController?.pushViewController(joinListVC, animated: true)
-        })
-        .disposed(by: disposeBag)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let joinListVC = JoinListVC()
+                self.navigationController?.pushViewController(joinListVC, animated: true)
+            })
+            .disposed(by: disposeBag)
         
         confirmBtn.rx.tap
-        .subscribe(onNext: { [weak self] _ in
-            guard let self = self else { return }
-            self.popupBackgroundView.isHidden = true
-
-        })
-        .disposed(by: disposeBag)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.popupBackgroundView.isHidden = true
+                
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -253,7 +263,7 @@ extension MainVC: MainCellDelegate {
 }
 
 extension MainVC: FinishMainDelegate {
-   //마감 시 홈으로 나오면서 팝업 노출
+    //마감 시 홈으로 나오면서 팝업 노출
     func finishMainUpdate() {
         self.popupBackgroundView.isHidden = false
     }
@@ -262,30 +272,89 @@ extension MainVC: FinishMainDelegate {
 }
 
 
-extension MainVC : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+
+extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
+        
         cell.delegate = self
         cell.index = indexPath.row
         return cell
     }
-        
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let itemSpacing : CGFloat = 56
-            
-            let myWidth : CGFloat = (self.view.frame.width - itemSpacing * 2)
-            let myHeight : CGFloat = self.view.frame.height / 2
-            
-            
-            return CGSize(width: myWidth, height: myHeight)
-        }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 56
+}
+
+extension MainVC: UIScrollViewDelegate {
+
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let point = self.targetContentOffset(scrollView, withVelocity: velocity)
+        targetContentOffset.pointee = point
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: velocity.x, options: .allowUserInteraction, animations: {
+              }, completion: { _ in
+                  self.collectionView.setContentOffset(point, animated: true)
+              })
     }
+    
+    func targetContentOffset(_ scrollView: UIScrollView, withVelocity velocity: CGPoint) -> CGPoint {
+   
+        guard let mainLayout = collectionView.collectionViewLayout as? MainCollectionViewLayout else { return .zero }
+  
+        let count = mainLayout.attributesList.count
+        
+        let itemWidth = mainLayout.itemSize.width - 37.5
+        
+        if  velocity.x < 0 {
+            if currentPage != 0 {
+                currentPage = currentPage - 1
+            }
+        } else if velocity.x > 0 {
+            if currentPage < count - 1{
+                currentPage = currentPage + 1
+            }
+        }
+
+        let updatedOffset = itemWidth * CGFloat(currentPage)
+      //  print("\(currentPage)")
+        previousOffset = updatedOffset
+     //   print("\(updatedOffset)")
+        return CGPoint(x: updatedOffset, y: 0)
+    }
+    //
+    //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    //        let layout = self.collectionView.collectionViewLayout as! MainCollectionViewLayout
+    //
+    //        let attributes = layout.attributesList
+    //
+    //        var spacing:CGFloat = 0.0
+    //
+    //        if(attributes.count > 2) {
+    //            spacing = attributes[1].frame.width - attributes[0].frame.width
+    //        }
+    //
+    //        let cellWidthIncludingSpacing = layout.itemSize.width + (spacing * 2)
+    //
+    //        var offset = targetContentOffset.pointee
+    //        let index = (offset.x + scrollView.contentInset.left) / (cellWidthIncludingSpacing)
+    //        var roundedIndex = round(index)
+    //
+    //        if scrollView.contentOffset.x > targetContentOffset.pointee.x {
+    //            roundedIndex = floor(index)
+    //        } else {
+    //            roundedIndex = ceil(index)
+    //        }
+    //
+    //
+    //        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing, y: -scrollView.contentInset.top)
+    //        print("\(offset)")
+    //        targetContentOffset.pointee = offset
+    //
+    //    }
+    
 }
