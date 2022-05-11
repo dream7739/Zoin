@@ -63,6 +63,7 @@ class RegisterProfileVC: BaseViewController {
         super.viewWillAppear(animated)
         setNavigationBar(isHidden: false)
         setUpNavigation()
+        setLeftBarButton()
     }
 
 }
@@ -120,6 +121,7 @@ extension RegisterProfileVC {
         navigationBar.barTintColor = .white
         navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = false
+        navigationItem.hidesBackButton = true
     }
 
     private func bind() {

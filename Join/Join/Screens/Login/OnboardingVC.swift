@@ -7,11 +7,20 @@
 
 import UIKit
 
-class OnboardingVC: UIViewController {
+import SnapKit
+import Then
+import RxCocoa
+import RxSwift
+
+class OnboardingVC: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNavigationBar(isHidden: true)
     }
 }
 

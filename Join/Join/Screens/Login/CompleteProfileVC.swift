@@ -46,6 +46,7 @@ class CompleteProfileVC: BaseViewController {
         super.viewWillAppear(animated)
         setNavigationBar(isHidden: false)
         setUpNavigation()
+        setLeftBarButton()
     }
 }
 
@@ -86,10 +87,18 @@ extension CompleteProfileVC {
         navigationBar.barTintColor = .white
         navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = false
+        navigationItem.hidesBackButton = true
     }
 
     private func bind() {
-        // MARK: - 몇 초 지난뒤 온보딩화면으로 넘어가기(present)
+        presentViewController()
     }
 
+    private func presentViewController() {
+        let time = DispatchTime.now() + .seconds(1)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            let viewController = OnboardingVC()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
 }
