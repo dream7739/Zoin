@@ -12,7 +12,7 @@ import UIKit
 class MainCollectionViewLayout: UICollectionViewLayout {
     var itemSize = CGSize(width: 263, height: 346)
     var angleAtExtreme: CGFloat {
-      return collectionView!.numberOfItems(inSection: 0) > 0 ?
+        return collectionView!.numberOfItems(inSection: 0) > 0 ?
         -CGFloat(collectionView!.numberOfItems(inSection: 0) - 1) * anglePerItem : 0
     }
     
@@ -42,14 +42,14 @@ class MainCollectionViewLayout: UICollectionViewLayout {
         let anchorPointY = ((itemSize.height) + radius) / itemSize.height
         attributesList = (0..<collectionView!.numberOfItems(inSection: 0)).map { (i)
             -> MainCollectionViewLayoutAttributes in
-          // 1
-            let attributes = MainCollectionViewLayoutAttributes(forCellWith: NSIndexPath(item: i, section: 0) as IndexPath)
-          attributes.size = self.itemSize
-          attributes.center = CGPoint(x: centerX, y:self.collectionView!.bounds.midY)
 
-         attributes.angle = self.angle + (self.anglePerItem * CGFloat(i))
-         attributes.anchorPoint = CGPoint(x: 0.5, y: anchorPointY)
-          return attributes
+            let attributes = MainCollectionViewLayoutAttributes(forCellWith: NSIndexPath(item: i, section: 0) as IndexPath)
+            attributes.size = self.itemSize
+            attributes.center = CGPoint(x: centerX, y:self.collectionView!.frame.midY)
+            
+            attributes.angle = self.angle + (self.anglePerItem * CGFloat(i))
+            attributes.anchorPoint = CGPoint(x: 0.5, y: anchorPointY)
+            return attributes
         }
     }
     

@@ -27,6 +27,19 @@ class MainCollectionViewCell : UICollectionViewCell {
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(named: "profile")
+        $0.contentMode = .scaleToFill
+    }
+    
+    var timeImg = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "icon_time")
+        $0.contentMode = .center
+    }
+    
+    var placeImg = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "icon_place")
+        $0.contentMode = .center
     }
     
     var nameLabel = UILabel().then {
@@ -49,7 +62,8 @@ class MainCollectionViewCell : UICollectionViewCell {
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "인생샷 찍으러 가자!"
-        $0.font = UIFont.boldSystemFont(ofSize: 30)
+        $0.numberOfLines = 0
+        $0.font = UIFont.boldSystemFont(ofSize: 20)
     }
     
     var dateLabel = UILabel().then {
@@ -98,10 +112,12 @@ class MainCollectionViewCell : UICollectionViewCell {
     
     func cellSetting() {
 
-        self.backgroundColor = .lightGray
+        self.backgroundColor = UIColor(displayP3Red: 229/255, green: 231/255, blue: 236/255, alpha: 1)
         
         self.adds([
             profileImg,
+            timeImg,
+            placeImg,
             nameLabel,
             idLabel,
             countLabel,
@@ -111,7 +127,8 @@ class MainCollectionViewCell : UICollectionViewCell {
             joinBtn
         ])
         
-        profileImg.contentMode = .scaleToFill
+        
+
         
         profileImg.snp.makeConstraints {
             $0.width.height.equalTo(50)
@@ -140,20 +157,32 @@ class MainCollectionViewCell : UICollectionViewCell {
             $0.top.equalTo(profileImg.snp.bottom).offset(24)
         }
         
+        timeImg.snp.makeConstraints {
+            $0.width.height.equalTo(14)
+            $0.leading.equalTo(titleLabel.snp.leading)
+            $0.bottom.equalTo(placeImg.snp.top).offset(-4)
+        }
+        
+        placeImg.snp.makeConstraints {
+            $0.width.height.equalTo(14)
+            $0.leading.equalTo(timeImg.snp.leading)
+            $0.bottom.equalTo(joinBtn.snp.top).offset(-56)
+        }
+        
         dateLabel.snp.makeConstraints {
-            $0.leading.equalTo(profileImg.snp.leading)
+            $0.leading.equalTo(timeImg.snp.trailing).offset(8)
             $0.trailing.equalTo(countLabel.snp.trailing)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(52)
+            $0.centerY.equalTo(timeImg.snp.centerY)
         }
         
         placeLabel.snp.makeConstraints {
-            $0.leading.equalTo(dateLabel.snp.leading)
+            $0.leading.equalTo(placeImg.snp.trailing).offset(8)
             $0.trailing.equalTo(dateLabel.snp.trailing)
-            $0.top.equalTo(dateLabel.snp.bottom)
+            $0.centerY.equalTo(placeImg.snp.centerY)
         }
         
         joinBtn.snp.makeConstraints {
-            $0.leading.equalTo(placeLabel.snp.leading)
+            $0.leading.equalTo(placeImg.snp.leading)
             $0.trailing.equalTo(placeLabel.snp.trailing)
             $0.bottom.equalToSuperview().offset(-24)
             $0.height.equalTo(48)

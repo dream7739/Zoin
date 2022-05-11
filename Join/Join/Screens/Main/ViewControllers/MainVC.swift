@@ -21,15 +21,11 @@ class MainVC: BaseViewController {
     var collectionView: UICollectionView = {
         
         let layout = MainCollectionViewLayout()
-        //   layout.minimumLineSpacing = 0
-        //   layout.scrollDirection = .horizontal
-        //   layout.sectionInset = .zero
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.decelerationRate = UIScrollView.DecelerationRate.fast
         cv.showsHorizontalScrollIndicator = false
         
-      // cv.isPagingEnabled = true
         
         return cv
     }()
@@ -152,7 +148,7 @@ extension MainVC {
         //메인뷰 레이아웃 설정
         collectionView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
-                .inset(UIEdgeInsets(top: 130, left: 0, bottom: 0, right: 0))
+                .inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         }
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "mainCell")
         
@@ -172,6 +168,7 @@ extension MainVC {
             $0.leading.equalTo(mainEffectImageView.snp.leading)
             $0.top.equalTo(statusLabel.snp.bottom)
         }
+        
         
         searchJoinListBtn.snp.makeConstraints{
             $0.centerY.equalTo(mentLabel.snp.centerY)
@@ -321,40 +318,9 @@ extension MainVC: UIScrollViewDelegate {
         }
 
         let updatedOffset = itemWidth * CGFloat(currentPage)
-      //  print("\(currentPage)")
         previousOffset = updatedOffset
-     //   print("\(updatedOffset)")
         return CGPoint(x: updatedOffset, y: 0)
     }
-    //
-    //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-    //        let layout = self.collectionView.collectionViewLayout as! MainCollectionViewLayout
-    //
-    //        let attributes = layout.attributesList
-    //
-    //        var spacing:CGFloat = 0.0
-    //
-    //        if(attributes.count > 2) {
-    //            spacing = attributes[1].frame.width - attributes[0].frame.width
-    //        }
-    //
-    //        let cellWidthIncludingSpacing = layout.itemSize.width + (spacing * 2)
-    //
-    //        var offset = targetContentOffset.pointee
-    //        let index = (offset.x + scrollView.contentInset.left) / (cellWidthIncludingSpacing)
-    //        var roundedIndex = round(index)
-    //
-    //        if scrollView.contentOffset.x > targetContentOffset.pointee.x {
-    //            roundedIndex = floor(index)
-    //        } else {
-    //            roundedIndex = ceil(index)
-    //        }
-    //
-    //
-    //        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing, y: -scrollView.contentInset.top)
-    //        print("\(offset)")
-    //        targetContentOffset.pointee = offset
-    //
-    //    }
+   
     
 }
