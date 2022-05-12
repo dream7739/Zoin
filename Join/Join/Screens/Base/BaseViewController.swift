@@ -49,7 +49,11 @@ extension BaseViewController {
             navigationItem.leftBarButtonItem = backButton
         }
     }
-    
+
+    func setLeftBarButton() {
+        self.navigationItem.leftBarButtonItem = nil
+    }
+
     func setNavigationName(title: String){
         if navigationController?.children.count ?? 0 > 1 {
             navigationItem.title = title

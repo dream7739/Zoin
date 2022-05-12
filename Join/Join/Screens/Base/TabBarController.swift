@@ -78,6 +78,5 @@ extension TabBarController {
         let profileViewController = UINavigationController(rootViewController: profileView)
 
         viewControllers = [mainViewController, profileViewController]
-
     }
 }
