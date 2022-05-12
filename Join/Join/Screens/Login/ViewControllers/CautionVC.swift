@@ -10,12 +10,13 @@ import UIKit
 class CautionVC: BaseViewController {
 
     private let titleFirstLabel = UILabel().then {
-        $0.text = "알림허용화면"
+        $0.text = "알림허용화면/임시"
         $0.textColor = .black
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        bind()
         // Do any additional setup after loading the view.
     }
 
@@ -32,6 +33,20 @@ extension CautionVC {
         ])
         titleFirstLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
+            make.top.equalTo(view).offset(100)
+        }
+    }
+
+    private func bind() {
+        presentViewController()
+    }
+
+    private func presentViewController() {
+        let time = DispatchTime.now() + .seconds(3)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            let viewController = TabBarController()
+            viewController.modalPresentationStyle = .fullScreen
+            self.present(viewController, animated: false)
         }
     }
 }

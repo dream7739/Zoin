@@ -53,6 +53,7 @@ extension OnboardingCVCell {
     }
 
     private func render() {
+        self.contentView.backgroundColor = .white
         contentView.adds([
             titleLabel,
             firstDescriptionLabel,

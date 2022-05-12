@@ -23,7 +23,7 @@ class OnboardingVC: BaseViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isPagingEnabled = true
         collectionView.register(OnboardingCVCell.self, forCellWithReuseIdentifier: OnboardingCVCell.identifier)
-
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
 
@@ -83,8 +83,8 @@ extension OnboardingVC {
             make.top.equalTo(pageControl.snp.bottom).offset(21)
             make.leading.equalTo(view.safeAreaLayoutGuide)
             make.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(400)
         }
-
         nextButton.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
@@ -165,7 +165,7 @@ extension OnboardingVC: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        return CGSize(width: view.frame.width, height: 500)
+        return CGSize(width: view.frame.width, height: 400)
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
