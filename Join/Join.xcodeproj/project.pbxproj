@@ -31,7 +31,6 @@
 		F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F12821968D00E54B57 /* CompleteProfileVC.swift */; };
 		F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F328219BA400E54B57 /* OnboardingVC.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
-		F28AC7EA282CB8A3003EEF8A /* OnboardingSubVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7E9282CB8A3003EEF8A /* OnboardingSubVC.swift */; };
 		F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7EB282CC02B003EEF8A /* CautionVC.swift */; };
 		F28AC7EE282CCBFD003EEF8A /* UIPageViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */; };
 		F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */; };
@@ -76,7 +75,6 @@
 		F21429F12821968D00E54B57 /* CompleteProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileVC.swift; sourceTree = "<group>"; };
 		F21429F328219BA400E54B57 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
-		F28AC7E9282CB8A3003EEF8A /* OnboardingSubVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSubVC.swift; sourceTree = "<group>"; };
 		F28AC7EB282CC02B003EEF8A /* CautionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionVC.swift; sourceTree = "<group>"; };
 		F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViewController+.swift"; sourceTree = "<group>"; };
 		F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCVCell.swift; sourceTree = "<group>"; };
@@ -268,7 +266,6 @@
 				F29FE10F281683350034C8A2 /* SplashVC.swift */,
 				F21429F12821968D00E54B57 /* CompleteProfileVC.swift */,
 				F21429F328219BA400E54B57 /* OnboardingVC.swift */,
-				F28AC7E9282CB8A3003EEF8A /* OnboardingSubVC.swift */,
 				F28AC7EB282CC02B003EEF8A /* CautionVC.swift */,
 				F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */,
 			);
@@ -461,7 +458,6 @@
 				F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */,
 				F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */,
 				881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */,
-				F28AC7EA282CB8A3003EEF8A /* OnboardingSubVC.swift in Sources */,
 				8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */,
 				889E497C2816D8EA00AA2D9C /* TabBarVC.swift in Sources */,
 				889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */,
