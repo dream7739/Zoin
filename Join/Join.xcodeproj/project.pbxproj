@@ -256,18 +256,8 @@
 		F214201D281017CC000D102D /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				F2141FFB280FA61E000D102D /* LoginVC.swift */,
-				F29FE100281678080034C8A2 /* RegisterEmailVC.swift */,
-				F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */,
-				F29FE104281678500034C8A2 /* RegisterPasswordVC.swift */,
-				F29FE106281679C50034C8A2 /* RegisterNicknameVC.swift */,
-				F29FE10828167A140034C8A2 /* RegisterIdVC.swift */,
-				F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */,
-				F29FE10F281683350034C8A2 /* SplashVC.swift */,
-				F21429F12821968D00E54B57 /* CompleteProfileVC.swift */,
-				F21429F328219BA400E54B57 /* OnboardingVC.swift */,
-				F28AC7EB282CC02B003EEF8A /* CautionVC.swift */,
-				F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */,
+				F28AC7F4282CF006003EEF8A /* ViewControllers */,
+				F28AC7F5282CF00F003EEF8A /* Cells */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -303,6 +293,32 @@
 				F28AC7F1282CD841003EEF8A /* OnboardingSlide.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F28AC7F4282CF006003EEF8A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F2141FFB280FA61E000D102D /* LoginVC.swift */,
+				F29FE100281678080034C8A2 /* RegisterEmailVC.swift */,
+				F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */,
+				F29FE104281678500034C8A2 /* RegisterPasswordVC.swift */,
+				F29FE106281679C50034C8A2 /* RegisterNicknameVC.swift */,
+				F29FE10828167A140034C8A2 /* RegisterIdVC.swift */,
+				F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */,
+				F29FE10F281683350034C8A2 /* SplashVC.swift */,
+				F21429F12821968D00E54B57 /* CompleteProfileVC.swift */,
+				F21429F328219BA400E54B57 /* OnboardingVC.swift */,
+				F28AC7EB282CC02B003EEF8A /* CautionVC.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		F28AC7F5282CF00F003EEF8A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		F29FE10E28167D1F0034C8A2 /* Extensions */ = {
