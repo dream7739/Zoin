@@ -37,7 +37,7 @@ extension BaseViewController {
     }
 
     private func setNavigationItems() {
-        if navigationController?.children.count ?? 0 > 1 {
+       // if navigationController?.children.count ?? 0 > 1 {
             let backImage = UIImage(systemName: "chevron.backward")?
                 .withTintColor(.black)
                 .withRenderingMode(.alwaysOriginal)
@@ -47,7 +47,7 @@ extension BaseViewController {
                                              target: self,
                                              action: #selector(didBack))
             navigationItem.leftBarButtonItem = backButton
-        }
+       // }
     }
 
     func setLeftBarButton() {
@@ -55,9 +55,9 @@ extension BaseViewController {
     }
 
     func setNavigationName(title: String){
-        if navigationController?.children.count ?? 0 > 1 {
+    //    if navigationController?.children.count ?? 0 > 1 {
             navigationItem.title = title
-        }
+       // }
     }
     
     func setTabBarHidden(isHidden: Bool){
@@ -69,8 +69,12 @@ extension BaseViewController {
     }
 
     @objc func didBack() {
-      navigationController?.popViewController(animated: true)
-    }
+          if navigationController?.children.count ?? 0 > 1 {
+              navigationController?.popViewController(animated: true)
+          }else {
+              navigationController?.tabBarController?.selectedIndex = 0
+          }
+   }
 }
 
 extension BaseViewController: UINavigationBarDelegate {

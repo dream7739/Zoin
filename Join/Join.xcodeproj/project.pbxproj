@@ -17,6 +17,9 @@
 		889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889CE38C281D60FD0098371B /* JoinCancelVC.swift */; };
 		889E497C2816D8EA00AA2D9C /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E497B2816D8EA00AA2D9C /* TabBarVC.swift */; };
 		889E497E2816ED1900AA2D9C /* JoinListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E497D2816ED1900AA2D9C /* JoinListVC.swift */; };
+		88BE394C282D27560002722F /* MakeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394B282D27560002722F /* MakeVC.swift */; };
+		88BE394E282D27720002722F /* MakeCompleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394D282D27720002722F /* MakeCompleteVC.swift */; };
+		88BE3950282D27820002722F /* MakeDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394F282D27820002722F /* MakeDetailVC.swift */; };
 		F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FF7280FA61E000D102D /* AppDelegate.swift */; };
 		F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FF9280FA61E000D102D /* SceneDelegate.swift */; };
 		F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FFB280FA61E000D102D /* LoginVC.swift */; };
@@ -59,6 +62,9 @@
 		889CE38C281D60FD0098371B /* JoinCancelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCancelVC.swift; sourceTree = "<group>"; };
 		889E497B2816D8EA00AA2D9C /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		889E497D2816ED1900AA2D9C /* JoinListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinListVC.swift; sourceTree = "<group>"; };
+		88BE394B282D27560002722F /* MakeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeVC.swift; sourceTree = "<group>"; };
+		88BE394D282D27720002722F /* MakeCompleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeCompleteVC.swift; sourceTree = "<group>"; };
+		88BE394F282D27820002722F /* MakeDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeDetailVC.swift; sourceTree = "<group>"; };
 		C82B2BA62B0E6B67E8E8F474 /* Pods_Join.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Join.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2141FF4280FA61E000D102D /* Join.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Join.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2141FF7280FA61E000D102D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -166,6 +172,24 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		88BE3949282D27240002722F /* Make */ = {
+			isa = PBXGroup;
+			children = (
+				88BE394A282D272B0002722F /* ViewControllers */,
+			);
+			path = Make;
+			sourceTree = "<group>";
+		};
+		88BE394A282D272B0002722F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				88BE394B282D27560002722F /* MakeVC.swift */,
+				88BE394D282D27720002722F /* MakeCompleteVC.swift */,
+				88BE394F282D27820002722F /* MakeDetailVC.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		F2141FEB280FA61E000D102D = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +220,7 @@
 		F214201528100FB0000D102D /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				88BE3949282D27240002722F /* Make */,
 				F214201D281017CC000D102D /* Login */,
 				F214201B281017C1000D102D /* Base */,
 				F214201C281017C7000D102D /* Main */,
@@ -465,6 +490,7 @@
 				F214200E28100B74000D102D /* MainVC.swift in Sources */,
 				887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */,
 				F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */,
+				88BE3950282D27820002722F /* MakeDetailVC.swift in Sources */,
 				F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */,
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
@@ -476,6 +502,7 @@
 				F29FE107281679C50034C8A2 /* RegisterNicknameVC.swift in Sources */,
 				F28AC7EE282CCBFD003EEF8A /* UIPageViewController+.swift in Sources */,
 				8882EAF42823E26F00622FF9 /* JoinMemberCell.swift in Sources */,
+				88BE394C282D27560002722F /* MakeVC.swift in Sources */,
 				F214200C28100AFA000D102D /* TabBarController.swift in Sources */,
 				F29FE105281678500034C8A2 /* RegisterPasswordVC.swift in Sources */,
 				F29FE110281683350034C8A2 /* SplashVC.swift in Sources */,
@@ -487,6 +514,7 @@
 				F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */,
 				881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */,
 				8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */,
+				88BE394E282D27720002722F /* MakeCompleteVC.swift in Sources */,
 				889E497C2816D8EA00AA2D9C /* TabBarVC.swift in Sources */,
 				889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
