@@ -138,6 +138,12 @@ class MakeVC: BaseViewController {
         setTabBarHidden(isHidden: true)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        dateStackView.removeFromSuperview()
+        placeStackView.removeFromSuperview()
+        participantView.removeFromSuperview()
+        clickCnt = 0
+    }
 }
 
 extension MakeVC {
