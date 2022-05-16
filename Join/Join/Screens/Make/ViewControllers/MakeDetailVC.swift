@@ -58,10 +58,10 @@ extension MakeDetailVC {
         setNavigationName(title: "번개작성")
         
         view.adds([mentLabel
-                  ,subDesciptionLabel
-                  ,descriptionTextView
-                  ,descriptionLengthLabel
-                  ,nextButton])
+                   ,subDesciptionLabel
+                   ,descriptionTextView
+                   ,descriptionLengthLabel
+                   ,nextButton])
         
         mentLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
@@ -95,22 +95,32 @@ extension MakeDetailVC {
     }
     
     private func bind(){
+        nextButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let makeCompleteVC = MakeCompleteVC()
+                self.navigationController?.pushViewController(makeCompleteVC, animated: true)
+                
+            })
+            .disposed(by: disposeBag)
+        
         RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
             guard let self = self else { return }
             self.nextButton.layer.cornerRadius = 0
             self.nextButton.snp.updateConstraints{
                 $0.leading.trailing.equalToSuperview().offset(0)
             }
-
+            
+            
             UIView.animate(withDuration: 0) {
                 if keyboardHeight == 0 {
                     self.nextButton.snp.updateConstraints { make in
                         make.bottom.equalToSuperview().offset(-30)
                     }
                 } else {
-                    let totalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
+                    let totalHeight = keyboardHeight
                     self.nextButton.snp.updateConstraints { (make) in
-                        make.bottom.equalToSuperview().offset(-totalHeight+(-30))
+                        make.bottom.equalToSuperview().offset(-totalHeight)
                     }
                 }
                 self.view.layoutIfNeeded()

@@ -136,6 +136,7 @@ class MakeVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: true)
+        titleTextField.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -209,6 +210,7 @@ extension MakeVC {
     private func bind() {
         RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
             guard let self = self else { return }
+
             self.nextButton.layer.cornerRadius = 0
             self.nextButton.snp.updateConstraints{
                 $0.leading.trailing.equalToSuperview().offset(0)
@@ -220,9 +222,9 @@ extension MakeVC {
                         make.bottom.equalToSuperview().offset(-30)
                     }
                 } else {
-                    let totalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
+                    let totalHeight = keyboardHeight
                     self.nextButton.snp.updateConstraints { (make) in
-                        make.bottom.equalToSuperview().offset(-totalHeight+(-30))
+                        make.bottom.equalToSuperview().offset(-totalHeight)
                     }
                 }
                 self.view.layoutIfNeeded()
