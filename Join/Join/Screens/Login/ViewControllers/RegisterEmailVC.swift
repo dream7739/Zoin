@@ -19,26 +19,26 @@ class RegisterEmailVC: BaseViewController {
     private let titleFirstLabel = UILabel().then {
         $0.text = "로그인할 때 필요한"
         $0.textColor = .grayScale100
-        $0.font = .systemFont(ofSize: 24, weight: .bold)
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let titleSecondLabel = UILabel().then {
         $0.text = "이메일을 입력해 주세요. ✉️"
         $0.textColor = .grayScale100
-        $0.font = .systemFont(ofSize: 24, weight: .bold)
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let guideLabel = UILabel().then {
         $0.text = "이메일"
         $0.textColor = .grayScale100
-        $0.font = .systemFont(ofSize: 14, weight: .medium)
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     private let emailTextField = UITextField().then {
         $0.placeholder = "bungae@buangae.com"
         $0.setPlaceHolderColor(.grayScale600)
         $0.tintColor = .yellow200
         $0.textColor = .yellow200
-        $0.font = .systemFont(ofSize: 16, weight: .medium)
+        $0.font = .minsans(size: 16, family: .Medium)
         $0.backgroundColor = .grayScale800
         $0.borderStyle = .roundedRect
         $0.addLeftPadding()
@@ -47,7 +47,7 @@ class RegisterEmailVC: BaseViewController {
     private let statusLabel = UILabel().then {
         $0.text = "사용가능한 이메일입니다."
         $0.textColor = .blue100
-        $0.font = .systemFont(ofSize: 12, weight: .medium)
+        $0.font = MinSansFont.medium.of(size: 12)
         // 사용불가 이메일 -> red100, "사용할 수 없는 이메일입니다"
     }
 

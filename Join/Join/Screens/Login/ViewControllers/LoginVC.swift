@@ -36,7 +36,6 @@ class LoginVC: BaseViewController {
         $0.setTitleColor(.grayScale100, for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
     }
-
     private let divideLabel = UILabel().then {
         $0.text = "|"
         $0.textColor = .grayScale100
