@@ -71,6 +71,8 @@ class CautionVC: BaseViewController {
 
 extension CautionVC {
     private func setLayout() {
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         view.adds([
             titleLabel,
             firstSubLabel,

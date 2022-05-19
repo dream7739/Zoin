@@ -76,11 +76,12 @@ class RegisterPasswordVC: BaseViewController {
         setNavigationBar(isHidden: false)
         setUpNavigation()
     }
-
 }
 
 extension RegisterPasswordVC {
     private func setLayout() {
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         view.adds([
             titleFirstLabel,
             guideFirstLabel,

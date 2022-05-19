@@ -52,6 +52,8 @@ class SplashVC: BaseViewController {
     }
 
     private func setLayout() {
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         view.addSubview(Button)
         Button.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
