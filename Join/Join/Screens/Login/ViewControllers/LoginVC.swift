@@ -102,16 +102,16 @@ extension LoginVC {
             make.leading.equalToSuperview().offset(24)
         }
         SignUpButton.snp.makeConstraints { (make) in
-            make.top.equalTo(appleButton.snp.bottom).offset(40)
+            make.top.equalTo(appleButton.snp.bottom).offset(36)
             make.leading.equalToSuperview().offset(110)
         }
         divideLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(SignUpButton.snp.top)
+            make.top.equalTo(appleButton.snp.bottom).offset(40)
             make.leading.equalTo(SignUpButton.snp.trailing).offset(12)
         }
         SignInButton.snp.makeConstraints { (make) in
-            make.top.equalTo(divideLabel.snp.top)
-            make.leading.equalTo(divideLabel.snp.trailing).offset(12)
+            make.top.equalTo(appleButton.snp.bottom).offset(36)
+            make.leading.equalTo(divideLabel.snp.trailing).offset(14)
             make.trailing.equalToSuperview().offset(-110)
         }
     }

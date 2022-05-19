@@ -54,6 +54,7 @@ class RegisterEmailVC: BaseViewController {
     private let guideButton = UIButton().then {
         $0.backgroundColor = .yellow200
         $0.setTitleColor(.grayScale900, for: .normal)
+        $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         // 사용가능한 이메일일때
@@ -113,8 +114,8 @@ extension RegisterEmailVC {
             make.width.equalTo(200)
         }
         guideButton.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview().offset(0)
-            make.trailing.equalToSuperview().offset(0)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
             make.bottom.equalToSuperview().offset(-30)
             // make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top)
             // 15버전부터만 사용가능한거 실화니..
@@ -144,14 +145,21 @@ extension RegisterEmailVC {
             guard let self = self else { return }
             UIView.animate(withDuration: 0) {
                 if keyboardHeight == 0 {
+                    self.guideButton.layer.cornerRadius = 16
                     self.guideButton.snp.updateConstraints { make in
+                        make.leading.equalToSuperview().offset(24)
+                        make.trailing.equalToSuperview().offset(-24)
                         make.bottom.equalToSuperview().offset(-30)
                     }
                 } else {
+                    self.guideButton.layer.cornerRadius = 0
                     let totalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
                     self.guideButton.snp.updateConstraints { (make) in
+                        make.leading.equalToSuperview().offset(0)
+                        make.trailing.equalToSuperview().offset(0)
                         make.bottom.equalToSuperview().offset(-totalHeight+(-30))
                     }
+
                 }
                 self.view.layoutIfNeeded()
             }
