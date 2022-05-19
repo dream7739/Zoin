@@ -65,11 +65,12 @@ class RegisterProfileVC: BaseViewController {
         setUpNavigation()
         setLeftBarButton()
     }
-
 }
 
 extension RegisterProfileVC {
     private func setLayout() {
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         view.adds([
             titleFirstLabel,
             titleSecondLabel,

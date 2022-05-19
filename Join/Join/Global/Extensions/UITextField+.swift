@@ -13,4 +13,14 @@ extension UITextField {
         self.leftView = paddingView
         self.leftViewMode = ViewMode.always
     }
+
+    func setPlaceHolderColor(_ placeholderColor: UIColor) {
+        attributedPlaceholder = NSAttributedString(
+            string: placeholder ?? "",
+            attributes: [
+                .foregroundColor : placeholderColor,
+                .font: font
+            ].compactMapValues { $0 }
+        )
+    }
 }

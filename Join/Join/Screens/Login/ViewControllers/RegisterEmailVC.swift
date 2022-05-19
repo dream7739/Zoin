@@ -12,41 +12,51 @@ import Then
 import RxCocoa
 import RxSwift
 import RxKeyboard
+import SwiftUI
 
 class RegisterEmailVC: BaseViewController {
 
     private let titleFirstLabel = UILabel().then {
         $0.text = "로그인할 때 필요한"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .systemFont(ofSize: 24, weight: .bold)
     }
 
     private let titleSecondLabel = UILabel().then {
-        $0.text = "이메일을 입력해 주세요.✉️"
-        $0.textColor = .black
+        $0.text = "이메일을 입력해 주세요. ✉️"
+        $0.textColor = .grayScale100
+        $0.font = .systemFont(ofSize: 24, weight: .bold)
     }
 
     private let guideLabel = UILabel().then {
         $0.text = "이메일"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .systemFont(ofSize: 14, weight: .medium)
     }
     private let emailTextField = UITextField().then {
         $0.placeholder = "bungae@buangae.com"
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .systemFont(ofSize: 16, weight: .medium)
+        $0.backgroundColor = .grayScale800
         $0.borderStyle = .roundedRect
         $0.addLeftPadding()
     }
 
     private let statusLabel = UILabel().then {
         $0.text = "사용가능한 이메일입니다."
-        $0.textColor = .black
+        $0.textColor = .blue100
+        $0.font = .systemFont(ofSize: 12, weight: .medium)
+        // 사용불가 이메일 -> red100, "사용할 수 없는 이메일입니다"
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .lightGray
-        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         // 사용가능한 이메일일때
         // isEnabled, isSelected 설정해놓기
     }
@@ -63,11 +73,12 @@ class RegisterEmailVC: BaseViewController {
         setNavigationBar(isHidden: false)
         setUpNavigation()
     }
-
 }
 
 extension RegisterEmailVC {
     private func setLayout() {
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         view.adds([
             titleFirstLabel,
             titleSecondLabel,
@@ -83,7 +94,6 @@ extension RegisterEmailVC {
         }
         titleSecondLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleFirstLabel.snp.bottom).offset(6)
-            make.width.equalTo(250)
             make.leading.equalTo(titleFirstLabel.snp.leading)
         }
         guideLabel.snp.makeConstraints { (make) in
@@ -119,8 +129,6 @@ extension RegisterEmailVC {
         guard let navigationBar = navigationController?.navigationBar else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationBar.isHidden = false
-        navigationBar.barTintColor = .white
-        navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = false
     }
 
@@ -137,14 +145,21 @@ extension RegisterEmailVC {
             guard let self = self else { return }
             UIView.animate(withDuration: 0) {
                 if keyboardHeight == 0 {
+                    self.guideButton.layer.cornerRadius = 16
                     self.guideButton.snp.updateConstraints { make in
+                        make.leading.equalToSuperview().offset(24)
+                        make.trailing.equalToSuperview().offset(-24)
                         make.bottom.equalToSuperview().offset(-30)
                     }
                 } else {
+                    self.guideButton.layer.cornerRadius = 0
                     let totalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
                     self.guideButton.snp.updateConstraints { (make) in
-                        make.bottom.equalToSuperview().offset(-totalHeight+(-60))
+                        make.leading.equalToSuperview().offset(0)
+                        make.trailing.equalToSuperview().offset(0)
+                        make.bottom.equalToSuperview().offset(-totalHeight+(-30))
                     }
+
                 }
                 self.view.layoutIfNeeded()
             }
