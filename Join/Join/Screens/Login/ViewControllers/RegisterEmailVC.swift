@@ -47,7 +47,7 @@ class RegisterEmailVC: BaseViewController {
     private let statusLabel = UILabel().then {
         $0.text = "사용가능한 이메일입니다."
         $0.textColor = .blue100
-        $0.font = MinSansFont.medium.of(size: 12)
+        $0.font = .minsans(size: 12, family: .Medium)
         // 사용불가 이메일 -> red100, "사용할 수 없는 이메일입니다"
     }
 
@@ -90,7 +90,7 @@ extension RegisterEmailVC {
         titleFirstLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
             make.width.equalTo(250)
-            make.top.equalToSuperview().offset(8)
+            make.top.equalToSuperview().offset(24)
         }
         titleSecondLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleFirstLabel.snp.bottom).offset(6)
@@ -117,8 +117,6 @@ extension RegisterEmailVC {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.bottom.equalToSuperview().offset(-30)
-            // make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top)
-            // 15버전부터만 사용가능한거 실화니..
             make.width.equalTo(327)
             make.height.equalTo(56)
         }

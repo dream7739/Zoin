@@ -39,7 +39,7 @@ class LoginVC: BaseViewController {
     private let divideLabel = UILabel().then {
         $0.text = "|"
         $0.textColor = .grayScale100
-        $0.font = .systemFont(ofSize: 14, weight: .regular)
+        $0.font = .minsans(size: 14, family: .Regular)
     }
     private let SignUpButton = UIButton().then {
         $0.setTitle("회원가입", for: .normal)

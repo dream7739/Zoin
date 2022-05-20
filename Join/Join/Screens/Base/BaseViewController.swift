@@ -39,7 +39,8 @@ extension BaseViewController {
 
     private func setNavigationItems() {
         if navigationController?.children.count ?? 0 > 1 {
-            let backImage = UIImage(systemName: "chevron.backward")?
+            let backImage = Image.arrowBack?
+                .withAlignmentRectInsets(UIEdgeInsets(top: 0.0, left: 6.0, bottom: 0.0, right: 0.0))
                 .withTintColor(.white)
                 .withRenderingMode(.alwaysOriginal)
 
@@ -81,7 +82,10 @@ extension BaseViewController: UINavigationBarDelegate {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .grayScale900
         appearance.shadowColor = .grayScale900
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont.minsans(size: 18, family: .Bold)
+        ]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
