@@ -39,7 +39,7 @@ class VerifyEmailVC: BaseViewController {
         $0.textColor = .yellow200
         $0.font = .minsans(size: 16, family: .Medium)
         $0.backgroundColor = .grayScale800
-        $0.borderStyle = .roundedRect
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
 
@@ -143,6 +143,23 @@ extension VerifyEmailVC {
     }
 
     private func bind() {
+        verifyTextField.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0 && text.count < 13 {
+                    self.verifyTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                    self.verifyTextField.layer.cornerRadius = 20
+                    self.verifyTextField.layer.borderWidth = 2.0
+                } else {
+                    self.verifyTextField.layer.borderWidth = 0.0
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
+
+            })
+            .disposed(by: disposeBag)
 
         refreshButton.rx.tap
             .subscribe(onNext: { [weak self] _ in

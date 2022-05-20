@@ -17,50 +17,64 @@ class RegisterPasswordVC: BaseViewController {
 
     private let titleFirstLabel = UILabel().then {
         $0.text = "비밀번호를 입력해 주세요.✍️"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let guideFirstLabel = UILabel().then {
         $0.text = "비밀번호 입력"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
 
     private let addPasswordTextField = UITextField().then {
-        $0.placeholder = "123456"
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.placeholder = "최소 8자 이상"
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
 
     private let addPasswordLabel = UILabel().then {
-        $0.text = "비밀번호 입력 양식을 확인해 주세요."
-        $0.textColor = .black
+        // 일치한다면 사용 가능한 비밀번호입니다. 파란색으로 변경
+        $0.text = "비밀번호를 8자 이상 12자 이하로 입력해주세요."
+        $0.textColor = .red100
+        $0.font = .minsans(size: 12, family: .Medium)
     }
 
     private let guideSecondLabel = UILabel().then {
         $0.text = "비밀번호 확인"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
 
     private let verifyPasswordTextField = UITextField().then {
-        $0.placeholder = "123456"
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.placeholder = "최소 8자 이상"
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
 
     private let verifyPasswordLabel = UILabel().then {
-        $0.text = "비밀번호가 다릅니다."
-        $0.textColor = .black
+        $0.text = "비밀번호가 일치하지 않습니다."
+        $0.textColor = .red100
+        $0.font = .minsans(size: 12, family: .Medium)
+
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .lightGray
-        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         // 사용가능한 이메일일때
         // isEnabled, isSelected 설정해놓기
     }
@@ -94,8 +108,7 @@ extension RegisterPasswordVC {
         ])
         titleFirstLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
-            make.width.equalTo(250)
-            make.top.equalToSuperview().offset(8)
+            make.top.equalToSuperview().offset(24)
         }
         guideFirstLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleFirstLabel.snp.bottom).offset(25)
@@ -151,6 +164,42 @@ extension RegisterPasswordVC {
     }
 
     private func bind() {
+        addPasswordTextField.rx.text
+            .do { [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return}
+                if text.count > 0 && text.count < 13 {
+                    self.addPasswordTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                    self.addPasswordTextField.layer.cornerRadius = 20
+                    self.addPasswordTextField.layer.borderWidth = 2.0
+                } else {
+                    self.addPasswordTextField.layer.borderWidth = 0.0
+                }
+            }
+            .subscribe(onNext: { [weak self] _ in
+                // guard let self = self else { return }
+            })
+            .disposed(by: disposeBag)
+
+        verifyPasswordTextField.rx.text
+            .do { [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return}
+                if text.count > 0 && text.count < 13 {
+                    self.verifyPasswordTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                    self.verifyPasswordTextField.layer.cornerRadius = 20
+                    self.verifyPasswordTextField.layer.borderWidth = 2.0
+                } else {
+                    self.verifyPasswordTextField.layer.borderWidth = 0.0
+                }
+            }
+            .subscribe(onNext: { [weak self] _ in
+                // guard let self = self else { return }
+            })
+            .disposed(by: disposeBag)
+
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -163,13 +212,19 @@ extension RegisterPasswordVC {
             guard let self = self else { return }
             UIView.animate(withDuration: 0) {
                 if keyboardHeight == 0 {
+                    self.guideButton.layer.cornerRadius = 16
                     self.guideButton.snp.updateConstraints { make in
+                        make.leading.equalToSuperview().offset(24)
+                        make.trailing.equalToSuperview().offset(-24)
                         make.bottom.equalToSuperview().offset(-30)
                     }
                 } else {
+                    self.guideButton.layer.cornerRadius = 0
                     let totalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
                     self.guideButton.snp.updateConstraints { (make) in
-                        make.bottom.equalToSuperview().offset(-totalHeight+(-60))
+                        make.leading.equalToSuperview().offset(0)
+                        make.trailing.equalToSuperview().offset(0)
+                        make.bottom.equalToSuperview().offset(-totalHeight+(-30))
                     }
                 }
                 self.view.layoutIfNeeded()
