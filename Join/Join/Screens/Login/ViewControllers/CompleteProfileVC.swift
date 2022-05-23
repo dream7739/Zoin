@@ -17,23 +17,36 @@ class CompleteProfileVC: BaseViewController {
 
     private let titleLabel = UILabel().then {
         $0.text = "프로필이 완성되었어요!🎉"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let profileImageView = UIImageView().then {
-        $0.image = UIImage(named: "Group 1751")
+        $0.image = Image.profileDefault
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
     }
 
+    private let backgroundImage = UIImageView().then {
+        $0.image = Image.profileCard
+        $0.contentMode = .scaleAspectFill
+    }
+
+    private let cardImageView = UIView().then {
+        $0.backgroundColor = .yellow100
+        $0.layer.cornerRadius = 32
+    }
+
     private let nicknameLabel = UILabel().then {
         $0.text = "사용자닉네임자리"
-        $0.textColor = .black
+        $0.textColor = .grayScale900
+        $0.font = .minsans(size: 20, family: .Bold)
     }
 
     private let userIdLabel = UILabel().then {
         $0.text = "사용자id자리"
-        $0.textColor = .black
+        $0.textColor = .grayScale900
+        $0.font = .minsans(size: 20, family: .Bold)
     }
     
     override func viewDidLoad() {
@@ -56,6 +69,12 @@ extension CompleteProfileVC {
         view.isOpaque = true
         view.adds([
             titleLabel,
+            backgroundImage
+        ])
+        backgroundImage.adds([
+            cardImageView
+        ])
+        cardImageView.adds([
             profileImageView,
             nicknameLabel,
             userIdLabel
@@ -65,8 +84,20 @@ extension CompleteProfileVC {
             make.leading.equalToSuperview().offset(24)
             make.width.equalTo(270)
         }
+        backgroundImage.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).offset(14)
+            make.leading.equalToSuperview().offset(0)
+            make.trailing.equalToSuperview().offset(0)
+            make.height.equalTo(500)
+        }
+        cardImageView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(60)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(259)
+            make.height.equalTo(330)
+        }
         profileImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(108)
+            make.top.equalToSuperview().offset(50)
             make.width.equalTo(140)
             make.height.equalTo(140)
             make.centerX.equalToSuperview()

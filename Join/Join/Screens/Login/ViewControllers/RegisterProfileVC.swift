@@ -16,23 +16,26 @@ class RegisterProfileVC: BaseViewController {
 
     private let titleFirstLabel = UILabel().then {
         $0.text = "친구가 나를 알아볼 수 있는"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let titleSecondLabel = UILabel().then {
         $0.text = "프로필 사진을 등록해 주세요.📸"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let profileImageView = UIImageView().then {
-        $0.image = UIImage(named: "Group 1751")
+        $0.image = Image.profileDefault
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
     }
 
     private let passButton = UIButton().then {
-        $0.setTitleColor(.lightGray, for: .normal)
+        $0.setTitleColor(.grayScale100, for: .normal)
         $0.setTitle("다음에 할래요", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Medium)
         $0.setUnderline()
     }
     // TODO: - UI 요소 더 채우기
@@ -40,17 +43,17 @@ class RegisterProfileVC: BaseViewController {
     // 사진 추가 시 changeProfileButton 등장
     // 카메라 접근권한 허용시키기
     private let changeProfileButton = UIButton().then {
-        $0.setImage(UIImage(named: "Group 1714"), for: .normal)
+        $0.setImage(Image.cameraButton, for: .normal)
         $0.layer.masksToBounds = true
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .lightGray
-        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("시작하기", for: .normal)
-        // 사용가능한 이메일일때
-        // isEnabled, isSelected 설정해놓기
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
+        // 양식 채워지면 회색이었다가 노란색으로 변경
     }
 
     override func viewDidLoad() {
@@ -81,12 +84,10 @@ extension RegisterProfileVC {
         ])
         titleFirstLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
-            make.width.equalTo(250)
-            make.top.equalToSuperview().offset(8)
+            make.top.equalToSuperview().offset(24)
         }
         titleSecondLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleFirstLabel.snp.bottom).offset(6)
-            make.width.equalTo(250)
             make.leading.equalTo(titleFirstLabel.snp.leading)
         }
         profileImageView.snp.makeConstraints { (make) in
