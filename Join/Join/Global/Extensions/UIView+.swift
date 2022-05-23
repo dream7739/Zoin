@@ -10,30 +10,39 @@ import UIKit
 import SnapKit
 
 extension UIView {
-
+    
     @discardableResult
     func add<T: UIView>(_ subview: T, then closure: ((T) -> Void)? = nil) -> T {
-      addSubview(subview)
-      closure?(subview)
-      return subview
+        addSubview(subview)
+        closure?(subview)
+        return subview
     }
-
+    
     @discardableResult
     func adds<T: UIView>(_ subviews: [T], then closure: (([T]) -> Void)? = nil) -> [T] {
-      subviews.forEach { addSubview($0) }
-      closure?(subviews)
-      return subviews
+        subviews.forEach { addSubview($0) }
+        closure?(subviews)
+        return subviews
     }
-
+    
     func hideKeyboard() {
-      UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
-
+    
     func asImage() -> UIImage {
-      let renderer = UIGraphicsImageRenderer(bounds: bounds)
-      return renderer.image(actions: { rendererContext in
-        layer.render(in: rendererContext.cgContext)
-      })
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        return renderer.image(actions: { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        })
     }
-
+    
+    func setGradient(color1:UIColor,color2:UIColor){
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.colors = [color1.cgColor,color2.cgColor]
+        gradient.locations = [0.0 , 1.0]
+        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+        gradient.frame = bounds
+        layer.addSublayer(gradient)
+    }
 }

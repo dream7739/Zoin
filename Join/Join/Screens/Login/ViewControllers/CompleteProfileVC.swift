@@ -35,6 +35,7 @@ class CompleteProfileVC: BaseViewController {
     private let cardImageView = UIView().then {
         $0.backgroundColor = .yellow100
         $0.layer.cornerRadius = 32
+
     }
 
     private let nicknameLabel = UILabel().then {
@@ -60,6 +61,11 @@ class CompleteProfileVC: BaseViewController {
         setNavigationBar(isHidden: false)
         setUpNavigation()
         setLeftBarButton()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        cardImageView.setGradient(color1: .blue100, color2: .grayScale100)
     }
 }
 
