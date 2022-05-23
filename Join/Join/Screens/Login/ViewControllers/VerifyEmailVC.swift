@@ -148,7 +148,7 @@ extension VerifyEmailVC {
                 guard let self = self,
                       let text = text
                 else { return }
-                if text.count > 0 && text.count < 13 {
+                if text.count > 0 {
                     self.verifyTextField.layer.borderColor = UIColor.grayScale400.cgColor
                     self.verifyTextField.layer.cornerRadius = 20
                     self.verifyTextField.layer.borderWidth = 2.0

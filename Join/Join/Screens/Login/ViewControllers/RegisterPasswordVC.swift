@@ -169,7 +169,7 @@ extension RegisterPasswordVC {
                 guard let self = self,
                       let text = text
                 else { return}
-                if text.count > 0 && text.count < 13 {
+                if text.count > 0 {
                     self.addPasswordTextField.layer.borderColor = UIColor.grayScale400.cgColor
                     self.addPasswordTextField.layer.cornerRadius = 20
                     self.addPasswordTextField.layer.borderWidth = 2.0
@@ -187,7 +187,7 @@ extension RegisterPasswordVC {
                 guard let self = self,
                       let text = text
                 else { return}
-                if text.count > 0 && text.count < 13 {
+                if text.count > 0 {
                     self.verifyPasswordTextField.layer.borderColor = UIColor.grayScale400.cgColor
                     self.verifyPasswordTextField.layer.cornerRadius = 20
                     self.verifyPasswordTextField.layer.borderWidth = 2.0
