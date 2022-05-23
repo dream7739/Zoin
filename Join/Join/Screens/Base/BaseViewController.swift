@@ -84,7 +84,7 @@ extension BaseViewController: UINavigationBarDelegate {
         appearance.shadowColor = .grayScale900
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.white,
-            .font: UIFont.minsans(size: 18, family: .Bold)
+            .font: UIFont.minsans(size: 18, family: .Bold) ?? UIFont.systemFont(ofSize: 18)
         ]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
