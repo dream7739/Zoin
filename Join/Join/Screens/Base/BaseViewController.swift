@@ -38,7 +38,6 @@ extension BaseViewController {
     }
 
     private func setNavigationItems() {
-        if navigationController?.children.count ?? 0 > 1 {
             let backImage = UIImage(systemName: "chevron.backward")?
                 .withTintColor(.white)
                 .withRenderingMode(.alwaysOriginal)
@@ -48,9 +47,6 @@ extension BaseViewController {
                                              target: self,
                                              action: #selector(didBack))
             navigationItem.leftBarButtonItem = backButton
-        }
-
-        
     }
 
     func setLeftBarButton() {
@@ -58,9 +54,7 @@ extension BaseViewController {
     }
 
     func setNavigationName(title: String){
-        if navigationController?.children.count ?? 0 > 1 {
             navigationItem.title = title
-        }
     }
     
     func setTabBarHidden(isHidden: Bool){
@@ -72,16 +66,28 @@ extension BaseViewController {
     }
 
     @objc func didBack() {
-        navigationController?.popViewController(animated: true)
-    }
+          if navigationController?.children.count ?? 0 > 1 {
+              navigationController?.popViewController(animated: true)
+          }else {
+              navigationController?.tabBarController?.selectedIndex = 0
+          }
+   }
 }
 
 extension BaseViewController: UINavigationBarDelegate {
-    private func setupAppearance() {
+   func setupAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .grayScale900
         appearance.shadowColor = .grayScale900
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+
+    func setupTransParentColor(){
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor(red: 17/255, green: 23/255, blue: 35/255, alpha: 0.6)
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance

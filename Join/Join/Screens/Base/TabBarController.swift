@@ -59,15 +59,12 @@ extension TabBarController {
         mainView.tabBarItem = mainViewTabItem
         let mainViewController = UINavigationController(rootViewController: mainView)
 
-//        let joinView = JoinVC()
-//        let joinViewTabItem = UITabBarItem(
-//            title: "번개참여",
-//            image: UIImage(named: "buggae"),
-//            selectedImage: UIImage(systemName: "chevron.backward")
-//        )
-//        joinView.tabBarItem = joinViewTabItem
-//        let joinViewcontroller = UINavigationController(rootViewController: joinView)
+        let makeView = MakeVC()
+        let makeViewTabItem = UITabBarItem()
+        makeView.tabBarItem = makeViewTabItem
+        let makeViewcontroller = UINavigationController(rootViewController: makeView)
 
+        
         let profileView = ProfileVC()
         let profileViewTabItem = UITabBarItem(
             title: "",
@@ -77,6 +74,6 @@ extension TabBarController {
         profileView.tabBarItem = profileViewTabItem
         let profileViewController = UINavigationController(rootViewController: profileView)
 
-        viewControllers = [mainViewController, profileViewController]
+        viewControllers = [mainViewController, makeViewcontroller, profileViewController]
     }
 }

@@ -109,8 +109,8 @@ class MainVC: BaseViewController {
         setLayout()
         collectionView.delegate = self
         collectionView.dataSource = self
-        
         bind()
+        addNotiObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,7 +118,28 @@ class MainVC: BaseViewController {
         setNavigationBar(isHidden: true)
     }
     
+    func addNotiObserver(){
+        NotificationCenter.default.addObserver(self,
+                                                  selector: #selector(openList),
+                                                  name: NSNotification.Name("listFlag"),
+                                                  object: nil)
+        NotificationCenter.default.addObserver(self,
+                                                  selector: #selector(openDetail),
+                                                  name: NSNotification.Name("detailFlag"),
+                                                  object: nil)
+    }
     
+    @objc func openList(notification : NSNotification){
+        if let listFlag = notification.object {
+            pushJoinListVC()
+        }
+    }
+    
+    @objc func openDetail(notification : NSNotification){
+        if let detailIndex = notification.object as? Int{
+            selectedJoinBtn(index: detailIndex)
+        }
+    }
 }
 
 
@@ -231,8 +252,7 @@ extension MainVC {
         searchJoinListBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let joinListVC = JoinListVC()
-                self.navigationController?.pushViewController(joinListVC, animated: true)
+                self.pushJoinListVC()
             })
             .disposed(by: disposeBag)
         
@@ -244,6 +264,12 @@ extension MainVC {
             })
             .disposed(by: disposeBag)
     }
+    
+    func pushJoinListVC(){
+        let joinListVC = JoinListVC()
+        self.navigationController?.pushViewController(joinListVC, animated: true)
+    }
+
 }
 
 extension MainVC: MainCellDelegate {
