@@ -176,7 +176,6 @@ extension JoinVC: CancelDelegate, FinishDelegate {
     
     private func setLayout() {
         self.view.backgroundColor = UIColor(red: 17/255, green: 23/255, blue: 35/255, alpha: 0.6)
-            
         view.add(popupView)
         
         btnStackView.addArrangedSubview(attendConfirmBtn)

@@ -64,12 +64,12 @@ class MakeCompleteVC: BaseViewController {
 extension MakeCompleteVC {
     private func setLayout() {
         setNavigationBar(isHidden: false)
-       
+        
         
         view.adds([mentLabel
-                  ,subMentLabel
-                  ,completeImageView
-                  ,btnStackView])
+                   ,subMentLabel
+                   ,completeImageView
+                   ,btnStackView])
         
         btnStackView.addArrangedSubview(anotherJoinBtn)
         btnStackView.addArrangedSubview(confirmBtn)
@@ -108,26 +108,31 @@ extension MakeCompleteVC {
         confirmBtn.snp.makeConstraints {
             $0.height.equalTo(anotherJoinBtn.snp.height)
         }
-     
+        
     }
     
     private func bind(){
         anotherJoinBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-           
-                
+                let tabBar = self.tabBarController
+                tabBar?.selectedIndex = 0
+                self.navigationController?.popToRootViewController(animated: true)
+
             })
             .disposed(by: disposeBag)
         
         confirmBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-           
+                let joinVC = JoinVC()
+                joinVC.joinType = 2
+                joinVC.modalPresentationStyle = .overFullScreen
+                self.present(joinVC, animated: true)
                 
             })
             .disposed(by: disposeBag)
-     
+        
     }
     
     

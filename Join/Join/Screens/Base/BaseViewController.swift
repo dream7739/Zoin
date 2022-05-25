@@ -78,7 +78,7 @@ extension BaseViewController {
 }
 
 extension BaseViewController: UINavigationBarDelegate {
-  private func setupAppearance() {
+    func setupAppearance() {
     let appearance = UINavigationBarAppearance()
     appearance.backgroundColor = .white
     appearance.shadowColor = .white
@@ -86,4 +86,13 @@ extension BaseViewController: UINavigationBarDelegate {
     navigationController?.navigationBar.compactAppearance = appearance
     navigationController?.navigationBar.scrollEdgeAppearance = appearance
   }
+
+    func setupTransParentColor(){
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor(red: 17/255, green: 23/255, blue: 35/255, alpha: 0.6)
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
+    }
 }
