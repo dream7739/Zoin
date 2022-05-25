@@ -16,7 +16,7 @@ class LoginVC: BaseViewController {
 
     private let Button = UIButton().then {
         $0.setTitle("임시버튼/메인으로", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(.white, for: .normal)
     }
     private let logoImage = UIImageView().then {
         $0.image = Image.logo
