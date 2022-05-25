@@ -70,6 +70,8 @@ class OnboardingVC: BaseViewController {
 extension OnboardingVC {
     // MARK: - UI Settings
     func setLayout() {
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         view.adds([
             collectionView,
             pageControl,

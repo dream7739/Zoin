@@ -34,6 +34,7 @@
 		F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429EF28218EEB00E54B57 /* UIButton+.swift */; };
 		F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F12821968D00E54B57 /* CompleteProfileVC.swift */; };
 		F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F328219BA400E54B57 /* OnboardingVC.swift */; };
+		F21CECF6283543E100ED1EC0 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CECF5283543E100ED1EC0 /* Images.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
 		F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7EB282CC02B003EEF8A /* CautionVC.swift */; };
 		F28AC7EE282CCBFD003EEF8A /* UIPageViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */; };
@@ -47,7 +48,15 @@
 		F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */; };
 		F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10C28167CF10034C8A2 /* UIView+.swift */; };
 		F29FE110281683350034C8A2 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10F281683350034C8A2 /* SplashVC.swift */; };
+		F2A4CC14283659920050FBCB /* MinSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC0E283659910050FBCB /* MinSans-Bold.otf */; };
+		F2A4CC15283659920050FBCB /* MinSans-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC0F283659910050FBCB /* MinSans-Black.otf */; };
+		F2A4CC16283659920050FBCB /* MinSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC10283659920050FBCB /* MinSans-Light.otf */; };
+		F2A4CC17283659920050FBCB /* MinSans-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC11283659920050FBCB /* MinSans-Medium.otf */; };
+		F2A4CC18283659920050FBCB /* MinSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC12283659920050FBCB /* MinSans-Regular.otf */; };
+		F2A4CC19283659920050FBCB /* MinSans-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC13283659920050FBCB /* MinSans-Thin.otf */; };
 		F2C727C928170C81002B1915 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C727C828170C81002B1915 /* UIColor+.swift */; };
+		F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4AF28365D450094DABD /* UIFont+.swift */; };
+		F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4B128365F3D0094DABD /* MinSansFont.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,7 +81,6 @@
 		F2141FFB280FA61E000D102D /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		F2142000280FA620000D102D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F2142003280FA620000D102D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		F2142005280FA620000D102D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Join/Global/New Group/Info.plist"; sourceTree = SOURCE_ROOT; };
 		F214200B28100AFA000D102D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F214200D28100B73000D102D /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		F214200F28100BBF000D102D /* JoinVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinVC.swift; sourceTree = "<group>"; };
@@ -82,6 +90,7 @@
 		F21429EF28218EEB00E54B57 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		F21429F12821968D00E54B57 /* CompleteProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileVC.swift; sourceTree = "<group>"; };
 		F21429F328219BA400E54B57 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
+		F21CECF5283543E100ED1EC0 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		F28AC7EB282CC02B003EEF8A /* CautionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionVC.swift; sourceTree = "<group>"; };
 		F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViewController+.swift"; sourceTree = "<group>"; };
@@ -95,7 +104,16 @@
 		F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProfileVC.swift; sourceTree = "<group>"; };
 		F29FE10C28167CF10034C8A2 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		F29FE10F281683350034C8A2 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
+		F2A4CC0C283658BF0050FBCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F2A4CC0E283659910050FBCB /* MinSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Bold.otf"; sourceTree = "<group>"; };
+		F2A4CC0F283659910050FBCB /* MinSans-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Black.otf"; sourceTree = "<group>"; };
+		F2A4CC10283659920050FBCB /* MinSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Light.otf"; sourceTree = "<group>"; };
+		F2A4CC11283659920050FBCB /* MinSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Medium.otf"; sourceTree = "<group>"; };
+		F2A4CC12283659920050FBCB /* MinSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Regular.otf"; sourceTree = "<group>"; };
+		F2A4CC13283659920050FBCB /* MinSans-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Thin.otf"; sourceTree = "<group>"; };
 		F2C727C828170C81002B1915 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		F2E2C4AF28365D450094DABD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		F2E2C4B128365F3D0094DABD /* MinSansFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinSansFont.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,8 +273,11 @@
 		F214201828101704000D102D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F2A4CC1A283659990050FBCB /* Fonts */,
 				F2142002280FA620000D102D /* LaunchScreen.storyboard */,
 				F2142000280FA620000D102D /* Assets.xcassets */,
+				F21CECF5283543E100ED1EC0 /* Images.swift */,
+				F2E2C4B128365F3D0094DABD /* MinSansFont.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -264,7 +285,7 @@
 		F214201A28101739000D102D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F2142005280FA620000D102D /* Info.plist */,
+				F2A4CC0C283658BF0050FBCB /* Info.plist */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -365,8 +386,22 @@
 				F27595E2281912BC00B4E7C7 /* UITextField+.swift */,
 				F21429EF28218EEB00E54B57 /* UIButton+.swift */,
 				F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */,
+				F2E2C4AF28365D450094DABD /* UIFont+.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F2A4CC1A283659990050FBCB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F2A4CC0F283659910050FBCB /* MinSans-Black.otf */,
+				F2A4CC0E283659910050FBCB /* MinSans-Bold.otf */,
+				F2A4CC10283659920050FBCB /* MinSans-Light.otf */,
+				F2A4CC11283659920050FBCB /* MinSans-Medium.otf */,
+				F2A4CC12283659920050FBCB /* MinSans-Regular.otf */,
+				F2A4CC13283659920050FBCB /* MinSans-Thin.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,8 +464,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2A4CC19283659920050FBCB /* MinSans-Thin.otf in Resources */,
 				F2142004280FA620000D102D /* LaunchScreen.storyboard in Resources */,
+				F2A4CC14283659920050FBCB /* MinSans-Bold.otf in Resources */,
+				F2A4CC18283659920050FBCB /* MinSans-Regular.otf in Resources */,
 				F2142001280FA620000D102D /* Assets.xcassets in Resources */,
+				F2A4CC15283659920050FBCB /* MinSans-Black.otf in Resources */,
+				F2A4CC17283659920050FBCB /* MinSans-Medium.otf in Resources */,
+				F2A4CC16283659920050FBCB /* MinSans-Light.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,9 +535,11 @@
 				F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */,
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
+				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
 				F214201228100BCF000D102D /* ProfileVC.swift in Sources */,
 				889E497E2816ED1900AA2D9C /* JoinListVC.swift in Sources */,
 				8896D41A28236C730061CEAE /* JoinFinishVC.swift in Sources */,
+				F21CECF6283543E100ED1EC0 /* Images.swift in Sources */,
 				F214201028100BBF000D102D /* JoinVC.swift in Sources */,
 				F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */,
 				F29FE107281679C50034C8A2 /* RegisterNicknameVC.swift in Sources */,
@@ -506,6 +549,7 @@
 				F214200C28100AFA000D102D /* TabBarController.swift in Sources */,
 				F29FE105281678500034C8A2 /* RegisterPasswordVC.swift in Sources */,
 				F29FE110281683350034C8A2 /* SplashVC.swift in Sources */,
+				F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */,
 				F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */,
 				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
@@ -662,6 +706,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Join/Global/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -689,6 +734,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Join/Global/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

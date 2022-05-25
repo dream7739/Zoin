@@ -50,8 +50,6 @@ class VerifyEmailVC: BaseViewController {
         super.viewDidLoad()
         setLayout()
         bind()
-
-        // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -63,6 +61,8 @@ class VerifyEmailVC: BaseViewController {
 
 extension VerifyEmailVC {
     private func setLayout() {
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         view.adds([
             titleFirstLabel,
             titleSecondLabel,

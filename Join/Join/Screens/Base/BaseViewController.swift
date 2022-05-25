@@ -33,13 +33,13 @@ class BaseViewController: UIViewController {
 
 extension BaseViewController {
     private func defaultUI() {
+        // TODO: - 색상변경 해주어야한다!
         view.backgroundColor = .white
     }
 
     private func setNavigationItems() {
-       // if navigationController?.children.count ?? 0 > 1 {
             let backImage = UIImage(systemName: "chevron.backward")?
-                .withTintColor(.black)
+                .withTintColor(.white)
                 .withRenderingMode(.alwaysOriginal)
 
             let backButton = UIBarButtonItem(image: backImage,
@@ -47,7 +47,6 @@ extension BaseViewController {
                                              target: self,
                                              action: #selector(didBack))
             navigationItem.leftBarButtonItem = backButton
-       // }
     }
 
     func setLeftBarButton() {
@@ -55,9 +54,7 @@ extension BaseViewController {
     }
 
     func setNavigationName(title: String){
-    //    if navigationController?.children.count ?? 0 > 1 {
             navigationItem.title = title
-       // }
     }
     
     func setTabBarHidden(isHidden: Bool){
@@ -65,7 +62,7 @@ extension BaseViewController {
     }
 
     func setNavigationBar(isHidden: Bool) {
-      navigationController?.setNavigationBarHidden(isHidden, animated: true)
+        navigationController?.setNavigationBarHidden(isHidden, animated: true)
     }
 
     @objc func didBack() {
@@ -78,14 +75,15 @@ extension BaseViewController {
 }
 
 extension BaseViewController: UINavigationBarDelegate {
-    func setupAppearance() {
-    let appearance = UINavigationBarAppearance()
-    appearance.backgroundColor = .white
-    appearance.shadowColor = .white
-    navigationController?.navigationBar.standardAppearance = appearance
-    navigationController?.navigationBar.compactAppearance = appearance
-    navigationController?.navigationBar.scrollEdgeAppearance = appearance
-  }
+   func setupAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .grayScale900
+        appearance.shadowColor = .grayScale900
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
 
     func setupTransParentColor(){
         let appearance = UINavigationBarAppearance()
@@ -93,6 +91,5 @@ extension BaseViewController: UINavigationBarDelegate {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-
     }
 }

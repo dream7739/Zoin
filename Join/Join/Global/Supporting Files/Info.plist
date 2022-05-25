@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>MinSans-Black.otf</string>
+		<string>MinSans-Bold.otf</string>
+		<string>MinSans-Light.otf</string>
+		<string>MinSans-Medium.otf</string>
+		<string>MinSans-Regular.otf</string>
+		<string>MinSans-Thin.otf</string>
+	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 	<key>UIApplicationSceneManifest</key>

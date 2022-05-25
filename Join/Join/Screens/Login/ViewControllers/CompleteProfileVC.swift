@@ -52,6 +52,8 @@ class CompleteProfileVC: BaseViewController {
 
 extension CompleteProfileVC {
     private func setLayout() {
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         view.adds([
             titleLabel,
             profileImageView,
