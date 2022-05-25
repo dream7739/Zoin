@@ -49,9 +49,6 @@ extension BaseViewController {
                                              target: self,
                                              action: #selector(didBack))
             navigationItem.leftBarButtonItem = backButton
-        }
-
-        
     }
 
     func setLeftBarButton() {
@@ -59,9 +56,7 @@ extension BaseViewController {
     }
 
     func setNavigationName(title: String){
-        if navigationController?.children.count ?? 0 > 1 {
             navigationItem.title = title
-        }
     }
     
     func setTabBarHidden(isHidden: Bool){
@@ -73,12 +68,16 @@ extension BaseViewController {
     }
 
     @objc func didBack() {
-        navigationController?.popViewController(animated: true)
-    }
+          if navigationController?.children.count ?? 0 > 1 {
+              navigationController?.popViewController(animated: true)
+          }else {
+              navigationController?.tabBarController?.selectedIndex = 0
+          }
+   }
 }
 
 extension BaseViewController: UINavigationBarDelegate {
-    private func setupAppearance() {
+   func setupAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .grayScale900
         appearance.shadowColor = .grayScale900
@@ -86,6 +85,14 @@ extension BaseViewController: UINavigationBarDelegate {
             .foregroundColor: UIColor.white,
             .font: UIFont.minsans(size: 18, family: .Bold) ?? UIFont.systemFont(ofSize: 18)
         ]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+
+    func setupTransParentColor(){
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor(red: 17/255, green: 23/255, blue: 35/255, alpha: 0.6)
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
