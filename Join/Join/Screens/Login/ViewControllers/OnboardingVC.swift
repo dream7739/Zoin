@@ -19,9 +19,9 @@ class OnboardingVC: BaseViewController {
         layout.minimumLineSpacing = 0
         layout.scrollDirection = .horizontal
         layout.sectionInset = .zero
-
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = .grayScale900
         collectionView.register(OnboardingCVCell.self, forCellWithReuseIdentifier: OnboardingCVCell.identifier)
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
@@ -30,15 +30,21 @@ class OnboardingVC: BaseViewController {
     private let pageControl = UIPageControl().then {
         $0.frame = .init(x: 0, y: 0, width: 35, height: 15)
         $0.numberOfPages = 3
-        $0.currentPageIndicatorTintColor = .yellow
-        $0.pageIndicatorTintColor = .lightGray
+        if #available(iOS 14.0, *) {
+            $0.preferredIndicatorImage = Image.Union
+        } else {
+            // Fallback on earlier versions
+        }
+        $0.currentPageIndicatorTintColor = .yellow200
+        $0.pageIndicatorTintColor = .white
     }
 
     private let nextButton = UIButton().then {
-        $0.backgroundColor = .lightGray
-        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
     }
 
     private var slides: [OnboardingSlide] = []
@@ -64,6 +70,7 @@ class OnboardingVC: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUpNavigation()
+        setLeftBarButton()
     }
 }
 
@@ -78,11 +85,11 @@ extension OnboardingVC {
             nextButton
         ])
         pageControl.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(85)
+            make.top.equalToSuperview().offset(21)
             make.centerX.equalToSuperview()
         }
         collectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(pageControl.snp.bottom).offset(21)
+            make.top.equalTo(pageControl.snp.bottom).offset(41)
             make.leading.equalTo(view.safeAreaLayoutGuide)
             make.trailing.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(400)
@@ -100,33 +107,38 @@ extension OnboardingVC {
 
     func setUpNavigation() {
         guard let navigationBar = navigationController?.navigationBar else { return }
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationBar.isHidden = true
+        navigationBar.isHidden = false
         navigationBar.barTintColor = .white
         navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = false
         navigationItem.hidesBackButton = true
+        let passButton = UIBarButtonItem(title: "건너뛰기", style: .plain, target: self, action: #selector(moveLast))
+        navigationItem.rightBarButtonItem = passButton
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([
+            NSAttributedString.Key.font: UIFont.minsans(size: 18, family: .Bold) ?? UIFont.systemFont(ofSize: 18),
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ], for: .normal)
     }
     // MARK: - Action Settings
     func setData() {
         slides = [
             OnboardingSlide(
-                title: "새로운 번개를 만들어보세요",
-                firstDescription: "내 찐친들과 가장 쉽게",
-                secondDescription: "만나는어쩔티비저쩔티비",
-                image: "3D_Bulb"
+                title: "쪼인할 사람을 초대하고",
+                firstDescription: "친구를 맺으세요",
+                secondDescription: "",
+                image: "onboarding1"
             ),
             OnboardingSlide(
                 title: "새로운 번개를 만들어보세요",
                 firstDescription: "내 찐친들과 가장 쉽게",
-                secondDescription: "만나는어쩔티비저쩔티비",
-                image: "3D_Calendar"
+                secondDescription: "",
+                image: "onboarding2"
             ),
             OnboardingSlide(
                 title: "새로운 번개를 만들어보세요",
                 firstDescription: "내 찐친들과 가장 쉽게",
-                secondDescription: "만나는어쩔티비저쩔티비",
-                image: "3D_Chat"
+                secondDescription: "",
+                image: "onboarding3"
             )
         ]
 
@@ -146,6 +158,12 @@ extension OnboardingVC {
             }
         })
             .disposed(by: disposeBag)
+    }
+
+    @objc func moveLast() {
+        self.currentPage = 2
+        let indexPath = IndexPath(item: self.currentPage, section: 0)
+        self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }
 
