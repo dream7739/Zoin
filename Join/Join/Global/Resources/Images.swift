@@ -36,4 +36,8 @@ enum Image {
     static let Union = UIImage(named: "Union")
     static let UnionUnselected = UIImage(named: "UnionUnselected")
     static let logo = UIImage(named: "logo")
+    static let arrowBack = UIImage(named: "arrowBack")
+    static let cameraButton = UIImage(named: "cameraButton")
+    static let profileDefault = UIImage(named: "profileDefault")
+    static let profileCard = UIImage(named: "profileCard")
 }

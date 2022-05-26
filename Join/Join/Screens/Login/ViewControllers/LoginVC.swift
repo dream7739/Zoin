@@ -16,7 +16,7 @@ class LoginVC: BaseViewController {
 
     private let Button = UIButton().then {
         $0.setTitle("임시버튼/메인으로", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(.white, for: .normal)
     }
     private let logoImage = UIImageView().then {
         $0.image = Image.logo
@@ -39,7 +39,7 @@ class LoginVC: BaseViewController {
     private let divideLabel = UILabel().then {
         $0.text = "|"
         $0.textColor = .grayScale100
-        $0.font = .systemFont(ofSize: 14, weight: .regular)
+        $0.font = .minsans(size: 14, family: .Regular)
     }
     private let SignUpButton = UIButton().then {
         $0.setTitle("회원가입", for: .normal)

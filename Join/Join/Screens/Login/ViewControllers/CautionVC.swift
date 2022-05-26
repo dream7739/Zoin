@@ -10,18 +10,21 @@ import UIKit
 class CautionVC: BaseViewController {
 
     private let titleLabel = UILabel().then {
-        $0.text = "쪼인 3배 더 즐기는 법"
-        $0.textColor = .black
+        $0.text = "쪼인 3배 더 즐기는 법?"
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let firstSubLabel = UILabel().then {
         $0.text = "알림 허용이 필요해요😉"
-        $0.textColor = .black
+        $0.textColor = .white
+        $0.font = .minsans(size: 18, family: .Medium)
     }
 
     private let secondSubLabel = UILabel().then {
         $0.text = "추후 언제든지 알림을 해제할 수 있어요!"
-        $0.textColor = .black
+        $0.textColor = .white
+        $0.font = .minsans(size: 18, family: .Medium)
     }
 
     private let bellImageView = UIImageView().then {
@@ -31,27 +34,31 @@ class CautionVC: BaseViewController {
     private let layerView = UIView().then {
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 24
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .white
     }
 
     private let firstSituationLabel = UILabel().then {
         $0.text = "⚡️ 친구신청을 받거나 수락했을 때"
         $0.textColor = .black
+        $0.font = .minsans(size: 16, family: .Medium)
     }
 
     private let secondSituationLabel = UILabel().then {
         $0.text = "⚡️ 친구가 번개를 쳤을 때"
         $0.textColor = .black
+        $0.font = .minsans(size: 16, family: .Medium)
     }
 
     private let thirdSituationLabel = UILabel().then {
         $0.text = "⚡️ 내 번개에 참여하는 친구가 나타났을 때"
         $0.textColor = .black
+        $0.font = .minsans(size: 16, family: .Medium)
     }
 
     private let fourthSituationLabel = UILabel().then {
         $0.text = "⚡️ 번개가 마감되었을 때"
         $0.textColor = .black
+        $0.font = .minsans(size: 16, family: .Medium)
     }
 
     override func viewDidLoad() {

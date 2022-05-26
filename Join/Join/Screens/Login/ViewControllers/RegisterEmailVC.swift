@@ -40,14 +40,14 @@ class RegisterEmailVC: BaseViewController {
         $0.textColor = .yellow200
         $0.font = .minsans(size: 16, family: .Medium)
         $0.backgroundColor = .grayScale800
-        $0.borderStyle = .roundedRect
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
 
     private let statusLabel = UILabel().then {
         $0.text = "사용가능한 이메일입니다."
         $0.textColor = .blue100
-        $0.font = MinSansFont.medium.of(size: 12)
+        $0.font = .minsans(size: 12, family: .Medium)
         // 사용불가 이메일 -> red100, "사용할 수 없는 이메일입니다"
     }
 
@@ -90,7 +90,7 @@ extension RegisterEmailVC {
         titleFirstLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
             make.width.equalTo(250)
-            make.top.equalToSuperview().offset(8)
+            make.top.equalToSuperview().offset(24)
         }
         titleSecondLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleFirstLabel.snp.bottom).offset(6)
@@ -117,8 +117,6 @@ extension RegisterEmailVC {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.bottom.equalToSuperview().offset(-30)
-            // make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top)
-            // 15버전부터만 사용가능한거 실화니..
             make.width.equalTo(327)
             make.height.equalTo(56)
         }
@@ -133,6 +131,24 @@ extension RegisterEmailVC {
     }
 
     private func bind() {
+        emailTextField.rx.text
+            .do { [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0 {
+                    self.emailTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                    self.emailTextField.layer.cornerRadius = 20
+                    self.emailTextField.layer.borderWidth = 2.0
+                } else {
+                    self.emailTextField.layer.borderWidth = 0.0
+                }
+            }
+            .subscribe(onNext: { [weak self] _ in
+                
+            })
+            .disposed(by: disposeBag)
+
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }

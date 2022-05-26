@@ -16,39 +16,46 @@ import RxKeyboard
 class RegisterNicknameVC: BaseViewController {
     
     private let titleFirstLabel = UILabel().then {
-        $0.text = "번개에 오신걸 환영해요⚡️"
-        $0.textColor = .black
+        $0.text = "쪼인에 오신걸 환영해요⚡️"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let titleSecondLabel = UILabel().then {
         $0.text = "먼저 닉네임을 알려주세요."
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let guideLabel = UILabel().then {
         $0.text = "닉네임"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
-    private let emailTextField = UITextField().then {
-        $0.placeholder = "한글 6글자"
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+    private let nicknameTextField = UITextField().then {
+        $0.placeholder = "한글 2자 이상 6자 이하"
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
 
     private let statusLabel = UILabel().then {
-        $0.text = "사용할 수 있는 닉네임입니다."
-        $0.textColor = .black
+        $0.text = "한글 2자 이상 6자 이하"
+        $0.textColor = .red100
+        $0.font = .minsans(size: 12, family: .Medium)
+        // 한글 2자 이상 6자 이하로 입력해주세요.
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .lightGray
-        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
-        // 사용가능한 이메일일때
-        // isEnabled, isSelected 설정해놓기
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,26 +78,24 @@ extension RegisterNicknameVC {
             titleFirstLabel,
             titleSecondLabel,
             guideLabel,
-            emailTextField,
+            nicknameTextField,
             statusLabel,
             guideButton
         ])
         titleFirstLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
-            make.width.equalTo(250)
-            make.top.equalToSuperview().offset(8)
+            make.top.equalToSuperview().offset(24)
         }
         titleSecondLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleFirstLabel.snp.bottom).offset(6)
-            make.width.equalTo(250)
             make.leading.equalTo(titleFirstLabel.snp.leading)
         }
         guideLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(titleSecondLabel.snp.leading)
             make.top.equalTo(titleSecondLabel.snp.bottom).offset(25)
-            make.width.equalTo(50)
+            make.width.equalTo(100)
         }
-        emailTextField.snp.makeConstraints { (make) in
+        nicknameTextField.snp.makeConstraints { (make) in
             make.leading.equalTo(guideLabel.snp.leading)
             make.trailing.equalToSuperview().offset(-24)
             make.top.equalTo(guideLabel.snp.bottom).offset(9)
@@ -99,8 +104,7 @@ extension RegisterNicknameVC {
         }
         statusLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(41)
-            make.top.equalTo(emailTextField.snp.bottom).offset(4)
-            make.width.equalTo(200)
+            make.top.equalTo(nicknameTextField.snp.bottom).offset(4)
         }
         guideButton.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
@@ -123,6 +127,24 @@ extension RegisterNicknameVC {
 
     private func bind() {
         // TODO: - 텍스트필드 입력 시 한글 6글자 제한걸기
+        nicknameTextField.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0  {
+                    self.nicknameTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                    self.nicknameTextField.layer.cornerRadius = 20
+                    self.nicknameTextField.layer.borderWidth = 2.0
+                } else {
+                    self.nicknameTextField.layer.borderWidth = 0.0
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
+
+            })
+            .disposed(by: disposeBag)
+
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -135,13 +157,19 @@ extension RegisterNicknameVC {
             guard let self = self else { return }
             UIView.animate(withDuration: 0) {
                 if keyboardHeight == 0 {
+                    self.guideButton.layer.cornerRadius = 16
                     self.guideButton.snp.updateConstraints { make in
+                        make.leading.equalToSuperview().offset(24)
+                        make.trailing.equalToSuperview().offset(-24)
                         make.bottom.equalToSuperview().offset(-30)
                     }
                 } else {
+                    self.guideButton.layer.cornerRadius = 0
                     let totalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
                     self.guideButton.snp.updateConstraints { (make) in
-                        make.bottom.equalToSuperview().offset(-totalHeight+(-60))
+                        make.leading.equalToSuperview().offset(0)
+                        make.trailing.equalToSuperview().offset(0)
+                        make.bottom.equalToSuperview().offset(-totalHeight+(-30))
                     }
                 }
                 self.view.layoutIfNeeded()

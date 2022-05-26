@@ -12,17 +12,20 @@ class OnboardingCVCell: UICollectionViewCell {
 
     private let titleLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.textColor = .black
+        $0.textColor = .white
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let firstDescriptionLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.textColor = .black
+        $0.textColor = .white
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let secondDescriptionLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.textColor = .black
+        $0.textColor = .white
+        $0.font = .minsans(size: 24, family: .Bold)
     }
 
     private let imageView = UIImageView().then {
@@ -53,7 +56,7 @@ extension OnboardingCVCell {
     }
 
     private func render() {
-        self.contentView.backgroundColor = .white
+        self.contentView.backgroundColor = .grayScale900
         contentView.adds([
             titleLabel,
             firstDescriptionLabel,
@@ -70,12 +73,13 @@ extension OnboardingCVCell {
             make.centerX.equalToSuperview()
         }
         secondDescriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(firstDescriptionLabel.snp.bottom).offset(7)
+            make.top.equalTo(firstDescriptionLabel.snp.bottom).offset(4)
             make.centerX.equalToSuperview()
         }
         imageView.snp.makeConstraints { (make) in
             make.top.equalTo(secondDescriptionLabel.snp.bottom).offset(44)
-            make.size.equalTo(281)
+            make.width.equalTo(307)
+            make.height.equalTo(313)
             make.centerX.equalToSuperview()
         }
     }
