@@ -49,6 +49,7 @@ extension BaseViewController {
                                              target: self,
                                              action: #selector(didBack))
             navigationItem.leftBarButtonItem = backButton
+        }
     }
 
     func setLeftBarButton() {
