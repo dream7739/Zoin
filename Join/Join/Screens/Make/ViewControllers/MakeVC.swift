@@ -18,7 +18,8 @@ class MakeVC: BaseViewController {
     
     private let mentLabel = UILabel().then {
         $0.text = "번개 제목을\n자유롭게 입력해 주세요."
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 24, family: .Bold)
         $0.numberOfLines = 0
     }
     
@@ -60,29 +61,42 @@ class MakeVC: BaseViewController {
     //제목
     private let subTitleLabel = UILabel().then {
         $0.text = "제목"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     
     private let titleTextField = UITextField().then {
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.placeholder = "제목입력"
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
     
     private let titleLengthLabel = UILabel().then {
         $0.text = "0/30"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
         $0.textAlignment = .right
     }
     
     //날짜
     private let subDateLabel = UILabel().then {
         $0.text = "날짜"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     
     private let dateTextField = UITextField().then {
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
     
@@ -90,13 +104,18 @@ class MakeVC: BaseViewController {
     //장소
     private let subPlaceLabel = UILabel().then {
         $0.text = "장소"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     
     private let placeTextField = UITextField().then {
-        $0.tintColor = .black
         $0.placeholder = "구체적인 만날 장소를 입력해 주세요"
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
     
@@ -104,24 +123,33 @@ class MakeVC: BaseViewController {
     //참여인원
     private let subParticipantLabel = UILabel().then {
         $0.text = "참여 인원"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     
     private let participantTextField = UITextField().then {
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
     
     private let participantLabel = UILabel().then {
         $0.text = "명"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 16, family: .Medium)
         $0.textAlignment = .left
     }
     
     private let nextButton = UIButton().then {
-        $0.backgroundColor = .lightGray
-        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
     }
     
     
@@ -218,6 +246,8 @@ extension MakeVC : UITextFieldDelegate{
         setNavigationBar(isHidden: false)
         setNavigationName(title: "번개작성")
         
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         
         view.adds([mentLabel,
                    entireStackView,
@@ -308,16 +338,14 @@ extension MakeVC : UITextFieldDelegate{
         //시간 선택 팝업 버튼 이벤트
         resetBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.setupAppearance()
                 self?.dateTextField.text = "상관없음"
-                self?.datePopupView.removeFromSuperview()
+                self?.popupView.removeFromSuperview()
             })
             .disposed(by: disposeBag)
         
         confirmBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.setupAppearance()
-                self?.datePopupView.removeFromSuperview()
+                self?.popupView.removeFromSuperview()
             })
             .disposed(by: disposeBag)
         
@@ -328,15 +356,9 @@ extension MakeVC : UITextFieldDelegate{
     @objc private func openDateView(){
         stackView1.addArrangedSubview(resetBtn)
         stackView1.addArrangedSubview(confirmBtn)
-
-    
-        datePopupView.adds([popupView, popUpLabel, joinDatePicker, stackView1])
-        view.add(datePopupView)
-        setupTransParentColor()
-        datePopupView.snp.makeConstraints{
-            $0.leading.trailing.top.bottom.equalTo(view)
-        }
         
+        popupView.adds([popUpLabel, joinDatePicker, stackView1])
+        view.add(popupView)
         
         popupView.snp.makeConstraints{
             $0.leading.equalTo(view.snp.leading).offset(0)
@@ -394,7 +416,7 @@ extension MakeVC : UITextFieldDelegate{
                 
                 titleTextField.resignFirstResponder()
                 openDateView()
-                
+                mentLabel.text = "언제 만나는게 좋을까요?"
             case 2:
                 entireStackView.insertArrangedSubview(placeStackView, at: 0)
                 placeStackView.addArrangedSubview(subPlaceLabel)
@@ -415,6 +437,7 @@ extension MakeVC : UITextFieldDelegate{
                 }
                 
                 placeTextField.becomeFirstResponder()
+                mentLabel.text = "어디로 모이면 될까요?"
                 
             case 3:
                 entireStackView.insertArrangedSubview(participantView, at: 0)
@@ -445,6 +468,7 @@ extension MakeVC : UITextFieldDelegate{
                     $0.leading.equalTo(participantTextField.snp.trailing).offset(8)
                 }
                 participantTextField.becomeFirstResponder()
+                mentLabel.text = "함께할 인원을 정해주세요."
 
             default:
                 return
