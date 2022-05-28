@@ -145,7 +145,7 @@ class MakeVC: BaseViewController {
     }
     
     private let nextButton = UIButton().then {
-        $0.backgroundColor = .yellow200
+        $0.backgroundColor = .grayScale500
         $0.setTitleColor(.grayScale900, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
@@ -188,7 +188,7 @@ class MakeVC: BaseViewController {
         $0.addTarget(self, action: #selector(changed), for: .valueChanged)
     }
     
-
+    
     var resetBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .lightGray
@@ -209,12 +209,16 @@ class MakeVC: BaseViewController {
         super.viewDidLoad()
         setLayout()
         bind()
-        dateTextField.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: true)
         titleTextField.becomeFirstResponder()
+        titleTextField.text = ""
+        dateTextField.text = ""
+        placeTextField.text = ""
+        participantTextField.text = ""
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -225,21 +229,49 @@ class MakeVC: BaseViewController {
     }
 }
 
-extension MakeVC : UITextFieldDelegate{
+extension MakeVC: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == dateTextField{
+        if textField == dateTextField {
             return false
         }
         return true
     }
     
-    @objc private func changed(){
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        let date = dateFormatter.string(from: joinDatePicker.date)
-        dateTextField.text = date
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.layer.borderColor = UIColor.grayScale400.cgColor
+        textField.layer.cornerRadius = 20
+        textField.layer.borderWidth = 2.0
+        
+        //dateTextField가 아닐 경우 피커 팝업을 삭제
+        if textField != dateTextField {
+            popupView.removeFromSuperview()
+            dateTextField.layer.borderWidth = 0
+        }
+        
+        
+        //사용자 터치로 인해 firstResponder가 변경될 시 ment변경
+        switch textField {
+        case titleTextField:
+            mentLabel.text =  "번개 제목을\n자유롭게 입력해 주세요."
+        case placeTextField:
+            mentLabel.text = "어디로 모이면 될까요?"
+        case participantTextField:
+            mentLabel.text = "함께할 인원을 정해주세요."
+        default:
+            return
+        }
+        
     }
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.layer.borderWidth = 0
+    }
+    
+    
+}
+
+extension MakeVC {
     
     private func setLayout() {
         setTabBarHidden(isHidden: true)
@@ -303,9 +335,15 @@ extension MakeVC : UITextFieldDelegate{
     }
     
     private func bind() {
+        titleTextField.delegate = self
+        dateTextField.delegate = self
+        placeTextField.delegate = self
+        participantTextField.delegate = self
+        
+        //키보드 높이 설정
         RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
             guard let self = self else { return }
-
+            
             self.nextButton.layer.cornerRadius = 0
             self.nextButton.snp.updateConstraints{
                 $0.leading.trailing.equalToSuperview().offset(0)
@@ -326,10 +364,76 @@ extension MakeVC : UITextFieldDelegate{
             }
         }).disposed(by: disposeBag)
         
+        
+        //다음 버튼 탭 액션
         nextButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.addInput()
+                
+            })
+            .disposed(by: disposeBag)
+        
+        
+        //텍스트 필드 이벤트
+        titleTextField.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0  {
+                    self.titleLengthLabel.text = "\(text.count)/30"
+                    self.nextButton.backgroundColor = .yellow200
+                    self.nextButton.isEnabled = true
+                    if text.count > 30 {
+                        let index = text.index(text.startIndex, offsetBy: 30)
+                        let newStr = text[text.startIndex ..< index]
+                        self.titleTextField.text = String(newStr)
+                    }
+                } else {
+                    self.nextButton.backgroundColor = .grayScale500
+                    self.nextButton.isEnabled = false
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
+                
+            })
+            .disposed(by: disposeBag)
+        
+        
+        placeTextField.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0  {
+                    self.nextButton.backgroundColor = .yellow200
+                    self.nextButton.isEnabled = true
+                } else {
+                    self.nextButton.backgroundColor = .grayScale500
+                    self.nextButton.isEnabled = false
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
+                
+            })
+            .disposed(by: disposeBag)
+        
+        
+        participantTextField.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0  {
+                    self.nextButton.backgroundColor = .yellow200
+                    self.nextButton.isEnabled = true
+                } else {
+                    self.nextButton.backgroundColor = .grayScale500
+                    self.nextButton.isEnabled = false
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
                 
             })
             .disposed(by: disposeBag)
@@ -346,6 +450,7 @@ extension MakeVC : UITextFieldDelegate{
         confirmBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.popupView.removeFromSuperview()
+                self?.placeTextField.becomeFirstResponder()
             })
             .disposed(by: disposeBag)
         
@@ -353,7 +458,14 @@ extension MakeVC : UITextFieldDelegate{
         
     }
     
+    
+    
     @objc private func openDateView(){
+        mentLabel.text = "언제 만나는게 좋을까요?"
+        dateTextField.layer.borderColor = UIColor.grayScale400.cgColor
+        dateTextField.layer.cornerRadius = 20
+        dateTextField.layer.borderWidth = 2.0
+        
         stackView1.addArrangedSubview(resetBtn)
         stackView1.addArrangedSubview(confirmBtn)
         
@@ -379,7 +491,7 @@ extension MakeVC : UITextFieldDelegate{
             $0.height.equalTo(181)
         }
         
-    
+        
         stackView1.snp.makeConstraints{
             $0.top.equalTo(joinDatePicker.snp.bottom).offset(32)
             $0.leading.equalTo(popupView.snp.leading).offset(24)
@@ -387,6 +499,14 @@ extension MakeVC : UITextFieldDelegate{
             $0.height.equalTo(56)
         }
         
+    }
+    
+    @objc private func changed(){
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        let date = dateFormatter.string(from: joinDatePicker.date)
+        dateTextField.text = date
     }
     
     
@@ -416,7 +536,7 @@ extension MakeVC : UITextFieldDelegate{
                 
                 titleTextField.resignFirstResponder()
                 openDateView()
-                mentLabel.text = "언제 만나는게 좋을까요?"
+                
             case 2:
                 entireStackView.insertArrangedSubview(placeStackView, at: 0)
                 placeStackView.addArrangedSubview(subPlaceLabel)
@@ -437,7 +557,6 @@ extension MakeVC : UITextFieldDelegate{
                 }
                 
                 placeTextField.becomeFirstResponder()
-                mentLabel.text = "어디로 모이면 될까요?"
                 
             case 3:
                 entireStackView.insertArrangedSubview(participantView, at: 0)
@@ -468,15 +587,14 @@ extension MakeVC : UITextFieldDelegate{
                     $0.leading.equalTo(participantTextField.snp.trailing).offset(8)
                 }
                 participantTextField.becomeFirstResponder()
-                mentLabel.text = "함께할 인원을 정해주세요."
-
+                
             default:
                 return
             }
         }else{
-                let makeDetailVC = MakeDetailVC()
-                self.navigationController?.pushViewController(makeDetailVC, animated: true)
-            }
+            let makeDetailVC = MakeDetailVC()
+            self.navigationController?.pushViewController(makeDetailVC, animated: true)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
