@@ -14,6 +14,8 @@ import RxKeyboard
 
 
 class MakeDetailVC: BaseViewController {
+    let textViewPlaceHolder = "나의 번개를 마구 어필해도 좋아요"
+    var flag = false
     
     private let mentLabel = UILabel().then {
         $0.text = "마지막으로\n자세히 설명해 주세요!"
@@ -30,10 +32,12 @@ class MakeDetailVC: BaseViewController {
     
     private let descriptionTextView = UITextView().then {
         $0.tintColor = .yellow200
-        $0.textColor = .yellow200
+        $0.textColor = .grayScale600
         $0.font = .minsans(size: 16, family: .Medium)
         $0.backgroundColor = .grayScale800
         $0.layer.cornerRadius = 20
+        $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right:16.0)
+        $0.becomeFirstResponder()
     }
     
     private let descriptionLengthLabel = UILabel().then {
@@ -113,6 +117,60 @@ extension MakeDetailVC {
                 
             })
             .disposed(by: disposeBag)
+        
+        
+        
+        descriptionTextView.rx.didBeginEditing.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            self.descriptionTextView.textColor = .yellow200
+            if self.descriptionTextView.text == self.textViewPlaceHolder {
+                self.descriptionTextView.text = nil
+            }
+        }, onCompleted: {
+        })
+        
+        descriptionTextView.rx.didEndEditing.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            if self.descriptionTextView.text == ""{
+                self.descriptionTextView.text = self.textViewPlaceHolder
+                self.descriptionTextView.textColor = .grayScale500
+            }
+        }, onCompleted: {
+        })
+        
+        
+        
+        descriptionTextView.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0 && text != self.textViewPlaceHolder {
+                    self.nextButton.backgroundColor = .yellow200
+                    self.nextButton.isEnabled = true
+                    if text.count <= 30 {
+                        let str =  "\(text.count)/30"
+                        self.descriptionLengthLabel.text = str
+                        let attributedString = NSMutableAttributedString(string: self.descriptionLengthLabel.text!)
+                        let firstIndex:String.Index = str.firstIndex(of: "/")!
+                        let substr = str[...firstIndex]
+                        attributedString.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.descriptionLengthLabel.text! as NSString).range(of: String(substr)))
+                        self.descriptionLengthLabel.attributedText = attributedString
+                    }else{
+                        let index = text.index(text.startIndex, offsetBy: 30)
+                        self.descriptionTextView.text = String(text[..<index])
+                    }
+                } else {
+                    self.descriptionLengthLabel.text = "0/30"
+                    self.nextButton.backgroundColor = .grayScale500
+                    self.nextButton.isEnabled = false
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
+                
+            })
+            .disposed(by: disposeBag)
+        
         
         RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
             guard let self = self else { return }
