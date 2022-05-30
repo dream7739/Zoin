@@ -38,7 +38,7 @@ extension BaseViewController {
     }
 
     private func setNavigationItems() {
-        //if navigationController?.children.count ?? 0 > 1 {
+        if navigationController?.children.count ?? 0 > 1 {
             let backImage = Image.arrowBack?
                 .withAlignmentRectInsets(UIEdgeInsets(top: 0.0, left: 6.0, bottom: 0.0, right: 0.0))
                 .withTintColor(.white)
@@ -49,7 +49,7 @@ extension BaseViewController {
                                              target: self,
                                              action: #selector(didBack))
             navigationItem.leftBarButtonItem = backButton
-       // }
+        }
     }
 
     func setLeftBarButton() {

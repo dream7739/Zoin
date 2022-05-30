@@ -15,7 +15,6 @@ import RxKeyboard
 
 class MakeDetailVC: BaseViewController {
     let textViewPlaceHolder = "나의 번개를 마구 어필해도 좋아요"
-    var flag = false
     
     private let mentLabel = UILabel().then {
         $0.text = "마지막으로\n자세히 설명해 주세요!"
