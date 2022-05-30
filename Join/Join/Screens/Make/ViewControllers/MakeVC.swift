@@ -382,15 +382,22 @@ extension MakeVC {
                       let text = text
                 else { return }
                 if text.count > 0  {
-                    self.titleLengthLabel.text = "\(text.count)/30"
                     self.nextButton.backgroundColor = .yellow200
                     self.nextButton.isEnabled = true
-                    if text.count > 30 {
+                    if text.count <= 30 {
+                        let str =  "\(text.count)/30"
+                        self.titleLengthLabel.text = str
+                        let attributedString = NSMutableAttributedString(string: self.titleLengthLabel.text!)
+                        let firstIndex:String.Index = str.firstIndex(of: "/")!
+                        let substr = str[...firstIndex]
+                        attributedString.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.titleLengthLabel.text! as NSString).range(of: String(substr)))
+                        self.titleLengthLabel.attributedText = attributedString
+                    }else{
                         let index = text.index(text.startIndex, offsetBy: 30)
-                        let newStr = text[text.startIndex ..< index]
-                        self.titleTextField.text = String(newStr)
+                        self.titleTextField.text = String(text[..<index])
                     }
                 } else {
+                    self.titleLengthLabel.text = "0/30"
                     self.nextButton.backgroundColor = .grayScale500
                     self.nextButton.isEnabled = false
                 }
