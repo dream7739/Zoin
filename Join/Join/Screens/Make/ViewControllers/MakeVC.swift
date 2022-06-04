@@ -229,48 +229,6 @@ class MakeVC: BaseViewController {
     }
 }
 
-extension MakeVC: UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == dateTextField {
-            return false
-        }
-        return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.layer.borderColor = UIColor.grayScale400.cgColor
-        textField.layer.cornerRadius = 20
-        textField.layer.borderWidth = 2.0
-        
-        //dateTextField가 아닐 경우 피커 팝업을 삭제
-        if textField != dateTextField {
-            popupView.removeFromSuperview()
-            dateTextField.layer.borderWidth = 0
-        }
-        
-        
-        //사용자 터치로 인해 firstResponder가 변경될 시 ment변경
-        switch textField {
-        case titleTextField:
-            mentLabel.text =  "번개 제목을\n자유롭게 입력해 주세요."
-        case placeTextField:
-            mentLabel.text = "어디로 모이면 될까요?"
-        case participantTextField:
-            mentLabel.text = "함께할 인원을 정해주세요."
-        default:
-            return
-        }
-        
-    }
-    
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.layer.borderWidth = 0
-    }
-    
-    
-}
-
 extension MakeVC {
     
     private func setLayout() {
@@ -281,10 +239,7 @@ extension MakeVC {
         view.backgroundColor = .grayScale900
         view.isOpaque = true
         
-        view.adds([mentLabel,
-                   entireStackView,
-                   nextButton
-                  ])
+        view.adds([mentLabel, entireStackView, nextButton])
         
         entireStackView.addArrangedSubview(titleStackView)
         
@@ -335,10 +290,6 @@ extension MakeVC {
     }
     
     private func bind() {
-        titleTextField.delegate = self
-        dateTextField.delegate = self
-        placeTextField.delegate = self
-        participantTextField.delegate = self
         
         //키보드 높이 설정
         RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
@@ -376,6 +327,113 @@ extension MakeVC {
         
         
         //텍스트 필드 이벤트
+        //dateTextField 키보드 내리는 이벤트
+        dateTextField.rx.controlEvent([.editingDidBegin, .editingDidEnd])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.dateTextField.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        
+        //titleTextField 포커스 시 테두리 적용
+        titleTextField.rx.controlEvent([.editingDidBegin])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.titleTextField.becomeFirstResponder()
+                self.mentLabel.text = "번개 제목을\n자유롭게 입력해 주세요."
+                self.titleTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                self.titleTextField.layer.cornerRadius = 20
+                self.titleTextField.layer.borderWidth = 2.0
+                self.dateTextField.layer.borderWidth = 0.0
+            }).disposed(by: disposeBag)
+        
+        
+        //titleTextField 포커스 잃을 때 테두리 삭제 처리
+        titleTextField.rx.controlEvent([.editingDidEnd])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.titleTextField.layer.borderWidth = 0.0
+                self.titleTextField.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        
+        //titleTextField 터치 시 팝업뷰가 있으면 삭제
+        titleTextField.rx.controlEvent([.touchDown])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                if self.view.subviews.contains(self.popupView){
+                    self.popupView.removeFromSuperview()
+                }
+            }).disposed(by: disposeBag)
+        
+        
+        
+        //placeTextField 포커스 시 테두리 적용
+        placeTextField.rx.controlEvent([.editingDidBegin])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.placeTextField.becomeFirstResponder()
+                self.mentLabel.text = "어디로 모이면 될까요?"
+                self.placeTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                self.placeTextField.layer.cornerRadius = 20
+                self.placeTextField.layer.borderWidth = 2.0
+                self.dateTextField.layer.borderWidth = 0.0
+            }).disposed(by: disposeBag)
+        
+        
+        //placeTextField 포커스 잃을 때 테두리 삭제 처리
+        placeTextField.rx.controlEvent([.editingDidEnd])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.placeTextField.layer.borderWidth = 0.0
+                self.placeTextField.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        
+        //placeTextField 터치 시 팝업뷰가 있으면 삭제
+        placeTextField.rx.controlEvent([.touchDown])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                if self.view.subviews.contains(self.popupView){
+                    self.popupView.removeFromSuperview()
+                }
+            }).disposed(by: disposeBag)
+        
+        
+        //participantTextField 포커스 시 테두리 적용
+        participantTextField.rx.controlEvent([.editingDidBegin])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.participantTextField.becomeFirstResponder()
+                self.mentLabel.text = "함께할 인원을 정해주세요."
+                self.participantTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                self.participantTextField.layer.cornerRadius = 20
+                self.participantTextField.layer.borderWidth = 2.0
+                self.dateTextField.layer.borderWidth = 0.0
+            }).disposed(by: disposeBag)
+        
+        
+        //participantTextField 포커스 잃을 때 테두리 삭제 처리
+        participantTextField.rx.controlEvent([.editingDidEnd])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.participantTextField.layer.borderWidth = 0.0
+                self.participantTextField.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        
+        //participantTextField 터치 시 팝업뷰가 있으면 삭제 & 멘트 변경
+        participantTextField.rx.controlEvent([.touchDown])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                if self.view.subviews.contains(self.popupView){
+                    self.popupView.removeFromSuperview()
+                }
+                
+            }).disposed(by: disposeBag)
+        
+        
+        
         titleTextField.rx.text
             .do{ [weak self] text in
                 guard let self = self,
@@ -567,9 +625,7 @@ extension MakeVC {
                 
             case 3:
                 entireStackView.insertArrangedSubview(participantView, at: 0)
-                participantView.adds([subParticipantLabel
-                                      ,participantTextField
-                                      ,(participantLabel)])
+                participantView.adds([subParticipantLabel, participantTextField, participantLabel])
                 
                 
                 

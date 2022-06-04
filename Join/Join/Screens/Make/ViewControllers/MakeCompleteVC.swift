@@ -131,7 +131,7 @@ extension MakeCompleteVC {
                 self.listFlag = true
                 NotificationCenter.default.post(name: NSNotification.Name("listFlag"), object: self.listFlag)
                 self.navigationController?.popToRootViewController(animated: true)
-
+                
             })
             .disposed(by: disposeBag)
         
