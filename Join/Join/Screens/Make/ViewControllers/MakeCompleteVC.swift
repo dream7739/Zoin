@@ -19,7 +19,8 @@ class MakeCompleteVC: BaseViewController {
     
     private let mentLabel = UILabel().then {
         $0.text = "추카추카!\n내 소중한 번개가 열렸어요"
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 24, family: .Bold)
         $0.textAlignment = .center
         $0.numberOfLines = 0
     }
@@ -27,6 +28,8 @@ class MakeCompleteVC: BaseViewController {
     private let subMentLabel = UILabel().then {
         $0.textAlignment = .center
         $0.text = "친구들이 모이길 기다려봅시다."
+        $0.textColor = .yellow100
+        $0.font = .minsans(size: 16, family: .Medium)
     }
     
     private let completeImageView = UIImageView().then {
@@ -40,15 +43,19 @@ class MakeCompleteVC: BaseViewController {
     }
     
     private let anotherJoinBtn = UIButton().then {
-        $0.backgroundColor = .lightGray
-        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .white
+        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.layer.cornerRadius = 16
+        $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         $0.setTitle("다른 번개 보기", for: .normal)
         $0.layer.cornerRadius = 20
     }
     
     private let confirmBtn = UIButton().then {
-        $0.backgroundColor = .lightGray
-        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.layer.cornerRadius = 16
+        $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         $0.setTitle("확인하기", for: .normal)
         $0.layer.cornerRadius = 20
     }
@@ -65,8 +72,10 @@ class MakeCompleteVC: BaseViewController {
 
 extension MakeCompleteVC {
     private func setLayout() {
-        setNavigationBar(isHidden: false)
+        setNavigationBar(isHidden: true)
         
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         
         view.adds([mentLabel
                    ,subMentLabel
@@ -122,7 +131,7 @@ extension MakeCompleteVC {
                 self.listFlag = true
                 NotificationCenter.default.post(name: NSNotification.Name("listFlag"), object: self.listFlag)
                 self.navigationController?.popToRootViewController(animated: true)
-
+                
             })
             .disposed(by: disposeBag)
         

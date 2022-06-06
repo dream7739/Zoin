@@ -18,7 +18,8 @@ class MakeVC: BaseViewController {
     
     private let mentLabel = UILabel().then {
         $0.text = "번개 제목을\n자유롭게 입력해 주세요."
-        $0.textColor = .black
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 24, family: .Bold)
         $0.numberOfLines = 0
     }
     
@@ -60,29 +61,42 @@ class MakeVC: BaseViewController {
     //제목
     private let subTitleLabel = UILabel().then {
         $0.text = "제목"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     
     private let titleTextField = UITextField().then {
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.placeholder = "제목입력"
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
     
     private let titleLengthLabel = UILabel().then {
         $0.text = "0/30"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
         $0.textAlignment = .right
     }
     
     //날짜
     private let subDateLabel = UILabel().then {
         $0.text = "날짜"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     
     private let dateTextField = UITextField().then {
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
     
@@ -90,13 +104,18 @@ class MakeVC: BaseViewController {
     //장소
     private let subPlaceLabel = UILabel().then {
         $0.text = "장소"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     
     private let placeTextField = UITextField().then {
-        $0.tintColor = .black
         $0.placeholder = "구체적인 만날 장소를 입력해 주세요"
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
     
@@ -104,24 +123,33 @@ class MakeVC: BaseViewController {
     //참여인원
     private let subParticipantLabel = UILabel().then {
         $0.text = "참여 인원"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     
     private let participantTextField = UITextField().then {
-        $0.tintColor = .black
-        $0.backgroundColor = .lightGray
-        $0.borderStyle = .roundedRect
+        $0.setPlaceHolderColor(.grayScale600)
+        $0.tintColor = .yellow200
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 20
         $0.addLeftPadding()
     }
     
     private let participantLabel = UILabel().then {
         $0.text = "명"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 16, family: .Medium)
         $0.textAlignment = .left
     }
     
     private let nextButton = UIButton().then {
-        $0.backgroundColor = .lightGray
-        $0.setTitleColor(.black, for: .normal)
+        $0.backgroundColor = .grayScale500
+        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
     }
     
     
@@ -160,7 +188,7 @@ class MakeVC: BaseViewController {
         $0.addTarget(self, action: #selector(changed), for: .valueChanged)
     }
     
-
+    
     var resetBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .lightGray
@@ -181,12 +209,16 @@ class MakeVC: BaseViewController {
         super.viewDidLoad()
         setLayout()
         bind()
-        dateTextField.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: true)
         titleTextField.becomeFirstResponder()
+        titleTextField.text = ""
+        dateTextField.text = ""
+        placeTextField.text = ""
+        participantTextField.text = ""
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -197,32 +229,17 @@ class MakeVC: BaseViewController {
     }
 }
 
-extension MakeVC : UITextFieldDelegate{
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == dateTextField{
-            return false
-        }
-        return true
-    }
-    
-    @objc private func changed(){
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        let date = dateFormatter.string(from: joinDatePicker.date)
-        dateTextField.text = date
-    }
+extension MakeVC {
     
     private func setLayout() {
         setTabBarHidden(isHidden: true)
         setNavigationBar(isHidden: false)
         setNavigationName(title: "번개작성")
         
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
         
-        view.adds([mentLabel,
-                   entireStackView,
-                   nextButton
-                  ])
+        view.adds([mentLabel, entireStackView, nextButton])
         
         entireStackView.addArrangedSubview(titleStackView)
         
@@ -273,9 +290,11 @@ extension MakeVC : UITextFieldDelegate{
     }
     
     private func bind() {
+        
+        //키보드 높이 설정
         RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
             guard let self = self else { return }
-
+            
             self.nextButton.layer.cornerRadius = 0
             self.nextButton.snp.updateConstraints{
                 $0.leading.trailing.equalToSuperview().offset(0)
@@ -296,6 +315,8 @@ extension MakeVC : UITextFieldDelegate{
             }
         }).disposed(by: disposeBag)
         
+        
+        //다음 버튼 탭 액션
         nextButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -305,19 +326,196 @@ extension MakeVC : UITextFieldDelegate{
             .disposed(by: disposeBag)
         
         
+        //텍스트 필드 이벤트
+        //dateTextField 키보드 내리는 이벤트
+        dateTextField.rx.controlEvent([.editingDidBegin, .editingDidEnd])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.dateTextField.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        
+        //titleTextField 포커스 시 테두리 적용
+        titleTextField.rx.controlEvent([.editingDidBegin])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.titleTextField.becomeFirstResponder()
+                self.mentLabel.text = "번개 제목을\n자유롭게 입력해 주세요."
+                self.titleTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                self.titleTextField.layer.cornerRadius = 20
+                self.titleTextField.layer.borderWidth = 2.0
+                self.dateTextField.layer.borderWidth = 0.0
+            }).disposed(by: disposeBag)
+        
+        
+        //titleTextField 포커스 잃을 때 테두리 삭제 처리
+        titleTextField.rx.controlEvent([.editingDidEnd])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.titleTextField.layer.borderWidth = 0.0
+                self.titleTextField.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        
+        //titleTextField 터치 시 팝업뷰가 있으면 삭제
+        titleTextField.rx.controlEvent([.touchDown])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                if self.view.subviews.contains(self.popupView){
+                    self.popupView.removeFromSuperview()
+                }
+            }).disposed(by: disposeBag)
+        
+        
+        
+        //placeTextField 포커스 시 테두리 적용
+        placeTextField.rx.controlEvent([.editingDidBegin])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.placeTextField.becomeFirstResponder()
+                self.mentLabel.text = "어디로 모이면 될까요?"
+                self.placeTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                self.placeTextField.layer.cornerRadius = 20
+                self.placeTextField.layer.borderWidth = 2.0
+                self.dateTextField.layer.borderWidth = 0.0
+            }).disposed(by: disposeBag)
+        
+        
+        //placeTextField 포커스 잃을 때 테두리 삭제 처리
+        placeTextField.rx.controlEvent([.editingDidEnd])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.placeTextField.layer.borderWidth = 0.0
+                self.placeTextField.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        
+        //placeTextField 터치 시 팝업뷰가 있으면 삭제
+        placeTextField.rx.controlEvent([.touchDown])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                if self.view.subviews.contains(self.popupView){
+                    self.popupView.removeFromSuperview()
+                }
+            }).disposed(by: disposeBag)
+        
+        
+        //participantTextField 포커스 시 테두리 적용
+        participantTextField.rx.controlEvent([.editingDidBegin])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.participantTextField.becomeFirstResponder()
+                self.mentLabel.text = "함께할 인원을 정해주세요."
+                self.participantTextField.layer.borderColor = UIColor.grayScale400.cgColor
+                self.participantTextField.layer.cornerRadius = 20
+                self.participantTextField.layer.borderWidth = 2.0
+                self.dateTextField.layer.borderWidth = 0.0
+            }).disposed(by: disposeBag)
+        
+        
+        //participantTextField 포커스 잃을 때 테두리 삭제 처리
+        participantTextField.rx.controlEvent([.editingDidEnd])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                self.participantTextField.layer.borderWidth = 0.0
+                self.participantTextField.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        
+        //participantTextField 터치 시 팝업뷰가 있으면 삭제 & 멘트 변경
+        participantTextField.rx.controlEvent([.touchDown])
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { _ in
+                if self.view.subviews.contains(self.popupView){
+                    self.popupView.removeFromSuperview()
+                }
+                
+            }).disposed(by: disposeBag)
+        
+        
+        
+        titleTextField.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0  {
+                    self.nextButton.backgroundColor = .yellow200
+                    self.nextButton.isEnabled = true
+                    if text.count <= 30 {
+                        let str =  "\(text.count)/30"
+                        self.titleLengthLabel.text = str
+                        let attributedString = NSMutableAttributedString(string: self.titleLengthLabel.text!)
+                        let firstIndex:String.Index = str.firstIndex(of: "/")!
+                        let substr = str[...firstIndex]
+                        attributedString.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.titleLengthLabel.text! as NSString).range(of: String(substr)))
+                        self.titleLengthLabel.attributedText = attributedString
+                    }else{
+                        let index = text.index(text.startIndex, offsetBy: 30)
+                        self.titleTextField.text = String(text[..<index])
+                    }
+                } else {
+                    self.titleLengthLabel.text = "0/30"
+                    self.nextButton.backgroundColor = .grayScale500
+                    self.nextButton.isEnabled = false
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
+                
+            })
+            .disposed(by: disposeBag)
+        
+        
+        placeTextField.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0  {
+                    self.nextButton.backgroundColor = .yellow200
+                    self.nextButton.isEnabled = true
+                } else {
+                    self.nextButton.backgroundColor = .grayScale500
+                    self.nextButton.isEnabled = false
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
+                
+            })
+            .disposed(by: disposeBag)
+        
+        
+        participantTextField.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0  {
+                    self.nextButton.backgroundColor = .yellow200
+                    self.nextButton.isEnabled = true
+                } else {
+                    self.nextButton.backgroundColor = .grayScale500
+                    self.nextButton.isEnabled = false
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
+                
+            })
+            .disposed(by: disposeBag)
+        
+        
         //시간 선택 팝업 버튼 이벤트
         resetBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.setupAppearance()
                 self?.dateTextField.text = "상관없음"
-                self?.datePopupView.removeFromSuperview()
+                self?.popupView.removeFromSuperview()
             })
             .disposed(by: disposeBag)
         
         confirmBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.setupAppearance()
-                self?.datePopupView.removeFromSuperview()
+                self?.popupView.removeFromSuperview()
+                self?.placeTextField.becomeFirstResponder()
             })
             .disposed(by: disposeBag)
         
@@ -325,18 +523,19 @@ extension MakeVC : UITextFieldDelegate{
         
     }
     
+    
+    
     @objc private func openDateView(){
+        mentLabel.text = "언제 만나는게 좋을까요?"
+        dateTextField.layer.borderColor = UIColor.grayScale400.cgColor
+        dateTextField.layer.cornerRadius = 20
+        dateTextField.layer.borderWidth = 2.0
+        
         stackView1.addArrangedSubview(resetBtn)
         stackView1.addArrangedSubview(confirmBtn)
-
-    
-        datePopupView.adds([popupView, popUpLabel, joinDatePicker, stackView1])
-        view.add(datePopupView)
-        setupTransParentColor()
-        datePopupView.snp.makeConstraints{
-            $0.leading.trailing.top.bottom.equalTo(view)
-        }
         
+        popupView.adds([popUpLabel, joinDatePicker, stackView1])
+        view.add(popupView)
         
         popupView.snp.makeConstraints{
             $0.leading.equalTo(view.snp.leading).offset(0)
@@ -357,7 +556,7 @@ extension MakeVC : UITextFieldDelegate{
             $0.height.equalTo(181)
         }
         
-    
+        
         stackView1.snp.makeConstraints{
             $0.top.equalTo(joinDatePicker.snp.bottom).offset(32)
             $0.leading.equalTo(popupView.snp.leading).offset(24)
@@ -365,6 +564,14 @@ extension MakeVC : UITextFieldDelegate{
             $0.height.equalTo(56)
         }
         
+    }
+    
+    @objc private func changed(){
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        let date = dateFormatter.string(from: joinDatePicker.date)
+        dateTextField.text = date
     }
     
     
@@ -418,9 +625,7 @@ extension MakeVC : UITextFieldDelegate{
                 
             case 3:
                 entireStackView.insertArrangedSubview(participantView, at: 0)
-                participantView.adds([subParticipantLabel
-                                      ,participantTextField
-                                      ,(participantLabel)])
+                participantView.adds([subParticipantLabel, participantTextField, participantLabel])
                 
                 
                 
@@ -445,14 +650,14 @@ extension MakeVC : UITextFieldDelegate{
                     $0.leading.equalTo(participantTextField.snp.trailing).offset(8)
                 }
                 participantTextField.becomeFirstResponder()
-
+                
             default:
                 return
             }
         }else{
-                let makeDetailVC = MakeDetailVC()
-                self.navigationController?.pushViewController(makeDetailVC, animated: true)
-            }
+            let makeDetailVC = MakeDetailVC()
+            self.navigationController?.pushViewController(makeDetailVC, animated: true)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
