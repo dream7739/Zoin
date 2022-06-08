@@ -40,4 +40,16 @@ enum Image {
     static let cameraButton = UIImage(named: "cameraButton")
     static let profileDefault = UIImage(named: "profileDefault")
     static let profileCard = UIImage(named: "profileCard")
+    static let addFriendsBtn = UIImage(named: "addFriendsBtn")
+    static let pinkArchive = UIImage(named: "archive")
+    static let checkGradient = UIImage(named: "checkGradient")
+    static let edit = UIImage(named: "Edit")
+    static let friendListError = UIImage(named: "errorToast")
+    static let exitButton = UIImage(named: "exitBtn")
+    static let rectangle1112 = UIImage(named: "Rectangle 1112")
+    static let rectangle1114 = UIImage(named: "Rectangle 1114")
+    static let searchFriendsButton = UIImage(named: "searchFriendsBtn")
+    static let settingButton = UIImage(named: "setting")
+    static let settingCell = UIImage(named: "settingCell")
+    
 }
