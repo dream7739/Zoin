@@ -42,6 +42,7 @@ enum Image {
     static let profileCard = UIImage(named: "profileCard")
     static let addFriendsBtn = UIImage(named: "addFriendsBtn")
     static let pinkArchive = UIImage(named: "archive")
+    static let greenArchive = UIImage(named: "archiveGreen")
     static let checkGradient = UIImage(named: "checkGradient")
     static let edit = UIImage(named: "Edit")
     static let friendListError = UIImage(named: "errorToast")
@@ -51,5 +52,5 @@ enum Image {
     static let searchFriendsButton = UIImage(named: "searchFriendsBtn")
     static let settingButton = UIImage(named: "setting")
     static let settingCell = UIImage(named: "settingCell")
-    
+
 }
