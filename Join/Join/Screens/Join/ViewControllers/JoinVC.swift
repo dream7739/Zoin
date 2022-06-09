@@ -27,7 +27,7 @@ class JoinVC: BaseViewController {
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
+        $0.backgroundColor = .grayScale900
         $0.layer.cornerRadius = 40
         $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
     }
@@ -41,9 +41,9 @@ class JoinVC: BaseViewController {
     
     var indicatorLabel = UILabel().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .grayScale600
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 5
+        $0.layer.cornerRadius = 8
     }
     
     
@@ -75,44 +75,56 @@ class JoinVC: BaseViewController {
     var nameLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "장혜진"
-        $0.font = UIFont.boldSystemFont(ofSize: 16)
+        $0.font = .minsans(size: 16, family: .Bold)
+        $0.textColor = .grayScale100
     }
     
     var idLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "@b2_cka_"
+        $0.font = .minsans(size: 14, family: .Medium)
+        $0.textColor = .grayScale500
     }
     
     var countLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "2/3"
+        $0.font = .minsans(size: 14, family: .Medium)
+        $0.textColor = .grayScale100
     }
     
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "인생샷 찍으러 가자!"
-        $0.font = UIFont.boldSystemFont(ofSize: 30)
+        $0.font = .minsans(size: 24, family: .Bold)
+        $0.textColor = .grayScale100
     }
     
     var dateLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "오늘 오후 04:00"
+        $0.font = .minsans(size: 14, family: .Medium)
+        $0.textColor = .grayScale100
     }
     
     var placeLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "여의나루역 2번 출구 앞"
+        $0.font = .minsans(size: 14, family: .Medium)
+        $0.textColor = .grayScale100
     }
     
     var lineImage = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .grayScale800
     }
     
     var contentLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "이따 학원끝나고 시간나는김에 카페 한번 들리려하는데 나 놀아줄사람..?ㅠㅠ"
         $0.numberOfLines = 0
+        $0.font = .minsans(size: 16, family: .Regular)
+        $0.textColor = .grayScale100
     }
     
     var attendLabel = UILabel().then {
@@ -128,8 +140,10 @@ class JoinVC: BaseViewController {
     
     var joinBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .darkGray
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.setTitle("참여하기", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
         $0.layer.cornerRadius = 16
     }
@@ -175,7 +189,16 @@ extension JoinVC: CancelDelegate, FinishDelegate {
     }
     
     private func setLayout() {
-        self.view.backgroundColor = UIColor(red: 17/255, green: 23/255, blue: 35/255, alpha: 0.6)
+        self.view.backgroundColor = .black
+        
+        let attributedStr = NSMutableAttributedString(string: self.dateLabel.text!)
+        let font =  UIFont.minsans(size: 14, family: .Bold)
+        attributedStr.addAttribute(.font, value: font, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
+        attributedStr.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
+
+        
+        self.dateLabel.attributedText = attributedStr
+        
         view.add(popupView)
         
         btnStackView.addArrangedSubview(attendConfirmBtn)
