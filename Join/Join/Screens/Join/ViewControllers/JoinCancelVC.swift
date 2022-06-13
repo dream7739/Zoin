@@ -30,8 +30,8 @@ class JoinCancelVC: BaseViewController {
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
-        $0.layer.cornerRadius = 30
+        $0.backgroundColor = .grayScale800
+        $0.layer.cornerRadius = 32
     }
     
     var sadImage = UIImageView().then {
@@ -43,28 +43,35 @@ class JoinCancelVC: BaseViewController {
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "참여를 취소하시겠어요?"
-        $0.font = UIFont.boldSystemFont(ofSize: 25)
+        $0.font = .minsans(size: 20, family: .Bold)
+        $0.textColor = .grayScale100
     }
     
     var subTitleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "친구가 슬퍼할거에요."
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.textColor = .grayScale300
+        $0.text = "취소하더라도 다시 신청할 수 있어요."
     }
     
     var resetBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .white
         $0.setTitle("아니요", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.contentHorizontalAlignment = .center
-        $0.layer.cornerRadius = 16
+        $0.layer.cornerRadius = 20
     }
     
     var cancelBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .darkGray
+        $0.backgroundColor = .yellow200
         $0.setTitle("참여취소", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.contentHorizontalAlignment = .center
-        $0.layer.cornerRadius = 16
+        $0.layer.cornerRadius = 20
     }
     
     override func viewDidLoad() {
@@ -95,33 +102,33 @@ extension JoinCancelVC {
         ])
         
         popupView.snp.makeConstraints{
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(15)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-15)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-24)
             $0.centerY.equalTo(view.safeAreaLayoutGuide.snp.centerY)
-            $0.height.equalTo(350)
+            $0.height.equalTo(316)
         }
         
         sadImage.snp.makeConstraints {
-            $0.width.height.equalTo(60)
+            $0.width.height.equalTo(80)
             $0.top.equalToSuperview().offset(40)
             $0.centerX.equalTo(popupView.snp.centerX)
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(sadImage.snp.bottom).offset(30)
+            $0.top.equalTo(sadImage.snp.bottom).offset(24)
             $0.centerX.equalToSuperview()
         }
         
         subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(20)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(6)
             $0.centerX.equalToSuperview()
         }
     
         stackView1.snp.makeConstraints{
-            $0.top.equalTo(subTitleLabel.snp.bottom).offset(40)
-            $0.leading.equalTo(popupView.snp.leading).offset(20)
-            $0.trailing.equalTo(popupView.snp.trailing).offset(-20)
-            $0.height.equalTo(60)
+            $0.top.equalTo(subTitleLabel.snp.bottom).offset(32)
+            $0.leading.equalTo(popupView.snp.leading).offset(24)
+            $0.trailing.equalTo(popupView.snp.trailing).offset(-24)
+            $0.height.equalTo(56)
         }
         
 

@@ -21,6 +21,7 @@ class JoinVC: BaseViewController {
     
     var atndFlag = false //참여여부 플래그
     var joinType = 1 //임시 -> 1: 친구 번개 / 2: 내 번개
+    var isCanceled = false
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
     var delegate: FinishMainDelegate?
     var popupViewTopConstraint: Constraint? = nil
@@ -178,6 +179,7 @@ class JoinVC: BaseViewController {
 extension JoinVC: CancelDelegate, FinishDelegate {
     func cancelUpdate(isCanceled: Bool) {
         if(isCanceled){
+            self.isCanceled = isCanceled
             self.showToast(message: "번개 참여가 취소되었어요.")
         }
     }
@@ -428,20 +430,35 @@ extension JoinVC: CancelDelegate, FinishDelegate {
     private func showToast(message : String){
         let toastView = UIView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.backgroundColor = .yellow100
             $0.layer.cornerRadius = 16
+            
+            if self.isCanceled {
+                $0.backgroundColor = .grayScale200
+            }else{
+                $0.backgroundColor = .yellow100
+            }
+
         }
         
         let toastLabel = UILabel().then{
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.textColor = .orange100
             $0.font = .minsans(size: 14, family: .Bold)
             $0.text = message
+            
+            if self.isCanceled {
+                $0.textColor = .grayScale800
+            }else{
+                $0.textColor = .orange100
+            }
         }
         
         let toastIcon = UIImageView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.image = UIImage(named: "icon_thunder1")
+            if self.isCanceled {
+                $0.image = UIImage(named: "icon_cancel")
+            }else{
+                $0.image = UIImage(named: "icon_thunder1")
+            }
         }
         
         toastView.adds([toastLabel, toastIcon])
@@ -471,9 +488,16 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             toastView.alpha = 0.0
         }, completion: { _ in
            toastLabel.removeFromSuperview()
-            self.joinBtn.backgroundColor = .grayScale800
-            self.joinBtn.setTitleColor(.grayScale100, for: .normal)
-            self.joinBtn.setTitle("참여취소", for: .normal)
+            if self.isCanceled {
+                self.joinBtn.backgroundColor = .yellow200
+                self.joinBtn.setTitleColor(.grayScale800, for: .normal)
+                self.joinBtn.setTitle("참여하기", for: .normal)
+            }else {
+                self.joinBtn.backgroundColor = .grayScale800
+                self.joinBtn.setTitleColor(.grayScale100, for: .normal)
+                self.joinBtn.setTitle("참여취소", for: .normal)
+            }
+
         })
 
     }
