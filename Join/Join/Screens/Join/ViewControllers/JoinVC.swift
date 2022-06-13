@@ -42,8 +42,8 @@ class JoinVC: BaseViewController {
     var indicatorLabel = UILabel().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .grayScale600
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 8
+        $0.layer.masksToBounds = true
+        $0.layer.cornerRadius = 4
     }
     
     
@@ -130,10 +130,10 @@ class JoinVC: BaseViewController {
     var attendLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "참여중"
-        $0.backgroundColor  = .lightGray
+        $0.backgroundColor  = .pink100
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 5
-        $0.font = UIFont.systemFont(ofSize:13)
+        $0.font = .minsans(size: 12, family: .Bold)
         $0.textAlignment = .center
         $0.isHidden = true //초기에 보이지 않다가 참여 액션이 있을 때 보임
     }
@@ -192,8 +192,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         self.view.backgroundColor = .black
         
         let attributedStr = NSMutableAttributedString(string: self.dateLabel.text!)
-        let font =  UIFont.minsans(size: 14, family: .Bold)
-        attributedStr.addAttribute(.font, value: font, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
+        attributedStr.addAttribute(.font, value: UIFont.minsans(size: 14, family: .Bold)!, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
         attributedStr.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
 
         
@@ -325,9 +324,10 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         }
         
         attendLabel.snp.makeConstraints {
-            $0.leading.equalTo(countLabel.snp.trailing).offset(5)
-            $0.centerY.equalTo(countLabel)
-            $0.width.equalTo(40)
+            $0.trailing.equalToSuperview().offset(-24)
+            $0.top.equalToSuperview().offset(64)
+            $0.width.equalTo(53)
+            $0.height.equalTo(26)
         }
         
         joinBtn.snp.makeConstraints {
@@ -350,8 +350,8 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             .subscribe(onNext: { [weak self] _ in
                 if(!(self!.atndFlag)){
                     //토스트 출력 & 참여중 라벨 표시 & 참여취소로 버튼 변경
-                    self?.joinBtn.setTitle("참여취소", for: .normal)
-                    self?.joinBtn.backgroundColor = .lightGray
+                    self?.joinBtn.backgroundColor = .grayScale500
+                    self?.joinBtn.setTitleColor(.grayScale300, for: .normal)
                     self?.attendLabel.isHidden = false
                     self?.atndFlag = true
                     self?.showToast(message: "친구 번개에 참여했어요!")
@@ -426,28 +426,54 @@ extension JoinVC: CancelDelegate, FinishDelegate {
     
     
     private func showToast(message : String){
-        let toastLabel = UILabel().then {
+        let toastView = UIView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.backgroundColor = .black
-            $0.textColor = .white
-            $0.textAlignment = .center
-            $0.clipsToBounds = true
+            $0.backgroundColor = .yellow100
             $0.layer.cornerRadius = 16
+        }
+        
+        let toastLabel = UILabel().then{
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.textColor = .orange100
+            $0.font = .minsans(size: 14, family: .Bold)
             $0.text = message
         }
-        popupView.addSubview(toastLabel)
         
-        toastLabel.snp.makeConstraints {
+        let toastIcon = UIImageView().then {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.image = UIImage(named: "icon_thunder1")
+        }
+        
+        toastView.adds([toastLabel, toastIcon])
+        popupView.add(toastView)
+        
+        toastView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(56)
             $0.bottom.equalTo(joinBtn.snp.top).offset(-10)
         }
         
-        UIView.animate(withDuration: 1.5, delay: 0.01, animations: {
-           toastLabel.alpha = 0.0
+        toastIcon.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(21)
+            $0.width.equalTo(14)
+            $0.height.equalTo(18)
+            $0.centerY.equalToSuperview()
+        }
+        
+        toastLabel.snp.makeConstraints {
+            $0.leading.equalTo(toastIcon.snp.trailing).offset(13)
+            $0.centerY.equalTo(toastIcon.snp.centerY)
+        }
+    
+        
+        UIView.animate(withDuration: 1.5, delay: 0.01, options: .curveEaseInOut, animations: {
+            toastView.alpha = 0.0
         }, completion: { _ in
            toastLabel.removeFromSuperview()
+            self.joinBtn.backgroundColor = .grayScale800
+            self.joinBtn.setTitleColor(.grayScale100, for: .normal)
+            self.joinBtn.setTitle("참여취소", for: .normal)
         })
 
     }
