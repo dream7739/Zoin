@@ -30,35 +30,42 @@ class JoinFinishVC: BaseViewController {
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
+        $0.backgroundColor = .grayScale800
         $0.layer.cornerRadius = 30
     }
     
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "번개를 마감하시겠어요?"
-        $0.font = UIFont.boldSystemFont(ofSize: 18)
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 20, family: .Bold)
     }
     
     var subTitleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "번개에 대해 더이상 수정할 수 없어요."
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 16, family: .Medium)
     }
     
     var resetBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .white
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.setTitle("아니요", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
-        $0.layer.cornerRadius = 16
+        $0.layer.cornerRadius = 20
     }
     
     var finishBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .darkGray
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.setTitle("마감하기", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
-        $0.layer.cornerRadius = 16
+        $0.layer.cornerRadius = 20
     }
     
     override func viewDidLoad() {

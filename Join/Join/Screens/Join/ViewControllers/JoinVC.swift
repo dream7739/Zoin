@@ -151,18 +151,22 @@ class JoinVC: BaseViewController {
     
     var attendConfirmBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .white
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.setTitle("참여자 확인하기", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
-        $0.layer.cornerRadius = 16
+        $0.layer.cornerRadius = 20
     }
     
     var finishBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .darkGray
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.setTitle("마감하기", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
-        $0.layer.cornerRadius = 16
+        $0.layer.cornerRadius = 20
     }
     
     override func viewDidLoad() {
@@ -191,7 +195,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
     }
     
     private func setLayout() {
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = UIColor(red: 17/255, green: 23/255, blue: 35/255, alpha: 0.8)
         
         let attributedStr = NSMutableAttributedString(string: self.dateLabel.text!)
         attributedStr.addAttribute(.font, value: UIFont.minsans(size: 14, family: .Bold)!, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
@@ -492,6 +496,8 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 self.joinBtn.backgroundColor = .yellow200
                 self.joinBtn.setTitleColor(.grayScale800, for: .normal)
                 self.joinBtn.setTitle("참여하기", for: .normal)
+                self.attendLabel.isHidden = true
+                self.moreImg.isHidden = false
             }else {
                 self.joinBtn.backgroundColor = .grayScale800
                 self.joinBtn.setTitleColor(.grayScale100, for: .normal)
