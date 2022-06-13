@@ -18,7 +18,7 @@ class JoinMemberConfirmVC: BaseViewController {
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
+        $0.backgroundColor = .grayScale900
         $0.layer.cornerRadius = 32
         $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
         
@@ -29,23 +29,28 @@ class JoinMemberConfirmVC: BaseViewController {
         tableView.register(JoinMemberCell.self, forCellReuseIdentifier: JoinMemberCell.identifier)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = .grayScale900
         return tableView
     }()
     
     
     var memberCountLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "참여 N명"
-        $0.font = UIFont.boldSystemFont(ofSize: 25)
+        $0.text = "참여 10명"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 20, family: .Bold)
+
     }
     
     
     var confirmBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .darkGray
+        $0.backgroundColor = .white
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.setTitle("확인", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
-        $0.layer.cornerRadius = 16
+        $0.layer.cornerRadius = 20
     }
     
     override func viewDidLoad() {

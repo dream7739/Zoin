@@ -24,7 +24,7 @@ class JoinMemberCell : UITableViewCell {
     static let identifier = "JoinMemberCell"
     
     var containerView = UIView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = .grayScale900
     }
     
     var profileImg = UIImageView().then {
@@ -36,18 +36,24 @@ class JoinMemberCell : UITableViewCell {
     
     var nameLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "장혜진"
-        $0.font = UIFont.boldSystemFont(ofSize: 16)
+        $0.text = "김번개"
+        $0.textColor = .grayScale100
+        $0.font = .minsans(size: 16, family: .Medium)
     }
     
     var idLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "@b2_cka_"
+        $0.text = "@sssparkkkk"
+        $0.textColor = .grayScale500
+        $0.font = .minsans(size: 14, family: .Medium)
     }
     
     var ownerLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "개최자"
+        $0.textColor = .yellow200
+        $0.font = .minsans(size: 12, family: .Bold)
+
     }
     
     
