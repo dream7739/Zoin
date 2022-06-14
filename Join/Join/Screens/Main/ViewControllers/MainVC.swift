@@ -72,35 +72,40 @@ class MainVC: BaseViewController {
     
     var finishPopupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
+        $0.backgroundColor = .grayScale800
         $0.layer.cornerRadius = 32
     }
     
     var finishImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "icon_finish")
-        $0.contentMode = .scaleAspectFit
+        $0.image = UIImage(named: "icon_chk")
     }
     
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "번개를 마감했어요!"
-        $0.font = UIFont.boldSystemFont(ofSize: 25)
+        $0.font = .minsans(size: 20, family: .Bold)
+        $0.textColor = .grayScale100
+        $0.textAlignment = .center
     }
     
     var subTitleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.numberOfLines = 0
-        $0.textAlignment = .center
         $0.text = "마감된 번개는 프로필 보관함에서\n확인할 수 있어요."
+        $0.numberOfLines = 0
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.textColor = .grayScale300
+        $0.textAlignment = .center
     }
     
     var confirmBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .darkGray
+        $0.backgroundColor = .yellow200
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.setTitle("확인", for: .normal)
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
-        $0.layer.cornerRadius = 16
+        $0.layer.cornerRadius = 20
     }
     
     
@@ -216,9 +221,8 @@ extension MainVC {
         
         finishPopupView.snp.makeConstraints {
             $0.height.equalTo(342)
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().offset(24)
-            $0.trailing.equalToSuperview().offset(-24)
+            $0.width.equalTo(327)
+            $0.centerY.centerX.equalToSuperview()
         }
         
         finishImg.snp.makeConstraints {
