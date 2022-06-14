@@ -50,7 +50,7 @@ enum Image {
     static let rectangle1112 = UIImage(named: "Rectangle 1112")
     static let rectangle1114 = UIImage(named: "Rectangle 1114")
     static let searchFriendsButton = UIImage(named: "searchFriendsBtn")
-    static let settingButton = UIImage(named: "setting")
+    static let settingButton = UIImage(named: "Setting")
     static let settingCell = UIImage(named: "settingCell")
 
 }

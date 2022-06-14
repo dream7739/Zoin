@@ -40,6 +40,7 @@
 		F28AC7EE282CCBFD003EEF8A /* UIPageViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */; };
 		F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */; };
 		F28AC7F2282CD841003EEF8A /* OnboardingSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7F1282CD841003EEF8A /* OnboardingSlide.swift */; };
+		F28F8E78285887D5005FF435 /* FriendsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28F8E77285887D5005FF435 /* FriendsListVC.swift */; };
 		F29FE101281678080034C8A2 /* RegisterEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE100281678080034C8A2 /* RegisterEmailVC.swift */; };
 		F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */; };
 		F29FE105281678500034C8A2 /* RegisterPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE104281678500034C8A2 /* RegisterPasswordVC.swift */; };
@@ -96,6 +97,7 @@
 		F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViewController+.swift"; sourceTree = "<group>"; };
 		F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCVCell.swift; sourceTree = "<group>"; };
 		F28AC7F1282CD841003EEF8A /* OnboardingSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSlide.swift; sourceTree = "<group>"; };
+		F28F8E77285887D5005FF435 /* FriendsListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListVC.swift; sourceTree = "<group>"; };
 		F29FE100281678080034C8A2 /* RegisterEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEmailVC.swift; sourceTree = "<group>"; };
 		F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailVC.swift; sourceTree = "<group>"; };
 		F29FE104281678500034C8A2 /* RegisterPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPasswordVC.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				F214201128100BCF000D102D /* ProfileVC.swift */,
+				F28F8E77285887D5005FF435 /* FriendsListVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 				8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */,
 				88BE394E282D27720002722F /* MakeCompleteVC.swift in Sources */,
 				889E497C2816D8EA00AA2D9C /* TabBarVC.swift in Sources */,
+				F28F8E78285887D5005FF435 /* FriendsListVC.swift in Sources */,
 				889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
 				8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */,

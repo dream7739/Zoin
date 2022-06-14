@@ -41,6 +41,11 @@ class ProfileVC: BaseViewController {
         $0.font = .minsans(size: 16, family: .Medium)
     }
 
+    private let friendsListButton = UIButton().then {
+        $0.setTitle("", for: .normal)
+        $0.backgroundColor = .grayScale800
+    }
+
     private let friendsCountLabel = UILabel().then {
         $0.text = "123"
         $0.textColor = .yellow200
@@ -102,12 +107,14 @@ class ProfileVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        bind()
         // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUpNavigation()
+        setTabBarHidden(isHidden: false)
     }
 
 
@@ -128,10 +135,15 @@ extension ProfileVC {
             editButton,
             nicknameLabel,
             userIdLabel,
-            friendsCountLabel,
-            countSubLabel,
+            friendsListButton,
+            //friendsCountLabel,
+            //countSubLabel,
             separateView,
             searchButton
+        ])
+        friendsListButton.adds([
+            friendsCountLabel,
+            countSubLabel
         ])
         boxButton.adds([
             boxLabel,
@@ -173,25 +185,32 @@ extension ProfileVC {
             make.centerX.equalToSuperview()
         }
 
-        friendsCountLabel.snp.makeConstraints { (make) in
+        friendsListButton.snp.makeConstraints { (make) in
             make.top.equalTo(userIdLabel.snp.bottom).offset(40)
             make.leading.equalToSuperview().offset(60)
+            make.width.equalTo(47)
+            make.height.equalTo(54)
+        }
+
+        friendsCountLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(2)
+            make.centerX.equalToSuperview()
         }
 
         countSubLabel.snp.makeConstraints { (make) in
             make.top.equalTo(friendsCountLabel.snp.bottom).offset(2)
-            make.leading.equalTo(friendsCountLabel.snp.leading)
+            make.centerX.equalToSuperview()
         }
 
         separateView.snp.makeConstraints { (make) in
             make.top.equalTo(userIdLabel.snp.bottom).offset(36)
             make.width.equalTo(2)
             make.height.equalTo(60)
-            make.leading.equalTo(countSubLabel.snp.trailing).offset(60)
+            make.leading.equalTo(friendsListButton.snp.trailing).offset(60)
         }
 
         searchButton.snp.makeConstraints { (make) in
-            make.top.equalTo(friendsCountLabel.snp.top)
+            make.top.equalTo(friendsListButton.snp.top)
             make.leading.equalTo(separateView.snp.trailing).offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.width.equalTo(116)
@@ -209,6 +228,26 @@ extension ProfileVC {
             make.size.equalTo(156)
         }
 
+        boxLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(16)
+        }
+
+        boxImage.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview().offset(-16)
+            make.size.equalTo(64)
+        }
+
+        closedBoxLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(16)
+        }
+        closedBoxImage.snp.makeConstraints { (make) in
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview().offset(-16)
+            make.size.equalTo(64)
+        }
         closedBoxButton.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom).offset(24)
             make.leading.equalTo(boxButton.snp.trailing).offset(20)
@@ -223,17 +262,26 @@ extension ProfileVC {
         navigationBar.barTintColor = .white
         navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = false
-        navigationItem.hidesBackButton = true
-        let passButton = UIBarButtonItem(title: "건너뛰기", style: .plain, target: self, action: #selector(moveLast))
+        // navigationItem.hidesBackButton = true
+        let settingImage = Image.settingButton?.withAlignmentRectInsets(UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 6.0))
+            .withTintColor(.white)
+            .withRenderingMode(.alwaysOriginal)
+        let passButton = UIBarButtonItem(image: settingImage, style: .plain, target: self, action: #selector(moveLast))
         navigationItem.rightBarButtonItem = passButton
-        navigationItem.rightBarButtonItem?.setTitleTextAttributes([
+        /* navigationItem.rightBarButtonItem?.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.minsans(size: 18, family: .Bold) ?? UIFont.systemFont(ofSize: 18),
             NSAttributedString.Key.foregroundColor: UIColor.white
-        ], for: .normal)
+        ], for: .normal) */
     }
 
     private func bind() {
+        friendsListButton.rx.tap.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            let viewController = FriendsListVC()
+            self.navigationController?.pushViewController(viewController, animated: true)
 
+        })
+        .disposed(by: disposeBag)
     }
 
     @objc func moveLast() {
