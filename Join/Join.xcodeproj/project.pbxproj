@@ -38,6 +38,8 @@
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
 		F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */; };
 		F2856356285B2BFF003B9AF8 /* FriendsSearchCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856355285B2BFF003B9AF8 /* FriendsSearchCVCell.swift */; };
+		F2856358285B3AAE003B9AF8 /* OpenedMeetingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856357285B3AAE003B9AF8 /* OpenedMeetingVC.swift */; };
+		F285635B285B3B65003B9AF8 /* OpenedMeetingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F285635A285B3B65003B9AF8 /* OpenedMeetingCVCell.swift */; };
 		F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7EB282CC02B003EEF8A /* CautionVC.swift */; };
 		F28AC7EE282CCBFD003EEF8A /* UIPageViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */; };
 		F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */; };
@@ -100,6 +102,8 @@
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSearchVC.swift; sourceTree = "<group>"; };
 		F2856355285B2BFF003B9AF8 /* FriendsSearchCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSearchCVCell.swift; sourceTree = "<group>"; };
+		F2856357285B3AAE003B9AF8 /* OpenedMeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenedMeetingVC.swift; sourceTree = "<group>"; };
+		F285635A285B3B65003B9AF8 /* OpenedMeetingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenedMeetingCVCell.swift; sourceTree = "<group>"; };
 		F28AC7EB282CC02B003EEF8A /* CautionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionVC.swift; sourceTree = "<group>"; };
 		F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViewController+.swift"; sourceTree = "<group>"; };
 		F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCVCell.swift; sourceTree = "<group>"; };
@@ -250,6 +254,7 @@
 		F214201528100FB0000D102D /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				F2856359285B3ABC003B9AF8 /* Meeting */,
 				F2A4A00D285A268A0076A8A1 /* Friends */,
 				88BE3949282D27240002722F /* Make */,
 				F214201D281017CC000D102D /* Login */,
@@ -356,6 +361,15 @@
 				F214202028101AE3000D102D /* BaseTargetType.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		F2856359285B3ABC003B9AF8 /* Meeting */ = {
+			isa = PBXGroup;
+			children = (
+				F2856357285B3AAE003B9AF8 /* OpenedMeetingVC.swift */,
+				F285635A285B3B65003B9AF8 /* OpenedMeetingCVCell.swift */,
+			);
+			path = Meeting;
 			sourceTree = "<group>";
 		};
 		F28AC7F3282CD846003EEF8A /* Models */ = {
@@ -590,11 +604,13 @@
 				F214200E28100B74000D102D /* MainVC.swift in Sources */,
 				F2A4A00F285A2FF80076A8A1 /* FriendsListCVCell.swift in Sources */,
 				F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */,
+				F285635B285B3B65003B9AF8 /* OpenedMeetingCVCell.swift in Sources */,
 				887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */,
 				F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */,
 				F2A4A016285A313C0076A8A1 /* ViewModelType.swift in Sources */,
 				88BE3950282D27820002722F /* MakeDetailVC.swift in Sources */,
 				F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */,
+				F2856358285B3AAE003B9AF8 /* OpenedMeetingVC.swift in Sources */,
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
 				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,

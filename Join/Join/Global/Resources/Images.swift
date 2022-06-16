@@ -54,4 +54,5 @@ enum Image {
     static let settingCell = UIImage(named: "settingCell")
     static let searchButton = UIImage(named: "search")
     static let searchSelectedButton = UIImage(named: "searchSelected")
+    static let statusImage = UIImage(named: "statusImg")
 }
