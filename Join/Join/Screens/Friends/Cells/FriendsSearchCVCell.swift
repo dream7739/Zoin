@@ -76,4 +76,10 @@ extension FriendsSearchCVCell {
 
         }
     }
+
+    func bind() {
+        profileImageView.image = Image.profile
+        userNameLabel.text = "이용자이름"
+        userIdLabel.text = "이것은 임시입니다."
+    }
 }

@@ -52,5 +52,6 @@ enum Image {
     static let searchFriendsButton = UIImage(named: "searchFriendsBtn")
     static let settingButton = UIImage(named: "Setting")
     static let settingCell = UIImage(named: "settingCell")
-
+    static let searchButton = UIImage(named: "search")
+    static let searchSelectedButton = UIImage(named: "searchSelected")
 }

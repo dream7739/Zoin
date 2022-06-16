@@ -282,6 +282,14 @@ extension ProfileVC {
 
         })
         .disposed(by: disposeBag)
+
+        searchButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let viewController = FriendsSearchVC()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 
     @objc func moveLast() {
