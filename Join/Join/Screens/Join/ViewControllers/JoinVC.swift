@@ -189,9 +189,9 @@ extension JoinVC: CancelDelegate, FinishDelegate {
     }
     
     func finishUpdate() {
-      dismiss(animated: true, completion: {
-                self.delegate?.finishMainUpdate() //메인에서 팝업 노출
-      })
+        dismiss(animated: true, completion: {
+            self.delegate?.finishMainUpdate() //메인에서 팝업 노출
+        })
     }
     
     private func setLayout() {
@@ -200,7 +200,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         let attributedStr = NSMutableAttributedString(string: self.dateLabel.text!)
         attributedStr.addAttribute(.font, value: UIFont.minsans(size: 14, family: .Bold)!, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
         attributedStr.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
-
+        
         
         self.dateLabel.attributedText = attributedStr
         
@@ -240,7 +240,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         //dismiss gesture 추가
         viewTranslation = CGPoint(x: popupView.frame.minX, y: popupView.frame.minY)
-       
+        
         popupView.addGestureRecognizer(UIPanGestureRecognizer(target:self, action: #selector(handleDismiss)))
         
         popupView.snp.makeConstraints{
@@ -254,7 +254,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             $0.centerX.equalToSuperview()
             $0.width.equalTo(48)
             $0.height.equalTo(6)
-
+            
         }
         
         profileImg.snp.makeConstraints {
@@ -398,10 +398,10 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                     alert.addAction(cancel)
                     alert.addAction(modify)
                     alert.addAction(delete)
-                   
-                     alert.view.tintColor = .grayScale900
+                    
+                    alert.view.tintColor = .grayScale900
                     self?.present(alert, animated: true)
-                   
+                    
                 }else{
                 }
             })
@@ -467,7 +467,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             }else{
                 $0.backgroundColor = .yellow50
             }
-
+            
         }
         
         let toastLabel = UILabel().then{
@@ -512,12 +512,12 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             $0.leading.equalTo(toastIcon.snp.trailing).offset(13)
             $0.centerY.equalTo(toastIcon.snp.centerY)
         }
-    
+        
         
         UIView.animate(withDuration: 1.5, delay: 0.01, options: .curveEaseInOut, animations: {
             toastView.alpha = 0.0
         }, completion: { _ in
-           toastLabel.removeFromSuperview()
+            toastLabel.removeFromSuperview()
             if self.isCanceled {
                 self.joinBtn.backgroundColor = .yellow200
                 self.joinBtn.setTitleColor(.grayScale800, for: .normal)
@@ -529,9 +529,9 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 self.joinBtn.setTitleColor(.grayScale100, for: .normal)
                 self.joinBtn.setTitle("참여취소", for: .normal)
             }
-
+            
         })
-
+        
     }
     
     

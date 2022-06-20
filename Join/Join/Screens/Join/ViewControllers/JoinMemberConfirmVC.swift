@@ -39,7 +39,7 @@ class JoinMemberConfirmVC: BaseViewController {
         $0.text = "참여 10명"
         $0.textColor = .grayScale100
         $0.font = .minsans(size: 20, family: .Bold)
-
+        
     }
     
     

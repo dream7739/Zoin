@@ -173,7 +173,7 @@ class JoinModifyVC: BaseViewController {
         $0.backgroundColor = .grayScale500
         $0.setTitleColor(.grayScale900, for: .normal)
         $0.layer.cornerRadius = 16
-        $0.setTitle("다음", for: .normal)
+        $0.setTitle("수정하기", for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
     }
     

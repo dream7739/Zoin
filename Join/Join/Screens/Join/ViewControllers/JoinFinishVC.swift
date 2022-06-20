@@ -91,7 +91,7 @@ extension JoinFinishVC {
             titleLabel,
             subTitleLabel,
             stackView1
-
+            
         ])
         
         popupView.snp.makeConstraints{
@@ -111,7 +111,7 @@ extension JoinFinishVC {
             $0.top.equalTo(titleLabel.snp.bottom).offset(6)
             $0.centerX.equalTo(titleLabel.snp.centerX)
         }
-    
+        
         stackView1.snp.makeConstraints{
             $0.top.equalTo(subTitleLabel.snp.bottom).offset(32)
             $0.leading.equalTo(popupView.snp.leading).offset(24)
@@ -119,8 +119,8 @@ extension JoinFinishVC {
             $0.height.equalTo(56)
         }
         
-
-       
+        
+        
     }
     
     private func bind(){
