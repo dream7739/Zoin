@@ -53,9 +53,9 @@ class JoinVC: BaseViewController {
         $0.image = UIImage(named: "profile")
     }
     
-    var moreImg = UIImageView().then {
+    var moreBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "icon_more")
+        $0.setBackgroundImage(UIImage(named: "icon_more"), for: .normal)
     }
     
     var timeImg = UIImageView().then {
@@ -212,7 +212,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         popupView.adds([
             indicatorLabel,
             profileImg,
-            moreImg,
+            moreBtn,
             timeImg,
             placeImg,
             attendImg,
@@ -231,7 +231,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         
         if(joinType == 1){
-            moreImg.isHidden = true
+            moreBtn.isHidden = true
             btnStackView.isHidden = true
         }else{
             joinBtn.isHidden = true
@@ -263,7 +263,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             $0.leading.equalToSuperview().offset(24)
         }
         
-        moreImg.snp.makeConstraints {
+        moreBtn.snp.makeConstraints {
             $0.width.height.equalTo(24)
             $0.top.equalTo(profileImg)
             $0.trailing.equalToSuperview().offset(-24)
@@ -381,6 +381,32 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             })
             .disposed(by: disposeBag)
         
+        
+        moreBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                if self!.joinType == 2{
+                    //actionSheet 출력 (수정/삭제)
+                    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                    let modify = UIAlertAction(title: "수정", style: .default, handler: {_ in
+                        let joinModifyVC = JoinModifyVC()
+                        joinModifyVC.modalPresentationStyle = .fullScreen
+                        self?.present(joinModifyVC, animated: true)
+                    })
+                    let delete = UIAlertAction(title: "삭제", style: .default, handler: nil)
+                    let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+                    
+                    alert.addAction(cancel)
+                    alert.addAction(modify)
+                    alert.addAction(delete)
+                   
+                     alert.view.tintColor = .grayScale900
+                    self?.present(alert, animated: true)
+                   
+                }else{
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     
@@ -439,7 +465,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             if self.isCanceled {
                 $0.backgroundColor = .grayScale200
             }else{
-                $0.backgroundColor = .yellow100
+                $0.backgroundColor = .yellow50
             }
 
         }
@@ -497,7 +523,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 self.joinBtn.setTitleColor(.grayScale800, for: .normal)
                 self.joinBtn.setTitle("참여하기", for: .normal)
                 self.attendLabel.isHidden = true
-                self.moreImg.isHidden = false
+                self.moreBtn.isHidden = false
             }else {
                 self.joinBtn.backgroundColor = .grayScale800
                 self.joinBtn.setTitleColor(.grayScale100, for: .normal)

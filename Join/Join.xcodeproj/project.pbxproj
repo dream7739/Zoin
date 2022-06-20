@@ -12,6 +12,7 @@
 		8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */; };
 		887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */; };
 		8882EAF42823E26F00622FF9 /* JoinMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */; };
+		8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */; };
 		8896D41A28236C730061CEAE /* JoinFinishVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8896D41928236C730061CEAE /* JoinFinishVC.swift */; };
 		8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8896D41B2823A7CC0061CEAE /* JoinMemberConfirmVC.swift */; };
 		889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889CE38C281D60FD0098371B /* JoinCancelVC.swift */; };
@@ -66,6 +67,7 @@
 		8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinListTableViewCell.swift; sourceTree = "<group>"; };
 		887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMemberCell.swift; sourceTree = "<group>"; };
+		8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinModifyVC.swift; sourceTree = "<group>"; };
 		8896D41928236C730061CEAE /* JoinFinishVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinFinishVC.swift; sourceTree = "<group>"; };
 		8896D41B2823A7CC0061CEAE /* JoinMemberConfirmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMemberConfirmVC.swift; sourceTree = "<group>"; };
 		889CE38C281D60FD0098371B /* JoinCancelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCancelVC.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				889CE38C281D60FD0098371B /* JoinCancelVC.swift */,
 				8896D41928236C730061CEAE /* JoinFinishVC.swift */,
 				8896D41B2823A7CC0061CEAE /* JoinMemberConfirmVC.swift */,
+				8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
+				8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */,
 				F214201228100BCF000D102D /* ProfileVC.swift in Sources */,
 				889E497E2816ED1900AA2D9C /* JoinListVC.swift in Sources */,
 				8896D41A28236C730061CEAE /* JoinFinishVC.swift in Sources */,
