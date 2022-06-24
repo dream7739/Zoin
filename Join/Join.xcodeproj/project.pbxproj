@@ -36,6 +36,8 @@
 		F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F12821968D00E54B57 /* CompleteProfileVC.swift */; };
 		F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F328219BA400E54B57 /* OnboardingVC.swift */; };
 		F21CECF6283543E100ED1EC0 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CECF5283543E100ED1EC0 /* Images.swift */; };
+		F23D05A428661A160028F28B /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23D05A328661A160028F28B /* AuthServices.swift */; };
+		F23D05A828661AB20028F28B /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23D05A728661AB20028F28B /* Environment.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
 		F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7EB282CC02B003EEF8A /* CautionVC.swift */; };
 		F28AC7EE282CCBFD003EEF8A /* UIPageViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */; };
@@ -93,6 +95,8 @@
 		F21429F12821968D00E54B57 /* CompleteProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileVC.swift; sourceTree = "<group>"; };
 		F21429F328219BA400E54B57 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
 		F21CECF5283543E100ED1EC0 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		F23D05A328661A160028F28B /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
+		F23D05A728661AB20028F28B /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		F28AC7EB282CC02B003EEF8A /* CautionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionVC.swift; sourceTree = "<group>"; };
 		F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViewController+.swift"; sourceTree = "<group>"; };
@@ -234,6 +238,7 @@
 			children = (
 				F214201628100FC6000D102D /* Global */,
 				F214201528100FB0000D102D /* Screens */,
+				F23D05A528661A1C0028F28B /* Network */,
 			);
 			path = Join;
 			sourceTree = "<group>";
@@ -345,6 +350,23 @@
 				F214202028101AE3000D102D /* BaseTargetType.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		F23D05A528661A1C0028F28B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F23D05A728661AB20028F28B /* Environment.swift */,
+				F23D05A628661A2C0028F28B /* Services */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F23D05A628661A2C0028F28B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F23D05A328661A160028F28B /* AuthServices.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		F28AC7F3282CD846003EEF8A /* Models */ = {
@@ -528,6 +550,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F28AC7F2282CD841003EEF8A /* OnboardingSlide.swift in Sources */,
+				F23D05A428661A160028F28B /* AuthServices.swift in Sources */,
 				F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */,
 				F29FE101281678080034C8A2 /* RegisterEmailVC.swift in Sources */,
 				F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */,
@@ -555,6 +578,7 @@
 				F29FE110281683350034C8A2 /* SplashVC.swift in Sources */,
 				F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */,
 				F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */,
+				F23D05A828661AB20028F28B /* Environment.swift in Sources */,
 				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
 				F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */,
