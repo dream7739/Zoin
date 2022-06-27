@@ -39,10 +39,15 @@
 		F23D05A428661A160028F28B /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23D05A328661A160028F28B /* AuthServices.swift */; };
 		F23D05A828661AB20028F28B /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23D05A728661AB20028F28B /* Environment.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
+		F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */; };
+		F2856356285B2BFF003B9AF8 /* FriendsSearchCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856355285B2BFF003B9AF8 /* FriendsSearchCVCell.swift */; };
+		F2856358285B3AAE003B9AF8 /* OpenedMeetingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856357285B3AAE003B9AF8 /* OpenedMeetingVC.swift */; };
+		F285635B285B3B65003B9AF8 /* OpenedMeetingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F285635A285B3B65003B9AF8 /* OpenedMeetingCVCell.swift */; };
 		F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7EB282CC02B003EEF8A /* CautionVC.swift */; };
 		F28AC7EE282CCBFD003EEF8A /* UIPageViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */; };
 		F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */; };
 		F28AC7F2282CD841003EEF8A /* OnboardingSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28AC7F1282CD841003EEF8A /* OnboardingSlide.swift */; };
+		F28F8E78285887D5005FF435 /* FriendsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28F8E77285887D5005FF435 /* FriendsListVC.swift */; };
 		F29FE101281678080034C8A2 /* RegisterEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE100281678080034C8A2 /* RegisterEmailVC.swift */; };
 		F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */; };
 		F29FE105281678500034C8A2 /* RegisterPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE104281678500034C8A2 /* RegisterPasswordVC.swift */; };
@@ -51,6 +56,9 @@
 		F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */; };
 		F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10C28167CF10034C8A2 /* UIView+.swift */; };
 		F29FE110281683350034C8A2 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FE10F281683350034C8A2 /* SplashVC.swift */; };
+		F2A4A00F285A2FF80076A8A1 /* FriendsListCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A4A00E285A2FF80076A8A1 /* FriendsListCVCell.swift */; };
+		F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A4A012285A30F00076A8A1 /* FriendsListViewModel.swift */; };
+		F2A4A016285A313C0076A8A1 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A4A015285A313C0076A8A1 /* ViewModelType.swift */; };
 		F2A4CC14283659920050FBCB /* MinSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC0E283659910050FBCB /* MinSans-Bold.otf */; };
 		F2A4CC15283659920050FBCB /* MinSans-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC0F283659910050FBCB /* MinSans-Black.otf */; };
 		F2A4CC16283659920050FBCB /* MinSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC10283659920050FBCB /* MinSans-Light.otf */; };
@@ -98,10 +106,15 @@
 		F23D05A328661A160028F28B /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		F23D05A728661AB20028F28B /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSearchVC.swift; sourceTree = "<group>"; };
+		F2856355285B2BFF003B9AF8 /* FriendsSearchCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSearchCVCell.swift; sourceTree = "<group>"; };
+		F2856357285B3AAE003B9AF8 /* OpenedMeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenedMeetingVC.swift; sourceTree = "<group>"; };
+		F285635A285B3B65003B9AF8 /* OpenedMeetingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenedMeetingCVCell.swift; sourceTree = "<group>"; };
 		F28AC7EB282CC02B003EEF8A /* CautionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionVC.swift; sourceTree = "<group>"; };
 		F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViewController+.swift"; sourceTree = "<group>"; };
 		F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCVCell.swift; sourceTree = "<group>"; };
 		F28AC7F1282CD841003EEF8A /* OnboardingSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSlide.swift; sourceTree = "<group>"; };
+		F28F8E77285887D5005FF435 /* FriendsListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListVC.swift; sourceTree = "<group>"; };
 		F29FE100281678080034C8A2 /* RegisterEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEmailVC.swift; sourceTree = "<group>"; };
 		F29FE1022816783A0034C8A2 /* VerifyEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailVC.swift; sourceTree = "<group>"; };
 		F29FE104281678500034C8A2 /* RegisterPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPasswordVC.swift; sourceTree = "<group>"; };
@@ -110,6 +123,9 @@
 		F29FE10A28167A400034C8A2 /* RegisterProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProfileVC.swift; sourceTree = "<group>"; };
 		F29FE10C28167CF10034C8A2 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		F29FE10F281683350034C8A2 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
+		F2A4A00E285A2FF80076A8A1 /* FriendsListCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListCVCell.swift; sourceTree = "<group>"; };
+		F2A4A012285A30F00076A8A1 /* FriendsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListViewModel.swift; sourceTree = "<group>"; };
+		F2A4A015285A313C0076A8A1 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		F2A4CC0C283658BF0050FBCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2A4CC0E283659910050FBCB /* MinSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Bold.otf"; sourceTree = "<group>"; };
 		F2A4CC0F283659910050FBCB /* MinSans-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Black.otf"; sourceTree = "<group>"; };
@@ -246,6 +262,8 @@
 		F214201528100FB0000D102D /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				F2856359285B3ABC003B9AF8 /* Meeting */,
+				F2A4A00D285A268A0076A8A1 /* Friends */,
 				88BE3949282D27240002722F /* Make */,
 				F214201D281017CC000D102D /* Login */,
 				F214201B281017C1000D102D /* Base */,
@@ -265,6 +283,7 @@
 				F214202228101B8A000D102D /* Network */,
 				F29FE10E28167D1F0034C8A2 /* Extensions */,
 				F28AC7F3282CD846003EEF8A /* Models */,
+				F2A4A017285A31410076A8A1 /* Protocol */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -352,6 +371,7 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+
 		F23D05A528661A1C0028F28B /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,6 +387,15 @@
 				F23D05A328661A160028F28B /* AuthServices.swift */,
 			);
 			path = Services;
+
+		F2856359285B3ABC003B9AF8 /* Meeting */ = {
+			isa = PBXGroup;
+			children = (
+				F2856357285B3AAE003B9AF8 /* OpenedMeetingVC.swift */,
+				F285635A285B3B65003B9AF8 /* OpenedMeetingCVCell.swift */,
+			);
+			path = Meeting;
+
 			sourceTree = "<group>";
 		};
 		F28AC7F3282CD846003EEF8A /* Models */ = {
@@ -414,6 +443,50 @@
 				F2E2C4AF28365D450094DABD /* UIFont+.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F2A4A00D285A268A0076A8A1 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				F2A4A010285A30BD0076A8A1 /* ViewControllers */,
+				F2A4A011285A30DC0076A8A1 /* Cells */,
+				F2A4A014285A30F50076A8A1 /* ViewModel */,
+			);
+			path = Friends;
+			sourceTree = "<group>";
+		};
+		F2A4A010285A30BD0076A8A1 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F28F8E77285887D5005FF435 /* FriendsListVC.swift */,
+				F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		F2A4A011285A30DC0076A8A1 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				F2A4A00E285A2FF80076A8A1 /* FriendsListCVCell.swift */,
+				F2856355285B2BFF003B9AF8 /* FriendsSearchCVCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		F2A4A014285A30F50076A8A1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F2A4A012285A30F00076A8A1 /* FriendsListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F2A4A017285A31410076A8A1 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				F2A4A015285A313C0076A8A1 /* ViewModelType.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		F2A4CC1A283659990050FBCB /* Fonts */ = {
@@ -551,16 +624,23 @@
 			files = (
 				F28AC7F2282CD841003EEF8A /* OnboardingSlide.swift in Sources */,
 				F23D05A428661A160028F28B /* AuthServices.swift in Sources */,
+				F2856356285B2BFF003B9AF8 /* FriendsSearchCVCell.swift in Sources */,
 				F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */,
 				F29FE101281678080034C8A2 /* RegisterEmailVC.swift in Sources */,
 				F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */,
 				F214200E28100B74000D102D /* MainVC.swift in Sources */,
+				F2A4A00F285A2FF80076A8A1 /* FriendsListCVCell.swift in Sources */,
+				F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */,
+				F285635B285B3B65003B9AF8 /* OpenedMeetingCVCell.swift in Sources */,
 				887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */,
 				F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */,
+				F2A4A016285A313C0076A8A1 /* ViewModelType.swift in Sources */,
 				88BE3950282D27820002722F /* MakeDetailVC.swift in Sources */,
 				F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */,
+				F2856358285B3AAE003B9AF8 /* OpenedMeetingVC.swift in Sources */,
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
+				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
 				8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */,
 				F214201228100BCF000D102D /* ProfileVC.swift in Sources */,
@@ -588,6 +668,7 @@
 				8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */,
 				88BE394E282D27720002722F /* MakeCompleteVC.swift in Sources */,
 				889E497C2816D8EA00AA2D9C /* TabBarVC.swift in Sources */,
+				F28F8E78285887D5005FF435 /* FriendsListVC.swift in Sources */,
 				889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
 				8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */,
