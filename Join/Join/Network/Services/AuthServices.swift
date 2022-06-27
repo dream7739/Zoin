@@ -9,13 +9,14 @@ import Foundation
 
 import Moya
 
+// 경로케이스별로 열겨헝으로 작성해주기
 enum AuthServices {
     case signUp(param: SignUpRequest)
     case checkId(param: checkId)
 }
 
 // MARK: - parameter data
-// 모델데이터 global 파일에 data 하위디렉터리 만들어서 옮기는게 낫지 않을까
+// 모델데이터 global 파일에 data 하위디렉터리 만들어서 옮기는게 낫지 않을까?
 struct SignUpRequest: Encodable {
     var userName: String
     var email: String
@@ -30,9 +31,12 @@ struct checkId: Encodable {
 
 extension AuthServices: TargetType {
     // MARK: - TODO 키체인라이브러리 추가 필요
+    // 토큰관련 작업 시 주석 해제하기
     // private var token: String {
     //  return KeychainHandler.shared.accessToken
     // }
+
+    // 경로설정
     var path: String {
         switch self {
         case .signUp:
@@ -42,6 +46,7 @@ extension AuthServices: TargetType {
         }
     }
 
+    // 어떤 호출방법인지 각 경로별로 선언해줌
     var method: Moya.Method {
         switch self {
         case .signUp:
@@ -51,10 +56,14 @@ extension AuthServices: TargetType {
         }
     }
 
+    // 이거는 받아오는 data의 디폴트값이라고 봐주면 됩니다
     var sampleData: Data {
         return Data()
     }
 
+    // 어떻게 데이터를 보내주고 받아오는지 설정하는 부분
+    // 리턴값 정의파일로 들어가보면 각 형식에 맞는 케이스들이 나열되어있음!
+    // 내가 쓴 requestJSONEncodable은 post에서 바디값만 보내주는거라서 요렇게 보내주는중
     var task: Task {
         switch self {
         case.signUp(let param):
@@ -64,6 +73,7 @@ extension AuthServices: TargetType {
         }
     }
 
+    // 헤더파일 구성하는부분
     var headers: [String : String]? {
         switch self {
         default:
@@ -71,6 +81,7 @@ extension AuthServices: TargetType {
         }
     }
 
+    // 기본적인 경로, baseURL 설정하는부분
     public var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }

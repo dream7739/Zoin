@@ -172,12 +172,22 @@ extension RegisterIdVC {
             .disposed(by: disposeBag)
     }
 
+    // MARK: - 서버통신부분
     @objc func checkIdAvailability(_ id: String) {
         let idRequest = checkId(serviceId: id)
+        // 자료형 설정하는 부분에서 authprovider 설정필요
+        // rx방식이지만, subscribe, onError로 구분해서 에러처리해주고 있다고 보면 됩니다.
+        // subscribe -> 서버 연결됐을때 케이스들 구현
+        // onError -> 서버연결안될때 팝업같은것들 구현할때 에러처리하는 부분
         authProvider.rx.request(.checkId(param: idRequest))
             .asObservable()
             .subscribe(onNext: { [weak self] response in
                 print("test", JSON(response.data))
+                /*
+                 JSON(response.data) -> 서버연결되고 받아오는 body값들
+                 { "message", "status", "timestamp"} 이런식으로 나타남!
+                 */
+                // 나는 200이면서 message값으로 아이디 중복여부를 확인하는거라 다음과같이 조건을 짰음!
                 let json = JSON(response.data)["message"]
                 if json == "이미 존재하는 아이디입니다." {
                     self?.guideButton.isEnabled = false
