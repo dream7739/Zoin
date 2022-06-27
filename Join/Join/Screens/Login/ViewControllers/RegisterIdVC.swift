@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
@@ -142,8 +143,7 @@ extension RegisterIdVC {
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let viewController = RegisterProfileVC()
-                self.navigationController?.pushViewController(viewController, animated: true)
+                self.checkIdAvailability(self.idTextField.text ?? "")
             })
             .disposed(by: disposeBag)
 
@@ -172,8 +172,27 @@ extension RegisterIdVC {
             .disposed(by: disposeBag)
     }
 
-    @objc func checkIdAvailability() {
-        
+    @objc func checkIdAvailability(_ id: String) {
+        let idRequest = checkId(serviceId: id)
+        authProvider.rx.request(.checkId(param: idRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                print("test", JSON(response.data))
+                let json = JSON(response.data)["message"]
+                if json == "이미 존재하는 아이디입니다." {
+                    self?.guideButton.isEnabled = false
+                }
+                if json == "사용 가능한 아이디입니다." {
+                    print("yessss")
+                    self?.guideButton.isEnabled = true
+                    let viewController = RegisterProfileVC()
+                    self?.navigationController?.pushViewController(viewController, animated: true)
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+
+            }).disposed(by: disposeBag)
     }
 }
 
@@ -184,25 +203,24 @@ extension RegisterIdVC: UITextFieldDelegate {
             textfield.layer.borderColor = UIColor.grayScale400.cgColor
             textfield.layer.cornerRadius = 20
             textfield.layer.borderWidth = 2.0
+            statusLabel.text = ""
             guideButton.isEnabled = true
             guideButton.backgroundColor = .yellow200
             guideButton.setTitleColor(.grayScale900, for: .normal)
-        } else if text.count == 0 {
+        } else {
             textfield.layer.borderWidth = 0.0
             statusLabel.text = "영문 8자 이상 12자 이하로 입력해주세요."
             statusLabel.textColor = .red100
             guideButton.isEnabled = false
             guideButton.backgroundColor = .grayScale500
             guideButton.setTitleColor(.grayScale300, for: .normal)
-        } else {
-            textfield.layer.borderWidth = 0.0
-            statusLabel.text = ""
-            guideButton.isEnabled = false
-            guideButton.backgroundColor = .grayScale500
-            guideButton.setTitleColor(.grayScale300, for: .normal)
         }
     }
 
+    func textFieldShouldReturn(_ textfield: UITextField) -> Bool {
+        textfield.resignFirstResponder()
+        return true
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
