@@ -17,6 +17,7 @@ enum AuthServices {
 
 // MARK: - parameter data
 // 모델데이터 global 파일에 data 하위디렉터리 만들어서 옮기는게 낫지 않을까?
+// 일단은 한 파일내에 한꺼번에 작성함. 근데 수정 필요할듯
 struct SignUpRequest: Encodable {
     var userName: String
     var email: String
@@ -30,13 +31,13 @@ struct checkId: Encodable {
 }
 
 extension AuthServices: TargetType {
-    // MARK: - TODO 키체인라이브러리 추가 필요
     // 토큰관련 작업 시 주석 해제하기
     // private var token: String {
     //  return KeychainHandler.shared.accessToken
     // }
 
-    // 경로설정
+    // 경로설정부분
+    // baseURL 기준으로 이어서 작성해주면됩니다
     var path: String {
         switch self {
         case .signUp:
