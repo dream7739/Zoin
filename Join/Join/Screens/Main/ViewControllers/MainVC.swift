@@ -16,7 +16,7 @@ class MainVC: BaseViewController {
     var currentPage: Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
-    var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient4"]
+    var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient4", "gradient4", "gradient4", "gradient4"]
     
     //메인 뷰
     var collectionView: UICollectionView = {
@@ -26,8 +26,6 @@ class MainVC: BaseViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.decelerationRate = UIScrollView.DecelerationRate.fast
         cv.showsHorizontalScrollIndicator = false
-        
-        
         return cv
     }()
     
@@ -312,7 +310,7 @@ extension MainVC: FinishMainDelegate {
 extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 8
     }
     
     
@@ -321,13 +319,12 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.delegate = self
         cell.index = indexPath.row
-        print("\(cell.index)")
 
         var shuffledImgArr = imgArr.shuffled()
-        print("\(shuffledImgArr)")
         cell.backGroundImg.image = UIImage(named: shuffledImgArr[cell.index])
         return cell
     }
+    
     
     
 }
@@ -335,37 +332,37 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
 extension MainVC: UIScrollViewDelegate {
     
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let point = self.targetContentOffset(scrollView, withVelocity: velocity)
-        targetContentOffset.pointee = point
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: velocity.x, options: .allowUserInteraction, animations: {
-        }, completion: { _ in
-            self.collectionView.setContentOffset(point, animated: true)
-        })
-    }
-    
-    func targetContentOffset(_ scrollView: UIScrollView, withVelocity velocity: CGPoint) -> CGPoint {
-        
-        guard let mainLayout = collectionView.collectionViewLayout as? MainCollectionViewLayout else { return .zero }
-        
-        let count = mainLayout.attributesList.count
-        
-        let itemWidth = mainLayout.itemSize.width - 37.5
-        
-        if  velocity.x < 0 {
-            if currentPage != 0 {
-                currentPage = currentPage - 1
-            }
-        } else if velocity.x > 0 {
-            if currentPage < count - 1{
-                currentPage = currentPage + 1
-            }
-        }
-        
-        let updatedOffset = itemWidth * CGFloat(currentPage)
-        previousOffset = updatedOffset
-        return CGPoint(x: updatedOffset, y: 0)
-    }
+//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        let point = self.targetContentOffset(scrollView, withVelocity: velocity)
+//        targetContentOffset.pointee = point
+//        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: velocity.x, options: .allowUserInteraction, animations: {
+//        }, completion: { _ in
+//            self.collectionView.setContentOffset(point, animated: true)
+//        })
+//    }
+//
+//
+//    func targetContentOffset(_ scrollView: UIScrollView, withVelocity velocity: CGPoint) -> CGPoint {
+//
+//        guard let mainLayout = collectionView.collectionViewLayout as? MainCollectionViewLayout else { return .zero }
+//
+//        let count = CGFloat(mainLayout.attributesList.count)
+//        let itemWidth = 224.0
+//
+//        if  velocity.x < 0 {
+//            if currentPage != 0 {
+//                currentPage = currentPage - 1
+//            }
+//        } else if velocity.x > 0 {
+//            if currentPage < Int(count) - 1{
+//                currentPage = currentPage + 1
+//            }
+//        }
+//
+//        let updatedOffset = itemWidth * CGFloat(currentPage)
+//        previousOffset = updatedOffset
+//        return CGPoint(x: updatedOffset, y: 0)
+//    }
     
     
 }
