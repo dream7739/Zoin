@@ -12,6 +12,7 @@ import Then
 import RxCocoa
 import RxSwift
 import RxKeyboard
+import Moya
 
 class RegisterIdVC: BaseViewController {
 
@@ -41,6 +42,7 @@ class RegisterIdVC: BaseViewController {
         $0.font = .minsans(size: 16, family: .Medium)
         $0.backgroundColor = .grayScale800
         $0.layer.cornerRadius = 20
+        $0.keyboardType = .alphabet
         $0.addLeftPadding()
     }
 
@@ -51,17 +53,20 @@ class RegisterIdVC: BaseViewController {
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .yellow200
-        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.backgroundColor = .grayScale500
+        $0.setTitleColor(.grayScale300, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
         $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
-        // 사용가능한 이메일일때
-        // isEnabled, isSelected 설정해놓기
+        $0.isEnabled = false
     }
+
+    private let authProvider = MoyaProvider<AuthServices>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        setTextField()
         bind()
     }
 
@@ -127,25 +132,12 @@ extension RegisterIdVC {
         navigationBar.isTranslucent = false
     }
 
-    private func bind() {
-        // TODO: - 텍스트필드 입력 시 영어 8글자 제한걸기
-        idTextField.rx.text
-            .do{ [weak self] text in
-                guard let self = self,
-                      let text = text
-                else { return }
-                if text.count > 0  {
-                    self.idTextField.layer.borderColor = UIColor.grayScale400.cgColor
-                    self.idTextField.layer.cornerRadius = 20
-                    self.idTextField.layer.borderWidth = 2.0
-                } else {
-                    self.idTextField.layer.borderWidth = 0.0
-                }
-            }
-            .subscribe(onNext:  { [weak self] _ in
+    private func setTextField() {
+        idTextField.delegate = self
+        idTextField.addTarget(self, action: #selector(checkAvailability), for: .editingChanged)
+    }
 
-            })
-            .disposed(by: disposeBag)
+    private func bind() {
 
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
@@ -178,6 +170,37 @@ extension RegisterIdVC {
             }
         })
             .disposed(by: disposeBag)
+    }
+
+    @objc func checkIdAvailability() {
+        
+    }
+}
+
+extension RegisterIdVC: UITextFieldDelegate {
+    @objc private func checkAvailability(_ textfield: UITextField) {
+        guard let text = textfield.text else { return }
+        if text.count > 7 && text.count < 13 {
+            textfield.layer.borderColor = UIColor.grayScale400.cgColor
+            textfield.layer.cornerRadius = 20
+            textfield.layer.borderWidth = 2.0
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+        } else if text.count == 0 {
+            textfield.layer.borderWidth = 0.0
+            statusLabel.text = "영문 8자 이상 12자 이하로 입력해주세요."
+            statusLabel.textColor = .red100
+            guideButton.isEnabled = false
+            guideButton.backgroundColor = .grayScale500
+            guideButton.setTitleColor(.grayScale300, for: .normal)
+        } else {
+            textfield.layer.borderWidth = 0.0
+            statusLabel.text = ""
+            guideButton.isEnabled = false
+            guideButton.backgroundColor = .grayScale500
+            guideButton.setTitleColor(.grayScale300, for: .normal)
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
