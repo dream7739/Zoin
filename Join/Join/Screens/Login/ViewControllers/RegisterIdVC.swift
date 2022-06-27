@@ -8,10 +8,12 @@
 import UIKit
 
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
 import RxKeyboard
+import Moya
 
 class RegisterIdVC: BaseViewController {
 
@@ -41,6 +43,7 @@ class RegisterIdVC: BaseViewController {
         $0.font = .minsans(size: 16, family: .Medium)
         $0.backgroundColor = .grayScale800
         $0.layer.cornerRadius = 20
+        $0.keyboardType = .alphabet
         $0.addLeftPadding()
     }
 
@@ -51,17 +54,20 @@ class RegisterIdVC: BaseViewController {
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .yellow200
-        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.backgroundColor = .grayScale500
+        $0.setTitleColor(.grayScale300, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
         $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
-        // 사용가능한 이메일일때
-        // isEnabled, isSelected 설정해놓기
+        $0.isEnabled = false
     }
+
+    private let authProvider = MoyaProvider<AuthServices>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        setTextField()
         bind()
     }
 
@@ -127,31 +133,17 @@ extension RegisterIdVC {
         navigationBar.isTranslucent = false
     }
 
-    private func bind() {
-        // TODO: - 텍스트필드 입력 시 영어 8글자 제한걸기
-        idTextField.rx.text
-            .do{ [weak self] text in
-                guard let self = self,
-                      let text = text
-                else { return }
-                if text.count > 0  {
-                    self.idTextField.layer.borderColor = UIColor.grayScale400.cgColor
-                    self.idTextField.layer.cornerRadius = 20
-                    self.idTextField.layer.borderWidth = 2.0
-                } else {
-                    self.idTextField.layer.borderWidth = 0.0
-                }
-            }
-            .subscribe(onNext:  { [weak self] _ in
+    private func setTextField() {
+        idTextField.delegate = self
+        idTextField.addTarget(self, action: #selector(checkAvailability), for: .editingChanged)
+    }
 
-            })
-            .disposed(by: disposeBag)
+    private func bind() {
 
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let viewController = RegisterProfileVC()
-                self.navigationController?.pushViewController(viewController, animated: true)
+                self.checkIdAvailability(self.idTextField.text ?? "")
             })
             .disposed(by: disposeBag)
 
@@ -180,6 +172,65 @@ extension RegisterIdVC {
             .disposed(by: disposeBag)
     }
 
+    // MARK: - 서버통신부분
+    @objc func checkIdAvailability(_ id: String) {
+        let idRequest = checkId(serviceId: id)
+        // 자료형 설정하는 부분에서 authprovider 설정필요
+        // rx방식이지만, subscribe, onError로 구분해서 에러처리해주고 있다고 보면 됩니다.
+        // subscribe -> 서버 연결됐을때 케이스들 구현
+        // onError -> 서버연결안될때 팝업같은것들 구현할때 에러처리하는 부분
+        authProvider.rx.request(.checkId(param: idRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                print("test", JSON(response.data))
+                /*
+                 JSON(response.data) -> 서버연결되고 받아오는 body값들
+                 { "message", "status", "timestamp"} 이런식으로 나타남!
+                 */
+                // 나는 200이면서 message값으로 아이디 중복여부를 확인하는거라 다음과같이 조건을 짰음!
+                let json = JSON(response.data)["message"]
+                if json == "이미 존재하는 아이디입니다." {
+                    self?.guideButton.isEnabled = false
+                }
+                if json == "사용 가능한 아이디입니다." {
+                    print("yessss")
+                    self?.guideButton.isEnabled = true
+                    let viewController = RegisterProfileVC()
+                    self?.navigationController?.pushViewController(viewController, animated: true)
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+
+            }).disposed(by: disposeBag)
+    }
+}
+
+extension RegisterIdVC: UITextFieldDelegate {
+    @objc private func checkAvailability(_ textfield: UITextField) {
+        guard let text = textfield.text else { return }
+        if text.count > 7 && text.count < 13 {
+            textfield.layer.borderColor = UIColor.grayScale400.cgColor
+            textfield.layer.cornerRadius = 20
+            textfield.layer.borderWidth = 2.0
+            statusLabel.text = ""
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+        } else {
+            textfield.layer.borderWidth = 0.0
+            statusLabel.text = "영문 8자 이상 12자 이하로 입력해주세요."
+            statusLabel.textColor = .red100
+            guideButton.isEnabled = false
+            guideButton.backgroundColor = .grayScale500
+            guideButton.setTitleColor(.grayScale300, for: .normal)
+        }
+    }
+
+    func textFieldShouldReturn(_ textfield: UITextField) -> Bool {
+        textfield.resignFirstResponder()
+        return true
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
