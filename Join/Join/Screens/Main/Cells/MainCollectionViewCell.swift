@@ -23,6 +23,11 @@ class MainCollectionViewCell : UICollectionViewCell {
     static let identifier = "mainCell"
     var delegate: MainCellDelegate!
     var index: Int = 0
+   
+    var backGroundImg = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.contentMode = .scaleAspectFit
+    }
     
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -111,10 +116,9 @@ class MainCollectionViewCell : UICollectionViewCell {
     
     
     func cellSetting() {
-
-        self.backgroundColor = UIColor(displayP3Red: 229/255, green: 231/255, blue: 236/255, alpha: 1)
         
         self.adds([
+            backGroundImg,
             profileImg,
             timeImg,
             placeImg,
@@ -127,8 +131,9 @@ class MainCollectionViewCell : UICollectionViewCell {
             joinBtn
         ])
         
-        
-
+        backGroundImg.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.equalToSuperview()
+        }
         
         profileImg.snp.makeConstraints {
             $0.width.height.equalTo(50)

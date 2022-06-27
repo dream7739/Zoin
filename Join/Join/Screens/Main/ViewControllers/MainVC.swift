@@ -16,6 +16,7 @@ class MainVC: BaseViewController {
     var currentPage: Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
+    var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient4"]
     
     //메인 뷰
     var collectionView: UICollectionView = {
@@ -39,18 +40,23 @@ class MainVC: BaseViewController {
     var statusLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "번개가 요동치는 중"
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.textColor = .grayScale100
     }
     
     var mentLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "현재 기다리고 있어요"
-        $0.font = UIFont.boldSystemFont(ofSize: 24)
+        $0.font = .minsans(size: 24, family: .Bold)
+        $0.textColor = .grayScale100
     }
     
     var searchJoinListBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("전체보기 >", for: .normal)
-        $0.setTitleColor(UIColor.gray, for: .normal)
+        $0.setTitleColor(.grayScale400, for: .normal)
+        $0.titleLabel?.font = .minsans(size: 14, family: .Medium)
+        $0.contentHorizontalAlignment = .center
     }
     
     var alarmBtn = UIButton().then {
@@ -125,13 +131,13 @@ class MainVC: BaseViewController {
     
     func addNotiObserver(){
         NotificationCenter.default.addObserver(self,
-                                                  selector: #selector(openList),
-                                                  name: NSNotification.Name("listFlag"),
-                                                  object: nil)
+                                               selector: #selector(openList),
+                                               name: NSNotification.Name("listFlag"),
+                                               object: nil)
         NotificationCenter.default.addObserver(self,
-                                                  selector: #selector(openDetail),
-                                                  name: NSNotification.Name("detailFlag"),
-                                                  object: nil)
+                                               selector: #selector(openDetail),
+                                               name: NSNotification.Name("detailFlag"),
+                                               object: nil)
     }
     
     @objc func openList(notification : NSNotification){
@@ -150,6 +156,9 @@ class MainVC: BaseViewController {
 
 extension MainVC {
     private func setLayout() {
+        view.backgroundColor = .grayScale900
+        collectionView.backgroundColor = .grayScale900
+        
         view.adds([
             collectionView,
             mainEffectImageView,
@@ -182,7 +191,7 @@ extension MainVC {
         mainEffectImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(60)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
-            $0.width.height.equalTo(56)
+            $0.width.height.equalTo(72)
         }
         
         statusLabel.snp.makeConstraints{
@@ -273,7 +282,7 @@ extension MainVC {
         let joinListVC = JoinListVC()
         self.navigationController?.pushViewController(joinListVC, animated: true)
     }
-
+    
 }
 
 extension MainVC: MainCellDelegate {
@@ -312,27 +321,33 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.delegate = self
         cell.index = indexPath.row
+        print("\(cell.index)")
+
+        var shuffledImgArr = imgArr.shuffled()
+        print("\(shuffledImgArr)")
+        cell.backGroundImg.image = UIImage(named: shuffledImgArr[cell.index])
         return cell
     }
+    
     
 }
 
 extension MainVC: UIScrollViewDelegate {
-
+    
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let point = self.targetContentOffset(scrollView, withVelocity: velocity)
         targetContentOffset.pointee = point
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: velocity.x, options: .allowUserInteraction, animations: {
-              }, completion: { _ in
-                  self.collectionView.setContentOffset(point, animated: true)
-              })
+        }, completion: { _ in
+            self.collectionView.setContentOffset(point, animated: true)
+        })
     }
     
     func targetContentOffset(_ scrollView: UIScrollView, withVelocity velocity: CGPoint) -> CGPoint {
-   
+        
         guard let mainLayout = collectionView.collectionViewLayout as? MainCollectionViewLayout else { return .zero }
-  
+        
         let count = mainLayout.attributesList.count
         
         let itemWidth = mainLayout.itemSize.width - 37.5
@@ -346,11 +361,11 @@ extension MainVC: UIScrollViewDelegate {
                 currentPage = currentPage + 1
             }
         }
-
+        
         let updatedOffset = itemWidth * CGFloat(currentPage)
         previousOffset = updatedOffset
         return CGPoint(x: updatedOffset, y: 0)
     }
-   
+    
     
 }

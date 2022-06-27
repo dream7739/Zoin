@@ -48,6 +48,7 @@ extension TabBarController {
         }
         
         self.tabBar.addSubview(middleButton)
+        self.tabBar.barTintColor = .grayScale900
         self.view.layoutIfNeeded()
         
         let mainView = MainVC()

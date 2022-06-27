@@ -10,8 +10,8 @@ import UIKit
 class TabBarVC: UITabBar {
     
     override func draw(_ rect: CGRect) {
-        self.unselectedItemTintColor = UIColor.gray
-        self.tintColor = UIColor.darkGray
+      //  self.unselectedItemTintColor = .grayScale600
+    //    self.tintColor = .grayScale500
     }
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
