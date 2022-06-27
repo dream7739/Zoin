@@ -35,6 +35,8 @@
 		F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429EF28218EEB00E54B57 /* UIButton+.swift */; };
 		F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F12821968D00E54B57 /* CompleteProfileVC.swift */; };
 		F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F328219BA400E54B57 /* OnboardingVC.swift */; };
+		F219C02A2869E6B6009BFC9C /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C0292869E6B6009BFC9C /* Environment.swift */; };
+		F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C02B2869E6CB009BFC9C /* AuthServices.swift */; };
 		F21CECF6283543E100ED1EC0 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CECF5283543E100ED1EC0 /* Images.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
 		F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */; };
@@ -100,6 +102,8 @@
 		F21429EF28218EEB00E54B57 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		F21429F12821968D00E54B57 /* CompleteProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileVC.swift; sourceTree = "<group>"; };
 		F21429F328219BA400E54B57 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
+		F219C0292869E6B6009BFC9C /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		F219C02B2869E6CB009BFC9C /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		F21CECF5283543E100ED1EC0 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSearchVC.swift; sourceTree = "<group>"; };
@@ -362,8 +366,18 @@
 			isa = PBXGroup;
 			children = (
 				F214202028101AE3000D102D /* BaseTargetType.swift */,
+				F219C0292869E6B6009BFC9C /* Environment.swift */,
+				F219C02D2869EB26009BFC9C /* Services */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		F219C02D2869EB26009BFC9C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F219C02B2869E6CB009BFC9C /* AuthServices.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		F2856359285B3ABC003B9AF8 /* Meeting */ = {
@@ -606,6 +620,7 @@
 				F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */,
 				F214200E28100B74000D102D /* MainVC.swift in Sources */,
 				F2A4A00F285A2FF80076A8A1 /* FriendsListCVCell.swift in Sources */,
+				F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */,
 				F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */,
 				F285635B285B3B65003B9AF8 /* OpenedMeetingCVCell.swift in Sources */,
 				887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */,
@@ -615,6 +630,7 @@
 				F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */,
 				F2856358285B3AAE003B9AF8 /* OpenedMeetingVC.swift in Sources */,
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
+				F219C02A2869E6B6009BFC9C /* Environment.swift in Sources */,
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
 				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
