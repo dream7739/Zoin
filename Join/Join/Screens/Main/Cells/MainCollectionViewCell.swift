@@ -23,7 +23,7 @@ class MainCollectionViewCell : UICollectionViewCell {
     static let identifier = "mainCell"
     var delegate: MainCellDelegate!
     var index: Int = 0
-   
+    
     var backGroundImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFit
@@ -60,7 +60,7 @@ class MainCollectionViewCell : UICollectionViewCell {
         $0.text = "@b2_cka_"
         $0.font = .minsans(size: 16, family: .Medium)
         $0.textColor = .grayScale700
-
+        
     }
     
     var countLabel = UILabel().then {
@@ -100,7 +100,7 @@ class MainCollectionViewCell : UICollectionViewCell {
         $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
         $0.layer.cornerRadius = 16
-
+        
     }
     
     var countView = UIView().then {
@@ -120,7 +120,7 @@ class MainCollectionViewCell : UICollectionViewCell {
         layer.cornerRadius = 32.0
         self.cellSetting()
         self.joinBtn.addTarget(self, action: #selector(onTapBtn), for: .touchUpInside)
-
+        
     }
     
     required init?(coder: NSCoder) {
@@ -130,8 +130,8 @@ class MainCollectionViewCell : UICollectionViewCell {
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
         let mainLayoutAttributes = layoutAttributes as! MainCollectionViewLayoutAttributes
-         self.layer.anchorPoint = mainLayoutAttributes.anchorPoint
-         self.center.y += (mainLayoutAttributes.anchorPoint.y - 0.5) * self.bounds.height
+        self.layer.anchorPoint = mainLayoutAttributes.anchorPoint
+        self.center.y += (mainLayoutAttributes.anchorPoint.y - 0.5) * self.bounds.height
     }
     
     @objc func onTapBtn(){

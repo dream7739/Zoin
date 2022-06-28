@@ -15,11 +15,11 @@ import RxSwift
 class JoinListVC: BaseViewController {
     var joinTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-          tableView.register(JoinListTableViewCell.self, forCellReuseIdentifier: JoinListTableViewCell.identifier)
-          tableView.separatorStyle = .none
-          tableView.showsVerticalScrollIndicator = false
+        tableView.register(JoinListTableViewCell.self, forCellReuseIdentifier: JoinListTableViewCell.identifier)
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         tableView.contentInset = UIEdgeInsets(top: 14, left: 0, bottom: 0, right: 0)
-          return tableView
+        return tableView
     }()
     
     var writeBtn = UIButton().then {
@@ -72,7 +72,7 @@ extension JoinListVC {
         joinTableView.delegate = self
         joinTableView.dataSource = self
     }
-
+    
     private func bind() { }
 }
 
@@ -88,7 +88,7 @@ extension JoinListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: JoinListTableViewCell.identifier, for: indexPath)
         
-
+        
         return cell
     }
     

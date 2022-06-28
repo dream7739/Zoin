@@ -64,7 +64,7 @@ class JoinListTableViewCell : UITableViewCell {
         $0.text = "오늘 오후 04:00"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale400
-
+        
     }
     
     var placeLabel = UILabel().then {
@@ -94,7 +94,7 @@ class JoinListTableViewCell : UITableViewCell {
         cellSetting()
     }
     
-
+    
     
     func cellSetting() {
         self.containerView.backgroundColor = .grayScale900
@@ -113,7 +113,7 @@ class JoinListTableViewCell : UITableViewCell {
         
         self.containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-           }
+        }
         
         profileImg.contentMode = .scaleToFill
         
@@ -121,30 +121,30 @@ class JoinListTableViewCell : UITableViewCell {
             $0.width.height.equalTo(50)
             $0.top.leading.equalToSuperview()
         }
-
+        
         nameLabel.snp.makeConstraints {
             $0.top.equalTo(profileImg.snp.top)
-           $0.leading.equalTo(profileImg.snp.trailing).offset(10)
-       }
-
+            $0.leading.equalTo(profileImg.snp.trailing).offset(10)
+        }
+        
         idLabel.snp.makeConstraints {
             $0.leading.equalTo(nameLabel.snp.trailing).offset(10)
             $0.top.equalTo(nameLabel.snp.top)
         }
-
-
+        
+        
         titleLabel.snp.makeConstraints {
             $0.leading.equalTo(nameLabel.snp.leading)
             $0.trailing.equalTo(countView.snp.leading)
             $0.top.equalTo(nameLabel.snp.bottom).offset(10)
         }
-
+        
         dateLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(10)
             $0.leading.equalTo(nameLabel.snp.leading)
             $0.bottom.equalTo(containerView.snp.bottom).offset(-20)
         }
-
+        
         placeLabel.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel.snp.centerY)
             $0.leading.equalTo(indicatorView.snp.trailing).offset(6)
