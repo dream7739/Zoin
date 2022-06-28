@@ -40,6 +40,18 @@ class FriendsSearchVC: BaseViewController {
         collectionView.register(FriendsSearchCVCell.self, forCellWithReuseIdentifier: FriendsSearchCVCell.identififer)
         return collectionView
     }()
+    private let emptyView = UIView().then {
+        $0.backgroundColor = .grayScale900
+    }
+    private let emptyStatusLabel = UILabel().then {
+        $0.text = "친구를 찾아보세요."
+        $0.textColor = .grayScale600
+        $0.font = .minsans(size: 16, family: .Medium)
+    }
+    private let emptyImage = UIImageView().then {
+        $0.image = Image.search3D
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -62,7 +74,12 @@ extension FriendsSearchVC {
         view.isOpaque = true
         view.adds([
             searchTextField,
-            collectionView
+            collectionView,
+            emptyView
+        ])
+        emptyView.adds([
+            emptyStatusLabel,
+            emptyImage
         ])
         searchTextField.add(searchButton)
         searchTextField.snp.makeConstraints { (make) in
@@ -82,6 +99,21 @@ extension FriendsSearchVC {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
+        }
+        emptyView.snp.makeConstraints { (make) in
+            make.top.equalTo(searchTextField.snp.bottom).offset(6)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        emptyImage.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(70)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(115)
+        }
+        emptyStatusLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(emptyImage.snp.bottom).offset(1)
+            make.centerX.equalToSuperview()
         }
         collectionView.delegate = self
         collectionView.dataSource = self
