@@ -68,7 +68,7 @@ class MainVC: BaseViewController {
         $0.setImage(UIImage(named: "alarm"), for: .normal)
     }
     
-    var storageBtn = UIButton().then {
+    var inviteBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setImage(UIImage(named: "storage"), for: .normal)
     }
@@ -171,7 +171,7 @@ extension MainVC {
             searchJoinListBtn,
             indicatorBtn,
             alarmBtn,
-            storageBtn,
+            inviteBtn,
             popupBackgroundView
         ])
         
@@ -223,11 +223,11 @@ extension MainVC {
         
         alarmBtn.snp.makeConstraints{
             $0.width.height.equalTo(24)
-            $0.centerY.equalTo(storageBtn.snp.centerY)
-            $0.trailing.equalTo(storageBtn.snp.leading).offset(-24)
+            $0.centerY.equalTo(inviteBtn.snp.centerY)
+            $0.trailing.equalTo(inviteBtn.snp.leading).offset(-24)
         }
         
-        storageBtn.snp.makeConstraints{
+        inviteBtn.snp.makeConstraints{
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(12)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-24)
             
@@ -294,6 +294,15 @@ extension MainVC {
                 
             })
             .disposed(by: disposeBag)
+        
+        inviteBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let inviteVC = InviteVC()
+                inviteVC.modalPresentationStyle = .overFullScreen
+                self.present(inviteVC, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     func pushJoinListVC(){
@@ -339,7 +348,7 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.delegate = self
         cell.index = indexPath.row
-
+        
         var shuffledImgArr = imgArr.shuffled()
         cell.backGroundImg.image = UIImage(named: shuffledImgArr[cell.index])
         return cell
