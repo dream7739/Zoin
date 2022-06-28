@@ -39,6 +39,7 @@ class MainCollectionViewCell : UICollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(named: "icon_time")
         $0.contentMode = .center
+        
     }
     
     var placeImg = UIImageView().then {
@@ -51,43 +52,66 @@ class MainCollectionViewCell : UICollectionViewCell {
         
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "장혜진"
-        $0.font = UIFont.boldSystemFont(ofSize: 16)
+        $0.font = .minsans(size: 16, family: .Bold)
     }
     
     var idLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "@b2_cka_"
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.textColor = .grayScale700
+
     }
     
     var countLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "2/3"
+        $0.font = .minsans(size: 12, family: .Medium)
+        $0.textColor = .grayScale800
     }
     
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "인생샷 찍으러 가자!"
+        $0.text = "밤에 한강가실 분 구함"
         $0.numberOfLines = 0
-        $0.font = UIFont.boldSystemFont(ofSize: 20)
+        $0.font = .minsans(size: 20, family: .Bold)
     }
     
     var dateLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "오늘 오후 04:00"
+        $0.font = .minsans(size: 14, family: .Medium)
+        $0.textColor = .grayScale900
     }
     
     var placeLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "여의나루역 2번 출구 앞"
+        $0.font = .minsans(size: 14, family: .Medium)
+        $0.textColor = .grayScale900
     }
     
     var joinBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .darkGray
+        $0.backgroundColor = .white
+        $0.setTitleColor(.grayScale900, for: .normal)
         $0.setTitle("참여하기", for: .normal)
+        $0.contentHorizontalAlignment = .center
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
         $0.layer.cornerRadius = 16
 
+    }
+    
+    var countView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.layer.cornerRadius = 8
+        $0.backgroundColor = .white.withAlphaComponent(0.6)
+    }
+    
+    var countImageView = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "icon_attend")
     }
     
     override init(frame: CGRect) {
@@ -124,12 +148,14 @@ class MainCollectionViewCell : UICollectionViewCell {
             placeImg,
             nameLabel,
             idLabel,
-            countLabel,
             titleLabel,
             dateLabel,
             placeLabel,
-            joinBtn
+            joinBtn,
+            countView
         ])
+        
+        countView.adds([countImageView, countLabel])
         
         backGroundImg.snp.makeConstraints {
             $0.top.bottom.leading.trailing.equalToSuperview()
@@ -143,7 +169,7 @@ class MainCollectionViewCell : UICollectionViewCell {
         nameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(23)
             $0.leading.equalTo(profileImg.snp.trailing).offset(10)
-            $0.trailing.equalTo(countLabel.snp.leading).offset(5)
+            $0.trailing.equalTo(countView.snp.leading).offset(5)
         }
         
         idLabel.snp.makeConstraints {
@@ -151,21 +177,17 @@ class MainCollectionViewCell : UICollectionViewCell {
             $0.top.equalTo(nameLabel.snp.bottom)
         }
         
-        countLabel.snp.makeConstraints {
-            $0.top.equalTo(profileImg.snp.top)
-            $0.trailing.equalToSuperview().offset(-20)
-        }
         
         titleLabel.snp.makeConstraints {
             $0.leading.equalTo(profileImg.snp.leading)
-            $0.trailing.equalTo(countLabel.snp.trailing)
+            $0.trailing.equalTo(countView.snp.trailing)
             $0.top.equalTo(profileImg.snp.bottom).offset(24)
         }
         
         timeImg.snp.makeConstraints {
             $0.width.height.equalTo(14)
             $0.leading.equalTo(titleLabel.snp.leading)
-            $0.bottom.equalTo(placeImg.snp.top).offset(-4)
+            $0.bottom.equalTo(placeImg.snp.top).offset(-12)
         }
         
         placeImg.snp.makeConstraints {
@@ -176,7 +198,7 @@ class MainCollectionViewCell : UICollectionViewCell {
         
         dateLabel.snp.makeConstraints {
             $0.leading.equalTo(timeImg.snp.trailing).offset(8)
-            $0.trailing.equalTo(countLabel.snp.trailing)
+            $0.trailing.equalTo(countView.snp.trailing)
             $0.centerY.equalTo(timeImg.snp.centerY)
         }
         
@@ -192,6 +214,25 @@ class MainCollectionViewCell : UICollectionViewCell {
             $0.bottom.equalToSuperview().offset(-24)
             $0.height.equalTo(48)
         }
+        
+        countView.snp.makeConstraints {
+            $0.width.equalTo(45)
+            $0.height.equalTo(22)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.top.equalToSuperview().offset(20)
+        }
+        
+        countImageView.snp.makeConstraints {
+            $0.width.height.equalTo(10)
+            $0.leading.equalToSuperview().offset(6)
+            $0.centerY.equalToSuperview()
+        }
+        
+        countLabel.snp.makeConstraints {
+            $0.leading.equalTo(countImageView.snp.trailing).offset(4)
+            $0.centerY.equalTo(countImageView.snp.centerY)
+        }
+        
         
     }
 }

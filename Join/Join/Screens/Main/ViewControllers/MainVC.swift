@@ -51,9 +51,15 @@ class MainVC: BaseViewController {
     
     var searchJoinListBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setTitle("전체보기 >", for: .normal)
+        $0.setTitle("전체보기", for: .normal)
         $0.setTitleColor(.grayScale400, for: .normal)
         $0.titleLabel?.font = .minsans(size: 14, family: .Medium)
+        $0.contentHorizontalAlignment = .center
+    }
+    
+    var indicatorBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setImage(UIImage(named: "arrow_right"), for: .normal)
         $0.contentHorizontalAlignment = .center
     }
     
@@ -163,6 +169,7 @@ extension MainVC {
             statusLabel,
             mentLabel,
             searchJoinListBtn,
+            indicatorBtn,
             alarmBtn,
             storageBtn,
             popupBackgroundView
@@ -204,6 +211,12 @@ extension MainVC {
         
         
         searchJoinListBtn.snp.makeConstraints{
+            $0.centerY.equalTo(indicatorBtn.snp.centerY)
+            $0.trailing.equalTo(indicatorBtn.snp.leading)
+        }
+        
+        indicatorBtn.snp.makeConstraints{
+            $0.width.height.equalTo(16)
             $0.centerY.equalTo(mentLabel.snp.centerY)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-24)
         }
@@ -261,6 +274,13 @@ extension MainVC {
     
     func bind(){
         searchJoinListBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.pushJoinListVC()
+            })
+            .disposed(by: disposeBag)
+        
+        indicatorBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.pushJoinListVC()
