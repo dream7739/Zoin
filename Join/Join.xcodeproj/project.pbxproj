@@ -69,6 +69,9 @@
 		F2C727C928170C81002B1915 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C727C828170C81002B1915 /* UIColor+.swift */; };
 		F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4AF28365D450094DABD /* UIFont+.swift */; };
 		F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4B128365F3D0094DABD /* MinSansFont.swift */; };
+		F2E316C7286B651E009D67AC /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E316C6286B651E009D67AC /* SettingVC.swift */; };
+		F2E316CA286B6574009D67AC /* SettingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E316C9286B6574009D67AC /* SettingCVCell.swift */; };
+		F2E316CE286B6CAA009D67AC /* SettingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E316CD286B6CAA009D67AC /* SettingHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -138,6 +141,9 @@
 		F2C727C828170C81002B1915 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		F2E2C4AF28365D450094DABD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		F2E2C4B128365F3D0094DABD /* MinSansFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinSansFont.swift; sourceTree = "<group>"; };
+		F2E316C6286B651E009D67AC /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
+		F2E316C9286B6574009D67AC /* SettingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCVCell.swift; sourceTree = "<group>"; };
+		F2E316CD286B6CAA009D67AC /* SettingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +278,7 @@
 				F214201C281017C7000D102D /* Main */,
 				F214201E281017D3000D102D /* Join */,
 				F214201F281017D8000D102D /* Profile */,
+				F2E316C8286B6523009D67AC /* Setting */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -496,6 +503,32 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		F2E316C8286B6523009D67AC /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				F2E316CB286B6583009D67AC /* ViewControllers */,
+				F2E316CC286B658B009D67AC /* Cells */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		F2E316CB286B6583009D67AC /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F2E316C6286B651E009D67AC /* SettingVC.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		F2E316CC286B658B009D67AC /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				F2E316C9286B6574009D67AC /* SettingCVCell.swift */,
+				F2E316CD286B6CAA009D67AC /* SettingHeaderView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -617,8 +650,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F28AC7F2282CD841003EEF8A /* OnboardingSlide.swift in Sources */,
+				F2E316C7286B651E009D67AC /* SettingVC.swift in Sources */,
 				F2856356285B2BFF003B9AF8 /* FriendsSearchCVCell.swift in Sources */,
 				F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */,
+				F2E316CA286B6574009D67AC /* SettingCVCell.swift in Sources */,
 				F29FE101281678080034C8A2 /* RegisterEmailVC.swift in Sources */,
 				F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */,
 				F214200E28100B74000D102D /* MainVC.swift in Sources */,
@@ -666,6 +701,7 @@
 				889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
 				8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */,
+				F2E316CE286B6CAA009D67AC /* SettingHeaderView.swift in Sources */,
 				886C16AB286B32680041FA05 /* InviteVC.swift in Sources */,
 				F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */,
 				F2C727C928170C81002B1915 /* UIColor+.swift in Sources */,

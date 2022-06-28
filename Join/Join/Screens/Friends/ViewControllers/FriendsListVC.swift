@@ -97,6 +97,7 @@ extension FriendsListVC: UICollectionViewDelegateFlowLayout {
 extension FriendsListVC: CollectionViewCellDelegate {
     // MARK: - cell 내부의 버튼 눌렀을때의 액션처리
     func actionSheetButtonTapped(_cell: FriendsListCVCell) {
+        // cell 삭제 시 적용되는 액션코드
         //        tagTableView.beginUpdates()
         //        if let indexPath = tagTableView.indexPath(for: cell) {
         //            tagTableView.deleteRows(at: [indexPath], with: .fade)

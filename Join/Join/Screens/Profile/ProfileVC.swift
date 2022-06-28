@@ -293,6 +293,7 @@ extension ProfileVC {
     }
 
     @objc func moveLast() {
-
+        let viewController = SettingVC()
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
