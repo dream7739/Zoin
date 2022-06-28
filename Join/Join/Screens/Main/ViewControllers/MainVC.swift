@@ -16,7 +16,7 @@ class MainVC: BaseViewController {
     var currentPage: Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
-    var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient4", "gradient4", "gradient4", "gradient4"]
+    var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient1", "gradient2", "gradient3", "gradient4"]
     
     //메인 뷰
     var collectionView: UICollectionView = {
