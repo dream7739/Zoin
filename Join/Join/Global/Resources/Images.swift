@@ -24,7 +24,7 @@ enum Image {
     static let icon_sad = UIImage(named: "icon_sad")
     static let icon_time = UIImage(named: "icon_time")
     static let kakaoBtn = UIImage(named: "kakaoBtn")
-    static let loginToast = UIImage(named: "loginToast")
+    static let loginToast = UIImage(named: "loginToast") // 로그인 불일치 팝업
     static let mainEft = UIImage(named: "mainEft")
     static let mypage = UIImage(named: "mypage")
     static let onboarding1 = UIImage(named: "onboarding1")
@@ -45,7 +45,7 @@ enum Image {
     static let greenArchive = UIImage(named: "archiveGreen")
     static let checkGradient = UIImage(named: "checkGradient")
     static let edit = UIImage(named: "Edit")
-    static let friendListError = UIImage(named: "errorToast")
+    static let friendListError = UIImage(named: "errorToast") // 이미 친구 목록에 있는 친구라는 팝업
     static let exitButton = UIImage(named: "exitBtn")
     static let rectangle1112 = UIImage(named: "Rectangle 1112")
     static let rectangle1114 = UIImage(named: "Rectangle 1114")
@@ -55,4 +55,12 @@ enum Image {
     static let searchButton = UIImage(named: "search")
     static let searchSelectedButton = UIImage(named: "searchSelected")
     static let statusImage = UIImage(named: "statusImg")
+    static let addPopup = UIImage(named: "addPopup") // 친구 추가됐을때 나타나는 팝업
+    static let alreadyfriends = UIImage(named: "alreadyfriends") // 친구인상태
+    static let approveFriends = UIImage(named: "approveFriends") // 친구수락버튼
+    static let declineFriends = UIImage(named: "declineFriends") // 신청 취소 버튼
+    static let declinePopup = UIImage(named: "declinePopup") // 친구 신청 취소
+    static let endedStatusImg = UIImage(named: "endedStatusImg") // 마감된 번개이미지
+    static let fileEmpty3D = UIImage(named: "fileEmpty3D") // empty 번개
+    static let search3D = UIImage(named: "search3D") // 친구검색empty
 }
