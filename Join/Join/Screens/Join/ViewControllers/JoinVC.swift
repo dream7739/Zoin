@@ -270,21 +270,22 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         }
         
         timeImg.snp.makeConstraints {
-            $0.width.height.equalTo(22)
+            $0.width.height.equalTo(14)
             $0.leading.equalTo(titleLabel.snp.leading)
             $0.top.equalTo(titleLabel.snp.bottom).offset(16)
         }
         
         placeImg.snp.makeConstraints {
-            $0.width.height.equalTo(22)
+            $0.width.equalTo(13)
+            $0.height.equalTo(15.9)
             $0.leading.equalTo(timeImg.snp.leading)
-            $0.top.equalTo(timeImg.snp.bottom).offset(4)
+            $0.top.equalTo(timeImg.snp.bottom).offset(12)
         }
         
         attendImg.snp.makeConstraints {
-            $0.width.height.equalTo(22)
+            $0.width.height.equalTo(14)
             $0.leading.equalTo(placeImg.snp.leading)
-            $0.top.equalTo(placeImg.snp.bottom).offset(4)
+            $0.top.equalTo(placeImg.snp.bottom).offset(12)
         }
         
         nameLabel.snp.makeConstraints {
@@ -303,17 +304,17 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         }
         
         dateLabel.snp.makeConstraints {
-            $0.leading.equalTo(timeImg.snp.trailing).offset(4)
+            $0.leading.equalTo(timeImg.snp.trailing).offset(12)
             $0.centerY.equalTo(timeImg.snp.centerY)
         }
         
         placeLabel.snp.makeConstraints {
-            $0.leading.equalTo(placeImg.snp.trailing).offset(4)
+            $0.leading.equalTo(dateLabel.snp.leading)
             $0.centerY.equalTo(placeImg.snp.centerY)
         }
         
         countLabel.snp.makeConstraints {
-            $0.leading.equalTo(attendImg.snp.trailing).offset(4)
+            $0.leading.equalTo(dateLabel.snp.leading)
             $0.centerY.equalTo(attendImg.snp.centerY)
         }
         

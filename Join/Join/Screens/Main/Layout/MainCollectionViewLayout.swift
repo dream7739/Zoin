@@ -14,11 +14,13 @@ class MainCollectionViewLayout: UICollectionViewLayout {
     var angleAtExtreme: CGFloat {
         return collectionView!.numberOfItems(inSection: 0) > 0 ?
         -CGFloat(collectionView!.numberOfItems(inSection: 0) - 1) * anglePerItem : 0
+        
     }
     
     var angle: CGFloat {
         return angleAtExtreme * collectionView!.contentOffset.x / (collectionViewContentSize.width - collectionView!.bounds.width)
     }
+    
     
     var radius: CGFloat = 1400{
         didSet {
@@ -37,12 +39,11 @@ class MainCollectionViewLayout: UICollectionViewLayout {
     
     override func prepare() {
         super.prepare()
-        
         let centerX = collectionView!.contentOffset.x + (collectionView!.frame.width / 2.0)
         let anchorPointY = ((itemSize.height) + radius) / itemSize.height
         attributesList = (0..<collectionView!.numberOfItems(inSection: 0)).map { (i)
             -> MainCollectionViewLayoutAttributes in
-
+            
             let attributes = MainCollectionViewLayoutAttributes(forCellWith: NSIndexPath(item: i, section: 0) as IndexPath)
             attributes.size = self.itemSize
             attributes.center = CGPoint(x: centerX, y:self.collectionView!.frame.midY)
@@ -75,7 +76,24 @@ class MainCollectionViewLayout: UICollectionViewLayout {
         return true
     }
     
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+        var finalContentOffset = proposedContentOffset
+        let factor = -angleAtExtreme/(collectionViewContentSize.width - collectionView!.bounds.width)
+        let proposedAngle = proposedContentOffset.x*factor
+        let ratio = proposedAngle/anglePerItem
+        var multiplier: CGFloat
+        if (velocity.x > 0) {
+            multiplier = ceil(ratio)
+        } else if (velocity.x < 0) {
+            multiplier = floor(ratio)
+        } else {
+            multiplier = round(ratio)
+        }
+        finalContentOffset.x = multiplier*anglePerItem/factor
+        return finalContentOffset
+    }
 }
+
 
 class MainCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
     var anchorPoint = CGPoint(x:0.5, y:0.5)

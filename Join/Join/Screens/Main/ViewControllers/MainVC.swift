@@ -16,6 +16,7 @@ class MainVC: BaseViewController {
     var currentPage: Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
+    var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient1", "gradient2", "gradient3", "gradient4"]
     
     //메인 뷰
     var collectionView: UICollectionView = {
@@ -25,8 +26,6 @@ class MainVC: BaseViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.decelerationRate = UIScrollView.DecelerationRate.fast
         cv.showsHorizontalScrollIndicator = false
-        
-        
         return cv
     }()
     
@@ -39,18 +38,29 @@ class MainVC: BaseViewController {
     var statusLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "번개가 요동치는 중"
+        $0.font = .minsans(size: 16, family: .Medium)
+        $0.textColor = .grayScale100
     }
     
     var mentLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "현재 기다리고 있어요"
-        $0.font = UIFont.boldSystemFont(ofSize: 24)
+        $0.font = .minsans(size: 24, family: .Bold)
+        $0.textColor = .grayScale100
     }
     
     var searchJoinListBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setTitle("전체보기 >", for: .normal)
-        $0.setTitleColor(UIColor.gray, for: .normal)
+        $0.setTitle("전체보기", for: .normal)
+        $0.setTitleColor(.grayScale400, for: .normal)
+        $0.titleLabel?.font = .minsans(size: 14, family: .Medium)
+        $0.contentHorizontalAlignment = .center
+    }
+    
+    var indicatorBtn = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setImage(UIImage(named: "arrow_right"), for: .normal)
+        $0.contentHorizontalAlignment = .center
     }
     
     var alarmBtn = UIButton().then {
@@ -58,7 +68,7 @@ class MainVC: BaseViewController {
         $0.setImage(UIImage(named: "alarm"), for: .normal)
     }
     
-    var storageBtn = UIButton().then {
+    var inviteBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setImage(UIImage(named: "storage"), for: .normal)
     }
@@ -125,13 +135,13 @@ class MainVC: BaseViewController {
     
     func addNotiObserver(){
         NotificationCenter.default.addObserver(self,
-                                                  selector: #selector(openList),
-                                                  name: NSNotification.Name("listFlag"),
-                                                  object: nil)
+                                               selector: #selector(openList),
+                                               name: NSNotification.Name("listFlag"),
+                                               object: nil)
         NotificationCenter.default.addObserver(self,
-                                                  selector: #selector(openDetail),
-                                                  name: NSNotification.Name("detailFlag"),
-                                                  object: nil)
+                                               selector: #selector(openDetail),
+                                               name: NSNotification.Name("detailFlag"),
+                                               object: nil)
     }
     
     @objc func openList(notification : NSNotification){
@@ -150,14 +160,18 @@ class MainVC: BaseViewController {
 
 extension MainVC {
     private func setLayout() {
+        view.backgroundColor = .grayScale900
+        collectionView.backgroundColor = .grayScale900
+        
         view.adds([
             collectionView,
             mainEffectImageView,
             statusLabel,
             mentLabel,
             searchJoinListBtn,
+            indicatorBtn,
             alarmBtn,
-            storageBtn,
+            inviteBtn,
             popupBackgroundView
         ])
         
@@ -182,7 +196,7 @@ extension MainVC {
         mainEffectImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(60)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
-            $0.width.height.equalTo(56)
+            $0.width.height.equalTo(72)
         }
         
         statusLabel.snp.makeConstraints{
@@ -197,17 +211,23 @@ extension MainVC {
         
         
         searchJoinListBtn.snp.makeConstraints{
+            $0.centerY.equalTo(indicatorBtn.snp.centerY)
+            $0.trailing.equalTo(indicatorBtn.snp.leading)
+        }
+        
+        indicatorBtn.snp.makeConstraints{
+            $0.width.height.equalTo(16)
             $0.centerY.equalTo(mentLabel.snp.centerY)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-24)
         }
         
         alarmBtn.snp.makeConstraints{
             $0.width.height.equalTo(24)
-            $0.centerY.equalTo(storageBtn.snp.centerY)
-            $0.trailing.equalTo(storageBtn.snp.leading).offset(-24)
+            $0.centerY.equalTo(inviteBtn.snp.centerY)
+            $0.trailing.equalTo(inviteBtn.snp.leading).offset(-24)
         }
         
-        storageBtn.snp.makeConstraints{
+        inviteBtn.snp.makeConstraints{
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(12)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-24)
             
@@ -260,11 +280,27 @@ extension MainVC {
             })
             .disposed(by: disposeBag)
         
+        indicatorBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.pushJoinListVC()
+            })
+            .disposed(by: disposeBag)
+        
         confirmBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.popupBackgroundView.isHidden = true
                 
+            })
+            .disposed(by: disposeBag)
+        
+        inviteBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let inviteVC = InviteVC()
+                inviteVC.modalPresentationStyle = .overFullScreen
+                self.present(inviteVC, animated: true)
             })
             .disposed(by: disposeBag)
     }
@@ -273,7 +309,7 @@ extension MainVC {
         let joinListVC = JoinListVC()
         self.navigationController?.pushViewController(joinListVC, animated: true)
     }
-
+    
 }
 
 extension MainVC: MainCellDelegate {
@@ -303,7 +339,7 @@ extension MainVC: FinishMainDelegate {
 extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 8
     }
     
     
@@ -312,45 +348,13 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.delegate = self
         cell.index = indexPath.row
+        
+        var shuffledImgArr = imgArr.shuffled()
+        cell.backGroundImg.image = UIImage(named: shuffledImgArr[cell.index])
         return cell
     }
     
-}
-
-extension MainVC: UIScrollViewDelegate {
-
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let point = self.targetContentOffset(scrollView, withVelocity: velocity)
-        targetContentOffset.pointee = point
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: velocity.x, options: .allowUserInteraction, animations: {
-              }, completion: { _ in
-                  self.collectionView.setContentOffset(point, animated: true)
-              })
-    }
-    
-    func targetContentOffset(_ scrollView: UIScrollView, withVelocity velocity: CGPoint) -> CGPoint {
-   
-        guard let mainLayout = collectionView.collectionViewLayout as? MainCollectionViewLayout else { return .zero }
-  
-        let count = mainLayout.attributesList.count
-        
-        let itemWidth = mainLayout.itemSize.width - 37.5
-        
-        if  velocity.x < 0 {
-            if currentPage != 0 {
-                currentPage = currentPage - 1
-            }
-        } else if velocity.x > 0 {
-            if currentPage < count - 1{
-                currentPage = currentPage + 1
-            }
-        }
-
-        let updatedOffset = itemWidth * CGFloat(currentPage)
-        previousOffset = updatedOffset
-        return CGPoint(x: updatedOffset, y: 0)
-    }
-   
     
 }
+

@@ -34,20 +34,26 @@ extension TabBarController {
     
     private func setTabBar() {
         let tabBar = { () -> TabBarVC in
-               let tabBar = TabBarVC()
-               tabBar.delegate = self
-               return tabBar
-           }()
-           self.setValue(tabBar, forKey: "tabBar")
+            let tabBar = TabBarVC()
+            tabBar.delegate = self
+            return tabBar
+        }()
+        self.setValue(tabBar, forKey: "tabBar")
         
         
         let middleButton = UIButton(frame: CGRect(x: self.view.bounds.width/2-25, y: -20, width: 62, height: 62)).then{
             $0.layer.cornerRadius = 20
-            $0.backgroundColor = .darkGray
+            $0.setBackgroundImage(UIImage(named: "icon_center_btn"), for: .normal)
             $0.addTarget(self, action: #selector(menuButtionAction), for: .touchUpInside)
         }
         
+        let lineView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 1))
+        lineView.backgroundColor = UIColor.grayScale800
+        self.tabBar.addSubview(lineView)
+        
+        
         self.tabBar.addSubview(middleButton)
+        self.tabBar.barTintColor = .grayScale900
         self.view.layoutIfNeeded()
         
         let mainView = MainVC()
@@ -58,12 +64,12 @@ extension TabBarController {
         )
         mainView.tabBarItem = mainViewTabItem
         let mainViewController = UINavigationController(rootViewController: mainView)
-
+        
         let makeView = MakeVC()
         let makeViewTabItem = UITabBarItem()
         makeView.tabBarItem = makeViewTabItem
         let makeViewcontroller = UINavigationController(rootViewController: makeView)
-
+        
         
         let profileView = ProfileVC()
         let profileViewTabItem = UITabBarItem(
@@ -73,7 +79,7 @@ extension TabBarController {
         )
         profileView.tabBarItem = profileViewTabItem
         let profileViewController = UINavigationController(rootViewController: profileView)
-
+        
         viewControllers = [mainViewController, makeViewcontroller, profileViewController]
     }
 }

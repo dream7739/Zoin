@@ -10,6 +10,7 @@
 		1BD04677B4AC9D10F7A80A6E /* Pods_Join.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B2BA62B0E6B67E8E8F474 /* Pods_Join.framework */; };
 		881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */; };
 		8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */; };
+		886C16AB286B32680041FA05 /* InviteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886C16AA286B32680041FA05 /* InviteVC.swift */; };
 		887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */; };
 		8882EAF42823E26F00622FF9 /* JoinMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */; };
 		8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */; };
@@ -75,6 +76,7 @@
 		3A469DD7351BAD9248C3A089 /* Pods-Join.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Join.release.xcconfig"; path = "Target Support Files/Pods-Join/Pods-Join.release.xcconfig"; sourceTree = "<group>"; };
 		881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinListTableViewCell.swift; sourceTree = "<group>"; };
+		886C16AA286B32680041FA05 /* InviteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteVC.swift; sourceTree = "<group>"; };
 		887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMemberCell.swift; sourceTree = "<group>"; };
 		8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinModifyVC.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			children = (
 				889E497D2816ED1900AA2D9C /* JoinListVC.swift */,
 				F214200D28100B73000D102D /* MainVC.swift */,
+				886C16AA286B32680041FA05 /* InviteVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -663,6 +666,7 @@
 				889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
 				8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */,
+				886C16AB286B32680041FA05 /* InviteVC.swift in Sources */,
 				F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */,
 				F2C727C928170C81002B1915 /* UIColor+.swift in Sources */,
 			);
