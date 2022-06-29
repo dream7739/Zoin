@@ -144,6 +144,13 @@ extension LoginVC {
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
+
+        SignInButton.rx.tap.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            let viewController = EmailLoginVC()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        })
+        .disposed(by: disposeBag)
     }
 }
 
