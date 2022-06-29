@@ -111,7 +111,6 @@ extension LoginVC {
         SignInButton.snp.makeConstraints { (make) in
             make.top.equalTo(appleButton.snp.bottom).offset(36)
             make.leading.equalTo(divideLabel.snp.trailing).offset(14)
-            make.trailing.equalToSuperview().offset(-110)
         }
     }
 
