@@ -39,6 +39,8 @@
 		F219C02A2869E6B6009BFC9C /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C0292869E6B6009BFC9C /* Environment.swift */; };
 		F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C02B2869E6CB009BFC9C /* AuthServices.swift */; };
 		F21CECF6283543E100ED1EC0 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CECF5283543E100ED1EC0 /* Images.swift */; };
+		F24B24E2286C35070039B967 /* AccountSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24B24E1286C35070039B967 /* AccountSettingVC.swift */; };
+		F24B24E4286C379E0039B967 /* AccountSettingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
 		F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */; };
 		F2856356285B2BFF003B9AF8 /* FriendsSearchCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856355285B2BFF003B9AF8 /* FriendsSearchCVCell.swift */; };
@@ -110,6 +112,8 @@
 		F219C0292869E6B6009BFC9C /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		F219C02B2869E6CB009BFC9C /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		F21CECF5283543E100ED1EC0 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		F24B24E1286C35070039B967 /* AccountSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingVC.swift; sourceTree = "<group>"; };
+		F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingCVCell.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSearchVC.swift; sourceTree = "<group>"; };
 		F2856355285B2BFF003B9AF8 /* FriendsSearchCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSearchCVCell.swift; sourceTree = "<group>"; };
@@ -516,6 +520,7 @@
 			isa = PBXGroup;
 			children = (
 				F2E316C6286B651E009D67AC /* SettingVC.swift */,
+				F24B24E1286C35070039B967 /* AccountSettingVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -525,6 +530,7 @@
 			children = (
 				F2E316C9286B6574009D67AC /* SettingCVCell.swift */,
 				F2E316CD286B6CAA009D67AC /* SettingHeaderView.swift */,
+				F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -649,10 +655,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F24B24E2286C35070039B967 /* AccountSettingVC.swift in Sources */,
 				F28AC7F2282CD841003EEF8A /* OnboardingSlide.swift in Sources */,
 				F2E316C7286B651E009D67AC /* SettingVC.swift in Sources */,
 				F2856356285B2BFF003B9AF8 /* FriendsSearchCVCell.swift in Sources */,
 				F29FE10B28167A400034C8A2 /* RegisterProfileVC.swift in Sources */,
+				F24B24E4286C379E0039B967 /* AccountSettingCVCell.swift in Sources */,
 				F2E316CA286B6574009D67AC /* SettingCVCell.swift in Sources */,
 				F29FE101281678080034C8A2 /* RegisterEmailVC.swift in Sources */,
 				F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */,

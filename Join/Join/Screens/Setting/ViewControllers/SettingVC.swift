@@ -94,6 +94,17 @@ extension SettingVC: UICollectionViewDataSource {
         }
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            if indexPath.item == 1 {
+                let viewController = AccountSettingVC()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
+        } else {
+            // 메뉴별 경로 설정, 화면 이동
+        }
+    }
+
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SettingHeaderView.identifier, for: indexPath) as! SettingHeaderView
