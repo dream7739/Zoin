@@ -12,6 +12,7 @@ class SettingCVCell: UICollectionViewCell {
 
     private let backgroundImage = UIView().then {
         $0.backgroundColor = .grayScale800
+        $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 24
     }
 
@@ -47,10 +48,10 @@ extension SettingCVCell {
             guideImage
         ])
         backgroundImage.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.top.equalToSuperview().offset(2)
+            make.leading.equalToSuperview().offset(2)
+            make.bottom.equalToSuperview().offset(-2)
+            make.trailing.equalToSuperview().offset(-2)
         }
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(24)

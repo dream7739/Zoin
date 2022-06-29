@@ -12,7 +12,7 @@ class SettingHeaderView: UICollectionReusableView {
 
     let titleLabel = UILabel().then {
         $0.textColor = .white
-        $0.font = .minsans(size: 16, family: .Bold)
+        $0.font = .minsans(size: 20, family: .Bold)
     }
 
     override init(frame: CGRect) {
@@ -33,9 +33,9 @@ extension SettingHeaderView {
     private func render() {
         add(titleLabel) { label in
             label.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(24)
+                $0.top.equalToSuperview().offset(10)
                 $0.leading.equalToSuperview().offset(24)
-                $0.bottom.equalToSuperview().offset(24)
+                $0.bottom.equalToSuperview().offset(10)
             }
         }
     }

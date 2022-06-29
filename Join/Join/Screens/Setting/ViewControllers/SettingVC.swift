@@ -13,7 +13,7 @@ class SettingVC: BaseViewController {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0
         layout.scrollDirection = .vertical
-        layout.sectionInset = .zero
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 24, bottom: 2, right: 24)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isPagingEnabled = true
         collectionView.backgroundColor = .grayScale900
@@ -48,8 +48,8 @@ extension SettingVC {
         ])
         collectionView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
         collectionView.delegate = self
@@ -118,7 +118,7 @@ extension SettingVC: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        return CGSize(width: view.frame.width, height: 75)
+        return CGSize(width: view.frame.width - 48, height: 75)
     }
 
     func collectionView(
@@ -126,6 +126,6 @@ extension SettingVC: UICollectionViewDelegateFlowLayout {
       layout collectionViewLayout: UICollectionViewLayout,
       referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
-        return CGSize(width: view.frame.width, height: 55)
+        return CGSize(width: view.frame.width - 48, height: 55)
     }
 }
