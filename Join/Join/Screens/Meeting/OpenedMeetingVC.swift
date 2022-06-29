@@ -24,12 +24,36 @@ class OpenedMeetingVC: BaseViewController {
         collectionView.register(OpenedMeetingCVCell.self, forCellWithReuseIdentifier: OpenedMeetingCVCell.identifier)
         return collectionView
     }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setLayout()
+        // Do any additional setup after loading the view.
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNavigationBar(isHidden: false)
+        setUpNavigation()
+        setTabBarHidden(isHidden: true)
+    }
 }
 
 extension OpenedMeetingVC {
     private func setLayout() {
-
-
+        view.backgroundColor = .grayScale900
+        view.isOpaque = true
+        view.adds([
+            collectionView
+        ])
+        collectionView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
 
     private func setUpNavigation() {
@@ -38,5 +62,27 @@ extension OpenedMeetingVC {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationBar.isTranslucent = false
 
+    }
+}
+
+extension OpenedMeetingVC: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: OpenedMeetingCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: OpenedMeetingCVCell.identifier, for: indexPath) as! OpenedMeetingCVCell
+        cell.bind()
+        return cell
+    }
+}
+
+extension OpenedMeetingVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: view.frame.width, height: 110)
     }
 }
