@@ -104,7 +104,11 @@ class WithdrawVC: BaseViewController {
     }
 
     private let reasonTextView = UITextView().then {
-        $0.text = "탈퇴 사유를 입력해 주세요"
+        $0.text =
+            """
+            탈퇴 사유를 입력해 주세요.
+            서비스 개선에 적극적으로 반영할게요!
+            """
         $0.textColor = .grayScale600
         $0.tintColor = .yellow200
         $0.font = .minsans(size: 16, family: .Medium)
@@ -295,7 +299,11 @@ extension WithdrawVC {
 extension WithdrawVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard let text = textView.text else { return }
-        if text == "탈퇴 사유를 입력해 주세요" {
+        if text ==
+            """
+            탈퇴 사유를 입력해 주세요.
+            서비스 개선에 적극적으로 반영할게요!
+            """ {
             textView.text = ""
             textView.textColor = .yellow200
             if text.count > 0 {
