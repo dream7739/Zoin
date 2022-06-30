@@ -7,6 +7,13 @@
 
 import UIKit
 
+import SnapKit
+import SwiftyJSON
+import Then
+import RxCocoa
+import RxSwift
+import RxKeyboard
+import Moya
 
 class FriendsListCVCell: UICollectionViewCell {
     static let identifier = "FriendsListCVCell"
@@ -28,7 +35,7 @@ class FriendsListCVCell: UICollectionViewCell {
         $0.font = .minsans(size: 16, family: .Medium)
     }
 
-    private let modalButton = UIButton().then {
+    let modalButton = UIButton().then {
         // TODO: - 이미지 변경필요
         $0.setImage(Image.icon_more, for: .normal)
     }
@@ -84,4 +91,8 @@ extension FriendsListCVCell {
         userNameLabel.text = "이용자이름"
         userIdLabel.text = "이것은 임시입니다."
     }
+}
+
+protocol CollectionViewCellDelegate: AnyObject {
+    func actionSheetButtonTapped(_cell: FriendsListCVCell)
 }

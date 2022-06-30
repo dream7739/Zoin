@@ -1,34 +1,30 @@
 //
-//  OpenedMeetingVC.swift
+//  AccountSettingVC.swift
 //  Join
 //
-//  Created by 이윤진 on 2022/06/16.
+//  Created by 이윤진 on 2022/06/29.
 //
 
 import UIKit
 
-import SnapKit
-import Then
-import RxCocoa
-import RxSwift
+class AccountSettingVC: BaseViewController {
 
-class OpenedMeetingVC: BaseViewController {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0
         layout.scrollDirection = .vertical
-        layout.sectionInset = .zero
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 24, bottom: 2, right: 24)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isPagingEnabled = true
         collectionView.backgroundColor = .grayScale900
-        collectionView.register(OpenedMeetingCVCell.self, forCellWithReuseIdentifier: OpenedMeetingCVCell.identifier)
+        collectionView.register(AccountSettingCVCell.self, forCellWithReuseIdentifier: AccountSettingCVCell.identifier)
         return collectionView
     }()
 
+    private var accountData: [String] = ["비밀번호 변경", "로그아웃", "탈퇴"]
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
-        // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -37,9 +33,11 @@ class OpenedMeetingVC: BaseViewController {
         setUpNavigation()
         setTabBarHidden(isHidden: true)
     }
+
 }
 
-extension OpenedMeetingVC {
+extension AccountSettingVC {
+
     private func setLayout() {
         view.backgroundColor = .grayScale900
         view.isOpaque = true
@@ -57,32 +55,49 @@ extension OpenedMeetingVC {
     }
 
     private func setUpNavigation() {
-        title = "모집 중"
+        title = "계정 설정"
         guard let navigationBar = navigationController?.navigationBar else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationBar.isTranslucent = false
-
     }
+
 }
 
-extension OpenedMeetingVC: UICollectionViewDataSource {
+extension AccountSettingVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return accountData.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: OpenedMeetingCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: OpenedMeetingCVCell.identifier, for: indexPath) as! OpenedMeetingCVCell
-        cell.bind()
+        let cell: AccountSettingCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: AccountSettingCVCell.identifier, for: indexPath) as! AccountSettingCVCell
+        cell.titleLabel.text = accountData[indexPath.item]
+        if indexPath.item == 2 {
+            cell.titleLabel.textColor = .grayScale600
+        }
         return cell
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item == 0 {
+            let viewController = PasswordChangeVC()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        } else if indexPath.item == 2 {
+            let viewController = WithdrawVC()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        } else {
+            // 메뉴별 경로 설정, 화면 이동
+        }
+    }
+
 }
 
-extension OpenedMeetingVC: UICollectionViewDelegateFlowLayout {
+extension AccountSettingVC: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        return CGSize(width: view.frame.width, height: 110)
+        return CGSize(width: view.frame.width - 48, height: 75)
     }
+
 }

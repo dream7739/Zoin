@@ -59,13 +59,23 @@ extension FriendsListVC {
         navigationBar.isTranslucent = false
 
     }
+
+    @objc func showActionSheet() {
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "삭제", style: .default)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(cancelAction)
+        optionMenu.view.tintColor = .grayScale900
+        self.present(optionMenu, animated: true, completion: nil)
+    }
 }
 
 extension FriendsListVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: FriendsListCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendsListCVCell.identifier, for: indexPath) as! FriendsListCVCell
-        // MARK: - 디자인만한것임. 아렉스 적용하면 이 bind는 수정예정
         cell.bind()
+        cell.modalButton.addTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
         return cell
     }
 
@@ -81,5 +91,17 @@ extension FriendsListVC: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         return CGSize(width: view.frame.width, height: 90)
+    }
+}
+
+extension FriendsListVC: CollectionViewCellDelegate {
+    // MARK: - cell 내부의 버튼 눌렀을때의 액션처리
+    func actionSheetButtonTapped(_cell: FriendsListCVCell) {
+        // cell 삭제 시 적용되는 액션코드
+        //        tagTableView.beginUpdates()
+        //        if let indexPath = tagTableView.indexPath(for: cell) {
+        //            tagTableView.deleteRows(at: [indexPath], with: .fade)
+        //        }
+        //        tagTableView.endUpdates()
     }
 }

@@ -275,6 +275,14 @@ extension ProfileVC {
     }
 
     private func bind() {
+        boxButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let viewController = OpenedMeetingVC()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+
         friendsListButton.rx.tap.subscribe(onNext: { [weak self] _ in
             guard let self = self else { return }
             let viewController = FriendsListVC()
@@ -290,9 +298,18 @@ extension ProfileVC {
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
+
+        editButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let viewController = ProfileChangeVC()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 
     @objc func moveLast() {
-
+        let viewController = SettingVC()
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

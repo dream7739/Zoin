@@ -40,10 +40,22 @@ class FriendsSearchVC: BaseViewController {
         collectionView.register(FriendsSearchCVCell.self, forCellWithReuseIdentifier: FriendsSearchCVCell.identififer)
         return collectionView
     }()
+    private let emptyView = UIView().then {
+        $0.backgroundColor = .grayScale900
+    }
+    private let emptyStatusLabel = UILabel().then {
+        $0.text = "친구를 찾아보세요."
+        $0.textColor = .grayScale600
+        $0.font = .minsans(size: 16, family: .Medium)
+    }
+    private let emptyImage = UIImageView().then {
+        $0.image = Image.search3D
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
-        bind()
+        setTextField()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +74,12 @@ extension FriendsSearchVC {
         view.isOpaque = true
         view.adds([
             searchTextField,
-            collectionView
+            collectionView,
+            emptyView
+        ])
+        emptyView.adds([
+            emptyStatusLabel,
+            emptyImage
         ])
         searchTextField.add(searchButton)
         searchTextField.snp.makeConstraints { (make) in
@@ -83,6 +100,21 @@ extension FriendsSearchVC {
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+        emptyView.snp.makeConstraints { (make) in
+            make.top.equalTo(searchTextField.snp.bottom).offset(6)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        emptyImage.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(70)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(115)
+        }
+        emptyStatusLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(emptyImage.snp.bottom).offset(1)
+            make.centerX.equalToSuperview()
+        }
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -97,27 +129,11 @@ extension FriendsSearchVC {
         navigationBar.isTranslucent = false
     }
 
-    private func bind() {
-        searchTextField.rx.text
-            .do { [weak self] text in
-                guard let self = self,
-                      let text = text
-                else { return }
-                if text.count > 0 {
-                    self.searchTextField.layer.borderColor = UIColor.grayScale400.cgColor
-                    self.searchTextField.layer.cornerRadius = 20
-                    self.searchTextField.layer.borderWidth = 2.0
-                    self.searchButton.setImage(Image.searchSelectedButton, for: .normal)
-                } else {
-                    self.searchTextField.layer.borderWidth = 0.0
-                    self.searchButton.setImage(Image.searchButton, for: .normal)
-                }
-            }
-            .subscribe(onNext: { [weak self] _ in
-
-            })
-            .disposed(by: disposeBag)
+    private func setTextField() {
+        searchTextField.delegate = self
+        searchTextField.addTarget(self, action: #selector(checkAvailability), for: .editingChanged)
     }
+
 }
 
 extension FriendsSearchVC: UICollectionViewDataSource {
@@ -139,5 +155,28 @@ extension FriendsSearchVC: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         return CGSize(width: view.frame.width, height: 90)
+    }
+}
+
+extension FriendsSearchVC: UITextFieldDelegate {
+    @objc private func checkAvailability(_ textfield: UITextField) {
+        guard let text = textfield.text else { return }
+        if text.count > 0 {
+            textfield.layer.borderColor = UIColor.grayScale400.cgColor
+            textfield.layer.cornerRadius = 20
+            textfield.layer.borderWidth = 2.0
+            searchButton.setImage(Image.searchSelectedButton, for: .normal)
+        } else {
+            self.searchTextField.layer.borderWidth = 0.0
+            self.searchButton.setImage(Image.searchButton, for: .normal)
+        }
+    }
+    // TODO: - 키보드 return키 누르면 검색가능하게끔?
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }

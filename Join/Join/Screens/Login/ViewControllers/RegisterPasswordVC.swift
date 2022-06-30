@@ -28,7 +28,7 @@ class RegisterPasswordVC: BaseViewController {
     }
 
     private let addPasswordTextField = UITextField().then {
-        $0.placeholder = "최소 8자 이상"
+        $0.placeholder = "8자 이상 12자 이하"
         $0.setPlaceHolderColor(.grayScale600)
         $0.tintColor = .yellow200
         $0.textColor = .yellow200
@@ -40,7 +40,7 @@ class RegisterPasswordVC: BaseViewController {
 
     private let addPasswordLabel = UILabel().then {
         // 일치한다면 사용 가능한 비밀번호입니다. 파란색으로 변경
-        $0.text = "비밀번호를 8자 이상 12자 이하로 입력해주세요."
+        $0.text = "8자 이상 12자 이하"
         $0.textColor = .red100
         $0.font = .minsans(size: 12, family: .Medium)
     }
