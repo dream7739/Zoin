@@ -64,4 +64,6 @@ enum Image {
     static let fileEmpty3D = UIImage(named: "fileEmpty3D") // empty 번개
     static let search3D = UIImage(named: "search3D") // 친구검색empty
     static let arrowRight = UIImage(named: "arrow_right")
+    static let checkbox = UIImage(named: "checkbox")
+    static let checkboxSelected = UIImage(named: "checkboxSelected")
 }

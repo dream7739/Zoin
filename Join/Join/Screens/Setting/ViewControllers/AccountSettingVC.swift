@@ -77,7 +77,14 @@ extension AccountSettingVC: UICollectionViewDataSource {
         return cell
     }
 
-
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item == 2 {
+            let viewController = WithdrawVC()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        } else {
+            // 메뉴별 경로 설정, 화면 이동
+        }
+    }
 
 }
 

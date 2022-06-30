@@ -69,6 +69,8 @@
 		F2A4CC17283659920050FBCB /* MinSans-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC11283659920050FBCB /* MinSans-Medium.otf */; };
 		F2A4CC18283659920050FBCB /* MinSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC12283659920050FBCB /* MinSans-Regular.otf */; };
 		F2A4CC19283659920050FBCB /* MinSans-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC13283659920050FBCB /* MinSans-Thin.otf */; };
+		F2C2C203286D5B1100D8BA39 /* WithdrawVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */; };
+		F2C6AB3F286D6FBA001822D6 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */; };
 		F2C727C928170C81002B1915 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C727C828170C81002B1915 /* UIColor+.swift */; };
 		F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4AF28365D450094DABD /* UIFont+.swift */; };
 		F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4B128365F3D0094DABD /* MinSansFont.swift */; };
@@ -144,6 +146,8 @@
 		F2A4CC11283659920050FBCB /* MinSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Medium.otf"; sourceTree = "<group>"; };
 		F2A4CC12283659920050FBCB /* MinSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Regular.otf"; sourceTree = "<group>"; };
 		F2A4CC13283659920050FBCB /* MinSans-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Thin.otf"; sourceTree = "<group>"; };
+		F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawVC.swift; sourceTree = "<group>"; };
+		F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		F2C727C828170C81002B1915 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		F2E2C4AF28365D450094DABD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		F2E2C4B128365F3D0094DABD /* MinSansFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinSansFont.swift; sourceTree = "<group>"; };
@@ -449,6 +453,7 @@
 				F21429EF28218EEB00E54B57 /* UIButton+.swift */,
 				F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */,
 				F2E2C4AF28365D450094DABD /* UIFont+.swift */,
+				F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -524,6 +529,7 @@
 			children = (
 				F2E316C6286B651E009D67AC /* SettingVC.swift */,
 				F24B24E1286C35070039B967 /* AccountSettingVC.swift */,
+				F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -688,6 +694,7 @@
 				889E497E2816ED1900AA2D9C /* JoinListVC.swift in Sources */,
 				8896D41A28236C730061CEAE /* JoinFinishVC.swift in Sources */,
 				F21CECF6283543E100ED1EC0 /* Images.swift in Sources */,
+				F2C2C203286D5B1100D8BA39 /* WithdrawVC.swift in Sources */,
 				F214201028100BBF000D102D /* JoinVC.swift in Sources */,
 				F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */,
 				F29FE107281679C50034C8A2 /* RegisterNicknameVC.swift in Sources */,
@@ -712,6 +719,7 @@
 				F28F8E78285887D5005FF435 /* FriendsListVC.swift in Sources */,
 				889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
+				F2C6AB3F286D6FBA001822D6 /* UITextView+.swift in Sources */,
 				8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */,
 				F2E316CE286B6CAA009D67AC /* SettingHeaderView.swift in Sources */,
 				886C16AB286B32680041FA05 /* InviteVC.swift in Sources */,
