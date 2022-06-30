@@ -78,7 +78,10 @@ extension AccountSettingVC: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == 2 {
+        if indexPath.item == 0 {
+            let viewController = PasswordChangeVC()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        } else if indexPath.item == 2 {
             let viewController = WithdrawVC()
             self.navigationController?.pushViewController(viewController, animated: true)
         } else {
