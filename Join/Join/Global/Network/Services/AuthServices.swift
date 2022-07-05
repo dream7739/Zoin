@@ -12,6 +12,7 @@ import Moya
 enum AuthServices {
     case signUp(param: SignUpRequest)
     case checkId(param: checkId)
+    case checkEmail(param: checkEmail)
 }
 // MARK: - parameter data
 // 모델데이터 global 파일에 data 하위디렉터리 만들어서 옮기는게 낫지 않을까?
@@ -26,6 +27,10 @@ struct SignUpRequest: Encodable {
 
 struct checkId: Encodable {
     var serviceId: String
+}
+
+struct checkEmail: Encodable {
+    var email: String
 }
 
 extension AuthServices: TargetType {
@@ -43,6 +48,8 @@ extension AuthServices: TargetType {
             return "/api/v1/user/sign-up"
         case .checkId:
             return "/api/v1/user/existing/id"
+        case .checkEmail:
+            return "/api/v1/user/existing/email"
         }
     }
 
@@ -52,6 +59,8 @@ extension AuthServices: TargetType {
         case .signUp:
             return .post
         case .checkId:
+            return .post
+        case .checkEmail:
             return .post
         }
     }
@@ -70,6 +79,8 @@ extension AuthServices: TargetType {
         case.signUp(let param):
             return .requestJSONEncodable(param)
         case .checkId(let param):
+            return .requestJSONEncodable(param)
+        case .checkEmail(let param):
             return .requestJSONEncodable(param)
         }
     }

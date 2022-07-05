@@ -71,6 +71,8 @@
 		F2A4CC17283659920050FBCB /* MinSans-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC11283659920050FBCB /* MinSans-Medium.otf */; };
 		F2A4CC18283659920050FBCB /* MinSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC12283659920050FBCB /* MinSans-Regular.otf */; };
 		F2A4CC19283659920050FBCB /* MinSans-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F2A4CC13283659920050FBCB /* MinSans-Thin.otf */; };
+		F2C0DC9028747915009A1229 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C0DC8F28747915009A1229 /* String+.swift */; };
+		F2C0DC9228748056009A1229 /* KeychainHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C0DC9128748056009A1229 /* KeychainHandler.swift */; };
 		F2C2C203286D5B1100D8BA39 /* WithdrawVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */; };
 		F2C6AB3F286D6FBA001822D6 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */; };
 		F2C727C928170C81002B1915 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C727C828170C81002B1915 /* UIColor+.swift */; };
@@ -150,6 +152,8 @@
 		F2A4CC11283659920050FBCB /* MinSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Medium.otf"; sourceTree = "<group>"; };
 		F2A4CC12283659920050FBCB /* MinSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Regular.otf"; sourceTree = "<group>"; };
 		F2A4CC13283659920050FBCB /* MinSans-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinSans-Thin.otf"; sourceTree = "<group>"; };
+		F2C0DC8F28747915009A1229 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		F2C0DC9128748056009A1229 /* KeychainHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHandler.swift; sourceTree = "<group>"; };
 		F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawVC.swift; sourceTree = "<group>"; };
 		F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		F2C727C828170C81002B1915 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
@@ -336,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				F2A4CC0C283658BF0050FBCB /* Info.plist */,
+				F2C0DC9128748056009A1229 /* KeychainHandler.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -458,6 +463,7 @@
 				F28AC7ED282CCBFD003EEF8A /* UIPageViewController+.swift */,
 				F2E2C4AF28365D450094DABD /* UIFont+.swift */,
 				F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */,
+				F2C0DC8F28747915009A1229 /* String+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -680,6 +686,7 @@
 				F29FE101281678080034C8A2 /* RegisterEmailVC.swift in Sources */,
 				F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */,
 				F214200E28100B74000D102D /* MainVC.swift in Sources */,
+				F2C0DC9028747915009A1229 /* String+.swift in Sources */,
 				F283C31B286D8CB000E93652 /* PasswordChangeVC.swift in Sources */,
 				F2A4A00F285A2FF80076A8A1 /* FriendsListCVCell.swift in Sources */,
 				F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */,
@@ -716,6 +723,7 @@
 				F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */,
 				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
+				F2C0DC9228748056009A1229 /* KeychainHandler.swift in Sources */,
 				F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */,
 				F216ECBE286CB50B000210F7 /* EmailLoginVC.swift in Sources */,
 				F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */,
