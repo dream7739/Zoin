@@ -72,7 +72,7 @@ class MainCollectionViewCell : UICollectionViewCell {
     
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "밤에 한강가실 분 구함"
+        $0.text = "밤에 한강가실 분 구함11111111111111111"
         $0.numberOfLines = 0
         $0.font = .minsans(size: 20, family: .Bold)
     }
