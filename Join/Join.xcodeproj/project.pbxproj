@@ -10,9 +10,12 @@
 		1BD04677B4AC9D10F7A80A6E /* Pods_Join.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B2BA62B0E6B67E8E8F474 /* Pods_Join.framework */; };
 		881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */; };
 		8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */; };
+		8869F32828744C9D00F71C9F /* TermDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8869F32728744C9D00F71C9F /* TermDetailVC.swift */; };
 		886C16AB286B32680041FA05 /* InviteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886C16AA286B32680041FA05 /* InviteVC.swift */; };
 		887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */; };
 		8882EAF42823E26F00622FF9 /* JoinMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */; };
+		888FEE70286DEC090013939B /* TermVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FEE6F286DEC090013939B /* TermVC.swift */; };
+		888FEE72286DEFB00013939B /* TermTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FEE71286DEFB00013939B /* TermTVCell.swift */; };
 		8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */; };
 		8896D41A28236C730061CEAE /* JoinFinishVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8896D41928236C730061CEAE /* JoinFinishVC.swift */; };
 		8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8896D41B2823A7CC0061CEAE /* JoinMemberConfirmVC.swift */; };
@@ -86,9 +89,12 @@
 		3A469DD7351BAD9248C3A089 /* Pods-Join.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Join.release.xcconfig"; path = "Target Support Files/Pods-Join/Pods-Join.release.xcconfig"; sourceTree = "<group>"; };
 		881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinListTableViewCell.swift; sourceTree = "<group>"; };
+		8869F32728744C9D00F71C9F /* TermDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermDetailVC.swift; sourceTree = "<group>"; };
 		886C16AA286B32680041FA05 /* InviteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteVC.swift; sourceTree = "<group>"; };
 		887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMemberCell.swift; sourceTree = "<group>"; };
+		888FEE6F286DEC090013939B /* TermVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermVC.swift; sourceTree = "<group>"; };
+		888FEE71286DEFB00013939B /* TermTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermTVCell.swift; sourceTree = "<group>"; };
 		8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinModifyVC.swift; sourceTree = "<group>"; };
 		8896D41928236C730061CEAE /* JoinFinishVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinFinishVC.swift; sourceTree = "<group>"; };
 		8896D41B2823A7CC0061CEAE /* JoinMemberConfirmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMemberConfirmVC.swift; sourceTree = "<group>"; };
@@ -436,6 +442,8 @@
 				F21429F328219BA400E54B57 /* OnboardingVC.swift */,
 				F28AC7EB282CC02B003EEF8A /* CautionVC.swift */,
 				F216ECBD286CB50B000210F7 /* EmailLoginVC.swift */,
+				888FEE6F286DEC090013939B /* TermVC.swift */,
+				8869F32728744C9D00F71C9F /* TermDetailVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -444,6 +452,7 @@
 			isa = PBXGroup;
 			children = (
 				F28AC7EF282CD2B0003EEF8A /* OnboardingCVCell.swift */,
+				888FEE71286DEFB00013939B /* TermTVCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -694,6 +703,7 @@
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
 				F219C02A2869E6B6009BFC9C /* Environment.swift in Sources */,
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
+				888FEE70286DEC090013939B /* TermVC.swift in Sources */,
 				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
 				8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */,
@@ -722,11 +732,13 @@
 				F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */,
 				881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */,
 				8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */,
+				888FEE72286DEFB00013939B /* TermTVCell.swift in Sources */,
 				88BE394E282D27720002722F /* MakeCompleteVC.swift in Sources */,
 				889E497C2816D8EA00AA2D9C /* TabBarVC.swift in Sources */,
 				F28F8E78285887D5005FF435 /* FriendsListVC.swift in Sources */,
 				889CE38D281D60FD0098371B /* JoinCancelVC.swift in Sources */,
 				F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */,
+				8869F32828744C9D00F71C9F /* TermDetailVC.swift in Sources */,
 				F2C6AB3F286D6FBA001822D6 /* UITextView+.swift in Sources */,
 				8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */,
 				F2E316CE286B6CAA009D67AC /* SettingHeaderView.swift in Sources */,
