@@ -44,22 +44,25 @@ class RegisterNicknameVC: BaseViewController {
     }
 
     private let statusLabel = UILabel().then {
-        $0.text = "한글 2자 이상 6자 이하"
+        $0.text = ""
         $0.textColor = .red100
         $0.font = .minsans(size: 12, family: .Medium)
-        // 한글 2자 이상 6자 이하로 입력해주세요.
+
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .yellow200
-        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.backgroundColor = .grayScale500
+        $0.setTitleColor(.grayScale300, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
         $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
+        $0.isEnabled = false
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        setTextField()
         bind()
     }
 
@@ -125,31 +128,18 @@ extension RegisterNicknameVC {
         navigationBar.isTranslucent = false
     }
 
+    private func setTextField() {
+        nicknameTextField.delegate = self
+        nicknameTextField.addTarget(self, action: #selector(checkAvailability), for: .editingChanged)
+    }
+
     private func bind() {
-        // TODO: - 텍스트필드 입력 시 한글 6글자 제한걸기
-        nicknameTextField.rx.text
-            .do{ [weak self] text in
-                guard let self = self,
-                      let text = text
-                else { return }
-                if text.count > 0  {
-                    self.nicknameTextField.layer.borderColor = UIColor.grayScale400.cgColor
-                    self.nicknameTextField.layer.cornerRadius = 20
-                    self.nicknameTextField.layer.borderWidth = 2.0
-                } else {
-                    self.nicknameTextField.layer.borderWidth = 0.0
-                }
-            }
-            .subscribe(onNext:  { [weak self] _ in
-
-            })
-            .disposed(by: disposeBag)
-
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 let viewController = RegisterIdVC()
                 self.navigationController?.pushViewController(viewController, animated: true)
+                KeychainHandler.shared.username = self.nicknameTextField.text ?? ""
             })
             .disposed(by: disposeBag)
 
@@ -176,6 +166,32 @@ extension RegisterNicknameVC {
             }
         })
             .disposed(by: disposeBag)
+    }
+}
+
+extension RegisterNicknameVC: UITextFieldDelegate {
+    @objc private func checkAvailability(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if text.validateNickname() {
+            textField.layer.borderColor = UIColor.grayScale400.cgColor
+            textField.layer.cornerRadius = 20
+            textField.layer.borderWidth = 2.0
+            statusLabel.text = ""
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+        } else {
+            textField.layer.borderWidth = 0.0
+            statusLabel.text = "한글 2자 이상 6자 이하로 입력해주세요."
+            guideButton.isEnabled = false
+            guideButton.backgroundColor = .grayScale500
+            guideButton.setTitleColor(.grayScale300, for: .normal)
+        }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
