@@ -40,7 +40,7 @@ class RegisterPasswordVC: BaseViewController {
 
     private let addPasswordLabel = UILabel().then {
         // 일치한다면 사용 가능한 비밀번호입니다. 파란색으로 변경
-        $0.text = "8자 이상 12자 이하"
+        $0.text = ""
         $0.textColor = .red100
         $0.font = .minsans(size: 12, family: .Medium)
     }
@@ -52,7 +52,7 @@ class RegisterPasswordVC: BaseViewController {
     }
 
     private let verifyPasswordTextField = UITextField().then {
-        $0.placeholder = "최소 8자 이상"
+        $0.placeholder = "8자 이상 12자 이하"
         $0.setPlaceHolderColor(.grayScale600)
         $0.tintColor = .yellow200
         $0.textColor = .yellow200
@@ -63,25 +63,25 @@ class RegisterPasswordVC: BaseViewController {
     }
 
     private let verifyPasswordLabel = UILabel().then {
-        $0.text = "비밀번호가 일치하지 않습니다."
+        $0.text = ""
         $0.textColor = .red100
         $0.font = .minsans(size: 12, family: .Medium)
 
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .yellow200
-        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.backgroundColor = .grayScale500
+        $0.setTitleColor(.grayScale300, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
         $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
-        // 사용가능한 이메일일때
-        // isEnabled, isSelected 설정해놓기
+        $0.isEnabled = false
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        setTextField()
         bind()
     }
 
@@ -125,7 +125,7 @@ extension RegisterPasswordVC {
         addPasswordLabel.snp.makeConstraints { (make) in
             make.top.equalTo(addPasswordTextField.snp.bottom).offset(4)
             make.leading.equalToSuperview().offset(41)
-            make.width.equalTo(250)
+            make.height.equalTo(20)
         }
         guideSecondLabel.snp.makeConstraints { (make) in
             make.top.equalTo(addPasswordLabel.snp.bottom).offset(17)
@@ -164,47 +164,13 @@ extension RegisterPasswordVC {
     }
 
     private func bind() {
-        addPasswordTextField.rx.text
-            .do { [weak self] text in
-                guard let self = self,
-                      let text = text
-                else { return}
-                if text.count > 0 {
-                    self.addPasswordTextField.layer.borderColor = UIColor.grayScale400.cgColor
-                    self.addPasswordTextField.layer.cornerRadius = 20
-                    self.addPasswordTextField.layer.borderWidth = 2.0
-                } else {
-                    self.addPasswordTextField.layer.borderWidth = 0.0
-                }
-            }
-            .subscribe(onNext: { [weak self] _ in
-                // guard let self = self else { return }
-            })
-            .disposed(by: disposeBag)
-
-        verifyPasswordTextField.rx.text
-            .do { [weak self] text in
-                guard let self = self,
-                      let text = text
-                else { return}
-                if text.count > 0 {
-                    self.verifyPasswordTextField.layer.borderColor = UIColor.grayScale400.cgColor
-                    self.verifyPasswordTextField.layer.cornerRadius = 20
-                    self.verifyPasswordTextField.layer.borderWidth = 2.0
-                } else {
-                    self.verifyPasswordTextField.layer.borderWidth = 0.0
-                }
-            }
-            .subscribe(onNext: { [weak self] _ in
-                // guard let self = self else { return }
-            })
-            .disposed(by: disposeBag)
-
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 let viewController = RegisterNicknameVC()
                 self.navigationController?.pushViewController(viewController, animated: true)
+                KeychainHandler.shared.password = self.addPasswordTextField.text ?? ""
+                print("pw", KeychainHandler.shared.password)
             })
             .disposed(by: disposeBag)
 
@@ -233,8 +199,55 @@ extension RegisterPasswordVC {
             .disposed(by: disposeBag)
     }
 
+    private func setTextField() {
+        addPasswordTextField.delegate = self
+        verifyPasswordTextField.delegate = self
+        addPasswordTextField.addTarget(self, action: #selector(checkInput), for: .editingChanged)
+        verifyPasswordTextField.addTarget(self, action: #selector(checkInput), for: .editingChanged)
+    }
+}
+
+extension RegisterPasswordVC: UITextFieldDelegate {
+    @objc private func checkInput(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if text.count > 0 {
+            textField.layer.borderColor = UIColor.grayScale400.cgColor
+            textField.layer.cornerRadius = 20
+            textField.layer.borderWidth = 2.0
+            addPasswordLabel.text = "비밀번호를 8자 이상 12자 이하로 입력해주세요."
+            addPasswordLabel.textColor = .red100
+        } else if text.count > 7 && text.count < 13 {
+            textField.layer.borderWidth = 0.0
+            addPasswordLabel.text = "사용 가능한 비밀번호입니다."
+            addPasswordLabel.textColor = .blue100
+        } else {
+            textField.layer.borderWidth = 0.0
+            addPasswordLabel.text = "비밀번호를 8자 이상 12자 이하로 입력해주세요."
+            addPasswordLabel.textColor = .red100
+        }
+
+        if addPasswordTextField.text == verifyPasswordTextField.text {
+            addPasswordLabel.text = "사용 가능한 비밀번호입니다."
+            addPasswordLabel.textColor = .blue100
+            verifyPasswordLabel.text = ""
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+        } else {
+            guideButton.isEnabled = false
+            addPasswordLabel.text = ""
+            verifyPasswordLabel.text = "비밀번호가 일치하지 않습니다."
+            verifyPasswordLabel.textColor = .red100
+        }
+
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-
 }

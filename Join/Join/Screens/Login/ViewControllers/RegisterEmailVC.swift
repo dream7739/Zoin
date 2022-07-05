@@ -179,7 +179,6 @@ extension RegisterEmailVC {
         authProvider.rx.request(.checkEmail(param: idRequest))
             .asObservable()
             .subscribe(onNext: { [weak self] response in
-                print("emailtest", JSON(response.data))
                 let json = JSON(response.data)["message"]
                 if json == "이미 존재하는 이메일입니다." {
                     self?.statusLabel.text = "사용할 수 없는 이메일입니다."
