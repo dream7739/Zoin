@@ -203,25 +203,21 @@ extension RegisterPasswordVC {
         addPasswordTextField.delegate = self
         verifyPasswordTextField.delegate = self
         addPasswordTextField.addTarget(self, action: #selector(checkInput), for: .editingChanged)
-        verifyPasswordTextField.addTarget(self, action: #selector(checkInput), for: .editingChanged)
+        verifyPasswordTextField.addTarget(self, action: #selector(checkValid), for: .editingChanged)
     }
 }
 
 extension RegisterPasswordVC: UITextFieldDelegate {
     @objc private func checkInput(_ textField: UITextField) {
         guard let text = textField.text else { return }
-        if text.count > 0 {
-            textField.layer.borderColor = UIColor.grayScale400.cgColor
-            textField.layer.cornerRadius = 20
-            textField.layer.borderWidth = 2.0
-            addPasswordLabel.text = "비밀번호를 8자 이상 12자 이하로 입력해주세요."
-            addPasswordLabel.textColor = .red100
-        } else if text.count > 7 && text.count < 13 {
+        if text.count > 7 && text.count < 13 {
             textField.layer.borderWidth = 0.0
             addPasswordLabel.text = "사용 가능한 비밀번호입니다."
             addPasswordLabel.textColor = .blue100
         } else {
-            textField.layer.borderWidth = 0.0
+            textField.layer.borderColor = UIColor.grayScale400.cgColor
+            textField.layer.cornerRadius = 20
+            textField.layer.borderWidth = 2.0
             addPasswordLabel.text = "비밀번호를 8자 이상 12자 이하로 입력해주세요."
             addPasswordLabel.textColor = .red100
         }
@@ -235,11 +231,38 @@ extension RegisterPasswordVC: UITextFieldDelegate {
             guideButton.setTitleColor(.grayScale900, for: .normal)
         } else {
             guideButton.isEnabled = false
-            addPasswordLabel.text = ""
             verifyPasswordLabel.text = "비밀번호가 일치하지 않습니다."
             verifyPasswordLabel.textColor = .red100
         }
 
+    }
+
+    @objc private func checkValid(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if text.count > 7 && text.count < 13 {
+            textField.layer.borderWidth = 0.0
+            addPasswordLabel.text = "사용 가능한 비밀번호입니다."
+            addPasswordLabel.textColor = .blue100
+        } else {
+            textField.layer.borderColor = UIColor.grayScale400.cgColor
+            textField.layer.cornerRadius = 20
+            textField.layer.borderWidth = 2.0
+            verifyPasswordLabel.text = "비밀번호를 8자 이상 12자 이하로 입력해주세요."
+            verifyPasswordLabel.textColor = .red100
+        }
+
+        if addPasswordTextField.text == verifyPasswordTextField.text {
+            addPasswordLabel.text = "사용 가능한 비밀번호입니다."
+            addPasswordLabel.textColor = .blue100
+            verifyPasswordLabel.text = ""
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+        } else {
+            guideButton.isEnabled = false
+            verifyPasswordLabel.text = "비밀번호가 일치하지 않습니다."
+            verifyPasswordLabel.textColor = .red100
+        }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
