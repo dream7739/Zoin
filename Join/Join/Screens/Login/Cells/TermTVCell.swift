@@ -12,16 +12,16 @@ class TermTVCell: UITableViewCell {
     var clickDelegate: ClickDelegate!
     var indexNumber:Int!
     var isClicked : Bool = false {
-           didSet {
-               if isClicked {
-                   checkBox.setBackgroundImage(UIImage(named: "checkboxSelected"), for: .normal)
-               } else {
-                       checkBox.setBackgroundImage(UIImage(named: "checkbox"), for: .normal)
-                       
-                   }
-           }
-       }
-
+        didSet {
+            if isClicked {
+                checkBox.setBackgroundImage(UIImage(named: "checkboxSelected"), for: .normal)
+            } else {
+                checkBox.setBackgroundImage(UIImage(named: "checkbox"), for: .normal)
+                
+            }
+        }
+    }
+    
     static let identifier = "TermTVCell"
     let disposeBag = DisposeBag()
     
@@ -60,6 +60,10 @@ class TermTVCell: UITableViewCell {
 extension TermTVCell {
     private func cellSetting() {
         self.contentView.backgroundColor = .grayScale900
+        let attributedString = NSMutableAttributedString(string: self.titleLabel.text!)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.titleLabel.text! as NSString as NSString).range(of:"(필수)"))
+        self.titleLabel.attributedText = attributedString
+        
         
         self.contentView.addSubview(self.containerView)
         
@@ -99,7 +103,7 @@ extension TermTVCell {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.clickDelegate.indicatorClick(index: self.indexNumber)
-
+                
             })
             .disposed(by: disposeBag)
         

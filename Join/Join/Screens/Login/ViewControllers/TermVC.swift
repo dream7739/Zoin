@@ -121,7 +121,7 @@ extension TermVC {
                     }
                     self.agreeCount = 3
                 }
-
+                
                 self.navigationController?.pushViewController(TermDetailVC(), animated: true)
             })
             .disposed(by: disposeBag)
@@ -150,9 +150,9 @@ extension TermVC: UITableViewDelegate, UITableViewDataSource {
 
 extension TermVC : ClickDelegate {
     func indicatorClick(index: Int) {
-        //        let termDetailVC = storyboard?.instantiateViewController(withIdentifier: "TermDetailViewController") as! TermDetailViewController
-        //        termDetailVC.index = index
-        //        self.navigationController?.pushViewController(termDetailVC, animated: true)
+        let termDetailVC = TermDetailVC()
+        termDetailVC.index = index
+        self.navigationController?.pushViewController(termDetailVC, animated: true)
     }
     
     func cellClick(isClicked: Bool) {

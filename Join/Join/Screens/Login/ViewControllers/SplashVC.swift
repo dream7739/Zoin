@@ -41,7 +41,7 @@ class SplashVC: BaseViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 let navigationController: UINavigationController
-                let LoginVC: UIViewController = TermVC()
+                let LoginVC: UIViewController = LoginVC()
                 navigationController = UINavigationController(rootViewController: LoginVC)
                 navigationController.navigationBar.isHidden = true
                 navigationController.modalPresentationStyle = .fullScreen
