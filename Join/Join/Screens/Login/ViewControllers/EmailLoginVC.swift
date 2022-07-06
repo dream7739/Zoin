@@ -188,8 +188,9 @@ extension EmailLoginVC {
     }
 
     // MARK: - 서버 통신 부분
-    // 가아여엉 @naver.com
-    // 123444
+    // 아이디: 가아여엉 @naver.com
+    // 비번: 123444
+    // 키보드를 영어로만 설정해놔서 한글이 입력이 안돼요! 복붙해주세요
     // 200 로그인 성공 400 로그인실패
     @objc func doLogin(_ email: String, _ password: String) {
         let loginRequest = SignInRequest(email: email, password: password)
