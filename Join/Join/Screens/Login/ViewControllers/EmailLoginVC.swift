@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import SwiftyJSON
+import SwiftKeychainWrapper
 import Then
 import RxCocoa
 import RxSwift
@@ -65,6 +66,12 @@ class EmailLoginVC: BaseViewController {
         $0.isEnabled = false
     }
 
+    private let popUpImage = UIImageView().then {
+        $0.image = Image.loginToast
+        $0.isHidden = true
+    }
+
+    private let authProvider = MoyaProvider<AuthServices>()
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -89,7 +96,8 @@ extension EmailLoginVC {
             passwordTitleLabel,
             passwordTextField,
             findButton,
-            guideButton
+            guideButton,
+            popUpImage
         ])
         idTitleLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
@@ -117,6 +125,11 @@ extension EmailLoginVC {
             make.top.equalTo(passwordTextField.snp.bottom).offset(26)
             make.centerX.equalToSuperview()
         }
+        popUpImage.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+            make.bottom.equalTo(guideButton.snp.top).offset(-15)
+        }
         guideButton.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
@@ -143,6 +156,12 @@ extension EmailLoginVC {
     }
 
     private func bind() {
+        guideButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.doLogin(self.idTextField.text ?? "", self.passwordTextField.text ?? "")
+            })
+            .disposed(by: disposeBag)
         RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
             guard let self = self else { return }
             UIView.animate(withDuration: 0) {
@@ -166,6 +185,33 @@ extension EmailLoginVC {
             }
         })
         .disposed(by: disposeBag)
+    }
+
+    // MARK: - 서버 통신 부분
+    // 가아여엉 @naver.com
+    // 123444
+    // 200 로그인 성공 400 로그인실패
+    @objc func doLogin(_ email: String, _ password: String) {
+        let loginRequest = SignInRequest(email: email, password: password)
+        authProvider.rx.request(.signIn(param: loginRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                if response.statusCode == 200 {
+                    let viewController = TabBarController()
+                    viewController.modalPresentationStyle = .fullScreen
+                    self?.present(viewController, animated: true)
+                } else {
+                    self?.popUpImage.isHidden = false
+                    let time = DispatchTime.now() + .seconds(1)
+                    DispatchQueue.main.asyncAfter(deadline: time) {
+                        self?.popUpImage.isHidden = true
+                    }
+                }
+            }, onError: { [weak self] _ in
+                print("server error")
+            }, onCompleted: {
+
+            }).disposed(by: disposeBag)
     }
 }
 

@@ -11,6 +11,7 @@ import Moya
 // 경로케이스별로 열겨헝으로 작성해주기
 enum AuthServices {
     case signUp(param: SignUpRequest)
+    case signIn(param: SignInRequest )
     case checkId(param: checkId)
     case checkEmail(param: checkEmail)
 }
@@ -23,6 +24,11 @@ struct SignUpRequest: Encodable {
     var password: String
     var serviceId: String
     var profileImgUrl: String
+}
+
+struct SignInRequest: Encodable {
+    var email: String
+    var password: String
 }
 
 struct checkId: Encodable {
@@ -46,6 +52,8 @@ extension AuthServices: TargetType {
         switch self {
         case .signUp:
             return "/api/v1/user/sign-up"
+        case .signIn:
+            return "/api/v1/user/log-in"
         case .checkId:
             return "/api/v1/user/existing/id"
         case .checkEmail:
@@ -57,6 +65,8 @@ extension AuthServices: TargetType {
     var method: Moya.Method {
         switch self {
         case .signUp:
+            return .post
+        case .signIn:
             return .post
         case .checkId:
             return .post
@@ -77,6 +87,8 @@ extension AuthServices: TargetType {
     var task: Task {
         switch self {
         case.signUp(let param):
+            return .requestJSONEncodable(param)
+        case .signIn(let param):
             return .requestJSONEncodable(param)
         case .checkId(let param):
             return .requestJSONEncodable(param)
