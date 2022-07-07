@@ -8,11 +8,13 @@
 import UIKit
 
 import SnapKit
+import SwiftyJSON
+import SwiftKeychainWrapper
 import Then
 import RxCocoa
 import RxSwift
 import RxKeyboard
-import SwiftUI
+import Moya
 
 class RegisterEmailVC: BaseViewController {
 
@@ -41,31 +43,33 @@ class RegisterEmailVC: BaseViewController {
         $0.font = .minsans(size: 16, family: .Medium)
         $0.backgroundColor = .grayScale800
         $0.layer.cornerRadius = 20
+        $0.keyboardType = .alphabet
         $0.addLeftPadding()
     }
 
     private let statusLabel = UILabel().then {
-        $0.text = "사용가능한 이메일입니다."
+        $0.text = ""
         $0.textColor = .blue100
         $0.font = .minsans(size: 12, family: .Medium)
-        // 사용불가 이메일 -> red100, "사용할 수 없는 이메일입니다"
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .yellow200
-        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.backgroundColor = .grayScale500
+        $0.setTitleColor(.grayScale300, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("다음", for: .normal)
-        $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        // 사용가능한 이메일일때
-        // isEnabled, isSelected 설정해놓기
+        $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
+        $0.isEnabled = false
     }
+
+    private let authProvider = MoyaProvider<AuthServices>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        setTextField()
         bind()
-        emailTextField.delegate = self
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -130,30 +134,16 @@ extension RegisterEmailVC {
         navigationBar.isTranslucent = false
     }
 
-    private func bind() {
-        emailTextField.rx.text
-            .do { [weak self] text in
-                guard let self = self,
-                      let text = text
-                else { return }
-                if text.count > 0 {
-                    self.emailTextField.layer.borderColor = UIColor.grayScale400.cgColor
-                    self.emailTextField.layer.cornerRadius = 20
-                    self.emailTextField.layer.borderWidth = 2.0
-                } else {
-                    self.emailTextField.layer.borderWidth = 0.0
-                }
-            }
-            .subscribe(onNext: { [weak self] _ in
-                
-            })
-            .disposed(by: disposeBag)
+    private func setTextField() {
+        emailTextField.delegate = self
+        emailTextField.addTarget(self, action: #selector(checkAvailability), for: .editingChanged)
+    }
 
+    private func bind() {
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let viewController = VerifyEmailVC()
-                self.navigationController?.pushViewController(viewController, animated: true)
+                self.checkEmailAvailability(self.emailTextField.text ?? "")
             })
             .disposed(by: disposeBag)
 
@@ -183,11 +173,59 @@ extension RegisterEmailVC {
             .disposed(by: disposeBag)
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+    // MARK: - 서버 통신 부분
+    @objc func checkEmailAvailability(_ email: String) {
+        let idRequest = checkEmail(email: email)
+        authProvider.rx.request(.checkEmail(param: idRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let json = JSON(response.data)["message"]
+                if json == "이미 존재하는 이메일입니다." {
+                    self?.statusLabel.text = "사용할 수 없는 이메일입니다."
+                    self?.guideButton.isEnabled = false
+                }
+                if json == "사용 가능한 이메일입니다." {
+                    self?.guideButton.isEnabled = true
+                    let viewController = VerifyEmailVC()
+                    self?.navigationController?.pushViewController(viewController, animated: true)
+                    KeychainHandler.shared.email = email
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+
+            }).disposed(by: disposeBag)
     }
+
 }
 
 extension RegisterEmailVC: UITextFieldDelegate {
+    @objc private func checkAvailability(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if text.validateEmail() {
+            textField.layer.borderColor = UIColor.grayScale400.cgColor
+            textField.layer.cornerRadius = 20
+            textField.layer.borderWidth = 2.0
+            statusLabel.text = ""
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+        } else {
+            textField.layer.borderWidth = 0.0
+            statusLabel.text = "유효한 이메일 형식이 아닙니다."
+            statusLabel.textColor = .red100
+            guideButton.isEnabled = false
+            guideButton.backgroundColor = .grayScale500
+            guideButton.setTitleColor(.grayScale300, for: .normal)
+        }
+    }
 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        checkEmailAvailability(textField.text ?? "")
+        return true
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 }
