@@ -143,7 +143,8 @@ extension RegisterEmailVC {
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.checkEmailAvailability(self.emailTextField.text ?? "")
+                //self.checkEmailAvailability(self.emailTextField.text ?? "")
+                self.sendEmail(self.emailTextField.text ?? "")
             })
             .disposed(by: disposeBag)
 
@@ -173,7 +174,7 @@ extension RegisterEmailVC {
             .disposed(by: disposeBag)
     }
 
-    // MARK: - 서버 통신 부분
+    // MARK: - 서버 통신 부분(가입된 이메일인지 검사)
     @objc func checkEmailAvailability(_ email: String) {
         let idRequest = checkEmail(email: email)
         authProvider.rx.request(.checkEmail(param: idRequest))
@@ -186,6 +187,22 @@ extension RegisterEmailVC {
                 }
                 if json == "사용 가능한 이메일입니다." {
                     self?.guideButton.isEnabled = true
+
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+
+            }).disposed(by: disposeBag)
+    }
+    // MARK: - 서버 통신 부분(이메일 인증 보내게)
+    @objc func sendEmail(_ email: String) {
+        let emailRequest = verifyEmail(email: email)
+        authProvider.rx.request(.verifyEmail(param: emailRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = response.statusCode
+                if status == 200 {
                     let viewController = VerifyEmailVC()
                     self?.navigationController?.pushViewController(viewController, animated: true)
                     KeychainHandler.shared.email = email
@@ -225,7 +242,7 @@ extension RegisterEmailVC: UITextFieldDelegate {
         checkEmailAvailability(textField.text ?? "")
         return true
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.view.endEditing(true)
+//    }
 }
