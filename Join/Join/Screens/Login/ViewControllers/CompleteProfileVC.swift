@@ -49,7 +49,7 @@ class CompleteProfileVC: BaseViewController {
         $0.textColor = .grayScale900
         $0.font = .minsans(size: 20, family: .Bold)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -62,6 +62,7 @@ class CompleteProfileVC: BaseViewController {
         setUpNavigation()
         setLeftBarButton()
     }
+
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

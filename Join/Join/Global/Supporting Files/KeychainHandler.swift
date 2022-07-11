@@ -18,6 +18,7 @@ struct KeychainHandler {
     private let passwordKey = "password"
     private let serviceIdKey = "serviceId"
     private let usernameKey = "username"
+    private let profileImgUrlKey = "profileImgUrl"
 
     var accessToken: String {
         get {
@@ -70,6 +71,15 @@ struct KeychainHandler {
         }
         set {
             keychain.set(newValue, forKey: usernameKey)
+        }
+    }
+
+    var profileImgUrl: String {
+        get {
+            return keychain.string(forKey: profileImgUrlKey) ?? "key is empty"
+        }
+        set {
+            keychain.set(newValue, forKey: profileImgUrl)
         }
     }
 

@@ -15,6 +15,7 @@ enum AuthServices {
     case checkId(param: checkId)
     case checkEmail(param: checkEmail)
     case verifyEmail(param: verifyEmail)
+    case checkCode(param: checkCode )
 }
 // MARK: - parameter data
 // 모델데이터 global 파일에 data 하위디렉터리 만들어서 옮기는게 낫지 않을까?
@@ -44,6 +45,11 @@ struct verifyEmail: Encodable {
     var email: String
 }
 
+struct checkCode: Encodable {
+    var email: String
+    var code: String
+}
+
 extension AuthServices: TargetType {
     // MARK: - 키체인라이브러리 추가 필요
     // 토큰 관련 작업 시 주석 해제
@@ -65,6 +71,8 @@ extension AuthServices: TargetType {
             return "/api/v1/user/existing/email"
         case .verifyEmail:
             return "/api/v1/user/verification"
+        case .checkCode:
+            return "/api/v1/email-auth"
         }
     }
 
@@ -81,6 +89,8 @@ extension AuthServices: TargetType {
             return .post
         case .verifyEmail:
             return .post
+        case .checkCode:
+            return .patch
         }
     }
 
@@ -104,6 +114,8 @@ extension AuthServices: TargetType {
         case .checkEmail(let param):
             return .requestJSONEncodable(param)
         case .verifyEmail(let param):
+            return .requestJSONEncodable(param)
+        case .checkCode(let param):
             return .requestJSONEncodable(param)
         }
     }

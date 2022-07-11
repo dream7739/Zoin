@@ -79,6 +79,7 @@
 		F2C2C203286D5B1100D8BA39 /* WithdrawVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */; };
 		F2C6AB3F286D6FBA001822D6 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */; };
 		F2C727C928170C81002B1915 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C727C828170C81002B1915 /* UIColor+.swift */; };
+		F2C9E202287C65C700A5E33E /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C9E201287C65C700A5E33E /* UIImageView+.swift */; };
 		F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4AF28365D450094DABD /* UIFont+.swift */; };
 		F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4B128365F3D0094DABD /* MinSansFont.swift */; };
 		F2E316C7286B651E009D67AC /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E316C6286B651E009D67AC /* SettingVC.swift */; };
@@ -163,6 +164,7 @@
 		F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawVC.swift; sourceTree = "<group>"; };
 		F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		F2C727C828170C81002B1915 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		F2C9E201287C65C700A5E33E /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		F2E2C4AF28365D450094DABD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		F2E2C4B128365F3D0094DABD /* MinSansFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinSansFont.swift; sourceTree = "<group>"; };
 		F2E316C6286B651E009D67AC /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 				F2E2C4AF28365D450094DABD /* UIFont+.swift */,
 				F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */,
 				F2C0DC8F28747915009A1229 /* String+.swift */,
+				F2C9E201287C65C700A5E33E /* UIImageView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				F29FE105281678500034C8A2 /* RegisterPasswordVC.swift in Sources */,
 				F29FE110281683350034C8A2 /* SplashVC.swift in Sources */,
 				F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */,
+				F2C9E202287C65C700A5E33E /* UIImageView+.swift in Sources */,
 				F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */,
 				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
