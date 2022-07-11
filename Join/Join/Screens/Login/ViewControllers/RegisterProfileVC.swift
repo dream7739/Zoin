@@ -28,7 +28,7 @@ class RegisterProfileVC: BaseViewController {
 
     private let profileImageView = UIImageView().then {
         $0.image = Image.profileDefault
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = 70
         $0.layer.masksToBounds = true
     }
 
@@ -38,28 +38,29 @@ class RegisterProfileVC: BaseViewController {
         $0.titleLabel?.font = .minsans(size: 16, family: .Medium)
         $0.setUnderline()
     }
-    // TODO: - UI 요소 더 채우기
-    // 사진 변경 버튼 hidden -> unhidden
-    // 사진 추가 시 changeProfileButton 등장
-    // 카메라 접근권한 허용시키기
+
     private let changeProfileButton = UIButton().then {
         $0.setImage(Image.cameraButton, for: .normal)
         $0.layer.masksToBounds = true
+        $0.addTarget(self, action: #selector(didTapChangeProfileButton), for: .touchUpInside)
     }
 
     private let guideButton = UIButton().then {
-        $0.backgroundColor = .yellow200
-        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.backgroundColor = .grayScale500
+        $0.setTitleColor(.grayScale300, for: .normal)
         $0.layer.cornerRadius = 16
         $0.setTitle("시작하기", for: .normal)
         $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
-        // 양식 채워지면 회색이었다가 노란색으로 변경
+        $0.isEnabled = false
     }
+
+    let picker = UIImagePickerController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         bind()
+        picker.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -134,5 +135,45 @@ extension RegisterProfileVC {
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
+    }
+
+    @objc func didTapChangeProfileButton() {
+        let alert = UIAlertController()
+        let library = UIAlertAction(title: "앨범에서 가져오기", style: .default) { _ in self.openLibrary() }
+        let delete = UIAlertAction(title: "프로필 사진 삭제", style: .default) { _ in self.deletePhoto() }
+        let cancel = UIAlertAction(title: "취소하기", style: .cancel, handler: nil)
+        alert.addAction(library)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        alert.view.tintColor = .grayScale900
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func deletePhoto() {
+        profileImageView.image = Image.profileDefault
+        guideButton.isEnabled = false
+        guideButton.backgroundColor = .grayScale500
+        guideButton.setTitleColor(.grayScale300, for: .normal)
+    }
+
+    private func openLibrary() {
+        picker.sourceType = .photoLibrary
+        present(picker, animated: false, completion: nil)
+    }
+}
+
+extension RegisterProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            profileImageView.contentMode = .scaleAspectFill
+            profileImageView.image = image
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+        }
+        dismiss(animated: true, completion: nil)
     }
 }
