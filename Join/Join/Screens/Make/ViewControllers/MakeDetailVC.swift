@@ -6,15 +6,24 @@
 //
 
 import UIKit
+
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
 import RxKeyboard
+import Moya
 
 
 class MakeDetailVC: BaseViewController {
     let textViewPlaceHolder = "나의 번개를 마구 어필해도 좋아요"
+    var makeTitle:String = ""
+    var appointmentTime:String  = ""
+    var location:String  = ""
+    var requiredParticipantsCount:String  = ""
+    var makeDescription:String = ""
+    
     
     private let mentLabel = UILabel().then {
         $0.text = "마지막으로\n자세히 설명해 주세요!"
@@ -52,6 +61,9 @@ class MakeDetailVC: BaseViewController {
         $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         $0.setTitle("번개 등록", for: .normal)
     }
+    
+    private let makeProvider = MoyaProvider<MakeServices>()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,13 +119,37 @@ extension MakeDetailVC {
         }
     }
     
+    // MARK: - 서버 통신 부분
+    @objc func rendezvous() {
+        let makeRequest = MakeRequest(title: self.makeTitle, appointmentTime: self.appointmentTime, location: self.location, requiredParticipantsCount: self.requiredParticipantsCount, description: self.makeDescription)
+        makeProvider.rx.request(.rendezvous(param: makeRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = JSON(response.data)["status"]
+                if status == 200 {
+                    let makeCompleteVC = MakeCompleteVC()
+                    self?.navigationController?.pushViewController(makeCompleteVC, animated: true)
+                }else{
+                    print("\(status)")
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+              
+            }).disposed(by: disposeBag)
+    }
+    
+    
+    
     private func bind(){
         nextButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let makeCompleteVC = MakeCompleteVC()
-                self.navigationController?.pushViewController(makeCompleteVC, animated: true)
-                
+                if let description = self.descriptionTextView.text{
+                    self.makeDescription = description
+                }
+                print("\(self.makeTitle):\(self.appointmentTime):\(self.location):\(self.requiredParticipantsCount)")
+                self.rendezvous()
             })
             .disposed(by: disposeBag)
         

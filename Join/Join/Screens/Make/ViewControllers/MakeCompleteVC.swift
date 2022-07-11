@@ -33,7 +33,7 @@ class MakeCompleteVC: BaseViewController {
     }
     
     private let completeImageView = UIImageView().then {
-        $0.image = UIImage(named: "mainEft")
+        $0.image = UIImage(named: "make_complete")
     }
     
     private let btnStackView = UIStackView().then {
