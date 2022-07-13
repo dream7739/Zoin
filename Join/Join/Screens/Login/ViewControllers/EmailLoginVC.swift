@@ -198,6 +198,10 @@ extension EmailLoginVC {
             .asObservable()
             .subscribe(onNext: { [weak self] response in
                 if response.statusCode == 200 {
+                    let json = JSON(response.data)["data"]
+                    KeychainHandler.shared.serviceId = email
+                    KeychainHandler.shared.password = password
+                    KeychainHandler.shared.accessToken = json.string!
                     let viewController = TabBarController()
                     viewController.modalPresentationStyle = .fullScreen
                     self?.present(viewController, animated: true)
