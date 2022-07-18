@@ -275,7 +275,9 @@ extension ProfileVC {
     }
 
     private func bind() {
-        // TODO: - 저장한 사용자 정보 프로필에 보여주기
+        // TODO: - 프로필 URL 처리
+        nicknameLabel.text = KeychainHandler.shared.username
+        userIdLabel.text = KeychainHandler.shared.serviceId
         boxButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
