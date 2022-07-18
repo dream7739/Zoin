@@ -43,6 +43,7 @@
 		F219C02A2869E6B6009BFC9C /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C0292869E6B6009BFC9C /* Environment.swift */; };
 		F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C02B2869E6CB009BFC9C /* AuthServices.swift */; };
 		F21CECF6283543E100ED1EC0 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CECF5283543E100ED1EC0 /* Images.swift */; };
+		F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21EBA10288597AF004EA599 /* ProfileServices.swift */; };
 		F24B24E2286C35070039B967 /* AccountSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24B24E1286C35070039B967 /* AccountSettingVC.swift */; };
 		F24B24E4286C379E0039B967 /* AccountSettingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
@@ -127,6 +128,7 @@
 		F219C0292869E6B6009BFC9C /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		F219C02B2869E6CB009BFC9C /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		F21CECF5283543E100ED1EC0 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		F21EBA10288597AF004EA599 /* ProfileServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServices.swift; sourceTree = "<group>"; };
 		F24B24E1286C35070039B967 /* AccountSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingVC.swift; sourceTree = "<group>"; };
 		F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingCVCell.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
@@ -413,6 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				F219C02B2869E6CB009BFC9C /* AuthServices.swift */,
+				F21EBA10288597AF004EA599 /* ProfileServices.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -715,6 +718,7 @@
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
 				888FEE70286DEC090013939B /* TermVC.swift in Sources */,
 				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,
+				F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
 				8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */,
 				F214201228100BCF000D102D /* ProfileVC.swift in Sources */,

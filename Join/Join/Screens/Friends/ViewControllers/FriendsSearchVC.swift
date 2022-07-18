@@ -12,6 +12,7 @@ import Then
 import RxCocoa
 import RxSwift
 import RxKeyboard
+import Moya
 
 class FriendsSearchVC: BaseViewController {
 
@@ -51,6 +52,8 @@ class FriendsSearchVC: BaseViewController {
     private let emptyImage = UIImageView().then {
         $0.image = Image.search3D
     }
+
+    private let profileProvider = MoyaProvider<ProfileServices>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,6 +135,23 @@ extension FriendsSearchVC {
     private func setTextField() {
         searchTextField.delegate = self
         searchTextField.addTarget(self, action: #selector(checkAvailability), for: .editingChanged)
+    }
+
+    // MARK: - 서버 통신 부분
+    @objc func searchId(_ id: String) {
+        let searchRequest = searchIdRequest(searchInput: id)
+        profileProvider.rx.request(.searchFriendsId(param: searchRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = response.statusCode
+                if status == 200 {
+
+                }
+            }, onError: { [weak self] _ in
+
+            }, onCompleted: {
+
+            }).disposed(by: disposeBag)
     }
 
 }
