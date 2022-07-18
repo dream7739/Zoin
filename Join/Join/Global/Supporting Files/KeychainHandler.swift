@@ -22,7 +22,7 @@ struct KeychainHandler {
 
     var accessToken: String {
         get {
-            return keychain.string(forKey: accessTokenKey) ?? "Key is empty"
+            return keychain.string(forKey: accessTokenKey) ?? ""
         }
         set {
             keychain.set(newValue, forKey: accessTokenKey)
@@ -31,7 +31,7 @@ struct KeychainHandler {
 
     var refreshToken: String {
         get {
-            return keychain.string(forKey: refreshTokenKey) ?? "key is empty"
+            return keychain.string(forKey: refreshTokenKey) ?? ""
         }
         set {
             keychain.set(newValue, forKey: refreshTokenKey)
@@ -40,7 +40,7 @@ struct KeychainHandler {
 
     var email: String {
         get {
-            return keychain.string(forKey: emailKey) ?? "key is empty"
+            return keychain.string(forKey: emailKey) ?? ""
         }
         set {
             keychain.set(newValue, forKey: emailKey)
@@ -49,7 +49,7 @@ struct KeychainHandler {
 
     var password: String {
         get {
-            return keychain.string(forKey: passwordKey) ?? "key is empty"
+            return keychain.string(forKey: passwordKey) ?? ""
         }
         set {
             keychain.set(newValue, forKey: passwordKey)
@@ -58,7 +58,7 @@ struct KeychainHandler {
 
     var serviceId: String {
         get {
-            return keychain.string(forKey: serviceIdKey) ?? "key is empty"
+            return keychain.string(forKey: serviceIdKey) ?? ""
         }
         set {
             keychain.set(newValue, forKey: serviceIdKey)
@@ -67,7 +67,7 @@ struct KeychainHandler {
 
     var username: String {
         get {
-            return keychain.string(forKey: usernameKey) ?? "key is empty"
+            return keychain.string(forKey: usernameKey) ?? ""
         }
         set {
             keychain.set(newValue, forKey: usernameKey)
@@ -76,7 +76,7 @@ struct KeychainHandler {
 
     var profileImgUrl: String {
         get {
-            return keychain.string(forKey: profileImgUrlKey) ?? "key is empty"
+            return keychain.string(forKey: profileImgUrlKey) ?? ""
         }
         set {
             keychain.set(newValue, forKey: profileImgUrl)
