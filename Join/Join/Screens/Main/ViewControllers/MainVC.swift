@@ -8,15 +8,19 @@
 import UIKit
 
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
+import RxKeyboard
+import Moya
 
 class MainVC: BaseViewController {
     var currentPage: Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
     var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient1", "gradient2", "gradient3", "gradient4"]
+    var mainList:[MainElements] = []
     
     //메인 뷰
     var collectionView: UICollectionView = {
@@ -118,6 +122,7 @@ class MainVC: BaseViewController {
         $0.layer.cornerRadius = 20
     }
     
+    private let makeProvider = MoyaProvider<MakeServices>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,6 +130,7 @@ class MainVC: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         bind()
+        getMainList()
         addNotiObserver()
     }
     
@@ -273,6 +279,7 @@ extension MainVC {
     }
     
     func bind(){
+        
         searchJoinListBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -310,6 +317,22 @@ extension MainVC {
         self.navigationController?.pushViewController(joinListVC, animated: true)
     }
     
+    func getMainList() {
+        makeProvider.rx.request(.main(size: 4))
+                    .filterSuccessfulStatusCodes()
+                    .subscribe { result in
+                        switch result {
+                        case .success(let response):
+                            guard let value = try? JSONDecoder().decode(MainResponse.self, from: response.data) else {return}
+                            self.mainList = value.data.elements
+                            self.collectionView.reloadData()
+                        case .error(let error):
+                            print("failure")
+                        }
+                    }.disposed(by: disposeBag)
+    }
+    
+    
 }
 
 extension MainVC: MainCellDelegate {
@@ -331,7 +354,6 @@ extension MainVC: FinishMainDelegate {
         self.popupBackgroundView.isHidden = false
     }
     
-    
 }
 
 
@@ -339,7 +361,7 @@ extension MainVC: FinishMainDelegate {
 extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return mainList.count
     }
     
     
@@ -347,14 +369,20 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
         
         cell.delegate = self
+        
+        let item = mainList[indexPath.row]
+        
         cell.index = indexPath.row
+        cell.nameLabel.text = item.creator.userName
+        cell.idLabel.text = "@\(item.creator.serviceId)"
+        cell.countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+        cell.titleLabel.text = item.title
+        cell.dateLabel.text = item.createdAt
+        cell.placeLabel.text = item.location
+        
         
         var shuffledImgArr = imgArr.shuffled()
         cell.backGroundImg.image = UIImage(named: shuffledImgArr[cell.index])
         return cell
     }
-    
-    
-    
 }
-

@@ -51,13 +51,11 @@ class MainCollectionViewCell : UICollectionViewCell {
     var nameLabel = UILabel().then {
         
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "장혜진"
         $0.font = .minsans(size: 16, family: .Bold)
     }
     
     var idLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "@b2_cka_"
         $0.font = .minsans(size: 16, family: .Medium)
         $0.textColor = .grayScale700
         
@@ -65,28 +63,24 @@ class MainCollectionViewCell : UICollectionViewCell {
     
     var countLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "2/3"
         $0.font = .minsans(size: 12, family: .Medium)
         $0.textColor = .grayScale800
     }
     
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "밤에 한강가실 분 구함11111111111111111"
         $0.numberOfLines = 0
         $0.font = .minsans(size: 20, family: .Bold)
     }
     
     var dateLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "오늘 오후 04:00"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale900
     }
     
     var placeLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "여의나루역 2번 출구 앞"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale900
     }
