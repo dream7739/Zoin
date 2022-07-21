@@ -15,6 +15,7 @@ import RxKeyboard
 
 class JoinModifyVC: BaseViewController {
     let textViewPlaceHolder = "나의 번개를 마구 어필해도 좋아요"
+    var item:MainElements!
     
     private let mentLabel = UILabel().then {
         $0.text = "번개수정"
@@ -264,20 +265,8 @@ class JoinModifyVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: true)
-        titleTextField.becomeFirstResponder()
-        titleTextField.text = ""
-        dateTextField.text = ""
-        placeTextField.text = ""
-        participantTextField.text = ""
-        descriptionTextView.text = ""
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        dateStackView.removeFromSuperview()
-        placeStackView.removeFromSuperview()
-        participantView.removeFromSuperview()
-        descriptionStackView.removeFromSuperview()
-    }
 }
 
 extension JoinModifyVC {
@@ -453,6 +442,18 @@ extension JoinModifyVC {
     }
     
     private func bind() {
+        titleTextField.text = item.title
+        
+        let dateStr = item.appointmentTime
+        item.appointmentTime = dateStr
+        dateTextField.text = dateStr.dateTypeChange(dateStr: dateStr)
+        
+        placeTextField.text = item.location
+        participantTextField.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+        descriptionTextView.text = item.description
+        descriptionTextView.textColor = .yellow200
+        
+        
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(isTapped))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
         singleTapGestureRecognizer.isEnabled = true
@@ -673,7 +674,7 @@ extension JoinModifyVC {
         descriptionTextView.rx.didBeginEditing.subscribe(onNext: { [weak self] _ in
             guard let self = self else { return }
             self.descriptionTextView.textColor = .yellow200
-            if self.descriptionTextView.text == self.textViewPlaceHolder {
+            if (self.descriptionTextView.text == self.textViewPlaceHolder) {
                 self.descriptionTextView.text = nil
             }
         }, onCompleted: {

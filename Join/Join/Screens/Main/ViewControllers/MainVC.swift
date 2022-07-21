@@ -339,6 +339,7 @@ extension MainVC: MainCellDelegate {
     func selectedJoinBtn(index: Int){
         //셀 클릭 시 index에 해당하는 정보를 넘겨주면서 modal로 present함
         let joinVC = JoinVC()
+        joinVC.item = self.mainList[index]
         joinVC.delegate = self
         if index == 1 {
             joinVC.joinType = 2
