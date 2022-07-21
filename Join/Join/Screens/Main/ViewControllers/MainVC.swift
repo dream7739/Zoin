@@ -377,7 +377,9 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         cell.idLabel.text = "@\(item.creator.serviceId)"
         cell.countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
         cell.titleLabel.text = item.title
-        cell.dateLabel.text = item.createdAt
+        
+        let dateStr = item.appointmentTime
+        cell.dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
         cell.placeLabel.text = item.location
         
         

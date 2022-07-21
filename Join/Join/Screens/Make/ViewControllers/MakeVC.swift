@@ -583,7 +583,7 @@ extension MakeVC {
         displayDateFormatter.dateStyle = .medium
         displayDateFormatter.timeStyle = .medium
         displayDateFormatter.locale = Locale(identifier: "ko-KR")
-        displayDateFormatter.dateFormat = "yyyy.M.d.EEEE a h:m" // 2020.08.13 오후 04시 30분
+        displayDateFormatter.dateFormat = "yyyy.M.d.EEEE a hh:mm" // 2020.08.13 오후 04시 30분
         let date = displayDateFormatter.string(from: joinDatePicker.date)
         dateTextField.text = date
         

@@ -45,6 +45,7 @@ struct MainElements: Codable {
     var id: Int
     var creator: MainProfileResponse
     var title: String
+    var appointmentTime: String
     var location: String
     var requiredParticipantsCount: Int
     var createdAt:String
