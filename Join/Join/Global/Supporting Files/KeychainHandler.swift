@@ -19,6 +19,7 @@ struct KeychainHandler {
     private let serviceIdKey = "serviceId"
     private let usernameKey = "username"
     private let profileImgUrlKey = "profileImgUrl"
+    private let kakaoIdkey = "kakaoId"
 
     var accessToken: String {
         get {
@@ -80,6 +81,15 @@ struct KeychainHandler {
         }
         set {
             keychain.set(newValue, forKey: profileImgUrl)
+        }
+    }
+
+    var kakaoId: String {
+        get {
+            return keychain.string(forKey: kakaoIdkey) ?? ""
+        }
+        set {
+            keychain.set(newValue, forKey: kakaoIdkey)
         }
     }
 

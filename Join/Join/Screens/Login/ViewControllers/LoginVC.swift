@@ -50,6 +50,8 @@ class LoginVC: BaseViewController {
         $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
     }
 
+    var kakaoId: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -131,7 +133,8 @@ extension LoginVC {
     private func bind() {
 
         kakaoButton.addTarget(self, action: #selector(didTapKakao), for: .touchUpInside)
-        if KeychainHandler.shared.email != "" {
+
+        if KeychainHandler.shared.accessToken != "" {
             let time = DispatchTime.now() + .seconds(1)
             DispatchQueue.main.asyncAfter(deadline: time) {
                 let viewController = TabBarController()
@@ -199,8 +202,11 @@ extension LoginVC {
         //                }
         //            }
         //        }
-        // 지금은 테스트니까 웹 브라우저로 열리는걸로 해봅시다
 
+        // 지금은 테스트니까 웹 브라우저로 열리는걸로 해봅시다
+        // 소셜로그인 login 이후 -> null로 받아와지면 소셜회원가입 진행
+        // Userdefault로 kakao인지 apple인지 체크
+        // 소문자로
         
         UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
             if let error = error {
@@ -208,7 +214,24 @@ extension LoginVC {
             }
             else {
                 print("loginWithKakaoAccount() success.")
-
+                UserApi.shared.me { (user, error) in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        // 카카오 이메일 수집해서 저장완료하기
+                        guard let email = user?.kakaoAccount?.email else { return }
+                        if let id = user?.id {
+                            self.kakaoId = String(id)
+                        }
+                        let userEmail = String(email)
+                        // 소셜로그인 종류 설정해주기
+                        UserDefaults.standard.set("kakao",forKey: "social")
+                        KeychainHandler.shared.email = userEmail
+                        KeychainHandler.shared.kakaoId = self.kakaoId ?? ""
+                        let viewController = RegisterIdVC()
+                        self.navigationController?.pushViewController(viewController, animated: true)
+                    }
+                }
                 //do something
                 _ = oauthToken
             }

@@ -8,9 +8,11 @@
 import UIKit
 
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
+import Moya
 
 class CompleteProfileVC: BaseViewController {
 
@@ -49,6 +51,7 @@ class CompleteProfileVC: BaseViewController {
         $0.textColor = .grayScale900
         $0.font = .minsans(size: 20, family: .Bold)
     }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,4 +144,5 @@ extension CompleteProfileVC {
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
+
 }

@@ -16,6 +16,7 @@ enum AuthServices {
     case checkEmail(param: checkEmail)
     case verifyEmail(param: verifyEmail)
     case checkCode(param: checkCode )
+    case kakaoLogin(param: SocialSignUpRequest)
 }
 // MARK: - parameter data
 // 모델데이터 global 파일에 data 하위디렉터리 만들어서 옮기는게 낫지 않을까?
@@ -24,6 +25,14 @@ struct SignUpRequest: Encodable {
     var userName: String
     var email: String
     var password: String
+    var serviceId: String
+    var profileImgUrl: String
+}
+
+struct SocialSignUpRequest: Encodable {
+    var id: String
+    var email: String
+    var userName: String
     var serviceId: String
     var profileImgUrl: String
 }
@@ -73,6 +82,8 @@ extension AuthServices: TargetType {
             return "/api/v1/user/verification"
         case .checkCode:
             return "/api/v1/email-auth"
+        case .kakaoLogin:
+            return "/api/v1/user/sign-up/kakao"
         }
     }
 
@@ -91,6 +102,8 @@ extension AuthServices: TargetType {
             return .post
         case .checkCode:
             return .patch
+        case .kakaoLogin(param: let param):
+            return .post
         }
     }
 
@@ -116,6 +129,8 @@ extension AuthServices: TargetType {
         case .verifyEmail(let param):
             return .requestJSONEncodable(param)
         case .checkCode(let param):
+            return .requestJSONEncodable(param)
+        case .kakaoLogin(param: let param):
             return .requestJSONEncodable(param)
         }
     }

@@ -8,9 +8,11 @@
 import UIKit
 
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
+import Moya
 
 class RegisterProfileVC: BaseViewController {
 
@@ -55,6 +57,8 @@ class RegisterProfileVC: BaseViewController {
     }
 
     let picker = UIImagePickerController()
+
+    private let authProvider = MoyaProvider<AuthServices>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,6 +139,12 @@ extension RegisterProfileVC {
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
+        if UserDefaults.standard.object(forKey: "social") as! String == "kakao" {
+            // 사진 안등록하고 회원가입 시키기
+            passButton.addTarget(self, action: #selector(doKakaoSignUp), for: .touchUpInside)
+            // 사진 등록하고 회원가입시키기
+        }
+
     }
 
     @objc func didTapChangeProfileButton() {
@@ -159,6 +169,25 @@ extension RegisterProfileVC {
     private func openLibrary() {
         picker.sourceType = .photoLibrary
         present(picker, animated: false, completion: nil)
+    }
+
+
+    @objc func doKakaoSignUp(){
+        let signUpRequest = SocialSignUpRequest(id: KeychainHandler.shared.kakaoId, email: KeychainHandler.shared.email, userName: KeychainHandler.shared.username, serviceId: KeychainHandler.shared.serviceId, profileImgUrl: KeychainHandler.shared.profileImgUrl)
+        authProvider.rx.request(.kakaoLogin(param: signUpRequest))
+            .asObservable()
+            .subscribe(onNext: {[weak self] response in
+                if response.statusCode == 200 {
+                    let json = JSON(response.data)["data"]
+                    print(json)
+                    let token = JSON(response.data)["data"]["data"]
+                    KeychainHandler.shared.accessToken = token.string!
+                }
+            }, onError: {[weak self] _ in
+                print("server error")
+            }, onCompleted: {
+
+            }).disposed(by: disposeBag)
     }
 }
 
