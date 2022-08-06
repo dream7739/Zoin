@@ -124,6 +124,15 @@ extension LoginVC {
         navigationItem.hidesBackButton = true
     }
     private func bind() {
+        let time = DispatchTime.now() + .seconds(1)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            let viewController = TabBarController()
+            viewController.modalPresentationStyle = .fullScreen
+            if let delegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                delegate.window?.rootViewController = viewController
+            }
+            self.present(viewController, animated: true)
+        }
         // Rx 적용시 input, output 연결하는부분
         Button.rx.tap
             .subscribe(onNext: { [weak self] _ in
