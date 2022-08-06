@@ -7,6 +7,9 @@
 
 import UIKit
 
+import KakaoSDKAuth
+import KakaoSDKUser
+import KakaoSDKCommon
 import SnapKit
 import Then
 import RxCocoa
@@ -123,17 +126,25 @@ extension LoginVC {
         navigationBar.isTranslucent = false
         navigationItem.hidesBackButton = true
     }
+
+    // MARK: - RX 사용안하니까 이 부분 수정 필요합니다
     private func bind() {
-        let time = DispatchTime.now() + .seconds(1)
-        DispatchQueue.main.asyncAfter(deadline: time) {
-            let viewController = TabBarController()
-            viewController.modalPresentationStyle = .fullScreen
-            if let delegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                delegate.window?.rootViewController = viewController
+
+        kakaoButton.addTarget(self, action: #selector(didTapKakao), for: .touchUpInside)
+        if KeychainHandler.shared.email != "" {
+            let time = DispatchTime.now() + .seconds(1)
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                let viewController = TabBarController()
+                viewController.modalPresentationStyle = .fullScreen
+                if let delegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                    delegate.window?.rootViewController = viewController
+                }
+                self.present(viewController, animated: true)
             }
-            self.present(viewController, animated: true)
         }
-        // Rx 적용시 input, output 연결하는부분
+
+
+
         Button.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -160,6 +171,48 @@ extension LoginVC {
             self.navigationController?.pushViewController(viewController, animated: true)
         })
         .disposed(by: disposeBag)
+    }
+
+    @objc func didTapKakao() {
+        // 카카오톡 설치여부 체크
+        //        if (UserApi.isKakaoTalkLoginAvailable()) {
+        //            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+        //                if let error = error {
+        //                    print(error)
+        //                }
+        //                else {
+        //                    print("loginWithKakaoTalk() success.")
+        //
+        //                    //do something
+        //                    _ = oauthToken
+        //                }
+        //            }
+        //        } else {
+        //            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+        //                if let error = error {
+        //                    print(error)
+        //                }
+        //                else {
+        //                    print("loginWithKakaoTalk() success.")
+        //                    //do something
+        //                    _ = oauthToken
+        //                }
+        //            }
+        //        }
+        // 지금은 테스트니까 웹 브라우저로 열리는걸로 해봅시다
+
+        
+        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("loginWithKakaoAccount() success.")
+
+                //do something
+                _ = oauthToken
+            }
+        }
     }
 }
 
