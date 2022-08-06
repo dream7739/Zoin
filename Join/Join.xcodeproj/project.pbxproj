@@ -39,6 +39,7 @@
 		F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429EF28218EEB00E54B57 /* UIButton+.swift */; };
 		F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F12821968D00E54B57 /* CompleteProfileVC.swift */; };
 		F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F328219BA400E54B57 /* OnboardingVC.swift */; };
+		F2159EFA289BE91E0083A127 /* SettingServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2159EF9289BE91E0083A127 /* SettingServices.swift */; };
 		F216ECBE286CB50B000210F7 /* EmailLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216ECBD286CB50B000210F7 /* EmailLoginVC.swift */; };
 		F219C02A2869E6B6009BFC9C /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C0292869E6B6009BFC9C /* Environment.swift */; };
 		F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C02B2869E6CB009BFC9C /* AuthServices.swift */; };
@@ -124,6 +125,7 @@
 		F21429EF28218EEB00E54B57 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		F21429F12821968D00E54B57 /* CompleteProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileVC.swift; sourceTree = "<group>"; };
 		F21429F328219BA400E54B57 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
+		F2159EF9289BE91E0083A127 /* SettingServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingServices.swift; sourceTree = "<group>"; };
 		F216ECBD286CB50B000210F7 /* EmailLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginVC.swift; sourceTree = "<group>"; };
 		F219C0292869E6B6009BFC9C /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		F219C02B2869E6CB009BFC9C /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 			children = (
 				F219C02B2869E6CB009BFC9C /* AuthServices.swift */,
 				F21EBA10288597AF004EA599 /* ProfileServices.swift */,
+				F2159EF9289BE91E0083A127 /* SettingServices.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -739,6 +742,7 @@
 				F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */,
 				F2C9E202287C65C700A5E33E /* UIImageView+.swift in Sources */,
 				F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */,
+				F2159EFA289BE91E0083A127 /* SettingServices.swift in Sources */,
 				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
 				F2C0DC9228748056009A1229 /* KeychainHandler.swift in Sources */,

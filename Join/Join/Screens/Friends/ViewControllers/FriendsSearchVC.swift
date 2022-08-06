@@ -13,6 +13,7 @@ import RxCocoa
 import RxSwift
 import RxKeyboard
 import Moya
+import SwiftyJSON
 
 class FriendsSearchVC: BaseViewController {
 
@@ -59,6 +60,7 @@ class FriendsSearchVC: BaseViewController {
         super.viewDidLoad()
         setLayout()
         setTextField()
+        bind()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -143,15 +145,21 @@ extension FriendsSearchVC {
         profileProvider.rx.request(.searchFriendsId(param: searchRequest))
             .asObservable()
             .subscribe(onNext: { [weak self] response in
-                let status = response.statusCode
-                if status == 200 {
-
-                }
             }, onError: { [weak self] _ in
 
             }, onCompleted: {
 
             }).disposed(by: disposeBag)
+    }
+
+    private func bind() {
+        searchButton.rx.tap
+            .subscribe(onNext: {[weak self] _ in
+                guard let self = self else { return }
+                self.searchId(self.searchTextField.text ?? "")
+                print("xxxx")
+            })
+            .disposed(by: disposeBag)
     }
 
 }
@@ -194,6 +202,7 @@ extension FriendsSearchVC: UITextFieldDelegate {
     // TODO: - 키보드 return키 누르면 검색가능하게끔?
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        self.searchId(self.searchTextField.text ?? "")
         return true
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

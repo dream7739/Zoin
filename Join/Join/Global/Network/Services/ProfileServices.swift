@@ -17,6 +17,23 @@ struct searchIdRequest: Encodable {
     var searchInput: String
 }
 
+// MARK: - data 구조 옮기기
+struct user: Codable {
+    var id:Int
+    var serviceId: String
+    var userName: String
+    var email: String
+    var profileImgUrl: String
+    var createdAt: String
+    var updatedAt: String
+}
+struct userData: Codable {
+    var user: [user]
+    var relationshipOrder: Int
+}
+
+
+
 extension ProfileServices: TargetType {
     private var token: String {
         return KeychainHandler.shared.accessToken
