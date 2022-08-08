@@ -7,15 +7,25 @@
 
 
 import UIKit
+import SwiftyJSON
 import SnapKit
 import Then
 import RxCocoa
 import RxSwift
 import RxKeyboard
+import Moya
+
+
+protocol ModifyDelegate {
+    func modifyFinish(item: MainElements)
+}
 
 class JoinModifyVC: BaseViewController {
     let textViewPlaceHolder = "나의 번개를 마구 어필해도 좋아요"
     var item:MainElements!
+    var makeRequest:MakeRequest!
+    var appointmentTime = ""
+    var delegate: ModifyDelegate?
     
     private let mentLabel = UILabel().then {
         $0.text = "번개수정"
@@ -256,6 +266,8 @@ class JoinModifyVC: BaseViewController {
         $0.layer.cornerRadius = 16
     }
     
+    private let makeProvider = MoyaProvider<MakeServices>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -441,6 +453,29 @@ extension JoinModifyVC {
         
     }
     
+    // MARK: - 서버 통신 부분
+    @objc func modifyRendezvous() {
+        makeProvider.rx.request(.modifyRendezvous(id: self.item.id, param: makeRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = JSON(response.data)["status"]
+                if status == 200 {
+                    print("Request Success: \(self!.makeRequest)")
+                    self?.dismiss(animated: true, completion: {
+                        self!.delegate!.modifyFinish(item: self!.item!)
+                    })
+                }else{
+                    print("\(status)")
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
+    }
+    
+    
+    
     private func bind() {
         titleTextField.text = item.title
         
@@ -449,7 +484,7 @@ extension JoinModifyVC {
         dateTextField.text = dateStr.dateTypeChange(dateStr: dateStr)
         
         placeTextField.text = item.location
-        participantTextField.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+        participantTextField.text = "\(item.requiredParticipantsCount)"
         descriptionTextView.text = item.description
         descriptionTextView.textColor = .yellow200
         
@@ -678,7 +713,7 @@ extension JoinModifyVC {
         confirmBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.popupView.removeFromSuperview()
-                self?.placeTextField.becomeFirstResponder()
+                self?.titleTextField.becomeFirstResponder()
             })
             .disposed(by: disposeBag)
         
@@ -734,6 +769,26 @@ extension JoinModifyVC {
             })
             .disposed(by: disposeBag)
         
+        
+        nextButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let makeTitle = self.titleTextField.text!
+                let location  = self.placeTextField.text!
+                let requiredParticipantsCount = self.participantTextField.text!
+                let description = self.descriptionTextView.text!
+                let appointmentTime = self.item.appointmentTime
+                
+                self.item.title = makeTitle
+                self.item.location = location
+                self.item.requiredParticipantsCount = Int(requiredParticipantsCount)!
+                self.item.description = description
+                
+                
+                self.makeRequest = MakeRequest(title: makeTitle, appointmentTime: appointmentTime, location: location, requiredParticipantsCount: requiredParticipantsCount, description: description)
+                self.modifyRendezvous()
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -792,11 +847,19 @@ extension JoinModifyVC {
     }
     
     @objc private func changed(){
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        let date = dateFormatter.string(from: joinDatePicker.date)
+        let displayDateFormatter = DateFormatter()
+        displayDateFormatter.dateStyle = .medium
+        displayDateFormatter.timeStyle = .medium
+        displayDateFormatter.locale = Locale(identifier: "ko-KR")
+        displayDateFormatter.dateFormat = "M월 d일 a hh:mm"
+        let date = displayDateFormatter.string(from: joinDatePicker.date)
         dateTextField.text = date
+        
+        //서버 전송 타입
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:00"
+        self.appointmentTime = dateFormatter.string(from: joinDatePicker.date)
+        self.item.appointmentTime = self.appointmentTime
     }
     
     

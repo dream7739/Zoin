@@ -13,7 +13,7 @@ extension String {
         let predicate = NSPredicate(format: "SELF MATCHES % @", emailRegEx)
         return predicate.evaluate(with: self)
     }
-
+    
     func validateNickname() -> Bool {
         let nicknameRegEx = "[가-힣0-9]{2,6}"
         let predicate = NSPredicate(format: "SELF MATCHES % @", nicknameRegEx)

@@ -14,6 +14,7 @@ import RxSwift
 
 protocol FinishMainDelegate {
     func finishMainUpdate()
+    func mainReloadView()
 }
 
 
@@ -172,6 +173,15 @@ class JoinVC: BaseViewController {
     
 }
 
+
+//번개 수정 시
+extension JoinVC: ModifyDelegate {
+    func modifyFinish(item: MainElements) {
+        self.item = item
+        viewBind()
+    }
+    
+}
 
 
 extension JoinVC: CancelDelegate, FinishDelegate {
@@ -339,7 +349,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         }
     }
     
-    private func bind(){
+    private func viewBind(){
         nameLabel.text = item.creator.userName
         idLabel.text = "@\(item.creator.serviceId)"
         titleLabel.text = item.title
@@ -357,6 +367,10 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         placeLabel.text = item.location
         countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
         contentLabel.text = item.description
+    }
+    
+    private func bind(){
+        viewBind()
         
         joinBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
@@ -396,6 +410,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                     let modify = UIAlertAction(title: "수정", style: .default, handler: {_ in
                         let joinModifyVC = JoinModifyVC()
                         joinModifyVC.item = self?.item
+                        joinModifyVC.delegate = self
                         joinModifyVC.modalPresentationStyle = .fullScreen
                         self?.present(joinModifyVC, animated: true)
                     })
@@ -437,6 +452,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 })
             } else {
                 dismiss(animated: true, completion: nil)
+                self.delegate?.mainReloadView()
             }
         default:
             break

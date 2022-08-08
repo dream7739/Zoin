@@ -10,8 +10,9 @@ import Foundation
 import Moya
 // 경로케이스별로 열겨헝으로 작성해주기
 enum MakeServices {
-    case rendezvous(param: MakeRequest)
-    case main(size: Int, cursor: Int?)
+    case rendezvous(param: MakeRequest) //번개 생성
+    case modifyRendezvous(id: Int, param: MakeRequest) //번개 수정
+    case main(size: Int, cursor: Int?) //번개 메인
 }
 
 //번개 생성
@@ -65,6 +66,7 @@ struct MainProfileResponse : Codable {
     var updatedAt: String
 }
 
+//번개 수정
 
 
 extension MakeServices: TargetType {
@@ -72,6 +74,8 @@ extension MakeServices: TargetType {
         switch self {
         case .rendezvous:
             return "/api/v1/rendezvous"
+        case .modifyRendezvous(let id, _):
+            return "/api/v1/rendezvous/\(id)"
         case .main:
             return "/api/v1/rendezvous/main"
         }
@@ -81,6 +85,8 @@ extension MakeServices: TargetType {
         switch self {
         case .rendezvous:
             return .post
+        case .modifyRendezvous:
+            return .put
         case .main:
             return .get
         }
@@ -93,6 +99,8 @@ extension MakeServices: TargetType {
     var task: Task {
         switch self {
         case .rendezvous(let param):
+            return .requestJSONEncodable(param)
+        case .modifyRendezvous(_, let param):
             return .requestJSONEncodable(param)
         case .main(let size, let cursor):
             return .requestParameters(parameters: ["size" : size, "cursor" : cursor ?? ""], encoding: URLEncoding.queryString)

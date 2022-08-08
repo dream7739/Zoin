@@ -15,6 +15,7 @@ import RxSwift
 import RxKeyboard
 import Moya
 
+
 class MainVC: BaseViewController {
     var currentPage: Int = 0
     var previousOffset: CGFloat = 0
@@ -132,13 +133,14 @@ class MainVC: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         bind()
-        getMainList(cursor: nil)
         addNotiObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: false)
         setNavigationBar(isHidden: true)
+        mainList = []
+        getMainList(cursor: nil)
     }
     
     func addNotiObserver(){
@@ -341,6 +343,7 @@ extension MainVC {
     
 }
 
+
 extension MainVC: MainCellDelegate {
     func selectedJoinBtn(index: Int){
         //셀 클릭 시 index에 해당하는 정보를 넘겨주면서 modal로 present함
@@ -363,6 +366,11 @@ extension MainVC: FinishMainDelegate {
         self.popupBackgroundView.isHidden = false
     }
     
+    //번개 참여화면에서 메인으로 빠질때 메인 리스트 조회
+    func mainReloadView() {
+        mainList = []
+        self.getMainList(cursor: nil)
+    }
 }
 
 
