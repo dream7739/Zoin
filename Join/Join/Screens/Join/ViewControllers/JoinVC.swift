@@ -20,7 +20,7 @@ protocol FinishMainDelegate {
 class JoinVC: BaseViewController {
     
     var atndFlag = false //참여여부 플래그
-    var joinType = 1 //임시 -> 1: 친구 번개 / 2: 내 번개
+    var joinType: Bool! //true - 내 번개, false - 친구번개
     var isCanceled = false
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
     var delegate: FinishMainDelegate?
@@ -61,17 +61,17 @@ class JoinVC: BaseViewController {
     
     var timeImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "icon_time")
+        $0.image = UIImage(named: "icon_time1")
     }
     
     var placeImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "icon_place")
+        $0.image = UIImage(named: "icon_place1")
     }
     
     var attendImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "icon_attend")
+        $0.image = UIImage(named: "icon_attend1")
     }
     
     var nameLabel = UILabel().then {
@@ -217,7 +217,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         ])
         
         
-        if(joinType == 1){
+        if !joinType {
             moreBtn.isHidden = true
             btnStackView.isHidden = true
         }else{
@@ -390,7 +390,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         moreBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                if self!.joinType == 2{
+                if self!.joinType {
                     //actionSheet 출력 (수정/삭제)
                     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                     let modify = UIAlertAction(title: "수정", style: .default, handler: {_ in

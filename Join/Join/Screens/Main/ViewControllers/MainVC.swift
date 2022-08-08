@@ -333,7 +333,7 @@ extension MainVC {
                                 self.isAvailable = true //isAvailable - 무한로딩 방지(1회 실행)
                             }
                         case .error(let error):
-                            print("failure")
+                            print("failure: \(error)")
                         }
                     }.disposed(by: disposeBag)
     }
@@ -345,11 +345,13 @@ extension MainVC: MainCellDelegate {
     func selectedJoinBtn(index: Int){
         //셀 클릭 시 index에 해당하는 정보를 넘겨주면서 modal로 present함
         let joinVC = JoinVC()
-        joinVC.item = self.mainList[index]
+        let item = self.mainList[index]
+        let joinType = item.isMyRendezvous
+        
+        joinVC.item = item
+        joinVC.joinType = joinType
         joinVC.delegate = self
-        if index == 1 {
-            joinVC.joinType = 2
-        }
+        
         joinVC.modalPresentationStyle = .overFullScreen
         self.present(joinVC, animated: true)
     }

@@ -474,10 +474,22 @@ extension JoinModifyVC {
                     self.nextButton.snp.updateConstraints { make in
                         make.bottom.equalToSuperview().offset(-30)
                     }
+                    let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                    self.contentScrollView.contentInset = contentInsets
+                    self.contentScrollView.scrollIndicatorInsets = contentInsets
+                    self.contentScrollView.scrollRectToVisible(self.contentScrollView.frame, animated: true)
                 } else {
                     let totalHeight = keyboardHeight
-                    self.nextButton.snp.updateConstraints { (make) in
+                    self.nextButton.snp.updateConstraints { (make)
+                        in
                         make.bottom.equalToSuperview().offset(-totalHeight)
+                    }
+                    
+                    if self.descriptionTextView.isFirstResponder {
+                        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: totalHeight/1.5, right: 0)
+                        self.contentScrollView.contentInset = contentInsets
+                        self.contentScrollView.scrollIndicatorInsets = contentInsets
+                        self.contentScrollView.scrollRectToVisible(self.contentScrollView.frame, animated: true)
                     }
                 }
                 self.view.layoutIfNeeded()
