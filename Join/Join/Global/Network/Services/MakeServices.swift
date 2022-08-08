@@ -11,7 +11,7 @@ import Moya
 // 경로케이스별로 열겨헝으로 작성해주기
 enum MakeServices {
     case rendezvous(param: MakeRequest)
-    case main(size: Int)
+    case main(size: Int, cursor: Int?)
 }
 
 //번개 생성
@@ -52,6 +52,7 @@ struct MainElements: Codable {
     var updatedAt:String
     var participants:[MainProfileResponse]
     var description:String
+    var isMyRendezvous: Bool
 }
 
 struct MainProfileResponse : Codable {
@@ -59,7 +60,7 @@ struct MainProfileResponse : Codable {
     var serviceId: String
     var userName: String
     var email: String
-//    var profileImgUrl: String
+    var profileImgUrl: String
     var createdAt: String
     var updatedAt: String
 }
@@ -93,8 +94,8 @@ extension MakeServices: TargetType {
         switch self {
         case .rendezvous(let param):
             return .requestJSONEncodable(param)
-        case .main(let size):
-            return .requestParameters(parameters: ["size" : size], encoding: URLEncoding.queryString)
+        case .main(let size, let cursor):
+            return .requestParameters(parameters: ["size" : size, "cursor" : cursor ?? ""], encoding: URLEncoding.queryString)
         }
     }
     

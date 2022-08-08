@@ -21,6 +21,8 @@ class MainVC: BaseViewController {
     var spacing:CGFloat = 0.0
     var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient1", "gradient2", "gradient3", "gradient4"]
     var mainList:[MainElements] = []
+    var isAvailable = false
+    var hasNext = false
     
     //메인 뷰
     var collectionView: UICollectionView = {
@@ -130,7 +132,7 @@ class MainVC: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         bind()
-        getMainList()
+        getMainList(cursor: nil)
         addNotiObserver()
     }
     
@@ -317,15 +319,19 @@ extension MainVC {
         self.navigationController?.pushViewController(joinListVC, animated: true)
     }
     
-    func getMainList() {
-        makeProvider.rx.request(.main(size: 4))
+    func getMainList(cursor: Int?) {
+        makeProvider.rx.request(.main(size: 5, cursor: cursor))
                     .filterSuccessfulStatusCodes()
                     .subscribe { result in
                         switch result {
                         case .success(let response):
                             guard let value = try? JSONDecoder().decode(MainResponse.self, from: response.data) else {return}
-                            self.mainList = value.data.elements
+                            self.mainList += value.data.elements
+                            self.hasNext = value.data.hasNext
                             self.collectionView.reloadData()
+                            if self.hasNext {
+                                self.isAvailable = true //isAvailable - 무한로딩 방지(1회 실행)
+                            }
                         case .error(let error):
                             print("failure")
                         }
@@ -360,6 +366,16 @@ extension MainVC: FinishMainDelegate {
 
 
 extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.collectionView.contentOffset.x > collectionView.contentSize.width-collectionView.bounds.size.width {
+            if hasNext && isAvailable {
+                isAvailable = false
+                let cursor = mainList.count
+                getMainList(cursor: cursor)
+            }
+        }
+    }
+
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return mainList.count
@@ -383,9 +399,9 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         cell.dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
         cell.placeLabel.text = item.location
         
-        
-        var shuffledImgArr = imgArr.shuffled()
-        cell.backGroundImg.image = UIImage(named: shuffledImgArr[cell.index])
+        //MARK: 추후 변경 필요
+        let shuffledImgArr = imgArr.shuffled()
+        cell.backGroundImg.image = UIImage(named: shuffledImgArr[0])
         return cell
     }
 }
