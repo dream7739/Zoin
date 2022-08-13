@@ -138,17 +138,7 @@ extension LoginVC {
 
         kakaoButton.addTarget(self, action: #selector(didTapKakao), for: .touchUpInside)
 
-        if KeychainHandler.shared.accessToken != "" {
-            let time = DispatchTime.now() + .seconds(1)
-            DispatchQueue.main.asyncAfter(deadline: time) {
-                let viewController = TabBarController()
-                viewController.modalPresentationStyle = .fullScreen
-                if let delegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                    delegate.window?.rootViewController = viewController
-                }
-                self.present(viewController, animated: true)
-            }
-        }
+        
 
 
 

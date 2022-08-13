@@ -11,10 +11,15 @@ import Moya
 
 enum ProfileServices {
     case searchFriendsId(param: searchIdRequest)
+    case getFriendsList
 }
 
 struct searchIdRequest: Encodable {
     var searchInput: String
+}
+
+struct tokenRequest: Encodable {
+    var Authorization: String
 }
 
 // MARK: - data 구조 옮기기
@@ -47,12 +52,16 @@ extension ProfileServices: TargetType {
         switch self {
         case .searchFriendsId:
             return "/api/v1/user"
+        case .getFriendsList:
+            return "/api/v1/friends"
         }
     }
 
     var method: Moya.Method {
         switch self {
         case .searchFriendsId:
+            return .get
+        case .getFriendsList:
             return .get
         }
     }
@@ -65,6 +74,8 @@ extension ProfileServices: TargetType {
         switch self {
         case.searchFriendsId(let param):
             return .requestJSONEncodable(param)
+        case .getFriendsList:
+            return .requestPlain
         }
     }
 

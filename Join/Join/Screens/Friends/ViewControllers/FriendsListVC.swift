@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SwiftyJSON
+import Moya
+
 class FriendsListVC: BaseViewController {
 
     private let collectionView: UICollectionView = {
@@ -21,9 +24,12 @@ class FriendsListVC: BaseViewController {
         return collectionView
     }()
 
+    let listProvider = MoyaProvider<ProfileServices>()
+    var friendsInfo = [user]()
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        getFriendsList()
         // Do any additional setup after loading the view.
     }
 
@@ -69,18 +75,53 @@ extension FriendsListVC {
         optionMenu.view.tintColor = .grayScale900
         self.present(optionMenu, animated: true, completion: nil)
     }
+
+    @objc private func getFriendsList() {
+        //let token = tokenRequest(Authorization: KeychainHandler.shared.accessToken)
+        listProvider.rx.request(.getFriendsList)
+            .asObservable()
+            .subscribe(onNext: {[weak self] response in
+                if response.statusCode == 200 {
+                    print(JSON(response.data))
+                    let arr = JSON(response.data)["data"]
+                    self?.friendsInfo = []
+                    for item in arr.arrayValue {
+                        let id = item["id"].intValue
+                        let serviceId = item["serviceId"].stringValue
+                        let userName = item["userName"].stringValue
+                        let email = item["email"].stringValue
+                        let profileImgUrl = item["profileImgUrl"].stringValue
+                        let createdAt = item["createdAt"].stringValue
+                        let updatedAt = item["updatedAt"].stringValue
+                        self?.friendsInfo.append(user(id: id, serviceId: serviceId, userName: userName, email: email, profileImgUrl: profileImgUrl, createdAt: createdAt, updatedAt: updatedAt))
+                    }
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadData()
+                    }
+                }
+            }, onError: {[weak self] _ in
+
+            }).disposed(by: disposeBag)
+    }
 }
 
 extension FriendsListVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: FriendsListCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendsListCVCell.identifier, for: indexPath) as! FriendsListCVCell
-        cell.bind()
+        //cell.bind()
+        if friendsInfo[indexPath.item].profileImgUrl == "" {
+            cell.profileImageView.image = Image.defaultProfile
+        } else {
+            cell.profileImageView.image(url: friendsInfo[indexPath.item].profileImgUrl)
+        }
+        cell.userIdLabel.text = friendsInfo[indexPath.item].serviceId
+        cell.userNameLabel.text = friendsInfo[indexPath.item].userName
         cell.modalButton.addTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return friendsInfo.count
     }
 }
 
