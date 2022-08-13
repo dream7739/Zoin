@@ -17,6 +17,8 @@ import Moya
 
 
 class MainVC: BaseViewController {
+    private let makeProvider = MoyaProvider<MakeServices>()
+
     var currentPage: Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
@@ -125,7 +127,6 @@ class MainVC: BaseViewController {
         $0.layer.cornerRadius = 20
     }
     
-    private let makeProvider = MoyaProvider<MakeServices>()
     
     override func viewDidLoad() {
         super.viewDidLoad()

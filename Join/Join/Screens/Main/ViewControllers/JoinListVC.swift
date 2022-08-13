@@ -8,11 +8,20 @@
 
 import UIKit
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
+import Moya
+
 
 class JoinListVC: BaseViewController {
+    private let makeProvider = MoyaProvider<MakeServices>()
+
+    var mainList:[MainElements] = []
+    var isAvailable = false
+    var hasNext = false
+    
     var joinTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(JoinListTableViewCell.self, forCellReuseIdentifier: JoinListTableViewCell.identifier)
@@ -43,6 +52,7 @@ class JoinListVC: BaseViewController {
         setNavigationName(title: "전체보기")
         setLayout()
         bind()
+        getMainList(cursor: nil)
     }
 }
 
@@ -73,12 +83,44 @@ extension JoinListVC {
         joinTableView.dataSource = self
     }
     
-    private func bind() { }
+    private func bind() {
+        
+    }
+    
+    
+    func getMainList(cursor: Int?) {
+        makeProvider.rx.request(.main(size: 30, cursor: cursor))
+            .filterSuccessfulStatusCodes()
+            .subscribe { result in
+                switch result {
+                case .success(let response):
+                    guard let value = try? JSONDecoder().decode(MainResponse.self, from: response.data) else {return}
+                    self.mainList += value.data.elements
+                    self.hasNext = value.data.hasNext
+                    self.joinTableView.reloadData()
+                    if self.hasNext {
+                        self.isAvailable = true
+                    }
+                case .error(let error):
+                    print("failure: \(error)")
+                }
+            }.disposed(by: disposeBag)
+    }
 }
 
 extension JoinListVC: UITableViewDelegate, UITableViewDataSource {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.joinTableView.contentOffset.y > joinTableView.contentSize.height-joinTableView.bounds.size.height {
+            if hasNext && isAvailable {
+                isAvailable = false
+                let cursor = mainList.count
+                getMainList(cursor: cursor)
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return mainList.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -86,7 +128,25 @@ extension JoinListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: JoinListTableViewCell.identifier, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: JoinListTableViewCell.identifier, for: indexPath) as? JoinListTableViewCell else { return UITableViewCell() }
+        let item = mainList[indexPath.row]
+        
+        cell.index = indexPath.row
+        cell.nameLabel.text = item.creator.userName
+        cell.idLabel.text = "@\(item.creator.serviceId)"
+        cell.countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+        cell.titleLabel.text = item.title
+        
+        let dateStr = item.appointmentTime
+        let convertStr = dateStr.dateTypeChange(dateStr: dateStr)
+        
+        //오늘 강조 처리
+        let attributedStr = NSMutableAttributedString(string: convertStr)
+        attributedStr.addAttribute(.font, value: UIFont.minsans(size: 14, family: .Bold)!, range: (convertStr as NSString).range(of: "오늘"))
+        attributedStr.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (convertStr as NSString).range(of: "오늘"))
+        
+        cell.dateLabel.attributedText = attributedStr
+        cell.placeLabel.text = item.location
         
         
         return cell

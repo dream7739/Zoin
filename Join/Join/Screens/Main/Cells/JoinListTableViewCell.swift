@@ -13,7 +13,7 @@ import Foundation
 import Then
 
 class JoinListTableViewCell : UITableViewCell {
-    
+    var index:Int = 0
     
     static let identifier = "joinListCell"
     
@@ -28,28 +28,24 @@ class JoinListTableViewCell : UITableViewCell {
     
     var nameLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "장혜진"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale100
     }
     
     var idLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "@b2_cka_"
         $0.font = .minsans(size: 12, family: .Medium)
         $0.textColor = .grayScale500
     }
     
     var countLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "2/3"
         $0.font = .minsans(size: 12, family: .Medium)
         $0.textColor = .grayScale800
     }
     
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "인생샷 찍으러 가자!"
         $0.font = .minsans(size: 18, family: .Bold)
         $0.textColor = .grayScale100
     }
@@ -61,7 +57,6 @@ class JoinListTableViewCell : UITableViewCell {
     
     var dateLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "오늘 오후 04:00"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale400
         
@@ -69,7 +64,6 @@ class JoinListTableViewCell : UITableViewCell {
     
     var placeLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "여의나루역 2번 출구 앞"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale400
     }
