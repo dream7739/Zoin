@@ -10,22 +10,28 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
+import Moya
+import SwiftyJSON
 
 
 protocol FinishMainDelegate {
     func finishMainUpdate()
+    func mainReloadView()
 }
 
 
 class JoinVC: BaseViewController {
-    
+    private let makeProvider = MoyaProvider<MakeServices>()
+
     var atndFlag = false //참여여부 플래그
-    var joinType = 1 //임시 -> 1: 친구 번개 / 2: 내 번개
+    var joinType: Bool! //true - 내 번개, false - 친구번개
     var isCanceled = false
+    var isDeleted = false
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
     var delegate: FinishMainDelegate?
     var popupViewTopConstraint: Constraint? = nil
-    
+    var item: MainElements!
+
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .grayScale900
@@ -60,57 +66,51 @@ class JoinVC: BaseViewController {
     
     var timeImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "icon_time")
+        $0.image = UIImage(named: "icon_time1")
     }
     
     var placeImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "icon_place")
+        $0.image = UIImage(named: "icon_place1")
     }
     
     var attendImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "icon_attend")
+        $0.image = UIImage(named: "icon_attend1")
     }
     
     var nameLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "장혜진"
         $0.font = .minsans(size: 16, family: .Bold)
         $0.textColor = .grayScale100
     }
     
     var idLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "@b2_cka_"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale500
     }
     
     var countLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "2/3"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale100
     }
     
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "인생샷 찍으러 가자!"
         $0.font = .minsans(size: 24, family: .Bold)
         $0.textColor = .grayScale100
     }
     
     var dateLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "오늘 오후 04:00"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale100
     }
     
     var placeLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "여의나루역 2번 출구 앞"
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale100
     }
@@ -122,7 +122,6 @@ class JoinVC: BaseViewController {
     
     var contentLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "이따 학원끝나고 시간나는김에 카페 한번 들리려하는데 나 놀아줄사람..?ㅠㅠ"
         $0.numberOfLines = 0
         $0.font = .minsans(size: 16, family: .Regular)
         $0.textColor = .grayScale100
@@ -179,6 +178,15 @@ class JoinVC: BaseViewController {
 }
 
 
+//번개 수정 시
+extension JoinVC: ModifyDelegate {
+    func modifyFinish(item: MainElements) {
+        self.item = item
+        viewBind()
+    }
+    
+}
+
 
 extension JoinVC: CancelDelegate, FinishDelegate {
     func cancelUpdate(isCanceled: Bool) {
@@ -196,13 +204,6 @@ extension JoinVC: CancelDelegate, FinishDelegate {
     
     private func setLayout() {
         self.view.backgroundColor = UIColor(red: 17/255, green: 23/255, blue: 35/255, alpha: 0.8)
-        
-        let attributedStr = NSMutableAttributedString(string: self.dateLabel.text!)
-        attributedStr.addAttribute(.font, value: UIFont.minsans(size: 14, family: .Bold)!, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
-        attributedStr.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
-        
-        
-        self.dateLabel.attributedText = attributedStr
         
         view.add(popupView)
         
@@ -230,7 +231,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         ])
         
         
-        if(joinType == 1){
+        if !joinType {
             moreBtn.isHidden = true
             btnStackView.isHidden = true
         }else{
@@ -352,7 +353,29 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         }
     }
     
+    private func viewBind(){
+        nameLabel.text = item.creator.userName
+        idLabel.text = "@\(item.creator.serviceId)"
+        titleLabel.text = item.title
+        
+        let dateStr = item.appointmentTime
+        item.appointmentTime = dateStr
+        dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
+        
+        //오늘 강조 처리
+        let attributedStr = NSMutableAttributedString(string: self.dateLabel.text!)
+        attributedStr.addAttribute(.font, value: UIFont.minsans(size: 14, family: .Bold)!, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
+        attributedStr.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.dateLabel.text! as NSString).range(of: "오늘"))
+        dateLabel.attributedText = attributedStr
+        
+        placeLabel.text = item.location
+        countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+        contentLabel.text = item.description
+    }
+    
     private func bind(){
+        viewBind()
+        
         joinBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 if(!(self!.atndFlag)){
@@ -385,15 +408,22 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         moreBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                if self!.joinType == 2{
+                guard let self = self else { return }
+                if self.joinType {
                     //actionSheet 출력 (수정/삭제)
                     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                     let modify = UIAlertAction(title: "수정", style: .default, handler: {_ in
                         let joinModifyVC = JoinModifyVC()
+                        joinModifyVC.item = self.item
+                        joinModifyVC.delegate = self
                         joinModifyVC.modalPresentationStyle = .fullScreen
-                        self?.present(joinModifyVC, animated: true)
+                        self.present(joinModifyVC, animated: true)
                     })
-                    let delete = UIAlertAction(title: "삭제", style: .default, handler: nil)
+                    let delete = UIAlertAction(title: "삭제", style: .default, handler: {_ in
+                        //삭제 서버 통신
+                        self.deleteRendezvous()
+                    })
+                    
                     let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
                     
                     alert.addAction(cancel)
@@ -401,13 +431,32 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                     alert.addAction(delete)
                     
                     alert.view.tintColor = .grayScale900
-                    self?.present(alert, animated: true)
+                    self.present(alert, animated: true)
                     
                 }else{
                 }
             })
             .disposed(by: disposeBag)
         
+    }
+    
+    @objc func deleteRendezvous() {
+        makeProvider.rx.request(.deleteRendezvous(id: self.item.id))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = JSON(response.data)["status"]
+                if status == 200 {
+                    self?.isDeleted = true
+                    self?.showToast(message: "번개가 삭제되었어요")
+                    print("delete success: \(self!.item.id)")
+                }else{
+                    print("\(status)")
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
     }
     
     
@@ -431,6 +480,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 })
             } else {
                 dismiss(animated: true, completion: nil)
+                self.delegate?.mainReloadView()
             }
         default:
             break
@@ -463,7 +513,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.layer.cornerRadius = 16
             
-            if self.isCanceled {
+            if self.isCanceled || self.isDeleted {
                 $0.backgroundColor = .grayScale200
             }else{
                 $0.backgroundColor = .yellow50
@@ -476,7 +526,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             $0.font = .minsans(size: 14, family: .Bold)
             $0.text = message
             
-            if self.isCanceled {
+            if self.isCanceled || self.isDeleted {
                 $0.textColor = .grayScale800
             }else{
                 $0.textColor = .orange100
@@ -485,7 +535,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         let toastIcon = UIImageView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            if self.isCanceled {
+            if self.isCanceled || self.isDeleted {
                 $0.image = UIImage(named: "icon_cancel")
             }else{
                 $0.image = UIImage(named: "icon_thunder1")
@@ -525,6 +575,8 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 self.joinBtn.setTitle("참여하기", for: .normal)
                 self.attendLabel.isHidden = true
                 self.moreBtn.isHidden = false
+            }else if self.isDeleted {
+                self.dismiss(animated: true, completion: nil)
             }else {
                 self.joinBtn.backgroundColor = .grayScale800
                 self.joinBtn.setTitleColor(.grayScale100, for: .normal)

@@ -8,15 +8,22 @@
 import UIKit
 
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
+import RxKeyboard
+import Moya
+
 
 class MainVC: BaseViewController {
     var currentPage: Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
     var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient1", "gradient2", "gradient3", "gradient4"]
+    var mainList:[MainElements] = []
+    var isAvailable = false
+    var hasNext = false
     
     //메인 뷰
     var collectionView: UICollectionView = {
@@ -118,6 +125,7 @@ class MainVC: BaseViewController {
         $0.layer.cornerRadius = 20
     }
     
+    private let makeProvider = MoyaProvider<MakeServices>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,7 +139,9 @@ class MainVC: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: false)
         setNavigationBar(isHidden: true)
+        mainReloadView()
     }
+    
     
     func addNotiObserver(){
         NotificationCenter.default.addObserver(self,
@@ -273,6 +283,7 @@ extension MainVC {
     }
     
     func bind(){
+        
         searchJoinListBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -310,16 +321,45 @@ extension MainVC {
         self.navigationController?.pushViewController(joinListVC, animated: true)
     }
     
+    func getMainList(cursor: Int?) {
+        makeProvider.rx.request(.main(size: 5, cursor: cursor))
+                    .filterSuccessfulStatusCodes()
+                    .subscribe { result in
+                        switch result {
+                        case .success(let response):
+                            guard let value = try? JSONDecoder().decode(MainResponse.self, from: response.data) else {return}
+                            self.mainList += value.data.elements
+                            self.hasNext = value.data.hasNext
+                            
+                            UIView.performWithoutAnimation {
+                                //스크롤 포지션 변경되지 않도록 변경함
+                                self.collectionView.reloadSections(IndexSet(integer: 0))
+                            }
+                            
+                            if self.hasNext {
+                                self.isAvailable = true //isAvailable - 무한로딩 방지(1회 실행)
+                            }
+                        case .error(let error):
+                            print("failure: \(error)")
+                        }
+                    }.disposed(by: disposeBag)
+    }
+    
+    
 }
+
 
 extension MainVC: MainCellDelegate {
     func selectedJoinBtn(index: Int){
         //셀 클릭 시 index에 해당하는 정보를 넘겨주면서 modal로 present함
         let joinVC = JoinVC()
+        let item = self.mainList[index]
+        let joinType = item.isMyRendezvous
+        
+        joinVC.item = item
+        joinVC.joinType = joinType
         joinVC.delegate = self
-        if index == 1 {
-            joinVC.joinType = 2
-        }
+        
         joinVC.modalPresentationStyle = .overFullScreen
         self.present(joinVC, animated: true)
     }
@@ -331,15 +371,29 @@ extension MainVC: FinishMainDelegate {
         self.popupBackgroundView.isHidden = false
     }
     
-    
+    //번개 참여화면에서 메인으로 빠질때 메인 리스트 조회
+    func mainReloadView() {
+        mainList = []
+        self.getMainList(cursor: nil)
+    }
 }
 
 
 
 extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.collectionView.contentOffset.x > collectionView.contentSize.width-collectionView.bounds.size.width {
+            if hasNext && isAvailable {
+                isAvailable = false
+                let cursor = mainList.count
+                getMainList(cursor: cursor)
+            }
+        }
+    }
+
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return mainList.count
     }
     
     
@@ -347,14 +401,22 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
         
         cell.delegate = self
-        cell.index = indexPath.row
         
-        var shuffledImgArr = imgArr.shuffled()
-        cell.backGroundImg.image = UIImage(named: shuffledImgArr[cell.index])
+        let item = mainList[indexPath.row]
+        
+        cell.index = indexPath.row
+        cell.nameLabel.text = item.creator.userName
+        cell.idLabel.text = "@\(item.creator.serviceId)"
+        cell.countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+        cell.titleLabel.text = item.title
+        
+        let dateStr = item.appointmentTime
+        cell.dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
+        cell.placeLabel.text = item.location
+        
+        //MARK: 추후 변경 필요
+        let shuffledImgArr = imgArr.shuffled()
+        cell.backGroundImg.image = UIImage(named: shuffledImgArr[0])
         return cell
     }
-    
-    
-    
 }
-

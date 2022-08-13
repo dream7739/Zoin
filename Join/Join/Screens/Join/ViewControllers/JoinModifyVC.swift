@@ -7,14 +7,27 @@
 
 
 import UIKit
+import SwiftyJSON
 import SnapKit
 import Then
 import RxCocoa
 import RxSwift
 import RxKeyboard
+import Moya
+
+
+protocol ModifyDelegate {
+    func modifyFinish(item: MainElements)
+}
 
 class JoinModifyVC: BaseViewController {
+    private let makeProvider = MoyaProvider<MakeServices>()
+
     let textViewPlaceHolder = "나의 번개를 마구 어필해도 좋아요"
+    var item:MainElements!
+    var makeRequest:MakeRequest!
+    var appointmentTime = ""
+    var delegate: ModifyDelegate?
     
     private let mentLabel = UILabel().then {
         $0.text = "번개수정"
@@ -255,6 +268,7 @@ class JoinModifyVC: BaseViewController {
         $0.layer.cornerRadius = 16
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -264,20 +278,8 @@ class JoinModifyVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: true)
-        titleTextField.becomeFirstResponder()
-        titleTextField.text = ""
-        dateTextField.text = ""
-        placeTextField.text = ""
-        participantTextField.text = ""
-        descriptionTextView.text = ""
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        dateStackView.removeFromSuperview()
-        placeStackView.removeFromSuperview()
-        participantView.removeFromSuperview()
-        descriptionStackView.removeFromSuperview()
-    }
 }
 
 extension JoinModifyVC {
@@ -452,7 +454,41 @@ extension JoinModifyVC {
         
     }
     
+    @objc func modifyRendezvous() {
+        makeProvider.rx.request(.modifyRendezvous(id: self.item.id, param: makeRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = JSON(response.data)["status"]
+                if status == 200 {
+                    print("Request Success: \(self!.makeRequest)")
+                    self?.dismiss(animated: true, completion: {
+                        self!.delegate!.modifyFinish(item: self!.item!)
+                    })
+                }else{
+                    print("\(status)")
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
+    }
+    
+    
+    
     private func bind() {
+        titleTextField.text = item.title
+        
+        let dateStr = item.appointmentTime
+        item.appointmentTime = dateStr
+        dateTextField.text = dateStr.dateTypeChange(dateStr: dateStr)
+        
+        placeTextField.text = item.location
+        participantTextField.text = "\(item.requiredParticipantsCount)"
+        descriptionTextView.text = item.description
+        descriptionTextView.textColor = .yellow200
+        
+        
         let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(isTapped))
         singleTapGestureRecognizer.numberOfTapsRequired = 1
         singleTapGestureRecognizer.isEnabled = true
@@ -473,10 +509,22 @@ extension JoinModifyVC {
                     self.nextButton.snp.updateConstraints { make in
                         make.bottom.equalToSuperview().offset(-30)
                     }
+                    let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                    self.contentScrollView.contentInset = contentInsets
+                    self.contentScrollView.scrollIndicatorInsets = contentInsets
+                    self.contentScrollView.scrollRectToVisible(self.contentScrollView.frame, animated: true)
                 } else {
                     let totalHeight = keyboardHeight
-                    self.nextButton.snp.updateConstraints { (make) in
+                    self.nextButton.snp.updateConstraints { (make)
+                        in
                         make.bottom.equalToSuperview().offset(-totalHeight)
+                    }
+                    
+                    if self.descriptionTextView.isFirstResponder {
+                        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: totalHeight/1.5, right: 0)
+                        self.contentScrollView.contentInset = contentInsets
+                        self.contentScrollView.scrollIndicatorInsets = contentInsets
+                        self.contentScrollView.scrollRectToVisible(self.contentScrollView.frame, animated: true)
                     }
                 }
                 self.view.layoutIfNeeded()
@@ -665,7 +713,7 @@ extension JoinModifyVC {
         confirmBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.popupView.removeFromSuperview()
-                self?.placeTextField.becomeFirstResponder()
+                self?.titleTextField.becomeFirstResponder()
             })
             .disposed(by: disposeBag)
         
@@ -673,7 +721,7 @@ extension JoinModifyVC {
         descriptionTextView.rx.didBeginEditing.subscribe(onNext: { [weak self] _ in
             guard let self = self else { return }
             self.descriptionTextView.textColor = .yellow200
-            if self.descriptionTextView.text == self.textViewPlaceHolder {
+            if (self.descriptionTextView.text == self.textViewPlaceHolder) {
                 self.descriptionTextView.text = nil
             }
         }, onCompleted: {
@@ -721,6 +769,26 @@ extension JoinModifyVC {
             })
             .disposed(by: disposeBag)
         
+        
+        nextButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let makeTitle = self.titleTextField.text!
+                let location  = self.placeTextField.text!
+                let requiredParticipantsCount = self.participantTextField.text!
+                let description = self.descriptionTextView.text!
+                let appointmentTime = self.item.appointmentTime
+                
+                self.item.title = makeTitle
+                self.item.location = location
+                self.item.requiredParticipantsCount = Int(requiredParticipantsCount)!
+                self.item.description = description
+                
+                
+                self.makeRequest = MakeRequest(title: makeTitle, appointmentTime: appointmentTime, location: location, requiredParticipantsCount: requiredParticipantsCount, description: description)
+                self.modifyRendezvous()
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -779,11 +847,19 @@ extension JoinModifyVC {
     }
     
     @objc private func changed(){
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        let date = dateFormatter.string(from: joinDatePicker.date)
+        let displayDateFormatter = DateFormatter()
+        displayDateFormatter.dateStyle = .medium
+        displayDateFormatter.timeStyle = .medium
+        displayDateFormatter.locale = Locale(identifier: "ko-KR")
+        displayDateFormatter.dateFormat = "M월 d일 a hh:mm"
+        let date = displayDateFormatter.string(from: joinDatePicker.date)
         dateTextField.text = date
+        
+        //서버 전송 타입
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:00"
+        self.appointmentTime = dateFormatter.string(from: joinDatePicker.date)
+        self.item.appointmentTime = self.appointmentTime
     }
     
     

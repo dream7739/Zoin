@@ -15,6 +15,7 @@ import RxKeyboard
 
 class MakeVC: BaseViewController {
     private var clickCnt: Int! = 0
+    var appointmentTime = ""
     
     private let mentLabel = UILabel().then {
         $0.text = "번개 제목을\n자유롭게 입력해 주세요."
@@ -181,6 +182,7 @@ class MakeVC: BaseViewController {
     var joinDatePicker = UIDatePicker().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.datePickerMode = .dateAndTime
+        $0.locale = Locale(identifier: "ko-KR")
         $0.timeZone = NSTimeZone.local
         if #available(iOS 13.4, *) {
             $0.preferredDatePickerStyle = .wheels
@@ -345,6 +347,11 @@ extension MakeVC {
                 self.titleTextField.layer.cornerRadius = 20
                 self.titleTextField.layer.borderWidth = 2.0
                 self.dateTextField.layer.borderWidth = 0.0
+                if self.clickCnt == 3 {
+                    self.mentLabel.snp.updateConstraints{
+                        $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(-100)
+                    }
+                }
             }).disposed(by: disposeBag)
         
         
@@ -354,6 +361,11 @@ extension MakeVC {
             .subscribe(onNext: { _ in
                 self.titleTextField.layer.borderWidth = 0.0
                 self.titleTextField.resignFirstResponder()
+                if self.clickCnt == 3 {
+                    self.mentLabel.snp.updateConstraints{
+                        $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(8)
+                    }
+                }
             }).disposed(by: disposeBag)
         
         
@@ -567,11 +579,18 @@ extension MakeVC {
     }
     
     @objc private func changed(){
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        let date = dateFormatter.string(from: joinDatePicker.date)
+        let displayDateFormatter = DateFormatter()
+        displayDateFormatter.dateStyle = .medium
+        displayDateFormatter.timeStyle = .medium
+        displayDateFormatter.locale = Locale(identifier: "ko-KR")
+        displayDateFormatter.dateFormat = "yyyy.M.d.EEEE a hh:mm" // 2020.08.13 오후 04시 30분
+        let date = displayDateFormatter.string(from: joinDatePicker.date)
         dateTextField.text = date
+        
+        //서버 전송 타입
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:00"
+        self.appointmentTime = dateFormatter.string(from: joinDatePicker.date)
     }
     
     
@@ -656,6 +675,12 @@ extension MakeVC {
             }
         }else{
             let makeDetailVC = MakeDetailVC()
+            makeDetailVC.makeTitle = self.titleTextField.text!
+            makeDetailVC.appointmentTime = self.appointmentTime
+            makeDetailVC.location = self.placeTextField.text!
+            makeDetailVC.requiredParticipantsCount = self.participantTextField.text!
+  
+            
             self.navigationController?.pushViewController(makeDetailVC, animated: true)
         }
     }
