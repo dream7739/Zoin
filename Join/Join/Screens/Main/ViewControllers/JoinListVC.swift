@@ -132,7 +132,7 @@ extension JoinListVC: UITableViewDelegate, UITableViewDataSource {
         if self.joinTableView.contentOffset.y > joinTableView.contentSize.height-joinTableView.bounds.size.height {
             if hasNext && isAvailable {
                 isAvailable = false
-                let cursor = mainList.count
+                let cursor = mainList[mainList.count-1].id
                 getMainList(cursor: cursor)
             }
         }

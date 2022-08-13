@@ -386,7 +386,7 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         if self.collectionView.contentOffset.x > collectionView.contentSize.width-collectionView.bounds.size.width {
             if hasNext && isAvailable {
                 isAvailable = false
-                let cursor = mainList.count
+                let cursor = mainList[mainList.count-1].id
                 getMainList(cursor: cursor)
             }
         }
