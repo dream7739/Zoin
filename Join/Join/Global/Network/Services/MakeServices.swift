@@ -14,6 +14,8 @@ enum MakeServices {
     case modifyRendezvous(id: Int, param: MakeRequest) //번개 수정
     case deleteRendezvous(id: Int) //번개 삭제
     case main(size: Int, cursor: Int?) //번개 메인
+    case participant(id: Int) //번개 참여
+    case deleteParticipant(id: Int) //번개 참여 취소
 }
 
 //번개 생성
@@ -87,6 +89,8 @@ extension MakeServices: TargetType {
             return "/api/v1/rendezvous/\(id)"
         case .main:
             return "/api/v1/rendezvous/main"
+        case .participant(let id), .deleteParticipant(let id):
+            return "/api/v1/rendezvous/\(id)/participant"
         }
     }
     
@@ -100,6 +104,10 @@ extension MakeServices: TargetType {
             return .delete
         case .main:
             return .get
+        case .participant:
+            return .post
+        case .deleteParticipant:
+            return .delete
         }
     }
     
@@ -117,6 +125,10 @@ extension MakeServices: TargetType {
             return .requestJSONEncodable(param)
         case .main(let size, let cursor):
             return .requestParameters(parameters: ["size" : size, "cursor" : cursor ?? ""], encoding: URLEncoding.queryString)
+        case .participant(let param):
+            return .requestJSONEncodable(param)
+        case .deleteParticipant(let param):
+            return .requestJSONEncodable(param)
         }
     }
     

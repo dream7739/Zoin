@@ -231,7 +231,6 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         
         if !joinType {
-            moreBtn.isHidden = true
             btnStackView.isHidden = true
         }else{
             joinBtn.isHidden = true
@@ -377,15 +376,11 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         joinBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                if(!(self!.atndFlag)){
-                    //토스트 출력 & 참여중 라벨 표시 & 참여취소로 버튼 변경
-                    self?.joinBtn.backgroundColor = .grayScale500
-                    self?.joinBtn.setTitleColor(.grayScale300, for: .normal)
-                    self?.attendLabel.isHidden = false
-                    self?.atndFlag = true
-                    self?.showToast(message: "친구 번개에 참여했어요!")
+                guard let self = self else { return }
+                if(!(self.atndFlag)){
+                    self.participant()
                 }else{
-                    self?.clickCancelBtn()
+                    self.clickCancelBtn()
                 }
             })
             .disposed(by: disposeBag)
@@ -439,6 +434,35 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
     }
     
+    @objc func participant() {
+        makeProvider.rx.request(.participant(id: self.item.id))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = JSON(response.data)["status"]
+                if status == 200 {
+                    //토스트 출력 & 참여중 라벨 표시 & 참여취소로 버튼 변경 & 참여자 수 변경 +1
+                    self?.joinBtn.backgroundColor = .grayScale500
+                    self?.joinBtn.setTitleColor(.grayScale300, for: .normal)
+                    self?.attendLabel.isHidden = false
+                    self?.moreBtn.isHidden = true
+                    
+                    let participantCount = (self?.item.participants?.count ?? 0) + 1
+                    self?.countLabel.text = "\(participantCount)/\((self?.item.requiredParticipantsCount)!)"
+
+                    self?.atndFlag = true
+                    self?.showToast(message: "친구 번개에 참여했어요!")
+                    print("participant success: \(self!.item.id)")
+                }else{
+                    print("\(status)")
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
+    }
+    
+    
     @objc func deleteRendezvous() {
         makeProvider.rx.request(.deleteRendezvous(id: self.item.id))
             .asObservable()
@@ -490,6 +514,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
     private func clickCancelBtn(){
         let joinCancelVC = JoinCancelVC()
         joinCancelVC.delegate = self
+        joinCancelVC.id = self.item.id
         joinCancelVC.modalPresentationStyle = .overFullScreen
         self.present(joinCancelVC, animated: true)
     }
@@ -575,6 +600,10 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 self.joinBtn.setTitle("참여하기", for: .normal)
                 self.attendLabel.isHidden = true
                 self.moreBtn.isHidden = false
+                
+                let participantCount = (self.item.participants?.count ?? 0)
+                self.countLabel.text = "\(participantCount)/\(self.item.requiredParticipantsCount)"
+                
             }else if self.isDeleted {
                 self.dismiss(animated: true, completion: nil)
             }else {
