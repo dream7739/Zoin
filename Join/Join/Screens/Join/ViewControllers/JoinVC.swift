@@ -10,6 +10,8 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
+import Moya
+import SwiftyJSON
 
 
 protocol FinishMainDelegate {
@@ -19,15 +21,17 @@ protocol FinishMainDelegate {
 
 
 class JoinVC: BaseViewController {
-    
+    private let makeProvider = MoyaProvider<MakeServices>()
+
     var atndFlag = false //참여여부 플래그
     var joinType: Bool! //true - 내 번개, false - 친구번개
     var isCanceled = false
+    var isDeleted = false
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
     var delegate: FinishMainDelegate?
     var popupViewTopConstraint: Constraint? = nil
     var item: MainElements!
-    
+
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .grayScale900
@@ -404,17 +408,22 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         moreBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                if self!.joinType {
+                guard let self = self else { return }
+                if self.joinType {
                     //actionSheet 출력 (수정/삭제)
                     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                     let modify = UIAlertAction(title: "수정", style: .default, handler: {_ in
                         let joinModifyVC = JoinModifyVC()
-                        joinModifyVC.item = self?.item
+                        joinModifyVC.item = self.item
                         joinModifyVC.delegate = self
                         joinModifyVC.modalPresentationStyle = .fullScreen
-                        self?.present(joinModifyVC, animated: true)
+                        self.present(joinModifyVC, animated: true)
                     })
-                    let delete = UIAlertAction(title: "삭제", style: .default, handler: nil)
+                    let delete = UIAlertAction(title: "삭제", style: .default, handler: {_ in
+                        //삭제 서버 통신
+                        self.deleteRendezvous()
+                    })
+                    
                     let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
                     
                     alert.addAction(cancel)
@@ -422,13 +431,32 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                     alert.addAction(delete)
                     
                     alert.view.tintColor = .grayScale900
-                    self?.present(alert, animated: true)
+                    self.present(alert, animated: true)
                     
                 }else{
                 }
             })
             .disposed(by: disposeBag)
         
+    }
+    
+    @objc func deleteRendezvous() {
+        makeProvider.rx.request(.deleteRendezvous(id: self.item.id))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = JSON(response.data)["status"]
+                if status == 200 {
+                    self?.isDeleted = true
+                    self?.showToast(message: "번개가 삭제되었어요")
+                    print("delete success: \(self!.item.id)")
+                }else{
+                    print("\(status)")
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
     }
     
     
@@ -485,7 +513,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.layer.cornerRadius = 16
             
-            if self.isCanceled {
+            if self.isCanceled || self.isDeleted {
                 $0.backgroundColor = .grayScale200
             }else{
                 $0.backgroundColor = .yellow50
@@ -498,7 +526,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             $0.font = .minsans(size: 14, family: .Bold)
             $0.text = message
             
-            if self.isCanceled {
+            if self.isCanceled || self.isDeleted {
                 $0.textColor = .grayScale800
             }else{
                 $0.textColor = .orange100
@@ -507,7 +535,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         let toastIcon = UIImageView().then {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            if self.isCanceled {
+            if self.isCanceled || self.isDeleted {
                 $0.image = UIImage(named: "icon_cancel")
             }else{
                 $0.image = UIImage(named: "icon_thunder1")
@@ -547,6 +575,8 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 self.joinBtn.setTitle("참여하기", for: .normal)
                 self.attendLabel.isHidden = true
                 self.moreBtn.isHidden = false
+            }else if self.isDeleted {
+                self.dismiss(animated: true, completion: nil)
             }else {
                 self.joinBtn.backgroundColor = .grayScale800
                 self.joinBtn.setTitleColor(.grayScale100, for: .normal)

@@ -21,6 +21,8 @@ protocol ModifyDelegate {
 }
 
 class JoinModifyVC: BaseViewController {
+    private let makeProvider = MoyaProvider<MakeServices>()
+
     let textViewPlaceHolder = "나의 번개를 마구 어필해도 좋아요"
     var item:MainElements!
     var makeRequest:MakeRequest!
@@ -266,7 +268,6 @@ class JoinModifyVC: BaseViewController {
         $0.layer.cornerRadius = 16
     }
     
-    private let makeProvider = MoyaProvider<MakeServices>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -453,7 +454,6 @@ extension JoinModifyVC {
         
     }
     
-    // MARK: - 서버 통신 부분
     @objc func modifyRendezvous() {
         makeProvider.rx.request(.modifyRendezvous(id: self.item.id, param: makeRequest))
             .asObservable()

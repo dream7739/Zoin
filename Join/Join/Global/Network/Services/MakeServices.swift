@@ -12,6 +12,7 @@ import Moya
 enum MakeServices {
     case rendezvous(param: MakeRequest) //번개 생성
     case modifyRendezvous(id: Int, param: MakeRequest) //번개 수정
+    case deleteRendezvous(id: Int) //번개 삭제
     case main(size: Int, cursor: Int?) //번개 메인
 }
 
@@ -66,7 +67,6 @@ struct MainProfileResponse : Codable {
     var updatedAt: String
 }
 
-//번개 수정
 
 
 extension MakeServices: TargetType {
@@ -74,7 +74,7 @@ extension MakeServices: TargetType {
         switch self {
         case .rendezvous:
             return "/api/v1/rendezvous"
-        case .modifyRendezvous(let id, _):
+        case .modifyRendezvous(let id, _), .deleteRendezvous(let id):
             return "/api/v1/rendezvous/\(id)"
         case .main:
             return "/api/v1/rendezvous/main"
@@ -87,6 +87,8 @@ extension MakeServices: TargetType {
             return .post
         case .modifyRendezvous:
             return .put
+        case .deleteRendezvous:
+            return .delete
         case .main:
             return .get
         }
@@ -101,6 +103,8 @@ extension MakeServices: TargetType {
         case .rendezvous(let param):
             return .requestJSONEncodable(param)
         case .modifyRendezvous(_, let param):
+            return .requestJSONEncodable(param)
+        case .deleteRendezvous(let param):
             return .requestJSONEncodable(param)
         case .main(let size, let cursor):
             return .requestParameters(parameters: ["size" : size, "cursor" : cursor ?? ""], encoding: URLEncoding.queryString)
