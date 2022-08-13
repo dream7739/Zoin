@@ -53,7 +53,7 @@ extension ProfileServices: TargetType {
         case .searchFriendsId:
             return "/api/v1/user"
         case .getFriendsList:
-            return "/api/v1/friends"
+            return "/api/v1/user/friends"
         }
     }
 

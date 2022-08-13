@@ -66,4 +66,8 @@ enum Image {
     static let arrowRight = UIImage(named: "arrow_right")
     static let checkbox = UIImage(named: "checkbox")
     static let checkboxSelected = UIImage(named: "checkboxSelected")
+    static let arrow3 = UIImage(named: "Arrow - Right 3")
+    static let ended = UIImage(named: "Property 1=마감")
+    static let ongoing = UIImage(named: "Property 1=모집중")
+    static let history = UIImage(named: "Frame 7995")
 }

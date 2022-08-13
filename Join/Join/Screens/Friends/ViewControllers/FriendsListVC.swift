@@ -82,7 +82,6 @@ extension FriendsListVC {
             .asObservable()
             .subscribe(onNext: {[weak self] response in
                 if response.statusCode == 200 {
-                    print(JSON(response.data))
                     let arr = JSON(response.data)["data"]
                     self?.friendsInfo = []
                     for item in arr.arrayValue {

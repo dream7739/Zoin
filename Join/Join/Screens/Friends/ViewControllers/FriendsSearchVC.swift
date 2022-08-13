@@ -142,11 +142,16 @@ extension FriendsSearchVC {
     // MARK: - 서버 통신 부분
     @objc func searchId(_ id: String) {
         let searchRequest = searchIdRequest(searchInput: id)
+        print(searchRequest)
         profileProvider.rx.request(.searchFriendsId(param: searchRequest))
             .asObservable()
             .subscribe(onNext: { [weak self] response in
-            }, onError: { [weak self] _ in
-
+                if response.statusCode == 200 {
+                    let arr = JSON(response.data)["data"]
+                    print(arr)
+                }
+            }, onError: { [weak self] err in
+                print(err)
             }, onCompleted: {
 
             }).disposed(by: disposeBag)
