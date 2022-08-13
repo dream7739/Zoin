@@ -129,9 +129,8 @@ extension MakeCompleteVC {
                 let tabBar = self.tabBarController
                 tabBar?.selectedIndex = 0
                 self.listFlag = true
-                NotificationCenter.default.post(name: NSNotification.Name("listFlag"), object: self.listFlag)
                 self.navigationController?.popToRootViewController(animated: true)
-                
+                NotificationCenter.default.post(name: NSNotification.Name("listFlag"), object: self.listFlag)
             })
             .disposed(by: disposeBag)
         

@@ -35,14 +35,14 @@ class JoinListVC: BaseViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .yellow200
         $0.setTitleColor(.grayScale900, for: .normal)
-        $0.setTitle("글작성", for: .normal)
+        $0.setTitle("번개 만들기", for: .normal)
         $0.titleLabel?.font = .minsans(size: 15, family: .Bold)
         $0.contentHorizontalAlignment = .center
         $0.layer.cornerRadius = 23
-        let icon = UIImage(named: "icon_write")!
+        let icon = UIImage(named: "Union (Stroke)")!
         $0.setImage(icon, for: .normal)
         $0.imageView?.contentMode = .scaleAspectFit
-        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 16)
+        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
     }
     
     override func viewDidLoad() {
@@ -74,7 +74,7 @@ extension JoinListVC {
         }
         
         writeBtn.snp.makeConstraints {
-            $0.width.equalTo(113)
+            $0.width.equalTo(136)
             $0.height.equalTo(44)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-44)
@@ -87,7 +87,13 @@ extension JoinListVC {
     }
     
     private func bind() {
-        
+        writeBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let makeVC = MakeVC()
+                self.navigationController?.pushViewController(makeVC, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     func mainReloadView() {

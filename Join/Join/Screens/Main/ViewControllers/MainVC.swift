@@ -18,7 +18,7 @@ import Moya
 
 class MainVC: BaseViewController {
     private let makeProvider = MoyaProvider<MakeServices>()
-
+    
     var currentPage: Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
@@ -324,26 +324,26 @@ extension MainVC {
     
     func getMainList(cursor: Int?) {
         makeProvider.rx.request(.main(size: 5, cursor: cursor))
-                    .filterSuccessfulStatusCodes()
-                    .subscribe { result in
-                        switch result {
-                        case .success(let response):
-                            guard let value = try? JSONDecoder().decode(MainResponse.self, from: response.data) else {return}
-                            self.mainList += value.data.elements
-                            self.hasNext = value.data.hasNext
-                            
-                            UIView.performWithoutAnimation {
-                                //스크롤 포지션 변경되지 않도록 변경함
-                                self.collectionView.reloadSections(IndexSet(integer: 0))
-                            }
-                            
-                            if self.hasNext {
-                                self.isAvailable = true //isAvailable - 무한로딩 방지(1회 실행)
-                            }
-                        case .error(let error):
-                            print("failure: \(error)")
-                        }
-                    }.disposed(by: disposeBag)
+            .filterSuccessfulStatusCodes()
+            .subscribe { result in
+                switch result {
+                case .success(let response):
+                    guard let value = try? JSONDecoder().decode(MainResponse.self, from: response.data) else {return}
+                    self.mainList += value.data.elements
+                    self.hasNext = value.data.hasNext
+                    
+                    UIView.performWithoutAnimation {
+                        //스크롤 포지션 변경되지 않도록 변경함
+                        self.collectionView.reloadSections(IndexSet(integer: 0))
+                    }
+                    
+                    if self.hasNext {
+                        self.isAvailable = true //isAvailable - 무한로딩 방지(1회 실행)
+                    }
+                case .error(let error):
+                    print("failure: \(error)")
+                }
+            }.disposed(by: disposeBag)
     }
     
     
@@ -391,7 +391,7 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
             }
         }
     }
-
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return mainList.count
@@ -403,21 +403,25 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.delegate = self
         
-        let item = mainList[indexPath.row]
         
-        cell.index = indexPath.row
-        cell.nameLabel.text = item.creator.userName
-        cell.idLabel.text = "@\(item.creator.serviceId)"
-        cell.countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
-        cell.titleLabel.text = item.title
+        if indexPath.row <= mainList.count - 1 {
+            let item = mainList[indexPath.row]
+            cell.index = indexPath.row
+            cell.nameLabel.text = item.creator.userName
+            cell.idLabel.text = "@\(item.creator.serviceId)"
+            cell.countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+            cell.titleLabel.text = item.title
+            
+            let dateStr = item.appointmentTime
+            cell.dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
+            cell.placeLabel.text = item.location
+            
+            //MARK: 추후 변경 필요
+            let shuffledImgArr = imgArr.shuffled()
+            cell.backGroundImg.image = UIImage(named: shuffledImgArr[0])
+        }
         
-        let dateStr = item.appointmentTime
-        cell.dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
-        cell.placeLabel.text = item.location
         
-        //MARK: 추후 변경 필요
-        let shuffledImgArr = imgArr.shuffled()
-        cell.backGroundImg.image = UIImage(named: shuffledImgArr[0])
         return cell
     }
 }
