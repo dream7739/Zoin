@@ -24,6 +24,13 @@ class SplashVC: BaseViewController {
         setNavigation()
         setLayout()
         bind()
+        print("keychain", KeychainHandler.shared.accessToken)
+        print(KeychainHandler.shared.refreshToken)
+        print(KeychainHandler.shared.email)
+        print(KeychainHandler.shared.password)
+        print(KeychainHandler.shared.username)
+        print(KeychainHandler.shared.serviceId)
+        print(KeychainHandler.shared.profileImgUrl)
     }
 
     private func setNavigation() {

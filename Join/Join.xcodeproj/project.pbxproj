@@ -40,10 +40,12 @@
 		F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429EF28218EEB00E54B57 /* UIButton+.swift */; };
 		F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F12821968D00E54B57 /* CompleteProfileVC.swift */; };
 		F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21429F328219BA400E54B57 /* OnboardingVC.swift */; };
+		F2159EFA289BE91E0083A127 /* SettingServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2159EF9289BE91E0083A127 /* SettingServices.swift */; };
 		F216ECBE286CB50B000210F7 /* EmailLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216ECBD286CB50B000210F7 /* EmailLoginVC.swift */; };
 		F219C02A2869E6B6009BFC9C /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C0292869E6B6009BFC9C /* Environment.swift */; };
 		F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C02B2869E6CB009BFC9C /* AuthServices.swift */; };
 		F21CECF6283543E100ED1EC0 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CECF5283543E100ED1EC0 /* Images.swift */; };
+		F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21EBA10288597AF004EA599 /* ProfileServices.swift */; };
 		F24B24E2286C35070039B967 /* AccountSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24B24E1286C35070039B967 /* AccountSettingVC.swift */; };
 		F24B24E4286C379E0039B967 /* AccountSettingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
@@ -80,6 +82,7 @@
 		F2C2C203286D5B1100D8BA39 /* WithdrawVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */; };
 		F2C6AB3F286D6FBA001822D6 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */; };
 		F2C727C928170C81002B1915 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C727C828170C81002B1915 /* UIColor+.swift */; };
+		F2C9E202287C65C700A5E33E /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C9E201287C65C700A5E33E /* UIImageView+.swift */; };
 		F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4AF28365D450094DABD /* UIFont+.swift */; };
 		F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E2C4B128365F3D0094DABD /* MinSansFont.swift */; };
 		F2E316C7286B651E009D67AC /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E316C6286B651E009D67AC /* SettingVC.swift */; };
@@ -124,10 +127,12 @@
 		F21429EF28218EEB00E54B57 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		F21429F12821968D00E54B57 /* CompleteProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileVC.swift; sourceTree = "<group>"; };
 		F21429F328219BA400E54B57 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
+		F2159EF9289BE91E0083A127 /* SettingServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingServices.swift; sourceTree = "<group>"; };
 		F216ECBD286CB50B000210F7 /* EmailLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginVC.swift; sourceTree = "<group>"; };
 		F219C0292869E6B6009BFC9C /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		F219C02B2869E6CB009BFC9C /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		F21CECF5283543E100ED1EC0 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		F21EBA10288597AF004EA599 /* ProfileServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServices.swift; sourceTree = "<group>"; };
 		F24B24E1286C35070039B967 /* AccountSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingVC.swift; sourceTree = "<group>"; };
 		F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingCVCell.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
@@ -165,6 +170,7 @@
 		F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawVC.swift; sourceTree = "<group>"; };
 		F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		F2C727C828170C81002B1915 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		F2C9E201287C65C700A5E33E /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		F2E2C4AF28365D450094DABD /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		F2E2C4B128365F3D0094DABD /* MinSansFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinSansFont.swift; sourceTree = "<group>"; };
 		F2E316C6286B651E009D67AC /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
@@ -414,6 +420,8 @@
 			children = (
 				F219C02B2869E6CB009BFC9C /* AuthServices.swift */,
 				8869F32B2876EAC800F71C9F /* MakeServices.swift */,
+				F21EBA10288597AF004EA599 /* ProfileServices.swift */,
+				F2159EF9289BE91E0083A127 /* SettingServices.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -476,6 +484,7 @@
 				F2E2C4AF28365D450094DABD /* UIFont+.swift */,
 				F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */,
 				F2C0DC8F28747915009A1229 /* String+.swift */,
+				F2C9E201287C65C700A5E33E /* UIImageView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -715,6 +724,7 @@
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
 				888FEE70286DEC090013939B /* TermVC.swift in Sources */,
 				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,
+				F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
 				8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */,
 				F214201228100BCF000D102D /* ProfileVC.swift in Sources */,
@@ -734,7 +744,9 @@
 				F29FE105281678500034C8A2 /* RegisterPasswordVC.swift in Sources */,
 				F29FE110281683350034C8A2 /* SplashVC.swift in Sources */,
 				F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */,
+				F2C9E202287C65C700A5E33E /* UIImageView+.swift in Sources */,
 				F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */,
+				F2159EFA289BE91E0083A127 /* SettingServices.swift in Sources */,
 				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
 				F2C0DC9228748056009A1229 /* KeychainHandler.swift in Sources */,
@@ -905,6 +917,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -933,6 +946,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

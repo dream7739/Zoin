@@ -7,6 +7,9 @@
 
 import UIKit
 
+import KakaoSDKAuth
+import KakaoSDKUser
+import KakaoSDKCommon
 import SnapKit
 import Then
 import RxCocoa
@@ -46,6 +49,8 @@ class LoginVC: BaseViewController {
         $0.setTitleColor(.grayScale100, for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
     }
+
+    var kakaoId: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,8 +128,26 @@ extension LoginVC {
         navigationBar.isTranslucent = false
         navigationItem.hidesBackButton = true
     }
+
+    // MARK: - RX 사용안하니까 이 부분 수정 필요합니다
     private func bind() {
-        // Rx 적용시 input, output 연결하는부분
+
+        kakaoButton.addTarget(self, action: #selector(didTapKakao), for: .touchUpInside)
+
+        if KeychainHandler.shared.accessToken != "" {
+            let time = DispatchTime.now() + .seconds(1)
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                let viewController = TabBarController()
+                viewController.modalPresentationStyle = .fullScreen
+                if let delegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                    delegate.window?.rootViewController = viewController
+                }
+                self.present(viewController, animated: true)
+            }
+        }
+
+
+
         Button.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -151,6 +174,68 @@ extension LoginVC {
             self.navigationController?.pushViewController(viewController, animated: true)
         })
         .disposed(by: disposeBag)
+    }
+
+    @objc func didTapKakao() {
+        // 카카오톡 설치여부 체크
+        //        if (UserApi.isKakaoTalkLoginAvailable()) {
+        //            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+        //                if let error = error {
+        //                    print(error)
+        //                }
+        //                else {
+        //                    print("loginWithKakaoTalk() success.")
+        //
+        //                    //do something
+        //                    _ = oauthToken
+        //                }
+        //            }
+        //        } else {
+        //            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+        //                if let error = error {
+        //                    print(error)
+        //                }
+        //                else {
+        //                    print("loginWithKakaoTalk() success.")
+        //                    //do something
+        //                    _ = oauthToken
+        //                }
+        //            }
+        //        }
+
+        // 지금은 테스트니까 웹 브라우저로 열리는걸로 해봅시다
+        // 소셜로그인 login 이후 -> null로 받아와지면 소셜회원가입 진행
+        // Userdefault로 kakao인지 apple인지 체크
+        // 소문자로
+        
+        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("loginWithKakaoAccount() success.")
+                UserApi.shared.me { (user, error) in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        // 카카오 이메일 수집해서 저장완료하기
+                        guard let email = user?.kakaoAccount?.email else { return }
+                        if let id = user?.id {
+                            self.kakaoId = String(id)
+                        }
+                        let userEmail = String(email)
+                        // 소셜로그인 종류 설정해주기
+                        UserDefaults.standard.set("kakao",forKey: "social")
+                        KeychainHandler.shared.email = userEmail
+                        KeychainHandler.shared.kakaoId = self.kakaoId ?? ""
+                        let viewController = RegisterIdVC()
+                        self.navigationController?.pushViewController(viewController, animated: true)
+                    }
+                }
+                //do something
+                _ = oauthToken
+            }
+        }
     }
 }
 
