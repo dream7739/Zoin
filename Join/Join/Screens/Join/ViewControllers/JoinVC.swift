@@ -447,6 +447,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 if status == 200 {
                     self?.isDeleted = true
                     self?.showToast(message: "번개가 삭제되었어요")
+                    self?.delegate?.mainReloadView()
                     print("delete success: \(self!.item.id)")
                 }else{
                     print("\(status)")
