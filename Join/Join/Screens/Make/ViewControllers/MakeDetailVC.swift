@@ -23,7 +23,7 @@ class MakeDetailVC: BaseViewController {
     var location:String  = ""
     var requiredParticipantsCount:String  = ""
     var makeDescription:String = ""
-    
+    var element:MainElements?
     
     private let mentLabel = UILabel().then {
         $0.text = "마지막으로\n자세히 설명해 주세요!"
@@ -127,7 +127,10 @@ extension MakeDetailVC {
             .subscribe(onNext: { [weak self] response in
                 let status = JSON(response.data)["status"]
                 if status == 200 {
+                    guard let value = try? JSONDecoder().decode(MakeResponse.self, from: response.data) else {return}
+                    self?.element = value.data
                     let makeCompleteVC = MakeCompleteVC()
+                    makeCompleteVC.element = self?.element
                     self?.navigationController?.pushViewController(makeCompleteVC, animated: true)
                 }else{
                     print("\(status)")

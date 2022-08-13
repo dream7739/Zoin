@@ -15,10 +15,9 @@ import SwiftyJSON
 
 
 protocol FinishMainDelegate {
-    func finishMainUpdate()
-    func mainReloadView()
+    func finishMainUpdate() //번개 마감시 액션을 정의함
+    func mainReloadView()  // 번개 상세모달이 닫힐 때 호출자 업데이트 
 }
-
 
 class JoinVC: BaseViewController {
     private let makeProvider = MoyaProvider<MakeServices>()
@@ -369,7 +368,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         dateLabel.attributedText = attributedStr
         
         placeLabel.text = item.location
-        countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+        countLabel.text = "\(item.participants?.count ?? 0)/\(item.requiredParticipantsCount)"
         contentLabel.text = item.description
     }
     
@@ -448,6 +447,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 if status == 200 {
                     self?.isDeleted = true
                     self?.showToast(message: "번개가 삭제되었어요")
+                    self?.delegate?.mainReloadView()
                     print("delete success: \(self!.item.id)")
                 }else{
                     print("\(status)")

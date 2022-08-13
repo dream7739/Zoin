@@ -16,6 +16,7 @@ import RxKeyboard
 class MakeCompleteVC: BaseViewController {
     var listFlag = false
     var detailIndex = 0 //번개 고유 번호 전달
+    var element:MainElements!
     
     private let mentLabel = UILabel().then {
         $0.text = "추카추카!\n내 소중한 번개가 열렸어요"
@@ -129,9 +130,8 @@ extension MakeCompleteVC {
                 let tabBar = self.tabBarController
                 tabBar?.selectedIndex = 0
                 self.listFlag = true
-                NotificationCenter.default.post(name: NSNotification.Name("listFlag"), object: self.listFlag)
                 self.navigationController?.popToRootViewController(animated: true)
-                
+                NotificationCenter.default.post(name: NSNotification.Name("listFlag"), object: self.listFlag)
             })
             .disposed(by: disposeBag)
         
@@ -140,9 +140,8 @@ extension MakeCompleteVC {
                 guard let self = self else { return }
                 let tabBar = self.tabBarController
                 tabBar?.selectedIndex = 0
-                self.detailIndex = 0
-                NotificationCenter.default.post(name: NSNotification.Name("detailFlag"), object: self.detailIndex)
                 self.navigationController?.popToRootViewController(animated: true)
+                NotificationCenter.default.post(name: NSNotification.Name("detailFlag"), object: self.element)
             })
             .disposed(by: disposeBag)
         
