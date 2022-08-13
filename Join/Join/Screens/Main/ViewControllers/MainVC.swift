@@ -162,8 +162,17 @@ class MainVC: BaseViewController {
     }
     
     @objc func openDetail(notification : NSNotification){
-        if let detailIndex = notification.object as? Int{
-            selectedJoinBtn(index: detailIndex)
+        print("\(notification.object )")
+        if let item = notification.object as? MainElements{
+            let joinVC = JoinVC()
+            let item = item
+            
+            joinVC.item = item
+            joinVC.joinType = true //생성 -> 내번개
+            joinVC.delegate = self
+            
+            joinVC.modalPresentationStyle = .overFullScreen
+            self.present(joinVC, animated: true)
         }
     }
 }
@@ -409,7 +418,7 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
             cell.index = indexPath.row
             cell.nameLabel.text = item.creator.userName
             cell.idLabel.text = "@\(item.creator.serviceId)"
-            cell.countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+            cell.countLabel.text = "\(item.participants?.count ?? 0)/\(item.requiredParticipantsCount)"
             cell.titleLabel.text = item.title
             
             let dateStr = item.appointmentTime

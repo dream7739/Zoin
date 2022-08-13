@@ -368,7 +368,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         dateLabel.attributedText = attributedStr
         
         placeLabel.text = item.location
-        countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+        countLabel.text = "\(item.participants?.count ?? 0)/\(item.requiredParticipantsCount)"
         contentLabel.text = item.description
     }
     

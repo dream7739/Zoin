@@ -171,7 +171,7 @@ extension JoinListVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.nameLabel.text = item.creator.userName
         cell.idLabel.text = "@\(item.creator.serviceId)"
-        cell.countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
+        cell.countLabel.text = "\(item.participants?.count ?? 0)/\(item.requiredParticipantsCount)"
         cell.titleLabel.text = item.title
         
         let dateStr = item.appointmentTime

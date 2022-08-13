@@ -25,6 +25,15 @@ struct MakeRequest: Codable {
     var description: String
 }
 
+//번개 생성 응답
+struct MakeResponse: Codable {
+    var timestamp: String
+    var status: Int
+    var message: String
+    var data: MainElements
+}
+
+
 //번개 메인리스트 조회 요청
 struct MainRequest: Codable {
     var size: Int
@@ -52,9 +61,9 @@ struct MainElements: Codable {
     var requiredParticipantsCount: Int
     var createdAt:String
     var updatedAt:String
-    var participants:[MainProfileResponse]
+    var participants:[MainProfileResponse]?
     var description:String
-    var isMyRendezvous: Bool
+    var isMyRendezvous: Bool?
 }
 
 struct MainProfileResponse : Codable {
