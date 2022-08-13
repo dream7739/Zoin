@@ -139,9 +139,9 @@ class MainVC: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: false)
         setNavigationBar(isHidden: true)
-        mainList = []
-        getMainList(cursor: nil)
+        mainReloadView()
     }
+    
     
     func addNotiObserver(){
         NotificationCenter.default.addObserver(self,
@@ -330,7 +330,12 @@ extension MainVC {
                             guard let value = try? JSONDecoder().decode(MainResponse.self, from: response.data) else {return}
                             self.mainList += value.data.elements
                             self.hasNext = value.data.hasNext
-                            self.collectionView.reloadData()
+                            
+                            UIView.performWithoutAnimation {
+                                //스크롤 포지션 변경되지 않도록 변경함
+                                self.collectionView.reloadSections(IndexSet(integer: 0))
+                            }
+                            
                             if self.hasNext {
                                 self.isAvailable = true //isAvailable - 무한로딩 방지(1회 실행)
                             }
