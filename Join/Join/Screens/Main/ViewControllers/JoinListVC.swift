@@ -52,7 +52,10 @@ class JoinListVC: BaseViewController {
         setNavigationName(title: "전체보기")
         setLayout()
         bind()
-        getMainList(cursor: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        mainReloadView()
     }
 }
 
@@ -87,6 +90,10 @@ extension JoinListVC {
         
     }
     
+    func mainReloadView() {
+        mainList = []
+        self.getMainList(cursor: nil)
+    }
     
     func getMainList(cursor: Int?) {
         makeProvider.rx.request(.main(size: 30, cursor: cursor))
@@ -105,6 +112,18 @@ extension JoinListVC {
                     print("failure: \(error)")
                 }
             }.disposed(by: disposeBag)
+    }
+}
+
+
+extension JoinListVC: FinishMainDelegate {
+    func finishMainUpdate() {
+        
+    }
+    
+    func mainReloadView(index: Int){
+        mainList = []
+        self.getMainList(cursor: nil)
     }
 }
 
@@ -127,11 +146,23 @@ extension JoinListVC: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let joinVC = JoinVC()
+        let item = self.mainList[indexPath.row]
+        let joinType = item.isMyRendezvous
+        
+        joinVC.item = item
+        joinVC.joinType = joinType
+        joinVC.delegate = self
+        
+        joinVC.modalPresentationStyle = .overFullScreen
+        self.present(joinVC, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: JoinListTableViewCell.identifier, for: indexPath) as? JoinListTableViewCell else { return UITableViewCell() }
         let item = mainList[indexPath.row]
         
-        cell.index = indexPath.row
         cell.nameLabel.text = item.creator.userName
         cell.idLabel.text = "@\(item.creator.serviceId)"
         cell.countLabel.text = "\(item.participants.count)/\(item.requiredParticipantsCount)"
@@ -152,8 +183,6 @@ extension JoinListVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
-    
-    
 }
+
 

@@ -15,10 +15,9 @@ import SwiftyJSON
 
 
 protocol FinishMainDelegate {
-    func finishMainUpdate()
-    func mainReloadView()
+    func finishMainUpdate() //번개 마감시 액션을 정의함
+    func mainReloadView()  // 번개 상세모달이 닫힐 때 호출자 업데이트 
 }
-
 
 class JoinVC: BaseViewController {
     private let makeProvider = MoyaProvider<MakeServices>()

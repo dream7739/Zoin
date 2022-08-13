@@ -12,8 +12,12 @@ import CoreLocation
 import Foundation
 import Then
 
+protocol JoinListCellDelegate {
+    func selectedJoinList(index: Int)
+}
+
 class JoinListTableViewCell : UITableViewCell {
-    var index:Int = 0
+    var delegate:MainCellDelegate!
     
     static let identifier = "joinListCell"
     
