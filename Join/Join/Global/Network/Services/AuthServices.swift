@@ -17,6 +17,7 @@ enum AuthServices {
     case verifyEmail(param: verifyEmail)
     case checkCode(param: checkCode )
     case kakaoLogin(param: SocialSignUpRequest)
+    case checkKakoLogin(param: didSignUpRequest)
 }
 // MARK: - parameter data
 // 모델데이터 global 파일에 data 하위디렉터리 만들어서 옮기는게 낫지 않을까?
@@ -59,6 +60,10 @@ struct checkCode: Encodable {
     var code: String
 }
 
+struct didSignUpRequest: Encodable {
+    var accountId: String
+}
+
 extension AuthServices: TargetType {
     // MARK: - 키체인라이브러리 추가 필요
     // 토큰 관련 작업 시 주석 해제
@@ -84,6 +89,8 @@ extension AuthServices: TargetType {
             return "/api/v1/email-auth"
         case .kakaoLogin:
             return "/api/v1/user/sign-up/kakao"
+        case .checkKakoLogin:
+            return "/api/v1/user/log-in/kakao"
         }
     }
 
@@ -102,7 +109,9 @@ extension AuthServices: TargetType {
             return .post
         case .checkCode:
             return .patch
-        case .kakaoLogin(param: let param):
+        case .kakaoLogin:
+            return .post
+        case .checkKakoLogin:
             return .post
         }
     }
@@ -130,7 +139,9 @@ extension AuthServices: TargetType {
             return .requestJSONEncodable(param)
         case .checkCode(let param):
             return .requestJSONEncodable(param)
-        case .kakaoLogin(param: let param):
+        case .kakaoLogin(let param):
+            return .requestJSONEncodable(param)
+        case .checkKakoLogin(let param):
             return .requestJSONEncodable(param)
         }
     }

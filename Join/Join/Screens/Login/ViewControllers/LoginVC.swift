@@ -11,9 +11,11 @@ import KakaoSDKAuth
 import KakaoSDKUser
 import KakaoSDKCommon
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
+import Moya
 
 class LoginVC: BaseViewController {
 
@@ -51,6 +53,8 @@ class LoginVC: BaseViewController {
     }
 
     var kakaoId: String?
+
+    private let authProvier = MoyaProvider<AuthServices>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -224,12 +228,34 @@ extension LoginVC {
                             self.kakaoId = String(id)
                         }
                         let userEmail = String(email)
-                        // 소셜로그인 종류 설정해주기
-                        UserDefaults.standard.set("kakao",forKey: "social")
-                        KeychainHandler.shared.email = userEmail
-                        KeychainHandler.shared.kakaoId = self.kakaoId ?? ""
-                        let viewController = RegisterIdVC()
-                        self.navigationController?.pushViewController(viewController, animated: true)
+
+                        let signUpCheck = didSignUpRequest(accountId: KeychainHandler.shared.kakaoId)
+                        self.authProvier.rx.request(.checkKakoLogin(param: signUpCheck))
+                            .asObservable()
+                            .subscribe(onNext: {[weak self] response in
+                                if response.statusCode == 200 {
+                                    let message = JSON(response.data)["message"]
+                                    print(message)
+                                    if message == "소셜 로그인 성공" {
+                                        UserDefaults.standard.set("kakao",forKey: "social")
+                                        let id = JSON(response.data)["data"]
+                                            //["loginRes"]["user"]["id"].string!
+                                        print(id)
+                                    }
+                                    if message == "가입되지 않은 소셜 계정입니다." {
+                                        UserDefaults.standard.set("kakao",forKey: "social")
+                                        KeychainHandler.shared.email = userEmail
+                                        KeychainHandler.shared.kakaoId = self?.kakaoId ?? ""
+                                        let viewController = RegisterNicknameVC()
+                                        self?.navigationController?.pushViewController(viewController, animated: true)
+                                    }
+                                }
+                            }, onError: {[weak self] _ in
+                                print("server error")
+                            }, onCompleted: {
+
+                            }).disposed(by: self.disposeBag)
+
                     }
                 }
                 //do something

@@ -132,6 +132,7 @@ extension RegisterProfileVC {
     }
 
     private func bind() {
+        // 사진 등록하고 회원가입시키기
         guideButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -139,10 +140,11 @@ extension RegisterProfileVC {
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
+        // 사진 안등록하고 회원가입 시키기
         if UserDefaults.standard.object(forKey: "social") as! String == "kakao" {
-            // 사진 안등록하고 회원가입 시키기
+
             passButton.addTarget(self, action: #selector(doKakaoSignUp), for: .touchUpInside)
-            // 사진 등록하고 회원가입시키기
+
         }
 
     }
@@ -182,6 +184,8 @@ extension RegisterProfileVC {
                     print(json)
                     let token = JSON(response.data)["data"]["data"]
                     KeychainHandler.shared.accessToken = token.string!
+                    let viewController = CompleteProfileVC()
+                    self?.navigationController?.pushViewController(viewController, animated: true)
                 }
             }, onError: {[weak self] _ in
                 print("server error")
