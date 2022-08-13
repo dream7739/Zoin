@@ -238,9 +238,20 @@ extension LoginVC {
                                     print(message)
                                     if message == "소셜 로그인 성공" {
                                         UserDefaults.standard.set("kakao",forKey: "social")
-                                        let id = JSON(response.data)["data"]
-                                            //["loginRes"]["user"]["id"].string!
-                                        print(id)
+                                        let token = JSON(response.data)["data"]["loginRes"]["accessToken"]
+                                        let user = JSON(response.data)["data"]["loginRes"]["user"]
+
+                                        KeychainHandler.shared.accessToken = token.string!
+                                        KeychainHandler.shared.serviceId = user["serviceId"].string!
+                                        KeychainHandler.shared.username = user["userName"].string!
+                                        KeychainHandler.shared.email = user["email"].string!
+                                        KeychainHandler.shared.profileImgUrl = user["profileImgUrl"].string!
+                                        print(token)
+                                        print(user["serviceId"])
+                                        // 로그인완료로 메인으로 바로 이동시키기
+                                        let viewController = TabBarController()
+                                        viewController.modalPresentationStyle = .fullScreen
+                                        self?.present(viewController, animated: true)
                                     }
                                     if message == "가입되지 않은 소셜 계정입니다." {
                                         UserDefaults.standard.set("kakao",forKey: "social")

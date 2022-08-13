@@ -39,6 +39,7 @@ class RegisterProfileVC: BaseViewController {
         $0.setTitle("다음에 할래요", for: .normal)
         $0.titleLabel?.font = .minsans(size: 16, family: .Medium)
         $0.setUnderline()
+        $0.addTarget(self, action: #selector(checkVendor), for: .touchUpInside)
     }
 
     private let changeProfileButton = UIButton().then {
@@ -69,6 +70,7 @@ class RegisterProfileVC: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        bind()
         setNavigationBar(isHidden: false)
         setUpNavigation()
         setLeftBarButton()
@@ -141,12 +143,14 @@ extension RegisterProfileVC {
             })
             .disposed(by: disposeBag)
         // 사진 안등록하고 회원가입 시키기
-        if UserDefaults.standard.object(forKey: "social") as! String == "kakao" {
 
-            passButton.addTarget(self, action: #selector(doKakaoSignUp), for: .touchUpInside)
+    }
 
+    @objc func checkVendor() {
+        if UserDefaults.standard.string(forKey: "social") == "kakao" {
+            doKakaoSignUp()
+            print("왜안되냐고")
         }
-
     }
 
     @objc func didTapChangeProfileButton() {
@@ -175,15 +179,14 @@ extension RegisterProfileVC {
 
 
     @objc func doKakaoSignUp(){
+
         let signUpRequest = SocialSignUpRequest(id: KeychainHandler.shared.kakaoId, email: KeychainHandler.shared.email, userName: KeychainHandler.shared.username, serviceId: KeychainHandler.shared.serviceId, profileImgUrl: KeychainHandler.shared.profileImgUrl)
+        print(signUpRequest)
         authProvider.rx.request(.kakaoLogin(param: signUpRequest))
             .asObservable()
             .subscribe(onNext: {[weak self] response in
                 if response.statusCode == 200 {
-                    let json = JSON(response.data)["data"]
-                    print(json)
-                    let token = JSON(response.data)["data"]["data"]
-                    KeychainHandler.shared.accessToken = token.string!
+                    KeychainHandler.shared.accessToken = JSON(response.data)["data"].string!
                     let viewController = CompleteProfileVC()
                     self?.navigationController?.pushViewController(viewController, animated: true)
                 }

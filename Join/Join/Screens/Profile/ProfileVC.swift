@@ -278,6 +278,11 @@ extension ProfileVC {
         // TODO: - 프로필 URL 처리
         nicknameLabel.text = KeychainHandler.shared.username
         userIdLabel.text = KeychainHandler.shared.serviceId
+        if KeychainHandler.shared.profileImgUrl == "" {
+            profileImageView.image = Image.profileDefault
+        } else {
+            profileImageView.image(url: KeychainHandler.shared.profileImgUrl)
+        }
         boxButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
