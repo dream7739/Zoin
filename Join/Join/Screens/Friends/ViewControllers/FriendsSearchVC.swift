@@ -141,11 +141,10 @@ extension FriendsSearchVC {
 
     // MARK: - 서버 통신 부분
     @objc func searchId(_ id: String) {
-        let searchRequest = searchIdRequest(searchInput: id)
-        print(searchRequest)
-        profileProvider.rx.request(.searchFriendsId(param: searchRequest))
+        profileProvider.rx.request(.searchFriendsId(id: id))
             .asObservable()
             .subscribe(onNext: { [weak self] response in
+                print(response)
                 if response.statusCode == 200 {
                     let arr = JSON(response.data)["data"]
                     print(arr)

@@ -365,6 +365,8 @@ extension ProfileVC {
         } else {
             profileImageView.image(url: KeychainHandler.shared.profileImgUrl)
         }
+
+        // MARK: - 모집 중인 번개 리스트로 넘어가기
         boxButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -394,6 +396,15 @@ extension ProfileVC {
                 guard let self = self else { return }
                 let viewController = ProfileChangeVC()
                 self.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+
+        // MARK: - 번개 참여 내역 리스트를 보러가기
+        historyBoxButton.rx.tap
+            .subscribe(onNext: {[weak self] _ in
+                guard let self = self else { return }
+                let viewcontroller = EndedMeetingVC()
+                self.navigationController?.pushViewController(viewcontroller, animated: true)
             })
             .disposed(by: disposeBag)
     }

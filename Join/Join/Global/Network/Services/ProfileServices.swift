@@ -10,8 +10,9 @@ import Foundation
 import Moya
 
 enum ProfileServices {
-    case searchFriendsId(param: searchIdRequest)
+    case searchFriendsId(id: String)
     case getFriendsList
+    case getParticipatedHistory(isClosed: String)
 }
 
 struct searchIdRequest: Encodable {
@@ -37,7 +38,28 @@ struct userData: Codable {
     var relationshipOrder: Int
 }
 
+struct meetingData: Codable {
+    var id: Int
+    var creater: creater
+    var title: String
+    var location: String
+    var appointmentTime: String
+    var requiredParticipantsCount: Int
+    var createdAt: String
+    var updatedAt: String
+    var participantCnt: Int
+    var description: String
+}
 
+struct creater: Codable {
+    var id: Int
+    var serviceId: String
+    var userName: String
+    var email: String
+    var profileImgUrl: String
+    var createdAt: String
+    var updatedAt: String
+}
 
 extension ProfileServices: TargetType {
     private var token: String {
@@ -54,6 +76,8 @@ extension ProfileServices: TargetType {
             return "/api/v1/user"
         case .getFriendsList:
             return "/api/v1/user/friends"
+        case .getParticipatedHistory:
+            return "/api/v1/user/rendezvous/participated"
         }
     }
 
@@ -62,6 +86,8 @@ extension ProfileServices: TargetType {
         case .searchFriendsId:
             return .get
         case .getFriendsList:
+            return .get
+        case .getParticipatedHistory:
             return .get
         }
     }
@@ -72,10 +98,12 @@ extension ProfileServices: TargetType {
 
     var task: Task {
         switch self {
-        case.searchFriendsId(let param):
-            return .requestJSONEncodable(param)
+        case.searchFriendsId(id: let id):
+            return .requestParameters(parameters: ["searchInput": id], encoding: URLEncoding.queryString)
         case .getFriendsList:
             return .requestPlain
+        case .getParticipatedHistory(isClosed: let isClosed):
+            return .requestParameters(parameters: ["isClosed": isClosed], encoding: URLEncoding.queryString)
         }
     }
 
