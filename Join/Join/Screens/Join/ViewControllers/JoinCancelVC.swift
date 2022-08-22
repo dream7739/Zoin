@@ -7,9 +7,11 @@
 
 import UIKit
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
+import Moya
 
 protocol CancelDelegate {
     func cancelUpdate(isCanceled: Bool)
@@ -17,8 +19,10 @@ protocol CancelDelegate {
 
 
 class JoinCancelVC: BaseViewController {
-    
+    private let makeProvider = MoyaProvider<MakeServices>()
+
     var delegate: CancelDelegate?
+    var id:Int!
     var isCanceled: Bool = false
     
     let stackView1 = UIStackView().then{
@@ -79,7 +83,6 @@ class JoinCancelVC: BaseViewController {
         setLayout()
         bind()
     }
-    
 }
 
 
@@ -143,12 +146,31 @@ extension JoinCancelVC {
             })
             .disposed(by: disposeBag)
         
+        //참여 취소 서버통신
         cancelBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.isCanceled = true
-                self?.closePopup()
+                guard let self = self else { return }
+                self.deleteParticipant()
             })
             .disposed(by: disposeBag)
+    }
+    
+    @objc func deleteParticipant() {
+        makeProvider.rx.request(.deleteParticipant(id: self.id))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = JSON(response.data)["status"]
+                if status == 200 {
+                    self?.isCanceled = true
+                    self?.closePopup() //팝업을 닫으면서 delegate로 참여화면에 토스트 출력함
+                }else{
+                    print("\(status)")
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
     }
     
     private func closePopup(){
