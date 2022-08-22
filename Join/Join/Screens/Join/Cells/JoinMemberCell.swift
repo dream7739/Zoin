@@ -29,21 +29,18 @@ class JoinMemberCell : UITableViewCell {
     
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "profile")
         $0.layer.cornerRadius = $0.frame.width / 8
         $0.clipsToBounds = true
     }
     
     var nameLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "김번개"
         $0.textColor = .grayScale100
         $0.font = .minsans(size: 16, family: .Medium)
     }
     
     var idLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "@sssparkkkk"
         $0.textColor = .grayScale500
         $0.font = .minsans(size: 14, family: .Medium)
     }
@@ -51,6 +48,7 @@ class JoinMemberCell : UITableViewCell {
     var ownerLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "개최자"
+        $0.isHidden = true
         $0.textColor = .yellow200
         $0.font = .minsans(size: 12, family: .Bold)
 

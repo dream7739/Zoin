@@ -10,11 +10,16 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
-
+import Moya
+import SwiftyJSON
 
 
 class JoinMemberConfirmVC: BaseViewController {
     var popupViewTopConstraint: Constraint? = nil
+    var id:Int = 0
+    var participantList: [MainProfileResponse] = []
+    private let makeProvider = MoyaProvider<MakeServices>()
+
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +41,6 @@ class JoinMemberConfirmVC: BaseViewController {
     
     var memberCountLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "참여 10명"
         $0.textColor = .grayScale100
         $0.font = .minsans(size: 20, family: .Bold)
         
@@ -53,10 +57,31 @@ class JoinMemberConfirmVC: BaseViewController {
         $0.layer.cornerRadius = 20
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        participants()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         bind()
+    }
+
+    
+    @objc func participants() {
+        makeProvider.rx.request(.participants(id: self.id))
+            .filterSuccessfulStatusCodes()
+            .subscribe { result in
+                switch result {
+                case .success(let response):
+                    guard let value = try? JSONDecoder().decode(ParticipantResponse.self, from: response.data) else {return}
+                    self.participantList = value.data
+                    self.memberCountLabel.text = "참여 \(self.participantList.count)명"
+                    self.memberTableView.reloadData()
+                case .error(let error):
+                    print("failure: \(error)")
+                }
+            }.disposed(by: disposeBag)
     }
     
 }
@@ -120,7 +145,7 @@ extension JoinMemberConfirmVC {
 
 extension JoinMemberConfirmVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let dataCnt = 8
+        let dataCnt = participantList.count
         self.changePopupHeight(dataCnt: dataCnt)
         return dataCnt
     }
@@ -130,8 +155,18 @@ extension JoinMemberConfirmVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: JoinMemberCell.identifier, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: JoinMemberCell.identifier, for: indexPath) as? JoinMemberCell else {
+            return UITableViewCell() }
+        let item = participantList[indexPath.row]
         
+        cell.profileImg.image = UIImage(named: "profile")
+        cell.nameLabel.text = item.userName
+        cell.idLabel.text = "@\(item.serviceId)"
+        
+        if indexPath.row == 0 {
+            cell.ownerLabel.isHidden = false
+        }
+
         return cell
     }
     
