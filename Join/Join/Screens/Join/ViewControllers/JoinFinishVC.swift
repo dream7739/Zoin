@@ -34,6 +34,12 @@ class JoinFinishVC: BaseViewController {
         $0.layer.cornerRadius = 30
     }
     
+    var iconImageView = UIImageView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "finish1")
+        $0.contentMode = .scaleAspectFit
+    }
+    
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "번개를 마감하시겠어요?"
@@ -43,7 +49,7 @@ class JoinFinishVC: BaseViewController {
     
     var subTitleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "번개에 대해 더이상 수정할 수 없어요."
+        $0.text = "마감 후에는 참여자를 모을 수 없어요."
         $0.textColor = .grayScale100
         $0.font = .minsans(size: 16, family: .Medium)
     }
@@ -88,22 +94,27 @@ extension JoinFinishVC {
         stackView1.addArrangedSubview(finishBtn)
         
         popupView.adds([
+            iconImageView,
             titleLabel,
             subTitleLabel,
             stackView1
-            
         ])
         
         popupView.snp.makeConstraints{
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-24)
             $0.centerY.equalTo(view.safeAreaLayoutGuide.snp.centerY)
-            $0.height.equalTo(212)
+            $0.height.equalTo(316)
         }
         
+        iconImageView.snp.makeConstraints {
+            $0.width.height.equalTo(80)
+            $0.top.equalToSuperview().offset(40)
+            $0.centerX.equalToSuperview()
+        }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(popupView.snp.top).offset(40)
+            $0.top.equalTo(iconImageView.snp.bottom).offset(24)
             $0.centerX.equalTo(popupView.snp.centerX)
         }
         

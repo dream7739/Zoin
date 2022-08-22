@@ -97,7 +97,7 @@ class MainVC: BaseViewController {
     
     var finishImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "icon_chk")
+        $0.image = UIImage(named: "finish2")
     }
     
     var titleLabel = UILabel().then {
@@ -110,7 +110,7 @@ class MainVC: BaseViewController {
     
     var subTitleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "마감된 번개는 프로필 보관함에서\n확인할 수 있어요."
+        $0.text = "마감된 번개는 프로필에서 확인하세요."
         $0.numberOfLines = 0
         $0.font = .minsans(size: 16, family: .Medium)
         $0.textColor = .grayScale300
@@ -260,9 +260,10 @@ extension MainVC {
         }
         
         finishPopupView.snp.makeConstraints {
-            $0.height.equalTo(342)
-            $0.width.equalTo(327)
-            $0.centerY.centerX.equalToSuperview()
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-24)
+            $0.centerY.equalTo(view.safeAreaLayoutGuide.snp.centerY)
+            $0.height.equalTo(316)
         }
         
         finishImg.snp.makeConstraints {
