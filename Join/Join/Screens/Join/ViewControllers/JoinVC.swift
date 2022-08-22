@@ -369,6 +369,15 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         placeLabel.text = item.location
         countLabel.text = "\(item.participants?.count ?? 0)/\(item.requiredParticipantsCount)"
         contentLabel.text = item.description
+        
+        //친구 번개 - 참여중일 때, 참여중이지 않을 때를 구분하여 UI를 변경함
+        if atndFlag && !joinType {
+            joinBtn.backgroundColor = .grayScale800
+            joinBtn.setTitleColor(.grayScale100, for: .normal)
+            joinBtn.setTitle("참여취소", for: .normal)
+            attendLabel.isHidden = false
+            moreBtn.isHidden = true
+        }
     }
     
     private func bind(){
