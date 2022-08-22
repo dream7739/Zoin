@@ -537,6 +537,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
     
     private func clickAttendConfirmBtn(){
         let joinMemberConfirmVC = JoinMemberConfirmVC()
+        joinMemberConfirmVC.id = self.item.id
         joinMemberConfirmVC.modalPresentationStyle = .overFullScreen
         self.present(joinMemberConfirmVC, animated: true)
     }

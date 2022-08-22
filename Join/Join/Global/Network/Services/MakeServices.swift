@@ -16,6 +16,7 @@ enum MakeServices {
     case main(size: Int, cursor: Int?) //번개 메인
     case participant(id: Int) //번개 참여
     case deleteParticipant(id: Int) //번개 참여 취소
+    case participants(id: Int) //번개 참여자 목록보기
 }
 
 //번개 생성
@@ -79,6 +80,14 @@ struct MainProfileResponse : Codable {
     var updatedAt: String
 }
 
+//참여자 확인 응답
+struct ParticipantResponse: Codable {
+    var timestamp: String
+    var status: Int
+    var message: String
+    var data: [MainProfileResponse]
+}
+
 
 
 extension MakeServices: TargetType {
@@ -92,6 +101,8 @@ extension MakeServices: TargetType {
             return "/api/v1/rendezvous/main"
         case .participant(let id), .deleteParticipant(let id):
             return "/api/v1/rendezvous/\(id)/participant"
+        case .participants(let id):
+            return "/api/v1/rendezvous/\(id)/participants"
         }
     }
     
@@ -103,7 +114,7 @@ extension MakeServices: TargetType {
             return .put
         case .deleteRendezvous:
             return .delete
-        case .main:
+        case .main, .participants:
             return .get
         case .participant:
             return .post
@@ -130,6 +141,9 @@ extension MakeServices: TargetType {
             return .requestJSONEncodable(param)
         case .deleteParticipant(let param):
             return .requestJSONEncodable(param)
+        case .participants:
+            return .requestPlain
+            
         }
     }
     
@@ -137,6 +151,7 @@ extension MakeServices: TargetType {
         switch self {
         default:
             return ["Content-Type": "application/json", "Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjcsImV4cCI6MTY4OTA3MjI2Nn0.wMDxjSs00pe-ngLyAyUeQ6BPiuyRUfHZHxHh3ALWcB0"]
+            
         }
     }
     
