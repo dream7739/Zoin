@@ -18,6 +18,7 @@ enum MakeServices {
     case deleteParticipant(id: Int) //번개 참여 취소
     case participants(id: Int) //번개 참여자 목록보기
     case close(id: Int) //번개 마감
+    case current //홈 상단 날씨 조회
 }
 
 //번개 생성
@@ -106,6 +107,8 @@ extension MakeServices: TargetType {
             return "/api/v1/rendezvous/\(id)/participants"
         case .close(let id):
             return "/api/v1/rendezvous/\(id)/close"
+        case .current:
+            return "/api/v1/rendezvous/current"
         }
     }
     
@@ -125,6 +128,8 @@ extension MakeServices: TargetType {
             return .delete
         case .close:
             return .patch
+        case .current:
+            return .get
         }
     }
     
@@ -149,6 +154,8 @@ extension MakeServices: TargetType {
         case .participants:
             return .requestPlain
         case .close:
+            return .requestPlain
+        case .current:
             return .requestPlain
         }
     }
