@@ -10,7 +10,22 @@ import UIKit
 
 
 class MainCollectionViewLayout: UICollectionViewLayout {
-    var itemSize = CGSize(width: 263, height: 346)
+    var itemSize: CGSize {
+        var width = self.collectionView!.frame.width
+        var height = self.collectionView!.frame.height
+        
+        if UIDevice.current.isiPhone8 {
+            width = width * 0.65
+            height = height * 0.55
+        }else {
+            width = width * 0.701
+            height = height * 0.51
+        }
+      //  print("\(width):\(height)")
+
+        return CGSize(width: width, height: height)
+    }
+    
     var angleAtExtreme: CGFloat {
         return collectionView!.numberOfItems(inSection: 0) > 0 ?
         -CGFloat(collectionView!.numberOfItems(inSection: 0) - 1) * anglePerItem : 0
@@ -46,7 +61,13 @@ class MainCollectionViewLayout: UICollectionViewLayout {
             
             let attributes = MainCollectionViewLayoutAttributes(forCellWith: NSIndexPath(item: i, section: 0) as IndexPath)
             attributes.size = self.itemSize
-            attributes.center = CGPoint(x: centerX, y:self.collectionView!.frame.midY)
+            
+            if UIDevice.current.isiPhone8 {
+                attributes.center = CGPoint(x: centerX, y:self.collectionView!.frame.midY+40)
+            }else {
+                attributes.center = CGPoint(x: centerX, y:self.collectionView!.frame.midY+20)
+
+            }
             
             attributes.angle = self.angle + (self.anglePerItem * CGFloat(i))
             attributes.anchorPoint = CGPoint(x: 0.5, y: anchorPointY)

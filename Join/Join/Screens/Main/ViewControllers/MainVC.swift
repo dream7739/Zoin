@@ -212,14 +212,25 @@ extension MainVC {
         
         
         mainEffectImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(60)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
-            $0.width.height.equalTo(72)
+            if UIDevice.current.isiPhone8 {
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
+                $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+                $0.width.height.equalTo(72)
+            }else{
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(60)
+                $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+                $0.width.height.equalTo(72)
+            }
         }
         
         statusLabel.snp.makeConstraints{
-            $0.leading.equalTo(mainEffectImageView.snp.leading)
-            $0.top.equalTo(mainEffectImageView.snp.bottom).offset(16)
+            if UIDevice.current.isiPhone8 {
+                $0.leading.equalTo(mainEffectImageView.snp.leading)
+                $0.top.equalTo(mainEffectImageView.snp.bottom).offset(10)
+            }else {
+                $0.leading.equalTo(mainEffectImageView.snp.leading)
+                $0.top.equalTo(mainEffectImageView.snp.bottom).offset(16)
+            }
         }
         
         mentLabel.snp.makeConstraints{
