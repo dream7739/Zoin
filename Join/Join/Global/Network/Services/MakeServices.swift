@@ -69,7 +69,7 @@ struct MainElements: Codable {
     var participants:[MainProfileResponse]?
     var description:String
     var isMyRendezvous: Bool?
-    var whetherUserParticipateOrNot: Bool
+    var whetherUserParticipateOrNot: Bool?
 }
 
 struct MainProfileResponse : Codable {

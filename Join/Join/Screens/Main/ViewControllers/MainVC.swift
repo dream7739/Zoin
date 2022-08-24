@@ -436,7 +436,7 @@ extension MainVC: MainCellDelegate {
         
         joinVC.item = item
         joinVC.joinType = joinType
-        joinVC.atndFlag = item.whetherUserParticipateOrNot
+        joinVC.atndFlag = item.whetherUserParticipateOrNot!
         joinVC.delegate = self
         
         joinVC.modalPresentationStyle = .overFullScreen
