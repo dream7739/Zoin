@@ -9,6 +9,8 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
+import Moya
+import SwiftyJSON
 
 
 protocol FinishDelegate {
@@ -17,9 +19,10 @@ protocol FinishDelegate {
 
 
 class JoinFinishVC: BaseViewController {
-    
+    private let makeProvider = MoyaProvider<MakeServices>()
     var delegate: FinishDelegate?
     var isFinished: Bool = false
+    var id: Int = 0
     
     let stackView1 = UIStackView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -143,8 +146,8 @@ extension JoinFinishVC {
         
         finishBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.isFinished = true
-                self?.closePopup()
+                guard let self = self else { return }
+                self.close()
             })
             .disposed(by: disposeBag)
     }
@@ -155,6 +158,24 @@ extension JoinFinishVC {
                 self.delegate?.finishUpdate()
             }
         })
+    }
+    
+    func close() {
+        makeProvider.rx.request(.close(id: self.id))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = JSON(response.data)["status"]
+                if status == 200 {
+                }else{
+                    print("id:\(self?.id) 마감 success")
+                    self?.isFinished = true
+                    self?.closePopup()
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
     }
     
     
