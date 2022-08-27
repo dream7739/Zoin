@@ -70,4 +70,11 @@ enum Image {
     static let ended = UIImage(named: "Property 1=마감")
     static let ongoing = UIImage(named: "Property 1=모집중")
     static let history = UIImage(named: "Frame 7995")
+    static let cryingface = UIImage(named: "cryingface")
+    static let emptyProfile = UIImage(named: "emptyProfile")
+    static let logout_no = UIImage(named: "logout_no")
+    static let logout_yes = UIImage(named: "logout_yes")
+    static let thinking = UIImage(named: "thinking")
+    static let withdrawBtn = UIImage(named: "withdrawBtn")
+    static let withdrawface = UIImage(named: "withdrawface")
 }

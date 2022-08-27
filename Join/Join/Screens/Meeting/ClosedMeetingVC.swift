@@ -27,6 +27,22 @@ class ClosedMeetingVC: BaseViewController {
         return collectionView
     }()
 
+    private let emptyView = UIView().then {
+        $0.backgroundColor = .grayScale900
+    }
+    private let emptyStatusLabel = UILabel().then {
+        $0.text = "보관함이 비어있어요."
+        $0.textColor = .grayScale300
+        $0.font = .minsans(size: 18, family: .Medium)
+    }
+    private let emptySubLabel = UILabel().then {
+        $0.text = "친구들과 번개활동을 해보세요."
+        $0.textColor = .grayScale600
+        $0.font = .minsans(size: 16, family: .Medium)
+    }
+    private let emptyImage = UIImageView().then {
+        $0.image = Image.thinking
+    }
     // isClosed = true
     let listProvider = MoyaProvider<ProfileServices>()
     var meetingInfo = [meetingData]()
@@ -51,13 +67,38 @@ extension ClosedMeetingVC {
         view.backgroundColor = .grayScale900
         view.isOpaque = true
         view.adds([
-            collectionView
+            collectionView,
+            emptyView
+        ])
+        emptyView.adds([
+            emptyStatusLabel,
+            emptySubLabel,
+            emptyImage
         ])
         collectionView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
+        }
+        emptyView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        emptyImage.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(160)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(115)
+        }
+        emptyStatusLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(emptyImage.snp.bottom).offset(24)
+            make.centerX.equalToSuperview()
+        }
+        emptySubLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(emptyStatusLabel.snp.bottom).offset(4)
+            make.centerX.equalToSuperview()
         }
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -80,6 +121,11 @@ extension ClosedMeetingVC {
                 if response.statusCode == 200 {
                     let arr = JSON(response.data)["data"]
                     print(arr)
+                    if(arr.count == 0) {
+                        self?.emptyView.isHidden = false
+                    } else {
+                        self?.emptyView.isHidden = true
+                    }
                     self?.meetingInfo = []
                     for item in arr.arrayValue {
 
