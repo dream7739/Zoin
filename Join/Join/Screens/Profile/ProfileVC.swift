@@ -375,6 +375,15 @@ extension ProfileVC {
             })
             .disposed(by: disposeBag)
 
+        // MARK: - 마감되어버린 번개 리스트로 넘어가기
+        closedBoxButton.rx.tap
+            .subscribe(onNext: {[weak self] _ in
+                guard let self = self else { return }
+                let viewController = ClosedMeetingVC()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+
         friendsListButton.rx.tap.subscribe(onNext: { [weak self] _ in
             guard let self = self else { return }
             let viewController = FriendsListVC()

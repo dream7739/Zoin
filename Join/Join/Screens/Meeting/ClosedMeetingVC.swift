@@ -1,8 +1,8 @@
 //
-//  EndedMeetingVC.swift
+//  ClosedMeetingVC.swift
 //  Join
 //
-//  Created by 이윤진 on 2022/08/18.
+//  Created by 이윤진 on 2022/08/27.
 //
 
 import UIKit
@@ -14,8 +14,7 @@ import RxCocoa
 import RxSwift
 import Moya
 
-class EndedMeetingVC: BaseViewController {
-    // 프로필 화면 - 내 번개 보관함 - 참여내역
+class ClosedMeetingVC: BaseViewController {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0
@@ -24,20 +23,20 @@ class EndedMeetingVC: BaseViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isPagingEnabled = true
         collectionView.backgroundColor = .grayScale900
-        collectionView.register(EndedCVCell.self, forCellWithReuseIdentifier: EndedCVCell.identifier)
+        collectionView.register(OpenedMeetingCVCell.self, forCellWithReuseIdentifier: ClosedMeetingCVCell.identifier)
         return collectionView
     }()
 
+    // isClosed = true
     let listProvider = MoyaProvider<ProfileServices>()
     var meetingInfo = [meetingData]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
-        bind()
         getMeetingList()
-        // Do any additional setup after loading the view.
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationBar(isHidden: false)
@@ -45,10 +44,9 @@ class EndedMeetingVC: BaseViewController {
         setTabBarHidden(isHidden: true)
     }
 
-
 }
 
-extension EndedMeetingVC {
+extension ClosedMeetingVC {
     private func setLayout() {
         view.backgroundColor = .grayScale900
         view.isOpaque = true
@@ -65,15 +63,18 @@ extension EndedMeetingVC {
         collectionView.dataSource = self
     }
 
+
     private func setUpNavigation() {
-        title = "참여 내역"
+        title = "마감"
         guard let navigationBar = navigationController?.navigationBar else { return }
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationBar.isTranslucent = false
+
     }
 
+
     @objc func getMeetingList() {
-        listProvider.rx.request(.getParticipatedHistory(isClosed: "false"))
+        listProvider.rx.request(.getCreatedHistory(isClosed: "true"))
             .asObservable()
             .subscribe(onNext: {[weak self] response in
                 if response.statusCode == 200 {
@@ -90,7 +91,7 @@ extension EndedMeetingVC {
                         let createdAt = item["creator"]["createdAt"].stringValue
                         let updatedAt = item["creator"]["updatedAt"].stringValue
                         let createdInfo = creater(id: createrId, serviceId: createrServiceId, userName: userName, email: email, profileImgUrl: profileImage, createdAt: createdAt, updatedAt: updatedAt)
-                        
+
                         let id = item["id"].intValue
                         let title = item["title"].stringValue
                         let location = item["location"].stringValue
@@ -124,22 +125,15 @@ extension EndedMeetingVC {
 
             }).disposed(by: disposeBag)
     }
-    private func bind() {
-
-
-    }
-
-
 }
 
-extension EndedMeetingVC: UICollectionViewDataSource {
+extension ClosedMeetingVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return meetingInfo.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: EndedCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: EndedCVCell.identifier, for: indexPath) as! EndedCVCell
-        // MARK: - 프로필 이미지 디폴트 값 디쟌 언니들한테 요청해야함
+        let cell: ClosedMeetingCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: OpenedMeetingCVCell.identifier, for: indexPath) as! ClosedMeetingCVCell
         cell.profileImageView.image = Image.profile
         cell.userNameLabel.text = meetingInfo[indexPath.item].creater.userName
         cell.userIdLabel.text = meetingInfo[indexPath.item].creater.serviceId
@@ -151,7 +145,7 @@ extension EndedMeetingVC: UICollectionViewDataSource {
     }
 }
 
-extension EndedMeetingVC: UICollectionViewDelegateFlowLayout {
+extension ClosedMeetingVC: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -159,4 +153,5 @@ extension EndedMeetingVC: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         return CGSize(width: view.frame.width, height: 110)
     }
+
 }

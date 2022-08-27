@@ -13,6 +13,7 @@ enum ProfileServices {
     case searchFriendsId(id: String)
     case getFriendsList
     case getParticipatedHistory(isClosed: String)
+    case getCreatedHistory(isClosed: String)
 }
 
 struct searchIdRequest: Encodable {
@@ -78,6 +79,8 @@ extension ProfileServices: TargetType {
             return "/api/v1/user/friends"
         case .getParticipatedHistory:
             return "/api/v1/user/rendezvous/participated"
+        case .getCreatedHistory(isClosed: let isClosed):
+            return "/api/v1/user/rendezvous/created"
         }
     }
 
@@ -88,6 +91,8 @@ extension ProfileServices: TargetType {
         case .getFriendsList:
             return .get
         case .getParticipatedHistory:
+            return .get
+        case .getCreatedHistory:
             return .get
         }
     }
@@ -103,6 +108,8 @@ extension ProfileServices: TargetType {
         case .getFriendsList:
             return .requestPlain
         case .getParticipatedHistory(isClosed: let isClosed):
+            return .requestParameters(parameters: ["isClosed": isClosed], encoding: URLEncoding.queryString)
+        case .getCreatedHistory(isClosed: let isClosed):
             return .requestParameters(parameters: ["isClosed": isClosed], encoding: URLEncoding.queryString)
         }
     }

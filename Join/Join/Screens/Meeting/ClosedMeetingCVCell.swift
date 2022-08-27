@@ -1,14 +1,14 @@
 //
-//  OpenedMeetingCVCell.swift
+//  ClosedMeetingCVCell.swift
 //  Join
 //
-//  Created by 이윤진 on 2022/06/16.
+//  Created by 이윤진 on 2022/08/27.
 //
 
 import UIKit
 
-class OpenedMeetingCVCell: UICollectionViewCell {
-    static let identifier = "OpenedMeetingCVCell"
+class ClosedMeetingCVCell: UICollectionViewCell {
+    static let identifier = "ClosedMeetingCVCell"
 
     let profileImageView = UIImageView().then {
         $0.contentMode = .center
@@ -85,7 +85,7 @@ class OpenedMeetingCVCell: UICollectionViewCell {
     }
 }
 
-extension OpenedMeetingCVCell {
+extension ClosedMeetingCVCell {
     private func render() {
         self.contentView.backgroundColor = .grayScale900
         contentView.adds([

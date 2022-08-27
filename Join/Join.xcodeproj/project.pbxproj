@@ -51,6 +51,8 @@
 		F263F5F428AE7DAA00575CAF /* EndedMeetingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F263F5F328AE7DAA00575CAF /* EndedMeetingVC.swift */; };
 		F263F5F628AE7F3C00575CAF /* EndedCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F263F5F528AE7F3C00575CAF /* EndedCVCell.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
+		F276337828BA206200800561 /* ClosedMeetingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276337728BA206200800561 /* ClosedMeetingVC.swift */; };
+		F276337A28BA2ED600800561 /* ClosedMeetingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276337928BA2ED600800561 /* ClosedMeetingCVCell.swift */; };
 		F283C319286D866700E93652 /* ProfileChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F283C318286D866700E93652 /* ProfileChangeVC.swift */; };
 		F283C31B286D8CB000E93652 /* PasswordChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F283C31A286D8CB000E93652 /* PasswordChangeVC.swift */; };
 		F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */; };
@@ -140,6 +142,8 @@
 		F263F5F328AE7DAA00575CAF /* EndedMeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndedMeetingVC.swift; sourceTree = "<group>"; };
 		F263F5F528AE7F3C00575CAF /* EndedCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndedCVCell.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		F276337728BA206200800561 /* ClosedMeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosedMeetingVC.swift; sourceTree = "<group>"; };
+		F276337928BA2ED600800561 /* ClosedMeetingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosedMeetingCVCell.swift; sourceTree = "<group>"; };
 		F283C318286D866700E93652 /* ProfileChangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeVC.swift; sourceTree = "<group>"; };
 		F283C31A286D8CB000E93652 /* PasswordChangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeVC.swift; sourceTree = "<group>"; };
 		F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSearchVC.swift; sourceTree = "<group>"; };
@@ -437,6 +441,8 @@
 			children = (
 				F2856357285B3AAE003B9AF8 /* OpenedMeetingVC.swift */,
 				F285635A285B3B65003B9AF8 /* OpenedMeetingCVCell.swift */,
+				F276337728BA206200800561 /* ClosedMeetingVC.swift */,
+				F276337928BA2ED600800561 /* ClosedMeetingCVCell.swift */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -731,6 +737,7 @@
 				888FEE70286DEC090013939B /* TermVC.swift in Sources */,
 				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,
 				F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */,
+				F276337A28BA2ED600800561 /* ClosedMeetingCVCell.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
 				8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */,
 				F263F5F428AE7DAA00575CAF /* EndedMeetingVC.swift in Sources */,
@@ -775,6 +782,7 @@
 				8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */,
 				F2E316CE286B6CAA009D67AC /* SettingHeaderView.swift in Sources */,
 				886C16AB286B32680041FA05 /* InviteVC.swift in Sources */,
+				F276337828BA206200800561 /* ClosedMeetingVC.swift in Sources */,
 				F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */,
 				F2C727C928170C81002B1915 /* UIColor+.swift in Sources */,
 			);
