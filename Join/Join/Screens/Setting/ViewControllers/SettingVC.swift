@@ -96,12 +96,22 @@ extension SettingVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
+            // 알림설정
+            if indexPath.item == 0 {
+
+            }
+            // 계정설정
             if indexPath.item == 1 {
                 let viewController = AccountSettingVC()
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
         } else {
             // 메뉴별 경로 설정, 화면 이동
+            // 버전정보
+            // 고객센터
+            // 만든이들
+            // 오픈소스 라이센스
+            // 개인정보 이용 정책
         }
     }
 

@@ -20,6 +20,7 @@ struct KeychainHandler {
     private let usernameKey = "username"
     private let profileImgUrlKey = "profileImgUrl"
     private let kakaoIdkey = "kakaoId"
+    private let friendCountkey = "friendCountkey"
 
     var accessToken: String {
         get {
@@ -90,6 +91,15 @@ struct KeychainHandler {
         }
         set {
             keychain.set(newValue, forKey: kakaoIdkey)
+        }
+    }
+
+    var friendCount: Int {
+        get {
+            return keychain.integer(forKey: friendCountkey) ?? 0
+        }
+        set {
+            keychain.set(newValue, forKey: friendCountkey)
         }
     }
 

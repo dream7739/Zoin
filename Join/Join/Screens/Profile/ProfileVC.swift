@@ -47,7 +47,7 @@ class ProfileVC: BaseViewController {
     }
 
     private let friendsCountLabel = UILabel().then {
-        $0.text = "123"
+        $0.text = "0"
         $0.textColor = .yellow200
         $0.font = .minsans(size: 20, family: .Bold)
     }
@@ -358,6 +358,7 @@ extension ProfileVC {
 
     private func bind() {
         // TODO: - 프로필 URL 처리
+        friendsCountLabel.text = String(KeychainHandler.shared.friendCount)
         nicknameLabel.text = KeychainHandler.shared.username
         userIdLabel.text = KeychainHandler.shared.serviceId
         if KeychainHandler.shared.profileImgUrl == "" {

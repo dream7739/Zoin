@@ -21,6 +21,8 @@ class AccountSettingVC: BaseViewController {
         return collectionView
     }()
 
+    var status: Int?
+
     private var accountData: [String] = ["비밀번호 변경", "로그아웃", "탈퇴"]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,13 +81,19 @@ extension AccountSettingVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == 0 {
+            // 비밀번호 변경
             let viewController = PasswordChangeVC()
             self.navigationController?.pushViewController(viewController, animated: true)
         } else if indexPath.item == 2 {
             let viewController = WithdrawVC()
             self.navigationController?.pushViewController(viewController, animated: true)
-        } else {
-            // 메뉴별 경로 설정, 화면 이동
+        } else  {
+            // 로그아웃
+            let logoutVC = LogoutPopupVC("로그아웃 하시겠어요?", "logout")
+            logoutVC.modalPresentationStyle = .overCurrentContext
+            logoutVC.modalTransitionStyle = .crossDissolve
+            logoutVC.delegate = self
+            self.present(logoutVC,animated: true)
         }
     }
 
@@ -101,3 +109,15 @@ extension AccountSettingVC: UICollectionViewDelegateFlowLayout {
     }
 
 }
+
+extension AccountSettingVC: popupHandlerDelegate {
+    func handlerDidTap() {
+        KeychainHandler.shared.logout()
+        let viewcontroller = LoginVC()
+        viewcontroller.modalPresentationStyle = .fullScreen
+        present(viewcontroller, animated: false) {
+            self.view.window?.rootViewController = viewcontroller
+        }
+    }
+}
+

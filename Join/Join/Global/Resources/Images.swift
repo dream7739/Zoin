@@ -77,4 +77,5 @@ enum Image {
     static let thinking = UIImage(named: "thinking")
     static let withdrawBtn = UIImage(named: "withdrawBtn")
     static let withdrawface = UIImage(named: "withdrawface")
+    static let search3D1 = UIImage(named: "search3D-1")
 }

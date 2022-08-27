@@ -225,17 +225,19 @@ extension LoginVC {
                             .subscribe(onNext: {[weak self] response in
                                 if response.statusCode == 200 {
                                     let message = JSON(response.data)["message"]
+                                    print(JSON(response.data)["data"])
                                     print(message)
                                     if message == "소셜 로그인 성공" {
                                         UserDefaults.standard.set("kakao",forKey: "social")
                                         let token = JSON(response.data)["data"]["loginRes"]["accessToken"]
                                         let user = JSON(response.data)["data"]["loginRes"]["user"]
-
+                                        let friendsCount = JSON(response.data)["data"]["loginRes"]["friendCount"]
                                         KeychainHandler.shared.accessToken = token.string!
                                         KeychainHandler.shared.serviceId = user["serviceId"].string!
                                         KeychainHandler.shared.username = user["userName"].string!
                                         KeychainHandler.shared.email = user["email"].string!
                                         KeychainHandler.shared.profileImgUrl = user["profileImgUrl"].string!
+                                        KeychainHandler.shared.friendCount = friendsCount.intValue
                                         print(token)
                                         print(user["serviceId"])
                                         // 로그인완료로 메인으로 바로 이동시키기

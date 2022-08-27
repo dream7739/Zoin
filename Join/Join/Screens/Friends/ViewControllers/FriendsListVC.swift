@@ -128,6 +128,7 @@ extension FriendsListVC {
                     if(arr.count == 0) {
                         self?.emptyView.isHidden = false
                     } else {
+                        KeychainHandler.shared.friendCount = arr.count
                         self?.emptyView.isHidden = true
                     }
                     self?.friendsInfo = []

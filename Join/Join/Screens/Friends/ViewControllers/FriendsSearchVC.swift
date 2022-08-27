@@ -51,7 +51,7 @@ class FriendsSearchVC: BaseViewController {
         $0.font = .minsans(size: 16, family: .Medium)
     }
     private let emptyImage = UIImageView().then {
-        $0.image = Image.search3D
+        $0.image = Image.search3D1
     }
 
     private let profileProvider = MoyaProvider<ProfileServices>()
