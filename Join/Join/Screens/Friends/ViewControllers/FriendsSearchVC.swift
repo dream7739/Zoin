@@ -51,11 +51,11 @@ class FriendsSearchVC: BaseViewController {
         $0.font = .minsans(size: 16, family: .Medium)
     }
     private let emptyImage = UIImageView().then {
-        $0.image = Image.search3D
+        $0.image = Image.search3D1
     }
 
     private let profileProvider = MoyaProvider<ProfileServices>()
-
+    var friendInfo = [userData]()
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -141,12 +141,44 @@ extension FriendsSearchVC {
 
     // MARK: - 서버 통신 부분
     @objc func searchId(_ id: String) {
-        let searchRequest = searchIdRequest(searchInput: id)
-        profileProvider.rx.request(.searchFriendsId(param: searchRequest))
+        profileProvider.rx.request(.searchFriendsId(id: id))
             .asObservable()
             .subscribe(onNext: { [weak self] response in
-            }, onError: { [weak self] _ in
+                print(response)
+                if response.statusCode == 200 {
 
+                    let arr = JSON(response.data)["data"]
+                    if(arr.count == 0) {
+                        self?.emptyView.isHidden = false
+                    } else {
+                        self?.emptyView.isHidden = true
+                    }
+                    print(arr)
+                    self?.friendInfo = []
+                    for item in arr.arrayValue {
+                        let id = item["user"]["id"].intValue
+                        let serviceId = item["user"]["serviceId"].stringValue
+                        let userName = item["user"]["userName"].stringValue
+                        let email = item["user"]["email"].stringValue
+                        let profileImgUrl = item["user"]["profileImgUrl"].stringValue
+                        let createdAt = item["user"]["createdAt"].stringValue
+                        let updatedAt = item["user"]["updatedAt"].stringValue
+                        let createrInfo = creater(id: id, serviceId: serviceId, userName: userName, email: email, profileImgUrl: profileImgUrl, createdAt: createdAt, updatedAt: updatedAt)
+
+                        let relationshipOrder = item["relationshipOrder"].intValue
+                        self?.friendInfo.append(
+                            userData(
+                                user: createrInfo,
+                                relationshipOrder: relationshipOrder
+                            )
+                        )
+                    }
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadData()
+                    }
+                }
+            }, onError: { [weak self] err in
+                print(err)
             }, onCompleted: {
 
             }).disposed(by: disposeBag)
@@ -166,13 +198,14 @@ extension FriendsSearchVC {
 
 extension FriendsSearchVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return friendInfo.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: FriendsSearchCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendsSearchCVCell.identififer, for: indexPath) as! FriendsSearchCVCell
-        cell.bind()
-        // MARK: - 디자인만한것임. 아렉스 적용하면 이 bind는 수정예정
+        cell.profileImageView.image = Image.profile
+        cell.userNameLabel.text = friendInfo[indexPath.item].user.userName
+        cell.userIdLabel.text = friendInfo[indexPath.item].user.serviceId
         return cell
     }
 }

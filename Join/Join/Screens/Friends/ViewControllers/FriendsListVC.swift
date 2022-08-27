@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SwiftyJSON
+import Moya
+
 class FriendsListVC: BaseViewController {
 
     private let collectionView: UICollectionView = {
@@ -21,9 +24,29 @@ class FriendsListVC: BaseViewController {
         return collectionView
     }()
 
+    private let emptyView = UIView().then {
+        $0.backgroundColor = .grayScale900
+    }
+    private let emptyStatusLabel = UILabel().then {
+        $0.text = "아직 친구가 없어요"
+        $0.textColor = .grayScale300
+        $0.font = .minsans(size: 18, family: .Medium)
+    }
+    private let emptySubLabel = UILabel().then {
+        $0.text = "친구를 찾아서 친구들과 번개활동을 해보세요."
+        $0.textColor = .grayScale600
+        $0.font = .minsans(size: 16, family: .Medium)
+    }
+    private let emptyImage = UIImageView().then {
+        $0.image = Image.thinking
+    }
+
+    let listProvider = MoyaProvider<ProfileServices>()
+    var friendsInfo = [user]()
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        getFriendsList()
         // Do any additional setup after loading the view.
     }
 
@@ -41,13 +64,38 @@ extension FriendsListVC {
         view.backgroundColor = .grayScale900
         view.isOpaque = true
         view.adds([
-            collectionView
+            collectionView,
+            emptyView
+        ])
+        emptyView.adds([
+            emptyStatusLabel,
+            emptySubLabel,
+            emptyImage
         ])
         collectionView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
+        }
+        emptyView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        emptyImage.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(160)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(115)
+        }
+        emptyStatusLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(emptyImage.snp.bottom).offset(24)
+            make.centerX.equalToSuperview()
+        }
+        emptySubLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(emptyStatusLabel.snp.bottom).offset(4)
+            make.centerX.equalToSuperview()
         }
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -69,18 +117,58 @@ extension FriendsListVC {
         optionMenu.view.tintColor = .grayScale900
         self.present(optionMenu, animated: true, completion: nil)
     }
+
+    @objc private func getFriendsList() {
+        //let token = tokenRequest(Authorization: KeychainHandler.shared.accessToken)
+        listProvider.rx.request(.getFriendsList)
+            .asObservable()
+            .subscribe(onNext: {[weak self] response in
+                if response.statusCode == 200 {
+                    let arr = JSON(response.data)["data"]
+                    if(arr.count == 0) {
+                        self?.emptyView.isHidden = false
+                    } else {
+                        KeychainHandler.shared.friendCount = arr.count
+                        self?.emptyView.isHidden = true
+                    }
+                    self?.friendsInfo = []
+                    for item in arr.arrayValue {
+                        let id = item["id"].intValue
+                        let serviceId = item["serviceId"].stringValue
+                        let userName = item["userName"].stringValue
+                        let email = item["email"].stringValue
+                        let profileImgUrl = item["profileImgUrl"].stringValue
+                        let createdAt = item["createdAt"].stringValue
+                        let updatedAt = item["updatedAt"].stringValue
+                        self?.friendsInfo.append(user(id: id, serviceId: serviceId, userName: userName, email: email, profileImgUrl: profileImgUrl, createdAt: createdAt, updatedAt: updatedAt))
+                    }
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadData()
+                    }
+                }
+            }, onError: {[weak self] _ in
+
+            }).disposed(by: disposeBag)
+    }
 }
 
 extension FriendsListVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: FriendsListCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendsListCVCell.identifier, for: indexPath) as! FriendsListCVCell
-        cell.bind()
+        //cell.bind()
+        if friendsInfo[indexPath.item].profileImgUrl == "" {
+            cell.profileImageView.image = Image.defaultProfile
+        } else {
+            cell.profileImageView.image(url: friendsInfo[indexPath.item].profileImgUrl)
+        }
+        cell.userIdLabel.text = friendsInfo[indexPath.item].serviceId
+        cell.userNameLabel.text = friendsInfo[indexPath.item].userName
         cell.modalButton.addTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return friendsInfo.count
     }
 }
 

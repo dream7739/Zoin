@@ -48,7 +48,12 @@
 		F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21EBA10288597AF004EA599 /* ProfileServices.swift */; };
 		F24B24E2286C35070039B967 /* AccountSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24B24E1286C35070039B967 /* AccountSettingVC.swift */; };
 		F24B24E4286C379E0039B967 /* AccountSettingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */; };
+		F263F5F428AE7DAA00575CAF /* EndedMeetingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F263F5F328AE7DAA00575CAF /* EndedMeetingVC.swift */; };
+		F263F5F628AE7F3C00575CAF /* EndedCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F263F5F528AE7F3C00575CAF /* EndedCVCell.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
+		F276337828BA206200800561 /* ClosedMeetingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276337728BA206200800561 /* ClosedMeetingVC.swift */; };
+		F276337A28BA2ED600800561 /* ClosedMeetingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276337928BA2ED600800561 /* ClosedMeetingCVCell.swift */; };
+		F276337C28BA403E00800561 /* LogoutPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276337B28BA403E00800561 /* LogoutPopupVC.swift */; };
 		F283C319286D866700E93652 /* ProfileChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F283C318286D866700E93652 /* ProfileChangeVC.swift */; };
 		F283C31B286D8CB000E93652 /* PasswordChangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F283C31A286D8CB000E93652 /* PasswordChangeVC.swift */; };
 		F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */; };
@@ -135,7 +140,12 @@
 		F21EBA10288597AF004EA599 /* ProfileServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServices.swift; sourceTree = "<group>"; };
 		F24B24E1286C35070039B967 /* AccountSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingVC.swift; sourceTree = "<group>"; };
 		F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingCVCell.swift; sourceTree = "<group>"; };
+		F263F5F328AE7DAA00575CAF /* EndedMeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndedMeetingVC.swift; sourceTree = "<group>"; };
+		F263F5F528AE7F3C00575CAF /* EndedCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndedCVCell.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		F276337728BA206200800561 /* ClosedMeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosedMeetingVC.swift; sourceTree = "<group>"; };
+		F276337928BA2ED600800561 /* ClosedMeetingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosedMeetingCVCell.swift; sourceTree = "<group>"; };
+		F276337B28BA403E00800561 /* LogoutPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupVC.swift; sourceTree = "<group>"; };
 		F283C318286D866700E93652 /* ProfileChangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeVC.swift; sourceTree = "<group>"; };
 		F283C31A286D8CB000E93652 /* PasswordChangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordChangeVC.swift; sourceTree = "<group>"; };
 		F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsSearchVC.swift; sourceTree = "<group>"; };
@@ -401,6 +411,8 @@
 			isa = PBXGroup;
 			children = (
 				F214201128100BCF000D102D /* ProfileVC.swift */,
+				F263F5F328AE7DAA00575CAF /* EndedMeetingVC.swift */,
+				F263F5F528AE7F3C00575CAF /* EndedCVCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -431,6 +443,8 @@
 			children = (
 				F2856357285B3AAE003B9AF8 /* OpenedMeetingVC.swift */,
 				F285635A285B3B65003B9AF8 /* OpenedMeetingCVCell.swift */,
+				F276337728BA206200800561 /* ClosedMeetingVC.swift */,
+				F276337928BA2ED600800561 /* ClosedMeetingCVCell.swift */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -563,6 +577,7 @@
 				F2C2C202286D5B1100D8BA39 /* WithdrawVC.swift */,
 				F283C318286D866700E93652 /* ProfileChangeVC.swift */,
 				F283C31A286D8CB000E93652 /* PasswordChangeVC.swift */,
+				F276337B28BA403E00800561 /* LogoutPopupVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -725,8 +740,10 @@
 				888FEE70286DEC090013939B /* TermVC.swift in Sources */,
 				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,
 				F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */,
+				F276337A28BA2ED600800561 /* ClosedMeetingCVCell.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
 				8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */,
+				F263F5F428AE7DAA00575CAF /* EndedMeetingVC.swift in Sources */,
 				F214201228100BCF000D102D /* ProfileVC.swift in Sources */,
 				889E497E2816ED1900AA2D9C /* JoinListVC.swift in Sources */,
 				F283C319286D866700E93652 /* ProfileChangeVC.swift in Sources */,
@@ -749,6 +766,7 @@
 				F2159EFA289BE91E0083A127 /* SettingServices.swift in Sources */,
 				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
+				F263F5F628AE7F3C00575CAF /* EndedCVCell.swift in Sources */,
 				F2C0DC9228748056009A1229 /* KeychainHandler.swift in Sources */,
 				F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */,
 				F216ECBE286CB50B000210F7 /* EmailLoginVC.swift in Sources */,
@@ -766,7 +784,9 @@
 				F2C6AB3F286D6FBA001822D6 /* UITextView+.swift in Sources */,
 				8896D41C2823A7CC0061CEAE /* JoinMemberConfirmVC.swift in Sources */,
 				F2E316CE286B6CAA009D67AC /* SettingHeaderView.swift in Sources */,
+				F276337C28BA403E00800561 /* LogoutPopupVC.swift in Sources */,
 				886C16AB286B32680041FA05 /* InviteVC.swift in Sources */,
+				F276337828BA206200800561 /* ClosedMeetingVC.swift in Sources */,
 				F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */,
 				F2C727C928170C81002B1915 /* UIColor+.swift in Sources */,
 			);

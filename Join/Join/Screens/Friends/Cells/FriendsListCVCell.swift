@@ -18,18 +18,18 @@ import Moya
 class FriendsListCVCell: UICollectionViewCell {
     static let identifier = "FriendsListCVCell"
 
-    private let profileImageView = UIImageView().then {
+    var profileImageView = UIImageView().then {
         $0.contentMode = .center
         $0.layer.cornerRadius = 30
     }
 
-    private let userNameLabel = UILabel().then {
+    var userNameLabel = UILabel().then {
         $0.textAlignment = .left
         $0.textColor = .white
         $0.font = .minsans(size: 16, family: .Bold)
     }
 
-    private let userIdLabel = UILabel().then {
+    var userIdLabel = UILabel().then {
         $0.textAlignment = .left
         $0.textColor = .grayScale500
         $0.font = .minsans(size: 16, family: .Medium)
