@@ -34,7 +34,7 @@ struct user: Codable {
     var updatedAt: String
 }
 struct userData: Codable {
-    var user: [user]
+    var user: creater
     var relationshipOrder: Int
 }
 
