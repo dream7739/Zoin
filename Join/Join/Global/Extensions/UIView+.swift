@@ -6,7 +6,6 @@
 //
 
 import UIKit
-
 import SnapKit
 
 extension UIView {
@@ -44,5 +43,20 @@ extension UIView {
         gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
         gradient.frame = bounds
         layer.addSublayer(gradient)
+    }
+    
+    func addLineDashedStroke(radius: CGFloat, color: String){
+        let borderLayer = CAShapeLayer()
+        let shapeRect = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+        
+        borderLayer.strokeColor = UIColor.grayScale600.cgColor
+        borderLayer.lineDashPattern = [8,8]
+        borderLayer.lineWidth = 1.5
+        borderLayer.frame = shapeRect
+                
+        borderLayer.fillColor = nil
+        borderLayer.path = UIBezierPath(roundedRect: shapeRect, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: radius, height: radius)).cgPath
+        
+        layer.addSublayer(borderLayer)
     }
 }

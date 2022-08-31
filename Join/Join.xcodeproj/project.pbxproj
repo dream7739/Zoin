@@ -27,6 +27,7 @@
 		88BE394C282D27560002722F /* MakeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394B282D27560002722F /* MakeVC.swift */; };
 		88BE394E282D27720002722F /* MakeCompleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394D282D27720002722F /* MakeCompleteVC.swift */; };
 		88BE3950282D27820002722F /* MakeDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394F282D27820002722F /* MakeDetailVC.swift */; };
+		88F3441328BF6CA600DAB08E /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F3441228BF6CA600DAB08E /* UICollectionView+.swift */; };
 		F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FF7280FA61E000D102D /* AppDelegate.swift */; };
 		F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FF9280FA61E000D102D /* SceneDelegate.swift */; };
 		F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FFB280FA61E000D102D /* LoginVC.swift */; };
@@ -113,6 +114,7 @@
 		88BE394B282D27560002722F /* MakeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeVC.swift; sourceTree = "<group>"; };
 		88BE394D282D27720002722F /* MakeCompleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeCompleteVC.swift; sourceTree = "<group>"; };
 		88BE394F282D27820002722F /* MakeDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeDetailVC.swift; sourceTree = "<group>"; };
+		88F3441228BF6CA600DAB08E /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		C82B2BA62B0E6B67E8E8F474 /* Pods_Join.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Join.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2141FF4280FA61E000D102D /* Join.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Join.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2141FF7280FA61E000D102D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 				F2C0DC8F28747915009A1229 /* String+.swift */,
 				F2C9E201287C65C700A5E33E /* UIImageView+.swift */,
 				8835FA4428B6715A00665297 /* UIDevice+.swift */,
+				88F3441228BF6CA600DAB08E /* UICollectionView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -716,6 +719,7 @@
 				F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */,
 				F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */,
 				F285635B285B3B65003B9AF8 /* OpenedMeetingCVCell.swift in Sources */,
+				88F3441328BF6CA600DAB08E /* UICollectionView+.swift in Sources */,
 				887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */,
 				F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */,
 				F2A4A016285A313C0076A8A1 /* ViewModelType.swift in Sources */,

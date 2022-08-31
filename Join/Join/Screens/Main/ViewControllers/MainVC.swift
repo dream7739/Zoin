@@ -475,6 +475,13 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //print("\(collectionView.collectionViewLayout.collectionViewContentSize.width)")
+        if mainList.count == 0 {
+            print("hiyo")
+            collectionView.setEmptyView()
+        }else{
+            collectionView.restore()
+        }
         return mainList.count
     }
     
