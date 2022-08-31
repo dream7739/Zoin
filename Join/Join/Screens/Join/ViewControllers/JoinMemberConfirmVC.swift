@@ -19,7 +19,7 @@ class JoinMemberConfirmVC: BaseViewController {
     var id:Int = 0
     var participantList: [MainProfileResponse] = []
     private let makeProvider = MoyaProvider<MakeServices>()
-
+    
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -66,7 +66,7 @@ class JoinMemberConfirmVC: BaseViewController {
         setLayout()
         bind()
     }
-
+    
     
     @objc func participants() {
         makeProvider.rx.request(.participants(id: self.id))
@@ -166,18 +166,25 @@ extension JoinMemberConfirmVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 0 {
             cell.ownerLabel.isHidden = false
         }
-
+        
         return cell
     }
     
     func changePopupHeight(dataCnt: Int){
-        
-        if(dataCnt < 10){
+        if UIDevice.current.isiPhone8 {
+            if dataCnt < 6 {
+                self.popupView.snp.updateConstraints{
+                    let newPosition = 56 * (6-dataCnt) + 64
+                    self.popupViewTopConstraint =  $0.top.equalToSuperview().offset(newPosition).constraint
+                }
+            }
+        } else if dataCnt < 10 {
             self.popupView.snp.updateConstraints{
-                let newPosition = 56 * (10-dataCnt) + 64
+                let  newPosition = 56 * (10-dataCnt) + 64
                 self.popupViewTopConstraint =  $0.top.equalToSuperview().offset(newPosition).constraint
             }
         }
+        
     }
     
     

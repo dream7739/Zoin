@@ -18,8 +18,11 @@ import Moya
 
 class MainVC: BaseViewController {
     private let makeProvider = MoyaProvider<MakeServices>()
+    private let networkQueue = DispatchQueue(label: "network", qos: .background, attributes: .concurrent)
+    private let networkGroup = DispatchGroup()
     
     var currentPage: Int = 0
+    var weather:Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
     var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient1", "gradient2", "gradient3", "gradient4"]
@@ -40,20 +43,16 @@ class MainVC: BaseViewController {
     
     var mainEffectImageView = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "mainEft")
-        
     }
     
     var statusLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "번개가 요동치는 중"
         $0.font = .minsans(size: 16, family: .Medium)
         $0.textColor = .grayScale100
     }
     
     var mentLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "현재 기다리고 있어요"
         $0.font = .minsans(size: 24, family: .Bold)
         $0.textColor = .grayScale100
     }
@@ -140,7 +139,7 @@ class MainVC: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: false)
         setNavigationBar(isHidden: true)
-        mainReloadView()
+        getNetworkData()
     }
     
     
@@ -156,13 +155,12 @@ class MainVC: BaseViewController {
     }
     
     @objc func openList(notification : NSNotification){
-        if let listFlag = notification.object {
+        if notification.object != nil {
             pushJoinListVC()
         }
     }
     
     @objc func openDetail(notification : NSNotification){
-        print("\(notification.object )")
         if let item = notification.object as? MainElements{
             let joinVC = JoinVC()
             let item = item
@@ -214,14 +212,25 @@ extension MainVC {
         
         
         mainEffectImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(60)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
-            $0.width.height.equalTo(72)
+            if UIDevice.current.isiPhone8 {
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
+                $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+                $0.width.height.equalTo(72)
+            }else{
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(60)
+                $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+                $0.width.height.equalTo(72)
+            }
         }
         
         statusLabel.snp.makeConstraints{
-            $0.leading.equalTo(mainEffectImageView.snp.leading)
-            $0.top.equalTo(mainEffectImageView.snp.bottom).offset(16)
+            if UIDevice.current.isiPhone8 {
+                $0.leading.equalTo(mainEffectImageView.snp.leading)
+                $0.top.equalTo(mainEffectImageView.snp.bottom).offset(10)
+            }else {
+                $0.leading.equalTo(mainEffectImageView.snp.leading)
+                $0.top.equalTo(mainEffectImageView.snp.bottom).offset(16)
+            }
         }
         
         mentLabel.snp.makeConstraints{
@@ -332,31 +341,89 @@ extension MainVC {
         self.navigationController?.pushViewController(joinListVC, animated: true)
     }
     
-    func getMainList(cursor: Int?) {
-        makeProvider.rx.request(.main(size: 5, cursor: cursor))
-            .filterSuccessfulStatusCodes()
-            .subscribe { result in
-                switch result {
-                case .success(let response):
-                    guard let value = try? JSONDecoder().decode(MainResponse.self, from: response.data) else {return}
-                    self.mainList += value.data.elements
-                    self.hasNext = value.data.hasNext
-                    
-                    UIView.performWithoutAnimation {
-                        //스크롤 포지션 변경되지 않도록 변경함
-                        self.collectionView.reloadSections(IndexSet(integer: 0))
-                    }
-                    
-                    if self.hasNext {
-                        self.isAvailable = true //isAvailable - 무한로딩 방지(1회 실행)
-                    }
-                case .error(let error):
-                    print("failure: \(error)")
-                }
-            }.disposed(by: disposeBag)
+    func getNetworkData(){
+        mainList = []
+        getMainList(cursor: nil)
+        getCurrentWeather()
     }
     
     
+    func getMainList(cursor: Int?) {
+        networkGroup.enter()
+        makeProvider.rx.request(.main(size: 5, cursor: cursor))
+            .filterSuccessfulStatusCodes()
+            .subscribe { result in
+                self.networkQueue.async(group: self.networkGroup) {
+                    switch result {
+                    case .success(let response):
+                        guard let value = try? JSONDecoder().decode(MainResponse.self, from: response.data) else {return}
+                        self.mainList += value.data.elements
+                        self.hasNext = value.data.hasNext
+                        
+                        DispatchQueue.main.async {
+                            UIView.performWithoutAnimation {
+                                //스크롤 포지션 변경되지 않도록 변경함
+                                self.collectionView.reloadSections(IndexSet(integer: 0))
+                            }
+                        }
+                        
+                        if self.hasNext {
+                            self.isAvailable = true //isAvailable - 무한로딩 방지(1회 실행)
+                        }
+                    case .error(let error):
+                        print("failure: \(error)")
+                    }
+                    self.networkGroup.leave()
+                }
+            }.disposed(by: disposeBag)
+        
+    }
+    
+    func getCurrentWeather() {
+        networkGroup.enter()
+        makeProvider.rx.request(.current)
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                self?.networkQueue.async(group: self?.networkGroup) {
+                    let status = JSON(response.data)["status"]
+                    let data = JSON(response.data)["data"]  //맑음: 0, 번개: 1, 흐림 2
+                    if status == 200 {
+                        self?.weather = data.intValue
+                        
+                        DispatchQueue.main.async {
+                            self?.updateWeather()
+                        }
+                        
+                    }else{
+                        print("\(status)")
+                    }
+                }
+                self?.networkGroup.leave()
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
+    }
+    
+    func updateWeather(){
+        switch weather {
+        case 0:
+            mainEffectImageView.image = UIImage(named: "sunny")
+            statusLabel.text  = "번개가 요동치는 중"
+            mentLabel.text = "참여하러 가볼까요?"
+        case 1:
+            mainEffectImageView.image = UIImage(named: "thunder")
+            statusLabel.text  = "엄청난 천둥 번개"
+            mentLabel.text = "지금 놓치지 마세요!"
+        case 2:
+            mainEffectImageView.image = UIImage(named: "fog")
+            statusLabel.text  = "흐린 구름만 잔뜩"
+            mentLabel.text = "번개치기로 힘을 주세요!"
+        default:
+            return
+        }
+    }
 }
 
 
@@ -369,7 +436,7 @@ extension MainVC: MainCellDelegate {
         
         joinVC.item = item
         joinVC.joinType = joinType
-        joinVC.atndFlag = item.whetherUserParticipateOrNot
+        joinVC.atndFlag = item.whetherUserParticipateOrNot!
         joinVC.delegate = self
         
         joinVC.modalPresentationStyle = .overFullScreen
@@ -378,15 +445,18 @@ extension MainVC: MainCellDelegate {
 }
 
 extension MainVC: FinishMainDelegate {
-    //마감 시 홈으로 나오면서 팝업 노출
+    //마감 - 홈
     func finishMainUpdate() {
-        self.popupBackgroundView.isHidden = false
+        print("finishToMain")
+        popupBackgroundView.isHidden = false
+        getNetworkData()
     }
     
-    //번개 참여화면에서 메인으로 빠질때 메인 리스트 조회
+    //참여 - 홈
     func mainReloadView() {
-        mainList = []
-        self.getMainList(cursor: nil)
+        print("joinToMain")
+        getNetworkData()
+        
     }
 }
 
@@ -405,6 +475,13 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //print("\(collectionView.collectionViewLayout.collectionViewContentSize.width)")
+        if mainList.count == 0 {
+            print("hiyo")
+            collectionView.setEmptyView()
+        }else{
+            collectionView.restore()
+        }
         return mainList.count
     }
     

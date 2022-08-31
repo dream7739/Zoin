@@ -26,7 +26,7 @@ class MainCollectionViewCell : UICollectionViewCell {
     
     var backGroundImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
     }
     
     var profileImg = UIImageView().then {
@@ -70,7 +70,12 @@ class MainCollectionViewCell : UICollectionViewCell {
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.numberOfLines = 0
-        $0.font = .minsans(size: 20, family: .Bold)
+        
+        if UIDevice.current.isiPhone8 {
+            $0.font = .minsans(size: 18, family: .Bold)
+        }else {
+            $0.font = .minsans(size: 20, family: .Bold)
+        }
     }
     
     var dateLabel = UILabel().then {
@@ -187,7 +192,12 @@ class MainCollectionViewCell : UICollectionViewCell {
         placeImg.snp.makeConstraints {
             $0.width.height.equalTo(14)
             $0.leading.equalTo(timeImg.snp.leading)
-            $0.bottom.equalTo(joinBtn.snp.top).offset(-56)
+            
+            if UIDevice.current.isiPhone8 {
+                $0.bottom.equalTo(joinBtn.snp.top).offset(-28)
+            }else{
+                $0.bottom.equalTo(joinBtn.snp.top).offset(-56)
+            }
         }
         
         dateLabel.snp.makeConstraints {
@@ -207,6 +217,7 @@ class MainCollectionViewCell : UICollectionViewCell {
             $0.trailing.equalTo(placeLabel.snp.trailing)
             $0.bottom.equalToSuperview().offset(-24)
             $0.height.equalTo(48)
+            
         }
         
         countView.snp.makeConstraints {

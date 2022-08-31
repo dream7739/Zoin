@@ -10,6 +10,7 @@
 		1BD04677B4AC9D10F7A80A6E /* Pods_Join.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B2BA62B0E6B67E8E8F474 /* Pods_Join.framework */; };
 		881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */; };
 		8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */; };
+		8835FA4528B6715A00665297 /* UIDevice+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8835FA4428B6715A00665297 /* UIDevice+.swift */; };
 		8869F32828744C9D00F71C9F /* TermDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8869F32728744C9D00F71C9F /* TermDetailVC.swift */; };
 		8869F32C2876EAC800F71C9F /* MakeServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8869F32B2876EAC800F71C9F /* MakeServices.swift */; };
 		886C16AB286B32680041FA05 /* InviteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886C16AA286B32680041FA05 /* InviteVC.swift */; };
@@ -26,6 +27,7 @@
 		88BE394C282D27560002722F /* MakeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394B282D27560002722F /* MakeVC.swift */; };
 		88BE394E282D27720002722F /* MakeCompleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394D282D27720002722F /* MakeCompleteVC.swift */; };
 		88BE3950282D27820002722F /* MakeDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394F282D27820002722F /* MakeDetailVC.swift */; };
+		88F3441328BF6CA600DAB08E /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F3441228BF6CA600DAB08E /* UICollectionView+.swift */; };
 		F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FF7280FA61E000D102D /* AppDelegate.swift */; };
 		F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FF9280FA61E000D102D /* SceneDelegate.swift */; };
 		F2141FFC280FA61E000D102D /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FFB280FA61E000D102D /* LoginVC.swift */; };
@@ -100,6 +102,7 @@
 		3A469DD7351BAD9248C3A089 /* Pods-Join.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Join.release.xcconfig"; path = "Target Support Files/Pods-Join/Pods-Join.release.xcconfig"; sourceTree = "<group>"; };
 		881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinListTableViewCell.swift; sourceTree = "<group>"; };
+		8835FA4428B6715A00665297 /* UIDevice+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+.swift"; sourceTree = "<group>"; };
 		8869F32728744C9D00F71C9F /* TermDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermDetailVC.swift; sourceTree = "<group>"; };
 		8869F32B2876EAC800F71C9F /* MakeServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeServices.swift; sourceTree = "<group>"; };
 		886C16AA286B32680041FA05 /* InviteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteVC.swift; sourceTree = "<group>"; };
@@ -116,6 +119,7 @@
 		88BE394B282D27560002722F /* MakeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeVC.swift; sourceTree = "<group>"; };
 		88BE394D282D27720002722F /* MakeCompleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeCompleteVC.swift; sourceTree = "<group>"; };
 		88BE394F282D27820002722F /* MakeDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeDetailVC.swift; sourceTree = "<group>"; };
+		88F3441228BF6CA600DAB08E /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		C82B2BA62B0E6B67E8E8F474 /* Pods_Join.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Join.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2141FF4280FA61E000D102D /* Join.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Join.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2141FF7280FA61E000D102D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -499,6 +503,8 @@
 				F2C6AB3E286D6FB9001822D6 /* UITextView+.swift */,
 				F2C0DC8F28747915009A1229 /* String+.swift */,
 				F2C9E201287C65C700A5E33E /* UIImageView+.swift */,
+				8835FA4428B6715A00665297 /* UIDevice+.swift */,
+				88F3441228BF6CA600DAB08E /* UICollectionView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -728,6 +734,7 @@
 				F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */,
 				F2856354285B2AEC003B9AF8 /* FriendsSearchVC.swift in Sources */,
 				F285635B285B3B65003B9AF8 /* OpenedMeetingCVCell.swift in Sources */,
+				88F3441328BF6CA600DAB08E /* UICollectionView+.swift in Sources */,
 				887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */,
 				F29FE1032816783A0034C8A2 /* VerifyEmailVC.swift in Sources */,
 				F2A4A016285A313C0076A8A1 /* ViewModelType.swift in Sources */,
@@ -740,6 +747,7 @@
 				888FEE70286DEC090013939B /* TermVC.swift in Sources */,
 				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,
 				F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */,
+				8835FA4528B6715A00665297 /* UIDevice+.swift in Sources */,
 				F276337A28BA2ED600800561 /* ClosedMeetingCVCell.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
 				8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */,
