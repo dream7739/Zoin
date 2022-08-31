@@ -47,7 +47,7 @@ class ProfileVC: BaseViewController {
     }
 
     private let friendsCountLabel = UILabel().then {
-        $0.text = "123"
+        $0.text = "0"
         $0.textColor = .yellow200
         $0.font = .minsans(size: 20, family: .Bold)
     }
@@ -75,13 +75,18 @@ class ProfileVC: BaseViewController {
     private let boxButton = UIButton().then {
         $0.layer.cornerRadius = 24
         $0.setTitle("", for: .normal)
-        $0.backgroundColor = .grayScale800
+        $0.backgroundColor = .grayScale900
     }
 
     private let closedBoxButton = UIButton().then {
         $0.layer.cornerRadius = 24
         $0.setTitle("", for: .normal)
-        $0.backgroundColor = .grayScale800
+        $0.backgroundColor = .grayScale900
+    }
+
+    private let historyBoxButton = UIButton().then {
+        $0.setTitle("", for: .normal)
+        $0.backgroundColor = .grayScale900
     }
 
     private let boxLabel = UILabel().then {
@@ -96,12 +101,33 @@ class ProfileVC: BaseViewController {
         $0.font = .minsans(size: 16, family: .Bold)
     }
 
+    private let historyBoxLabel = UILabel().then {
+        $0.text = "참여 내역"
+        $0.textColor = .white
+        $0.font = .minsans(size: 16, family: .Bold)
+    }
     private let boxImage = UIImageView().then {
-        $0.image = Image.pinkArchive
+        $0.image = Image.ongoing
     }
 
     private let closedBoxImage = UIImageView().then {
-        $0.image = Image.greenArchive
+        $0.image = Image.ended
+    }
+
+    private let historyBoxImage = UIImageView().then {
+        $0.image = Image.history
+    }
+
+    private let guideImagefirst = UIImageView().then {
+        $0.image = Image.arrow3
+    }
+
+    private let guideImagesecond = UIImageView().then {
+        $0.image = Image.arrow3
+    }
+
+    private let guideImagethird = UIImageView().then {
+        $0.image = Image.arrow3
     }
 
     override func viewDidLoad() {
@@ -128,7 +154,8 @@ extension ProfileVC {
             profileBackgroundView,
             titleLabel,
             boxButton,
-            closedBoxButton
+            closedBoxButton,
+            historyBoxButton
         ])
         profileBackgroundView.adds([
             profileImageView,
@@ -147,11 +174,18 @@ extension ProfileVC {
         ])
         boxButton.adds([
             boxLabel,
-            boxImage
+            boxImage,
+            guideImagefirst
         ])
         closedBoxButton.adds([
             closedBoxLabel,
-            closedBoxImage
+            closedBoxImage,
+            guideImagesecond
+        ])
+        historyBoxButton.adds([
+            historyBoxLabel,
+            historyBoxImage,
+            guideImagethird
         ])
 
         profileBackgroundView.snp.makeConstraints { (make) in
@@ -223,37 +257,85 @@ extension ProfileVC {
         }
 
         boxButton.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(24)
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.leading.equalTo(titleLabel.snp.leading)
-            make.size.equalTo(156)
+            make.width.equalTo(327)
+            make.height.equalTo(50)
         }
 
         boxLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(16)
-            make.leading.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview().offset(-12)
+            make.leading.equalTo(boxImage.snp.trailing).offset(16)
         }
 
         boxImage.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-16)
-            make.bottom.equalToSuperview().offset(-16)
-            make.size.equalTo(64)
+            make.top.equalToSuperview().offset(12)
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-12)
+            make.size.equalTo(24)
         }
 
+        guideImagefirst.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(17)
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-17)
+            make.size.equalTo(16)
+        }
+
+        closedBoxButton.snp.makeConstraints { (make) in
+            make.top.equalTo(boxButton.snp.bottom).offset(0)
+            make.leading.equalTo(titleLabel.snp.leading)
+            make.width.equalTo(327)
+            make.height.equalTo(50)
+        }
         closedBoxLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(16)
-            make.leading.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview().offset(-12)
+            make.leading.equalTo(closedBoxImage.snp.trailing).offset(16)
         }
         closedBoxImage.snp.makeConstraints { (make) in
-            make.trailing.equalToSuperview().offset(-16)
-            make.bottom.equalToSuperview().offset(-16)
-            make.size.equalTo(64)
+            make.top.equalToSuperview().offset(12)
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-12)
+            make.size.equalTo(24)
         }
-        closedBoxButton.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(24)
-            make.leading.equalTo(boxButton.snp.trailing).offset(20)
-            make.trailing.equalToSuperview().offset(-24)
-            make.size.equalTo(156)
+
+        guideImagesecond.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(17)
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-17)
+            make.size.equalTo(16)
         }
+
+        historyBoxButton.snp.makeConstraints {
+            (make) in
+            make.top.equalTo(closedBoxButton.snp.bottom).offset(0)
+            make.leading.equalTo(titleLabel.snp.leading)
+            make.width.equalTo(327)
+            make.height.equalTo(50)
+        }
+
+        historyBoxImage.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(12)
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-12)
+            make.size.equalTo(24)
+        }
+
+        historyBoxLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview().offset(-12)
+            make.leading.equalTo(closedBoxImage.snp.trailing).offset(16)
+        }
+
+        guideImagethird.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(17)
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-17)
+            make.size.equalTo(16)
+        }
+
     }
 
     private func setUpNavigation() {
@@ -276,12 +358,29 @@ extension ProfileVC {
 
     private func bind() {
         // TODO: - 프로필 URL 처리
+        friendsCountLabel.text = String(KeychainHandler.shared.friendCount)
         nicknameLabel.text = KeychainHandler.shared.username
         userIdLabel.text = KeychainHandler.shared.serviceId
+        if KeychainHandler.shared.profileImgUrl == "" {
+            profileImageView.image = Image.profileDefault
+        } else {
+            profileImageView.image(url: KeychainHandler.shared.profileImgUrl)
+        }
+
+        // MARK: - 모집 중인 번개 리스트로 넘어가기
         boxButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 let viewController = OpenedMeetingVC()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+
+        // MARK: - 마감되어버린 번개 리스트로 넘어가기
+        closedBoxButton.rx.tap
+            .subscribe(onNext: {[weak self] _ in
+                guard let self = self else { return }
+                let viewController = ClosedMeetingVC()
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: disposeBag)
@@ -307,6 +406,15 @@ extension ProfileVC {
                 guard let self = self else { return }
                 let viewController = ProfileChangeVC()
                 self.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+
+        // MARK: - 번개 참여 내역 리스트를 보러가기
+        historyBoxButton.rx.tap
+            .subscribe(onNext: {[weak self] _ in
+                guard let self = self else { return }
+                let viewcontroller = EndedMeetingVC()
+                self.navigationController?.pushViewController(viewcontroller, animated: true)
             })
             .disposed(by: disposeBag)
     }

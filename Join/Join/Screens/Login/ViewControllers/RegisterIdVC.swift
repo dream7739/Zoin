@@ -193,6 +193,7 @@ extension RegisterIdVC {
                 }
                 if json == "사용 가능한 아이디입니다." {
                     self?.guideButton.isEnabled = true
+                    KeychainHandler.shared.serviceId = id
                     let viewController = RegisterProfileVC()
                     self?.navigationController?.pushViewController(viewController, animated: true)
                 }

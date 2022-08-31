@@ -11,9 +11,11 @@ import KakaoSDKAuth
 import KakaoSDKUser
 import KakaoSDKCommon
 import SnapKit
+import SwiftyJSON
 import Then
 import RxCocoa
 import RxSwift
+import Moya
 
 class LoginVC: BaseViewController {
 
@@ -51,6 +53,8 @@ class LoginVC: BaseViewController {
     }
 
     var kakaoId: String?
+
+    private let authProvier = MoyaProvider<AuthServices>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,17 +138,7 @@ extension LoginVC {
 
         kakaoButton.addTarget(self, action: #selector(didTapKakao), for: .touchUpInside)
 
-        if KeychainHandler.shared.accessToken != "" {
-            let time = DispatchTime.now() + .seconds(1)
-            DispatchQueue.main.asyncAfter(deadline: time) {
-                let viewController = TabBarController()
-                viewController.modalPresentationStyle = .fullScreen
-                if let delegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                    delegate.window?.rootViewController = viewController
-                }
-                self.present(viewController, animated: true)
-            }
-        }
+        
 
 
 
@@ -224,12 +218,47 @@ extension LoginVC {
                             self.kakaoId = String(id)
                         }
                         let userEmail = String(email)
-                        // 소셜로그인 종류 설정해주기
-                        UserDefaults.standard.set("kakao",forKey: "social")
-                        KeychainHandler.shared.email = userEmail
-                        KeychainHandler.shared.kakaoId = self.kakaoId ?? ""
-                        let viewController = RegisterIdVC()
-                        self.navigationController?.pushViewController(viewController, animated: true)
+
+                        let signUpCheck = didSignUpRequest(accountId: KeychainHandler.shared.kakaoId)
+                        self.authProvier.rx.request(.checkKakoLogin(param: signUpCheck))
+                            .asObservable()
+                            .subscribe(onNext: {[weak self] response in
+                                if response.statusCode == 200 {
+                                    let message = JSON(response.data)["message"]
+                                    print(JSON(response.data)["data"])
+                                    print(message)
+                                    if message == "소셜 로그인 성공" {
+                                        UserDefaults.standard.set("kakao",forKey: "social")
+                                        let token = JSON(response.data)["data"]["loginRes"]["accessToken"]
+                                        let user = JSON(response.data)["data"]["loginRes"]["user"]
+                                        let friendsCount = JSON(response.data)["data"]["loginRes"]["friendCount"]
+                                        KeychainHandler.shared.accessToken = token.string!
+                                        KeychainHandler.shared.serviceId = user["serviceId"].string!
+                                        KeychainHandler.shared.username = user["userName"].string!
+                                        KeychainHandler.shared.email = user["email"].string!
+                                        KeychainHandler.shared.profileImgUrl = user["profileImgUrl"].string!
+                                        KeychainHandler.shared.friendCount = friendsCount.intValue
+                                        print(token)
+                                        print(user["serviceId"])
+                                        // 로그인완료로 메인으로 바로 이동시키기
+                                        let viewController = TabBarController()
+                                        viewController.modalPresentationStyle = .fullScreen
+                                        self?.present(viewController, animated: true)
+                                    }
+                                    if message == "가입되지 않은 소셜 계정입니다." {
+                                        UserDefaults.standard.set("kakao",forKey: "social")
+                                        KeychainHandler.shared.email = userEmail
+                                        KeychainHandler.shared.kakaoId = self?.kakaoId ?? ""
+                                        let viewController = RegisterNicknameVC()
+                                        self?.navigationController?.pushViewController(viewController, animated: true)
+                                    }
+                                }
+                            }, onError: {[weak self] _ in
+                                print("server error")
+                            }, onCompleted: {
+
+                            }).disposed(by: self.disposeBag)
+
                     }
                 }
                 //do something

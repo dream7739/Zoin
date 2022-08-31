@@ -134,6 +134,13 @@ extension CompleteProfileVC {
     }
 
     private func bind() {
+        self.nicknameLabel.text = KeychainHandler.shared.username
+        self.userIdLabel.text = KeychainHandler.shared.serviceId
+        if KeychainHandler.shared.profileImgUrl == "" {
+            self.profileImageView.image = Image.profileDefault
+        } else {
+            self.profileImageView.image(url: KeychainHandler.shared.profileImgUrl)
+        }
         presentViewController()
     }
 

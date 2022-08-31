@@ -11,24 +11,24 @@ class FriendsSearchCVCell:
     UICollectionViewCell {
     static let identififer = "FriendsSearchCVCell"
 
-    private let profileImageView = UIImageView().then {
+    let profileImageView = UIImageView().then {
         $0.contentMode = .center
         $0.layer.cornerRadius = 30
     }
 
-    private let userNameLabel = UILabel().then {
+    let userNameLabel = UILabel().then {
         $0.textAlignment = .left
         $0.textColor = .white
         $0.font = .minsans(size: 16, family: .Bold)
     }
 
-    private let userIdLabel = UILabel().then {
+    let userIdLabel = UILabel().then {
         $0.textAlignment = .left
         $0.textColor = .grayScale500
         $0.font = .minsans(size: 16, family: .Medium)
     }
 
-    private let addButton = UIButton().then {
+    let addButton = UIButton().then {
         $0.setImage(Image.addFriendsBtn, for: .normal)
     }
 

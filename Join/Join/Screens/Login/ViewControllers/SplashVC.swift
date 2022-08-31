@@ -48,13 +48,25 @@ class SplashVC: BaseViewController {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 let navigationController: UINavigationController
-                let LoginVC: UIViewController = TabBarController()
+                let LoginVC: UIViewController = LoginVC()
                 navigationController = UINavigationController(rootViewController: LoginVC)
                 navigationController.navigationBar.isHidden = true
                 navigationController.modalPresentationStyle = .fullScreen
                 self.present(navigationController, animated: true)
             })
             .disposed(by: disposeBag)
+
+        if KeychainHandler.shared.accessToken != "" {
+            let time = DispatchTime.now() + .seconds(2)
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                let viewController = TabBarController()
+                viewController.modalPresentationStyle = .fullScreen
+                if let delegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                    delegate.window?.rootViewController = viewController
+                }
+                self.present(viewController, animated: true)
+            }
+        }
 
     }
 
