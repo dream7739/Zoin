@@ -46,8 +46,6 @@ class TermVC: BaseViewController {
         $0.setTitle("전체동의하고 다음", for: .normal)
         $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
     }
-    //top 26
-    //간격 16
     
     
     override func viewDidLoad() {
@@ -119,10 +117,11 @@ extension TermVC {
                         let cell = cell as! TermTVCell
                         cell.isClicked = true
                     }
-                    self.agreeCount = 3
+                    self.agreeCount = 2
                 }
-                
-                self.navigationController?.pushViewController(TermDetailVC(), animated: true)
+            
+            // 연결부 연결 필요
+            //    self.navigationController?.pushViewController(TermDetailVC(), animated: true)
             })
             .disposed(by: disposeBag)
     }
@@ -131,7 +130,7 @@ extension TermVC {
 
 extension TermVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 2
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -142,6 +141,16 @@ extension TermVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TermTVCell.identifier, for: indexPath) as! TermTVCell
         cell.indexNumber = indexPath.row
         cell.clickDelegate = self
+        
+        if indexPath.row == 0 {
+            cell.titleLabel.text = "서비스 이용약관 동의 (필수)"
+        }else{
+            cell.titleLabel.text = "개인정보 수집 및 이용 동의 (필수)"
+        }
+        
+        let attributedString = NSMutableAttributedString(string: cell.titleLabel.text!)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (cell.titleLabel.text! as NSString as NSString).range(of:"(필수)"))
+        cell.titleLabel.attributedText = attributedString
         
         return cell
     }
