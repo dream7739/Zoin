@@ -27,7 +27,6 @@ class JoinListTableViewCell : UITableViewCell {
     
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "profile")
     }
     
     var nameLabel = UILabel().then {
@@ -113,7 +112,6 @@ class JoinListTableViewCell : UITableViewCell {
             $0.edges.equalToSuperview()
         }
         
-        profileImg.contentMode = .scaleToFill
         
         profileImg.snp.makeConstraints {
             $0.width.height.equalTo(50)

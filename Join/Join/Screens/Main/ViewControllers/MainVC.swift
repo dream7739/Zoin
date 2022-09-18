@@ -14,6 +14,7 @@ import RxCocoa
 import RxSwift
 import RxKeyboard
 import Moya
+import Kingfisher
 
 
 class MainVC: BaseViewController {
@@ -503,8 +504,24 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
             let dateStr = item.appointmentTime
             cell.dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
             cell.placeLabel.text = item.location
+        
             
-            //MARK: 추후 변경 필요
+            let url = URL(string: item.creator.profileImgUrl)
+            
+            let processor = (ResizingImageProcessor(referenceSize: CGSize(width: 50, height: 50)) |> RoundCornerImageProcessor(cornerRadius: 15))
+            cell.profileImg.kf.indicatorType = .activity
+            
+            cell.profileImg.kf.setImage(
+              with: url,
+              placeholder: nil,
+              options: [
+                .transition(.fade(1.0)),
+                .forceTransition,
+                .processor(processor)
+              ],
+              completionHandler: nil
+            )
+            
             let randomVal = Int.random(in: 0...9)
             cell.backGroundImg.image = UIImage(named: imgArr[randomVal])
         }
