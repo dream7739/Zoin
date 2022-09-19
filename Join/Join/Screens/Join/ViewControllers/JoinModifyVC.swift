@@ -690,8 +690,12 @@ extension JoinModifyVC {
                       let text = text
                 else { return }
                 if text.count > 0  {
-                    self.nextButton.backgroundColor = .yellow200
-                    self.nextButton.isEnabled = true
+                    if text == "0" {
+                        self.participantTextField.text = ""
+                    }else{
+                        self.nextButton.backgroundColor = .yellow200
+                        self.nextButton.isEnabled = true
+                    }
                 } else {
                     self.nextButton.backgroundColor = .grayScale500
                     self.nextButton.isEnabled = false
