@@ -26,7 +26,7 @@ struct MakeRequest: Codable {
     var title: String
     var appointmentTime: String
     var location: String
-    var requiredParticipantsCount: String
+    var requiredParticipantsCount: Int
     var description: String
 }
 
@@ -68,6 +68,7 @@ struct MainElements: Codable {
     var updatedAt:String
     var participants:[MainProfileResponse]?
     var description:String
+    var participantCnt: Int
     var isMyRendezvous: Bool?
     var whetherUserParticipateOrNot: Bool?
 }

@@ -678,7 +678,7 @@ extension MakeVC {
             makeDetailVC.makeTitle = self.titleTextField.text!
             makeDetailVC.appointmentTime = self.appointmentTime
             makeDetailVC.location = self.placeTextField.text!
-            makeDetailVC.requiredParticipantsCount = self.participantTextField.text!
+            makeDetailVC.requiredParticipantsCount = Int(self.participantTextField.text!)!
   
             
             self.navigationController?.pushViewController(makeDetailVC, animated: true)

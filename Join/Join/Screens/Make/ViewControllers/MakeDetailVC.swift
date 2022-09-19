@@ -21,7 +21,7 @@ class MakeDetailVC: BaseViewController {
     var makeTitle:String = ""
     var appointmentTime:String  = ""
     var location:String  = ""
-    var requiredParticipantsCount:String  = ""
+    var requiredParticipantsCount:Int  = 0
     var makeDescription:String = ""
     var element:MainElements?
     
