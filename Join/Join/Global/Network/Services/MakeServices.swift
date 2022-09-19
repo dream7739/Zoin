@@ -26,7 +26,7 @@ struct MakeRequest: Codable {
     var title: String
     var appointmentTime: String
     var location: String
-    var requiredParticipantsCount: String
+    var requiredParticipantsCount: Int
     var description: String
 }
 
@@ -68,6 +68,7 @@ struct MainElements: Codable {
     var updatedAt:String
     var participants:[MainProfileResponse]?
     var description:String
+    var participantCnt: Int
     var isMyRendezvous: Bool?
     var whetherUserParticipateOrNot: Bool?
 }
@@ -163,9 +164,13 @@ extension MakeServices: TargetType {
     var headers: [String : String]? {
         switch self {
         default:
-            return ["Content-Type": "application/json", "Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjcsImV4cCI6MTY4OTA3MjI2Nn0.wMDxjSs00pe-ngLyAyUeQ6BPiuyRUfHZHxHh3ALWcB0"]
+            return ["Content-Type": "application/json", "Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEyLCJleHAiOjE2OTUxMjg1NjN9.Pcmm3VBs-Obdg8WckQS3OHXlSgdYTj5OIOICGQgj_4k"]
             
         }
+    }
+    
+    private var token: String {
+        return KeychainHandler.shared.accessToken
     }
     
     public var baseURL: URL {

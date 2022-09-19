@@ -14,6 +14,7 @@ import RxCocoa
 import RxSwift
 import RxKeyboard
 import Moya
+import Kingfisher
 
 
 class MainVC: BaseViewController {
@@ -25,7 +26,7 @@ class MainVC: BaseViewController {
     var weather:Int = 0
     var previousOffset: CGFloat = 0
     var spacing:CGFloat = 0.0
-    var imgArr = ["gradient1", "gradient2", "gradient3", "gradient4", "gradient1", "gradient2", "gradient3", "gradient4"]
+    var imgArr = ["img_gradient_1", "img_gradient_2", "img_gradient_3", "img_gradient_4", "img_gradient_5", "img_gradient_6", "img_gradient_7", "img_gradient_8","img_gradient_9", "img_gradient_10" ]
     var mainList:[MainElements] = []
     var isAvailable = false
     var hasNext = false
@@ -503,10 +504,26 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
             let dateStr = item.appointmentTime
             cell.dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
             cell.placeLabel.text = item.location
+        
             
-            //MARK: 추후 변경 필요
-            let shuffledImgArr = imgArr.shuffled()
-            cell.backGroundImg.image = UIImage(named: shuffledImgArr[0])
+            let url = URL(string: item.creator.profileImgUrl)
+            
+            let processor = (ResizingImageProcessor(referenceSize: CGSize(width: 50, height: 50)) |> RoundCornerImageProcessor(cornerRadius: 15))
+            cell.profileImg.kf.indicatorType = .activity
+            
+            cell.profileImg.kf.setImage(
+              with: url,
+              placeholder: nil,
+              options: [
+                .transition(.fade(1.0)),
+                .forceTransition,
+                .processor(processor)
+              ],
+              completionHandler: nil
+            )
+            
+            let randomVal = Int.random(in: 0...9)
+            cell.backGroundImg.image = UIImage(named: imgArr[randomVal])
         }
         
         

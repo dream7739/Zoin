@@ -135,6 +135,7 @@ class MakeVC: BaseViewController {
         $0.font = .minsans(size: 16, family: .Medium)
         $0.backgroundColor = .grayScale800
         $0.layer.cornerRadius = 20
+        $0.keyboardType = .numberPad
         $0.addLeftPadding()
     }
     
@@ -503,8 +504,12 @@ extension MakeVC {
                       let text = text
                 else { return }
                 if text.count > 0  {
-                    self.nextButton.backgroundColor = .yellow200
-                    self.nextButton.isEnabled = true
+                    if text == "0" {
+                        self.participantTextField.text = ""
+                    }else{
+                        self.nextButton.backgroundColor = .yellow200
+                        self.nextButton.isEnabled = true
+                    }
                 } else {
                     self.nextButton.backgroundColor = .grayScale500
                     self.nextButton.isEnabled = false
@@ -678,7 +683,7 @@ extension MakeVC {
             makeDetailVC.makeTitle = self.titleTextField.text!
             makeDetailVC.appointmentTime = self.appointmentTime
             makeDetailVC.location = self.placeTextField.text!
-            makeDetailVC.requiredParticipantsCount = self.participantTextField.text!
+            makeDetailVC.requiredParticipantsCount = Int(self.participantTextField.text!)!
   
             
             self.navigationController?.pushViewController(makeDetailVC, animated: true)

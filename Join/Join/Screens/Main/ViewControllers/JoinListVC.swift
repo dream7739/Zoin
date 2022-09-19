@@ -13,6 +13,7 @@ import Then
 import RxCocoa
 import RxSwift
 import Moya
+import Kingfisher
 
 
 class JoinListVC: BaseViewController {
@@ -174,9 +175,25 @@ extension JoinListVC: UITableViewDelegate, UITableViewDataSource {
         cell.countLabel.text = "\(item.participants?.count ?? 0)/\(item.requiredParticipantsCount)"
         cell.titleLabel.text = item.title
         
+        let url = URL(string: item.creator.profileImgUrl)
+        
+        let processor = (ResizingImageProcessor(referenceSize: CGSize(width: 50, height: 50)) |> RoundCornerImageProcessor(cornerRadius: 15))
+        cell.profileImg.kf.indicatorType = .activity
+        
+        cell.profileImg.kf.setImage(
+          with: url,
+          placeholder: nil,
+          options: [
+            .transition(.fade(1.0)),
+            .forceTransition,
+            .processor(processor)
+          ],
+          completionHandler: nil
+        )
+        
         let dateStr = item.appointmentTime
         let convertStr = dateStr.dateTypeChange(dateStr: dateStr)
-        
+                
         //오늘 강조 처리
         let attributedStr = NSMutableAttributedString(string: convertStr)
         attributedStr.addAttribute(.font, value: UIFont.minsans(size: 14, family: .Bold)!, range: (convertStr as NSString).range(of: "오늘"))

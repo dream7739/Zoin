@@ -12,6 +12,7 @@ import RxCocoa
 import RxSwift
 import Moya
 import SwiftyJSON
+import Kingfisher
 
 
 protocol FinishMainDelegate {
@@ -26,6 +27,7 @@ class JoinVC: BaseViewController {
     var joinType: Bool! //true - 내 번개, false - 친구번개
     var isCanceled = false
     var isDeleted = false
+    var isExceed = false
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
     var delegate: FinishMainDelegate?
     var popupViewTopConstraint: Constraint? = nil
@@ -55,7 +57,6 @@ class JoinVC: BaseViewController {
     
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "profile")
     }
     
     var moreBtn = UIButton().then {
@@ -370,6 +371,22 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         countLabel.text = "\(item.participants?.count ?? 0)/\(item.requiredParticipantsCount)"
         contentLabel.text = item.description
         
+        let url = URL(string: item.creator.profileImgUrl)
+        
+        let processor = (ResizingImageProcessor(referenceSize: CGSize(width: 50, height: 50)) |> RoundCornerImageProcessor(cornerRadius: 15))
+        profileImg.kf.indicatorType = .activity
+        
+        profileImg.kf.setImage(
+          with: url,
+          placeholder: nil,
+          options: [
+            .transition(.fade(1.0)),
+            .forceTransition,
+            .processor(processor)
+          ],
+          completionHandler: nil
+        )
+        
         //친구 번개 - 참여중일 때, 참여중이지 않을 때를 구분하여 UI를 변경함
         if atndFlag && !joinType {
             joinBtn.backgroundColor = .grayScale800
@@ -386,6 +403,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         joinBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
+                print("\(self.atndFlag)")
                 if(!(self.atndFlag)){
                     self.participant()
                 }else{
@@ -448,6 +466,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             .asObservable()
             .subscribe(onNext: { [weak self] response in
                 let status = JSON(response.data)["status"]
+                let message = JSON(response.data)["message"]
                 if status == 200 {
                     //토스트 출력 & 참여중 라벨 표시 & 참여취소로 버튼 변경 & 참여자 수 변경 +1
                     self?.joinBtn.backgroundColor = .grayScale500
@@ -461,8 +480,11 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                     self?.atndFlag = true
                     self?.showToast(message: "친구 번개에 참여했어요!")
                     print("participant success: \(self!.item.id)")
-                }else{
-                    print("\(status)")
+                }else if status == 400 {
+                    if message == "java.lang.IllegalStateException: Participants exceed." {
+                        self?.isExceed = true
+                        self?.showToast(message: "정원 초과로 참여할 수 없는 번개예요.")
+                    }
                 }
             }, onError: { [weak self] _ in
                 print("error occured")
@@ -551,6 +573,8 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             
             if self.isCanceled || self.isDeleted {
                 $0.backgroundColor = .grayScale200
+            }else if self.isExceed{
+                $0.backgroundColor = .red10
             }else{
                 $0.backgroundColor = .yellow50
             }
@@ -564,6 +588,8 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             
             if self.isCanceled || self.isDeleted {
                 $0.textColor = .grayScale800
+            }else if self.isExceed {
+                $0.textColor = .red100
             }else{
                 $0.textColor = .orange100
             }
@@ -573,6 +599,8 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             $0.translatesAutoresizingMaskIntoConstraints = false
             if self.isCanceled || self.isDeleted {
                 $0.image = UIImage(named: "icon_cancel")
+            }else if self.isExceed {
+                $0.image = UIImage(named: "icon_info")
             }else{
                 $0.image = UIImage(named: "icon_thunder1")
             }
@@ -617,7 +645,9 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 
             }else if self.isDeleted {
                 self.dismiss(animated: true, completion: nil)
-            }else {
+            }else if self.isExceed {
+                return
+            }else{
                 self.joinBtn.backgroundColor = .grayScale800
                 self.joinBtn.setTitleColor(.grayScale100, for: .normal)
                 self.joinBtn.setTitle("참여취소", for: .normal)

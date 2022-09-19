@@ -169,6 +169,7 @@ class JoinModifyVC: BaseViewController {
         $0.setPlaceHolderColor(.grayScale600)
         $0.tintColor = .yellow200
         $0.textColor = .yellow200
+        $0.keyboardType = .numberPad
         $0.font = .minsans(size: 16, family: .Medium)
         $0.backgroundColor = .grayScale800
         $0.layer.cornerRadius = 20
@@ -689,8 +690,12 @@ extension JoinModifyVC {
                       let text = text
                 else { return }
                 if text.count > 0  {
-                    self.nextButton.backgroundColor = .yellow200
-                    self.nextButton.isEnabled = true
+                    if text == "0" {
+                        self.participantTextField.text = ""
+                    }else{
+                        self.nextButton.backgroundColor = .yellow200
+                        self.nextButton.isEnabled = true
+                    }
                 } else {
                     self.nextButton.backgroundColor = .grayScale500
                     self.nextButton.isEnabled = false
@@ -775,14 +780,24 @@ extension JoinModifyVC {
                 guard let self = self else { return }
                 let makeTitle = self.titleTextField.text!
                 let location  = self.placeTextField.text!
-                let requiredParticipantsCount = self.participantTextField.text!
+                let requiredParticipantsCount = Int(self.participantTextField.text!)!
                 let description = self.descriptionTextView.text!
                 let appointmentTime = self.item.appointmentTime
                 
+                //참여자수보다 작은 수로 설정할 시
+                if(requiredParticipantsCount < self.item.participantCnt ){
+                    let alert = UIAlertController(title: "알림", message: "입력한 참여자 수가 현재 참여자 수보다 많습니다.", preferredStyle: UIAlertController.Style.alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler : nil )
+                    alert.addAction(okAction)
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                
                 self.item.title = makeTitle
                 self.item.location = location
-                self.item.requiredParticipantsCount = Int(requiredParticipantsCount)!
+                self.item.requiredParticipantsCount = requiredParticipantsCount
                 self.item.description = description
+                
                 
                 
                 self.makeRequest = MakeRequest(title: makeTitle, appointmentTime: appointmentTime, location: location, requiredParticipantsCount: requiredParticipantsCount, description: description)

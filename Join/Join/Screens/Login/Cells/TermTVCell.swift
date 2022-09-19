@@ -30,18 +30,17 @@ class TermTVCell: UITableViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private let checkBox = UIButton().then {
+    let checkBox = UIButton().then {
         $0.setBackgroundImage(UIImage(named: "checkbox"), for: .normal)
     }
     
-    private let titleLabel = UILabel().then {
+    let titleLabel = UILabel().then {
         $0.textAlignment = .center
         $0.textColor = .white
         $0.font = .minsans(size: 16, family: .Medium)
-        $0.text = "개인정보 수집 및 이용 동의 (필수)"
     }
     
-    private let detailBtn = UIButton().then {
+    let detailBtn = UIButton().then {
         $0.setBackgroundImage(UIImage(named: "chevron-right"), for: .normal)
         $0.imageEdgeInsets = UIEdgeInsets(top: 17, left: 0, bottom: 17, right: 0)
     }
@@ -60,9 +59,6 @@ class TermTVCell: UITableViewCell {
 extension TermTVCell {
     private func cellSetting() {
         self.contentView.backgroundColor = .grayScale900
-        let attributedString = NSMutableAttributedString(string: self.titleLabel.text!)
-        attributedString.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.titleLabel.text! as NSString as NSString).range(of:"(필수)"))
-        self.titleLabel.attributedText = attributedString
         
         
         self.contentView.addSubview(self.containerView)
