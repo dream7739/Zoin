@@ -12,6 +12,7 @@ import RxCocoa
 import RxSwift
 import Moya
 import SwiftyJSON
+import Kingfisher
 
 
 protocol FinishMainDelegate {
@@ -56,7 +57,6 @@ class JoinVC: BaseViewController {
     
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.image = UIImage(named: "profile")
     }
     
     var moreBtn = UIButton().then {
@@ -370,6 +370,22 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         placeLabel.text = item.location
         countLabel.text = "\(item.participants?.count ?? 0)/\(item.requiredParticipantsCount)"
         contentLabel.text = item.description
+        
+        let url = URL(string: item.creator.profileImgUrl)
+        
+        let processor = (ResizingImageProcessor(referenceSize: CGSize(width: 50, height: 50)) |> RoundCornerImageProcessor(cornerRadius: 15))
+        profileImg.kf.indicatorType = .activity
+        
+        profileImg.kf.setImage(
+          with: url,
+          placeholder: nil,
+          options: [
+            .transition(.fade(1.0)),
+            .forceTransition,
+            .processor(processor)
+          ],
+          completionHandler: nil
+        )
         
         //친구 번개 - 참여중일 때, 참여중이지 않을 때를 구분하여 UI를 변경함
         if atndFlag && !joinType {
