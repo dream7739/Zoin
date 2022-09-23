@@ -222,6 +222,7 @@ extension FriendsProfilcVC {
     }
 
     private func setUpNavigation() {
+        title = "친구 프로필"
         guard let navigationBar = navigationController?.navigationBar else { return }
         navigationBar.isHidden = false
         navigationBar.barTintColor = .white
