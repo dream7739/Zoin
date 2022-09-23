@@ -53,6 +53,7 @@
 		F263F5F428AE7DAA00575CAF /* EndedMeetingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F263F5F328AE7DAA00575CAF /* EndedMeetingVC.swift */; };
 		F263F5F628AE7F3C00575CAF /* EndedCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F263F5F528AE7F3C00575CAF /* EndedCVCell.swift */; };
 		F27595E3281912BC00B4E7C7 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27595E2281912BC00B4E7C7 /* UITextField+.swift */; };
+		F275AB6E28DDFE0A00E500DC /* FriendsProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F275AB6D28DDFE0A00E500DC /* FriendsProfileVC.swift */; };
 		F276337828BA206200800561 /* ClosedMeetingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276337728BA206200800561 /* ClosedMeetingVC.swift */; };
 		F276337A28BA2ED600800561 /* ClosedMeetingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276337928BA2ED600800561 /* ClosedMeetingCVCell.swift */; };
 		F276337C28BA403E00800561 /* LogoutPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F276337B28BA403E00800561 /* LogoutPopupVC.swift */; };
@@ -147,6 +148,7 @@
 		F263F5F328AE7DAA00575CAF /* EndedMeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndedMeetingVC.swift; sourceTree = "<group>"; };
 		F263F5F528AE7F3C00575CAF /* EndedCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndedCVCell.swift; sourceTree = "<group>"; };
 		F27595E2281912BC00B4E7C7 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		F275AB6D28DDFE0A00E500DC /* FriendsProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsProfileVC.swift; sourceTree = "<group>"; };
 		F276337728BA206200800561 /* ClosedMeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosedMeetingVC.swift; sourceTree = "<group>"; };
 		F276337928BA2ED600800561 /* ClosedMeetingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosedMeetingCVCell.swift; sourceTree = "<group>"; };
 		F276337B28BA403E00800561 /* LogoutPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutPopupVC.swift; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 			children = (
 				F28F8E77285887D5005FF435 /* FriendsListVC.swift */,
 				F2856353285B2AEC003B9AF8 /* FriendsSearchVC.swift */,
+				F275AB6D28DDFE0A00E500DC /* FriendsProfileVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -756,6 +759,7 @@
 				889E497E2816ED1900AA2D9C /* JoinListVC.swift in Sources */,
 				F283C319286D866700E93652 /* ProfileChangeVC.swift in Sources */,
 				8896D41A28236C730061CEAE /* JoinFinishVC.swift in Sources */,
+				F275AB6E28DDFE0A00E500DC /* FriendsProfileVC.swift in Sources */,
 				8869F32C2876EAC800F71C9F /* MakeServices.swift in Sources */,
 				F21CECF6283543E100ED1EC0 /* Images.swift in Sources */,
 				F2C2C203286D5B1100D8BA39 /* WithdrawVC.swift in Sources */,
