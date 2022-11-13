@@ -323,9 +323,7 @@ extension ReportVC: UITableViewDelegate, UITableViewDataSource {
 extension ReportVC: ReportDelegate {
     func cellClick(index: Int) {
         
-        self.reasonId = index
-        self.reportTableView.reloadData()
-        
+        //초기 1회만 활성화 처리
         if(reasonId == -1){
             reportBtn.backgroundColor = .yellow200
             reportBtn.setTitleColor(.grayScale900, for: .normal)
@@ -333,6 +331,10 @@ extension ReportVC: ReportDelegate {
             reportBtn.isEnabled = true
         }
         
+        self.reasonId = index
+        self.reportTableView.reloadData()
+        
+        //선택한 사유가 "기타"일 경우 입력창 활성화 되도록 처리
         if(reasonId != 4){
             self.descriptionTextView.endEditing(true)
         }else if reasonId == 4 {
