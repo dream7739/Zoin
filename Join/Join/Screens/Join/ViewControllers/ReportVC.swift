@@ -23,6 +23,7 @@ class ReportVC: BaseViewController {
     var reasonId: Int = -1
     var rendezvousId: Int = 0
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
+    let textViewPlaceHolder = "신고 사유를 입력해 주세요."
     
     var popupViewTopConstraint: Constraint? = nil
     
@@ -71,7 +72,6 @@ class ReportVC: BaseViewController {
         $0.backgroundColor = .grayScale800
         $0.layer.cornerRadius = 20
         $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right:16.0)
-        $0.becomeFirstResponder()
     }
     
     private let descriptionLengthLabel = UILabel().then {
@@ -92,9 +92,10 @@ class ReportVC: BaseViewController {
     
     var reportBtn = UIButton().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .yellow200
-        $0.setTitleColor(.grayScale900, for: .normal)
+        $0.backgroundColor = .grayScale500
+        $0.setTitleColor(.grayScale300, for: .normal)
         $0.setTitle("신고하기", for: .normal)
+        $0.isEnabled = false
         $0.titleLabel?.font = .minsans(size: 16, family: .Bold)
         $0.contentHorizontalAlignment = .center
         $0.layer.cornerRadius = 20
@@ -113,13 +114,13 @@ class ReportVC: BaseViewController {
 extension ReportVC {
     private func setLayout() {
         view.backgroundColor = UIColor(red: 17/255, green: 23/255, blue: 35/255, alpha: 0.6)
-
+        
         self.reportTableView.backgroundColor = .grayScale900
         
         view.add(popupView)
         
-        stackView1.addArrangedSubview(reportBtn)
         stackView1.addArrangedSubview(cancelBtn)
+        stackView1.addArrangedSubview(reportBtn)
         
         popupView.adds([
             indicatorLabel,
@@ -129,16 +130,16 @@ extension ReportVC {
             descriptionLengthLabel,
             stackView1
         ])
-                
+        
         //dismiss gesture 추가
         viewTranslation = CGPoint(x: popupView.frame.minX, y: popupView.frame.minY)
         
         popupView.addGestureRecognizer(UIPanGestureRecognizer(target:self, action: #selector(handleDismiss)))
-
+        
         
         popupView.snp.makeConstraints{
             $0.leading.trailing.bottom.equalToSuperview()
-           popupViewTopConstraint = $0.top.equalToSuperview().offset(131).constraint
+            popupViewTopConstraint = $0.top.equalToSuperview().offset(131).constraint
             
         }
         
@@ -185,14 +186,63 @@ extension ReportVC {
         reportTableView.estimatedRowHeight = 58//예상값
         reportTableView.delegate = self
         reportTableView.dataSource = self
-    
+        
     }
     
     private func bind(){
+        descriptionTextView.text = textViewPlaceHolder
+        
         cancelBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.dismiss(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
+        descriptionTextView.rx.didBeginEditing.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            self.descriptionTextView.textColor = .yellow200
+            if (self.descriptionTextView.text == self.textViewPlaceHolder) {
+                self.descriptionTextView.text = nil
+            }
+        }, onCompleted: {
+        })
+        
+        descriptionTextView.rx.didEndEditing.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            if self.descriptionTextView.text == ""{
+                self.descriptionTextView.text = self.textViewPlaceHolder
+                self.descriptionTextView.textColor = .grayScale500
+            }
+        }, onCompleted: {
+        })
+        
+        
+        
+        descriptionTextView.rx.text
+            .do{ [weak self] text in
+                guard let self = self,
+                      let text = text
+                else { return }
+                if text.count > 0 && text != self.textViewPlaceHolder {
+                    if text.count <= 100 {
+                        let str =  "\(text.count)/100"
+                        self.descriptionLengthLabel.text = str
+                        let attributedString = NSMutableAttributedString(string: self.descriptionLengthLabel.text!)
+                        let firstIndex:String.Index = str.firstIndex(of: "/")!
+                        let substr = str[...firstIndex]
+                        attributedString.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (self.descriptionLengthLabel.text! as NSString).range(of: String(substr)))
+                        self.descriptionLengthLabel.attributedText = attributedString
+                    }else{
+                        let index = text.index(text.startIndex, offsetBy: 100)
+                        self.descriptionTextView.text = String(text[..<index])
+                    }
+                } else {
+                    self.descriptionLengthLabel.text = "0/100"
+                }
+            }
+            .subscribe(onNext:  { [weak self] _ in
+                
             })
             .disposed(by: disposeBag)
         
@@ -239,7 +289,7 @@ extension ReportVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReportCell.identifier, for: indexPath) as! ReportCell
-                
+        
         switch indexPath.row {
         case 0:
             cell.titleLabel.text = "영리목적/홍보성"
@@ -272,8 +322,24 @@ extension ReportVC: UITableViewDelegate, UITableViewDataSource {
 
 extension ReportVC: ReportDelegate {
     func cellClick(index: Int) {
+        
         self.reasonId = index
         self.reportTableView.reloadData()
+        
+        if(reasonId == -1){
+            reportBtn.backgroundColor = .yellow200
+            reportBtn.setTitleColor(.grayScale900, for: .normal)
+            
+            reportBtn.isEnabled = true
+        }
+        
+        if(reasonId != 4){
+            self.descriptionTextView.endEditing(true)
+        }else if reasonId == 4 {
+            self.descriptionTextView.becomeFirstResponder()
+            
+        }
+        
     }
     
 }
