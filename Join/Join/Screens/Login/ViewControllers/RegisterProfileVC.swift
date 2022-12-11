@@ -149,7 +149,8 @@ extension RegisterProfileVC {
     @objc func checkVendor() {
         if UserDefaults.standard.string(forKey: "social") == "kakao" {
             doKakaoSignUp()
-            print("왜안되냐고")
+        } else if UserDefaults.standard.string(forKey: "social") == "apple" {
+            doAppleSignUp()
         }
     }
 

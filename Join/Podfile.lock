@@ -1,16 +1,16 @@
 PODS:
   - Alamofire (5.4.4)
-  - KakaoSDKAuth (2.8.3):
-    - KakaoSDKCommon (= 2.8.3)
-  - KakaoSDKCommon (2.8.3):
-    - KakaoSDKCommon/Common (= 2.8.3)
-    - KakaoSDKCommon/Network (= 2.8.3)
-  - KakaoSDKCommon/Common (2.8.3)
-  - KakaoSDKCommon/Network (2.8.3):
+  - KakaoSDKAuth (2.11.3):
+    - KakaoSDKCommon (= 2.11.3)
+  - KakaoSDKCommon (2.11.3):
+    - KakaoSDKCommon/Common (= 2.11.3)
+    - KakaoSDKCommon/Network (= 2.11.3)
+  - KakaoSDKCommon/Common (2.11.3)
+  - KakaoSDKCommon/Network (2.11.3):
     - Alamofire (~> 5.1)
-    - KakaoSDKCommon/Common (= 2.8.3)
-  - KakaoSDKUser (2.8.3):
-    - KakaoSDKAuth (= 2.8.3)
+    - KakaoSDKCommon/Common (= 2.11.3)
+  - KakaoSDKUser (2.11.3):
+    - KakaoSDKAuth (= 2.11.3)
   - Kingfisher (7.1.1)
   - Moya/Core (14.0.0):
     - Alamofire (~> 5.0)
@@ -39,8 +39,8 @@ PODS:
   - WeakMapTable (1.2.0)
 
 DEPENDENCIES:
-  - KakaoSDKAuth
-  - KakaoSDKUser
+  - KakaoSDKAuth (~> 2.11.3)
+  - KakaoSDKUser (~> 2.11.3)
   - Kingfisher (~> 7.0)
   - Moya/RxSwift (~> 14.0)
   - ReactorKit (~> 2.1.1)
@@ -74,9 +74,9 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
-  KakaoSDKAuth: 36597989cec6dd54707c2fc6501091bb9e32e3f0
-  KakaoSDKCommon: b86ad0c899b93eaf0edb94c6deb5f0dbf7116398
-  KakaoSDKUser: 7debff9ff539b095aa4858469163fed7e3bce73e
+  KakaoSDKAuth: a64dde90516e18fdfc35b83bbad2677c3675c329
+  KakaoSDKCommon: b4235203f67a5b6ee2df75eaf9bbc863c6d92e09
+  KakaoSDKUser: 9a42e9b74855ce876b071c841418aa6726534010
   Kingfisher: f738f9c4a3415823b8e2985d10aa2d6a9f37bc4d
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   ReactorKit: 6d894a20c3d508344320901cd8e386fde92df4b6
@@ -91,6 +91,6 @@ SPEC CHECKSUMS:
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 54d8b5b13d14fb8131df78414bfdc0ac128ddd0c
+PODFILE CHECKSUM: 1261284745e2f0938973b6961fadfe76420ed757
 
 COCOAPODS: 1.11.2

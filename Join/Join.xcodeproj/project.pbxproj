@@ -142,6 +142,7 @@
 		F219C02B2869E6CB009BFC9C /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
 		F21CECF5283543E100ED1EC0 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		F21EBA10288597AF004EA599 /* ProfileServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServices.swift; sourceTree = "<group>"; };
+		F237837F29464644006F36F5 /* Join.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Join.entitlements; sourceTree = "<group>"; };
 		F24B24E1286C35070039B967 /* AccountSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingVC.swift; sourceTree = "<group>"; };
 		F24B24E3286C379E0039B967 /* AccountSettingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingCVCell.swift; sourceTree = "<group>"; };
 		F263F5F328AE7DAA00575CAF /* EndedMeetingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndedMeetingVC.swift; sourceTree = "<group>"; };
@@ -307,6 +308,7 @@
 		F2141FF6280FA61E000D102D /* Join */ = {
 			isa = PBXGroup;
 			children = (
+				F237837F29464644006F36F5 /* Join.entitlements */,
 				F214201628100FC6000D102D /* Global */,
 				F214201528100FB0000D102D /* Screens */,
 			);
@@ -936,6 +938,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Join/Join.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5Y6TG9W2Y6;
@@ -965,6 +968,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Join/Join.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5Y6TG9W2Y6;
