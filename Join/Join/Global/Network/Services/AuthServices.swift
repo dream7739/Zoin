@@ -18,6 +18,8 @@ enum AuthServices {
     case checkCode(param: checkCode )
     case kakaoLogin(param: SocialSignUpRequest)
     case checkKakoLogin(param: didSignUpRequest)
+    case appleLogin(param: SocialSignUpRequest)
+    case checkAppleLogin(param: didSignUpRequest)
 }
 // MARK: - parameter data
 // 모델데이터 global 파일에 data 하위디렉터리 만들어서 옮기는게 낫지 않을까?
@@ -91,6 +93,10 @@ extension AuthServices: TargetType {
             return "/api/v1/user/sign-up/kakao"
         case .checkKakoLogin:
             return "/api/v1/user/log-in/kakao"
+        case .appleLogin:
+            return "/api/v1/user/sign-up/apple"
+        case .checkAppleLogin:
+            return "/api/v1/user/log-in/apple"
         }
     }
 
@@ -112,6 +118,10 @@ extension AuthServices: TargetType {
         case .kakaoLogin:
             return .post
         case .checkKakoLogin:
+            return .post
+        case .appleLogin:
+            return .post
+        case .checkAppleLogin:
             return .post
         }
     }
@@ -142,6 +152,10 @@ extension AuthServices: TargetType {
         case .kakaoLogin(let param):
             return .requestJSONEncodable(param)
         case .checkKakoLogin(let param):
+            return .requestJSONEncodable(param)
+        case .appleLogin(param: let param):
+            return .requestJSONEncodable(param)
+        case .checkAppleLogin(param: let param):
             return .requestJSONEncodable(param)
         }
     }

@@ -7,6 +7,7 @@
 
 import UIKit
 
+import AuthenticationServices
 import KakaoSDKAuth
 import KakaoSDKUser
 import KakaoSDKCommon
@@ -54,7 +55,7 @@ class LoginVC: BaseViewController {
 
     var kakaoId: String?
 
-    private let authProvier = MoyaProvider<AuthServices>()
+    private let authProvider = MoyaProvider<AuthServices>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,13 +136,8 @@ extension LoginVC {
 
     // MARK: - RX 사용안하니까 이 부분 수정 필요합니다
     private func bind() {
-
         kakaoButton.addTarget(self, action: #selector(didTapKakao), for: .touchUpInside)
-
-        
-
-
-
+        appleButton.addTarget(self, action: #selector(didTapApple), for: .touchUpInside)
         Button.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -171,37 +167,6 @@ extension LoginVC {
     }
 
     @objc func didTapKakao() {
-        // 카카오톡 설치여부 체크
-        //        if (UserApi.isKakaoTalkLoginAvailable()) {
-        //            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-        //                if let error = error {
-        //                    print(error)
-        //                }
-        //                else {
-        //                    print("loginWithKakaoTalk() success.")
-        //
-        //                    //do something
-        //                    _ = oauthToken
-        //                }
-        //            }
-        //        } else {
-        //            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-        //                if let error = error {
-        //                    print(error)
-        //                }
-        //                else {
-        //                    print("loginWithKakaoTalk() success.")
-        //                    //do something
-        //                    _ = oauthToken
-        //                }
-        //            }
-        //        }
-
-        // 지금은 테스트니까 웹 브라우저로 열리는걸로 해봅시다
-        // 소셜로그인 login 이후 -> null로 받아와지면 소셜회원가입 진행
-        // Userdefault로 kakao인지 apple인지 체크
-        // 소문자로
-        
         UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
             if let error = error {
                 print(error)
@@ -218,9 +183,10 @@ extension LoginVC {
                             self.kakaoId = String(id)
                         }
                         let userEmail = String(email)
-
+                        // 기기변경 후 처음 로그인하는거 생각해서 accountId 파라미터 self.kakaoId로 변경
+                        // keychainhandler값도 새로 갱신해주기?
                         let signUpCheck = didSignUpRequest(accountId: KeychainHandler.shared.kakaoId)
-                        self.authProvier.rx.request(.checkKakoLogin(param: signUpCheck))
+                        self.authProvider.rx.request(.checkKakoLogin(param: signUpCheck))
                             .asObservable()
                             .subscribe(onNext: {[weak self] response in
                                 if response.statusCode == 200 {
@@ -266,5 +232,79 @@ extension LoginVC {
             }
         }
     }
+
+    @objc func didTapApple(){
+        let appleIdRequest = ASAuthorizationAppleIDProvider().createRequest()
+        appleIdRequest.requestedScopes = [.email, .fullName]
+
+        let controller = ASAuthorizationController(authorizationRequests: [appleIdRequest])
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        controller.performRequests()
+    }
 }
 
+extension LoginVC: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            // Create an account in your system.
+            let signUpCheck = didSignUpRequest(accountId: KeychainHandler.shared.appleId)
+            // email : appleIDCredential.email
+            // user : appleIDCredential.user 이게 고유값이라서 이거 써야할듯 (id)
+
+            print("User ID : \(appleIDCredential.user)")
+            print("User Email : \(appleIDCredential.email ?? "")")
+
+            self.authProvider.rx.request(.checkAppleLogin(param: signUpCheck))
+                .asObservable()
+                .subscribe(onNext: { [weak self] response in
+                    guard let self = self else { return }
+                    if response.statusCode == 200 {
+                        let message = JSON(response.data)["message"]
+                        print(JSON(response.data)["data"])
+                        print(message)
+                        if message == "소셜 로그인 성공" {
+                            UserDefaults.standard.set("apple",forKey: "social")
+                            let token = JSON(response.data)["data"]["loginRes"]["accessToken"]
+                            let user = JSON(response.data)["data"]["loginRes"]["user"]
+                            let friendsCount = JSON(response.data)["data"]["loginRes"]["friendCount"]
+                            KeychainHandler.shared.accessToken = token.string!
+                            KeychainHandler.shared.serviceId = user["serviceId"].string!
+                            KeychainHandler.shared.username = user["userName"].string!
+                            KeychainHandler.shared.email = user["email"].string!
+                            KeychainHandler.shared.profileImgUrl = user["profileImgUrl"].string!
+                            KeychainHandler.shared.friendCount = friendsCount.intValue
+                            print(token)
+                            print(user["serviceId"])
+                            // 로그인완료로 메인으로 바로 이동시키기
+                            let viewController = TabBarController()
+                            viewController.modalPresentationStyle = .fullScreen
+                            self.present(viewController, animated: true)
+                        } else if message == "가입되지 않은 소셜 계정입니다." {
+                            UserDefaults.standard.set("apple",forKey: "social")
+                            KeychainHandler.shared.email = appleIDCredential.email ?? ""
+                            KeychainHandler.shared.appleId = appleIDCredential.user
+                            let viewController = RegisterNicknameVC()
+                            self.navigationController?.pushViewController(viewController, animated: true)
+                        }
+                    }
+                }, onError: { [weak self] _ in
+                    print("server error")
+                }).disposed(by: disposeBag)
+        } else if let passwordCredential = authorization.credential as? ASPasswordCredential {
+            // Sign in using an existing iCloud Keychain credential.
+            let username = passwordCredential.user
+            let password = passwordCredential.password
+
+            print(username, password)
+            //Navigate to other view controller
+        }
+    }
+}
+
+extension LoginVC: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}

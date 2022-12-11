@@ -196,6 +196,24 @@ extension RegisterProfileVC {
 
             }).disposed(by: disposeBag)
     }
+
+    @objc func doAppleSignUp() {
+        let signUpRequest = SocialSignUpRequest(id: KeychainHandler.shared.appleId, email: KeychainHandler.shared.email, userName: KeychainHandler.shared.username, serviceId: KeychainHandler.shared.serviceId, profileImgUrl: KeychainHandler.shared.profileImgUrl)
+        print(signUpRequest)
+        authProvider.rx.request(.appleLogin(param: signUpRequest))
+            .asObservable()
+            .subscribe(onNext: {[weak self] response in
+                if response.statusCode == 200 {
+                    KeychainHandler.shared.accessToken = JSON(response.data)["data"].string!
+                    let viewController = CompleteProfileVC()
+                    self?.navigationController?.pushViewController(viewController, animated: true)
+                }
+            }, onError: {[weak self] _ in
+                print("server error")
+            }, onCompleted: {
+
+            }).disposed(by: disposeBag)
+    }
 }
 
 extension RegisterProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
