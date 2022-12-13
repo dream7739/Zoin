@@ -46,6 +46,7 @@
 		F216ECBE286CB50B000210F7 /* EmailLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216ECBD286CB50B000210F7 /* EmailLoginVC.swift */; };
 		F219C02A2869E6B6009BFC9C /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C0292869E6B6009BFC9C /* Environment.swift */; };
 		F219C02C2869E6CB009BFC9C /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F219C02B2869E6CB009BFC9C /* AuthServices.swift */; };
+		F21A782A2948B5430061DBF0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F21A78292948B5430061DBF0 /* GoogleService-Info.plist */; };
 		F21CECF6283543E100ED1EC0 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CECF5283543E100ED1EC0 /* Images.swift */; };
 		F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21EBA10288597AF004EA599 /* ProfileServices.swift */; };
 		F24B24E2286C35070039B967 /* AccountSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24B24E1286C35070039B967 /* AccountSettingVC.swift */; };
@@ -140,6 +141,7 @@
 		F216ECBD286CB50B000210F7 /* EmailLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginVC.swift; sourceTree = "<group>"; };
 		F219C0292869E6B6009BFC9C /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		F219C02B2869E6CB009BFC9C /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
+		F21A78292948B5430061DBF0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F21CECF5283543E100ED1EC0 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		F21EBA10288597AF004EA599 /* ProfileServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServices.swift; sourceTree = "<group>"; };
 		F237837F29464644006F36F5 /* Join.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Join.entitlements; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 		F2141FF6280FA61E000D102D /* Join */ = {
 			isa = PBXGroup;
 			children = (
+				F21A78292948B5430061DBF0 /* GoogleService-Info.plist */,
 				F237837F29464644006F36F5 /* Join.entitlements */,
 				F214201628100FC6000D102D /* Global */,
 				F214201528100FB0000D102D /* Screens */,
@@ -662,6 +665,7 @@
 			files = (
 				F2A4CC19283659920050FBCB /* MinSans-Thin.otf in Resources */,
 				F2142004280FA620000D102D /* LaunchScreen.storyboard in Resources */,
+				F21A782A2948B5430061DBF0 /* GoogleService-Info.plist in Resources */,
 				F2A4CC14283659920050FBCB /* MinSans-Bold.otf in Resources */,
 				F2A4CC18283659920050FBCB /* MinSans-Regular.otf in Resources */,
 				F2142001280FA620000D102D /* Assets.xcassets in Resources */,

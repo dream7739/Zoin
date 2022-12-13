@@ -14,6 +14,7 @@ enum ProfileServices {
     case getFriendsList
     case getParticipatedHistory(isClosed: String)
     case getCreatedHistory(isClosed: String)
+    case changeImage(image: UIImage)
 }
 
 struct searchIdRequest: Encodable {
@@ -81,6 +82,8 @@ extension ProfileServices: TargetType {
             return "/api/v1/user/rendezvous/participated"
         case .getCreatedHistory(isClosed: let isClosed):
             return "/api/v1/user/rendezvous/created"
+        case .changeImage:
+            return "/api/v1/user/profile-image"
         }
     }
 
@@ -94,6 +97,8 @@ extension ProfileServices: TargetType {
             return .get
         case .getCreatedHistory:
             return .get
+        case .changeImage:
+            return .put
         }
     }
 
@@ -111,11 +116,23 @@ extension ProfileServices: TargetType {
             return .requestParameters(parameters: ["isClosed": isClosed], encoding: URLEncoding.queryString)
         case .getCreatedHistory(isClosed: let isClosed):
             return .requestParameters(parameters: ["isClosed": isClosed], encoding: URLEncoding.queryString)
+        case .changeImage(image: let image):
+            var multipartData: [MultipartFormData] = []
+            if image != UIImage(){
+                let imageData = MultipartFormData(provider: .data(image.resizeWith(width: 400)?.pngData() ?? Data()), name: "image", fileName: "profile.png")
+                multipartData.append(imageData)
+            } else {
+                multipartData.append(.init(provider: .data(Data()), name: "image", fileName: "profile.png"))
+            }
+            return .uploadMultipart(multipartData)
         }
     }
 
     var headers: [String : String]? {
         switch self {
+        case .changeImage:
+            return ["Content-Type": "multipart/form-data",
+                    "Authorization": token]
         default:
             return ["Content-Type": "application/json",
                     "Authorization": token]
