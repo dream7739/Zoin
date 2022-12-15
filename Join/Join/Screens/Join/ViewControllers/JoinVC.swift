@@ -455,6 +455,21 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                     self.present(alert, animated: true)
                     
                 }else{
+                    //신고하기
+                    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                    
+                    let report = UIAlertAction(title: "신고하기", style: .default, handler: {_ in
+                        let reportVC = ReportVC()
+                        reportVC.rendezvousId = self.item.id
+                        reportVC.modalPresentationStyle = .fullScreen
+                        self.present(reportVC, animated: true)
+                    })
+                    
+                    let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+                    alert.addAction(report)
+                    alert.addAction(cancel)
+                    alert.view.tintColor = .grayScale900
+                    self.present(alert, animated: true)
                 }
             })
             .disposed(by: disposeBag)

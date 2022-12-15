@@ -14,6 +14,8 @@
 		8869F32828744C9D00F71C9F /* TermDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8869F32728744C9D00F71C9F /* TermDetailVC.swift */; };
 		8869F32C2876EAC800F71C9F /* MakeServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8869F32B2876EAC800F71C9F /* MakeServices.swift */; };
 		886C16AB286B32680041FA05 /* InviteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886C16AA286B32680041FA05 /* InviteVC.swift */; };
+		8875C5932920FB000039C3F0 /* ReportServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8875C5922920FB000039C3F0 /* ReportServices.swift */; };
+		8875C5952921015F0039C3F0 /* ReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8875C5942921015F0039C3F0 /* ReportCell.swift */; };
 		887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */; };
 		8882EAF42823E26F00622FF9 /* JoinMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */; };
 		888FEE70286DEC090013939B /* TermVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FEE6F286DEC090013939B /* TermVC.swift */; };
@@ -27,6 +29,7 @@
 		88BE394C282D27560002722F /* MakeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394B282D27560002722F /* MakeVC.swift */; };
 		88BE394E282D27720002722F /* MakeCompleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394D282D27720002722F /* MakeCompleteVC.swift */; };
 		88BE3950282D27820002722F /* MakeDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BE394F282D27820002722F /* MakeDetailVC.swift */; };
+		88C1EAF228DB2FB90022CD72 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C1EAF128DB2FB90022CD72 /* ReportVC.swift */; };
 		88F3441328BF6CA600DAB08E /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F3441228BF6CA600DAB08E /* UICollectionView+.swift */; };
 		F2141FF8280FA61E000D102D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FF7280FA61E000D102D /* AppDelegate.swift */; };
 		F2141FFA280FA61E000D102D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2141FF9280FA61E000D102D /* SceneDelegate.swift */; };
@@ -108,6 +111,8 @@
 		8869F32728744C9D00F71C9F /* TermDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermDetailVC.swift; sourceTree = "<group>"; };
 		8869F32B2876EAC800F71C9F /* MakeServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeServices.swift; sourceTree = "<group>"; };
 		886C16AA286B32680041FA05 /* InviteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteVC.swift; sourceTree = "<group>"; };
+		8875C5922920FB000039C3F0 /* ReportServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportServices.swift; sourceTree = "<group>"; };
+		8875C5942921015F0039C3F0 /* ReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCell.swift; sourceTree = "<group>"; };
 		887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMemberCell.swift; sourceTree = "<group>"; };
 		888FEE6F286DEC090013939B /* TermVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermVC.swift; sourceTree = "<group>"; };
@@ -121,6 +126,7 @@
 		88BE394B282D27560002722F /* MakeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeVC.swift; sourceTree = "<group>"; };
 		88BE394D282D27720002722F /* MakeCompleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeCompleteVC.swift; sourceTree = "<group>"; };
 		88BE394F282D27820002722F /* MakeDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeDetailVC.swift; sourceTree = "<group>"; };
+		88C1EAF128DB2FB90022CD72 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; };
 		88F3441228BF6CA600DAB08E /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		C82B2BA62B0E6B67E8E8F474 /* Pods_Join.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Join.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2141FF4280FA61E000D102D /* Join.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Join.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */,
+				8875C5942921015F0039C3F0 /* ReportCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -269,6 +276,7 @@
 				8896D41928236C730061CEAE /* JoinFinishVC.swift */,
 				8896D41B2823A7CC0061CEAE /* JoinMemberConfirmVC.swift */,
 				8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */,
+				88C1EAF128DB2FB90022CD72 /* ReportVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -445,6 +453,7 @@
 				8869F32B2876EAC800F71C9F /* MakeServices.swift */,
 				F21EBA10288597AF004EA599 /* ProfileServices.swift */,
 				F2159EF9289BE91E0083A127 /* SettingServices.swift */,
+				8875C5922920FB000039C3F0 /* ReportServices.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -750,6 +759,7 @@
 				88BE3950282D27820002722F /* MakeDetailVC.swift in Sources */,
 				F29FE10928167A140034C8A2 /* RegisterIdVC.swift in Sources */,
 				F2856358285B3AAE003B9AF8 /* OpenedMeetingVC.swift in Sources */,
+				8875C5952921015F0039C3F0 /* ReportCell.swift in Sources */,
 				F214202128101AE3000D102D /* BaseTargetType.swift in Sources */,
 				F219C02A2869E6B6009BFC9C /* Environment.swift in Sources */,
 				F21429F028218EEB00E54B57 /* UIButton+.swift in Sources */,
@@ -774,6 +784,7 @@
 				F29FE107281679C50034C8A2 /* RegisterNicknameVC.swift in Sources */,
 				F28AC7EE282CCBFD003EEF8A /* UIPageViewController+.swift in Sources */,
 				8882EAF42823E26F00622FF9 /* JoinMemberCell.swift in Sources */,
+				88C1EAF228DB2FB90022CD72 /* ReportVC.swift in Sources */,
 				88BE394C282D27560002722F /* MakeVC.swift in Sources */,
 				F214200C28100AFA000D102D /* TabBarController.swift in Sources */,
 				F29FE105281678500034C8A2 /* RegisterPasswordVC.swift in Sources */,
@@ -781,6 +792,7 @@
 				F2E2C4B028365D450094DABD /* UIFont+.swift in Sources */,
 				F2C9E202287C65C700A5E33E /* UIImageView+.swift in Sources */,
 				F28AC7F0282CD2B0003EEF8A /* OnboardingCVCell.swift in Sources */,
+				8875C5932920FB000039C3F0 /* ReportServices.swift in Sources */,
 				F2159EFA289BE91E0083A127 /* SettingServices.swift in Sources */,
 				F29FE10D28167CF10034C8A2 /* UIView+.swift in Sources */,
 				F214201428100C5B000D102D /* BaseViewController.swift in Sources */,
