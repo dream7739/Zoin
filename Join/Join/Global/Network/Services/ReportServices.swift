@@ -31,7 +31,7 @@ extension ReportServices: TargetType {
     var path: String {
         switch self {
         case .report:
-            return "/api/v1/report"
+            return "/api/v1/report/rendezvous"
         }
     }
     

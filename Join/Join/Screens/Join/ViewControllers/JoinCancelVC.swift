@@ -20,7 +20,7 @@ protocol CancelDelegate {
 
 class JoinCancelVC: BaseViewController {
     private let makeProvider = MoyaProvider<MakeServices>()
-
+    
     var delegate: CancelDelegate?
     var id:Int!
     var isCanceled: Bool = false
@@ -174,8 +174,9 @@ extension JoinCancelVC {
     }
     
     private func closePopup(){
-        self.delegate?.cancelUpdate(isCanceled: isCanceled)
-        self.dismiss(animated:true)
+        self.dismiss(animated:true, completion: {
+            self.delegate?.cancelUpdate(isCanceled: self.isCanceled)
+        })
     }
     
     

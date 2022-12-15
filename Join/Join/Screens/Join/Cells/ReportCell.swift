@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 class ReportCell: UITableViewCell {
-    var reportDelegate: ReportDelegate!
+    var reportCellDelegate: ReportCellDelegate!
     var indexNumber:Int!
     var isClicked : Bool = false {
         didSet {
@@ -87,7 +87,7 @@ extension ReportCell {
         checkBox.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.reportDelegate.cellClick(index: self.indexNumber)
+                self.reportCellDelegate.cellClick(index: self.indexNumber)
             })
             .disposed(by: disposeBag)
         
