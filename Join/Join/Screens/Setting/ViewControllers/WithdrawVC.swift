@@ -39,32 +39,50 @@ class WithdrawVC: BaseViewController {
 
     private let firstButton = UIButton().then {
         $0.setImage(Image.checkbox, for: .normal)
+        $0.setImage(Image.checkboxSelected, for: .selected)
+        $0.tag = 1
         $0.layer.masksToBounds = true
+        $0.addTarget(self, action: #selector(checkButton), for: .touchUpInside)
     }
 
     private let secondButton = UIButton().then {
         $0.setImage(Image.checkbox, for: .normal)
+        $0.setImage(Image.checkboxSelected, for: .selected)
+        $0.tag = 2
         $0.layer.masksToBounds = true
+        $0.addTarget(self, action: #selector(checkButton), for: .touchUpInside)
     }
 
     private let thirdButton = UIButton().then {
         $0.setImage(Image.checkbox, for: .normal)
+        $0.setImage(Image.checkboxSelected, for: .selected)
         $0.layer.masksToBounds = true
+        $0.tag = 3
+        $0.addTarget(self, action: #selector(checkButton), for: .touchUpInside)
     }
 
     private let fourthButton = UIButton().then {
         $0.setImage(Image.checkbox, for: .normal)
+        $0.setImage(Image.checkboxSelected, for: .selected)
         $0.layer.masksToBounds = true
+        $0.tag = 4
+        $0.addTarget(self, action: #selector(checkButton), for: .touchUpInside)
     }
 
     private let fifthButton = UIButton().then {
         $0.setImage(Image.checkbox, for: .normal)
+        $0.setImage(Image.checkboxSelected, for: .selected)
         $0.layer.masksToBounds = true
+        $0.tag = 5
+        $0.addTarget(self, action: #selector(checkButton), for: .touchUpInside)
     }
 
     private let sixthButton = UIButton().then {
         $0.setImage(Image.checkbox, for: .normal)
+        $0.setImage(Image.checkboxSelected, for: .selected)
         $0.layer.masksToBounds = true
+        $0.tag = 6
+        $0.addTarget(self, action: #selector(checkButton), for: .touchUpInside)
     }
 
     private let firstLabel = UILabel().then {
@@ -115,6 +133,8 @@ class WithdrawVC: BaseViewController {
         $0.backgroundColor = .grayScale800
         $0.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         $0.layer.cornerRadius = 20
+        $0.isEditable = false
+        $0.returnKeyType = .done
     }
 
     private let guideButton = UIButton().then {
@@ -126,12 +146,15 @@ class WithdrawVC: BaseViewController {
         $0.isEnabled = false
     }
 
+    var reasonNum: Int = 0
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         setTextView()
-        //bind()
-        // Do any additional setup after loading the view.
+        addKeyboardObserver()
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -245,7 +268,7 @@ extension WithdrawVC {
             make.leading.equalTo(sixthButton.snp.leading)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(155)
-            make.top.equalTo(sixthLabel.snp.bottom).offset(8)
+            make.top.equalTo(sixthLabel.snp.bottom).offset(13)
         }
         guideButton.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(24)
@@ -265,34 +288,100 @@ extension WithdrawVC {
 
     private func setTextView() {
         reasonTextView.delegate = self
+
+
     }
 
-    private func bind(){
-        RxKeyboard.instance.visibleHeight.drive(onNext: {[weak self] keyboardHeight in
-            guard let self = self else { return }
-            UIView.animate(withDuration: 0) {
-                if keyboardHeight == 0 {
-                    //                    self.guideButton.layer.cornerRadius = 16
-                    self.scrollView.snp.updateConstraints { make in
-                        make.top.equalToSuperview()
-                        make.leading.equalToSuperview()
-                        make.trailing.equalToSuperview()
-                        make.bottom.equalToSuperview()
-                    }
-                } else {
-                    //                    self.guideButton.layer.cornerRadius = 0
-                    let totalHeight = keyboardHeight - self.view.safeAreaInsets.bottom
-                    self.scrollView.snp.updateConstraints { (make) in
-                        make.top.equalToSuperview()
-                        make.leading.equalToSuperview().offset(0)
-                        make.trailing.equalToSuperview().offset(0)
-                        make.bottom.equalToSuperview().offset(-totalHeight)
-                    }
-                }
-                self.view.layoutIfNeeded()
-            }
-        })
-        .disposed(by: disposeBag)
+
+
+
+    @objc func checkButton(sender: UIButton) {
+        sender.isSelected = false
+        if(sender.tag == 1) {
+            reasonNum = 1
+            sender.isSelected = true
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+            firstButton.isSelected = true
+            secondButton.isSelected = false
+            thirdButton.isSelected = false
+            fourthButton.isSelected = false
+            fifthButton.isSelected = false
+            sixthButton.isSelected = false
+            reasonTextView.isEditable = false
+        } else if(sender.tag == 2) {
+            reasonNum = 2
+            sender.isSelected = true
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+            firstButton.isSelected = false
+            secondButton.isSelected = true
+            thirdButton.isSelected = false
+            fourthButton.isSelected = false
+            fifthButton.isSelected = false
+            sixthButton.isSelected = false
+            reasonTextView.isEditable = false
+        } else if(sender.tag == 3) {
+            reasonNum = 3
+            sender.isSelected = true
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+            firstButton.isSelected = false
+            secondButton.isSelected = false
+            thirdButton.isSelected = true
+            fourthButton.isSelected = false
+            fifthButton.isSelected = false
+            sixthButton.isSelected = false
+            reasonTextView.isEditable = false
+        } else if(sender.tag == 4) {
+            reasonNum = 4
+            sender.isSelected = true
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+            firstButton.isSelected = false
+            secondButton.isSelected = false
+            thirdButton.isSelected = false
+            fourthButton.isSelected = true
+            fifthButton.isSelected = false
+            sixthButton.isSelected = false
+            reasonTextView.isEditable = false
+        } else if(sender.tag == 5){
+            reasonNum = 5
+            sender.isSelected = true
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+            firstButton.isSelected = false
+            secondButton.isSelected = false
+            thirdButton.isSelected = false
+            fourthButton.isSelected = false
+            fifthButton.isSelected = true
+            sixthButton.isSelected = false
+            reasonTextView.isEditable = false
+        } else if(sender.tag==6) {
+            reasonNum = 6
+            sender.isSelected = true
+            guideButton.isEnabled = true
+            guideButton.backgroundColor = .yellow200
+            guideButton.setTitleColor(.grayScale900, for: .normal)
+            firstButton.isSelected = false
+            secondButton.isSelected = false
+            thirdButton.isSelected = false
+            fourthButton.isSelected = false
+            fifthButton.isSelected = false
+            sixthButton.isSelected = true
+            reasonTextView.isEditable = true
+        }
+    }
+
+
+
+    @objc func postWithdraw() {
+
     }
 }
 
@@ -317,10 +406,86 @@ extension WithdrawVC: UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        textView.resignFirstResponder()
+        if textView.text == "" {
+            textView.text =
+            """
+            탈퇴 사유를 입력해 주세요.
+            서비스 개선에 적극적으로 반영할게요!
+            """
+            textView.textColor = .grayScale600
+            textView.layer.borderWidth = 0.0
+        }
+    }
+
+    func textView(_ textView: UITextView,
+                  shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
+        if text == "\n" {
+            reasonTextView.resignFirstResponder()
+        }
+        let currentText = reasonTextView.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+        return changedText.count <= 80
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.contentView.endEditing(true)
+        self.view.endEditing(true)
     }
+
+
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let info = notification.userInfo
+        guard let duration = info?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+        else { return }
+        guard let curve = info?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt
+        else { return }
+        guard let keyboardFrame = (info?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        else { return }
+        let keyboardHeight = keyboardFrame.height
+        let keyWindow = UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first
+        let bottomPadding = keyWindow?.safeAreaInsets.bottom ?? 0
+
+        UIView.animate(
+            withDuration: duration,
+            delay: 0,
+            options: .init(rawValue: curve),
+            animations: {
+                self.scrollView.transform = .init(translationX: 0, y: bottomPadding-keyboardHeight + (-30))
+            })
+    }
+
+    @objc
+    func keyboardWillHide(_ notification: Notification) {
+        let info = notification.userInfo
+        guard let duration = info?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+        else { return }
+        guard let curve = info?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt
+        else { return }
+        UIView.animate(
+            withDuration: duration,
+            delay: 0,
+            options: .init(rawValue: curve),
+            animations: {
+                self.scrollView.transform = .identity
+            })
+    }
+
+
 }
