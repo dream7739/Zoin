@@ -17,22 +17,24 @@ import Kingfisher
 
 protocol FinishMainDelegate {
     func finishMainUpdate() //번개 마감시 액션을 정의함
-    func mainReloadView()  // 번개 상세모달이 닫힐 때 호출자 업데이트 
+    func mainReloadView()  // 번개 상세모달이 닫힐 때 호출자 업데이트
 }
 
 class JoinVC: BaseViewController {
     private let makeProvider = MoyaProvider<MakeServices>()
-
+    
     var atndFlag = false //참여여부 플래그
     var joinType: Bool! //true - 내 번개, false - 친구번개
     var isCanceled = false
     var isDeleted = false
     var isExceed = false
+    var isReported = false
+    var reportResponse: Int = 0
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
     var delegate: FinishMainDelegate?
     var popupViewTopConstraint: Constraint? = nil
     var item: MainElements!
-
+    
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .grayScale900
@@ -188,7 +190,19 @@ extension JoinVC: ModifyDelegate {
 }
 
 
-extension JoinVC: CancelDelegate, FinishDelegate {
+extension JoinVC: CancelDelegate, FinishDelegate, ReportDelegate {
+    func reportUpdate(reportResponse: Int) {
+        self.reportResponse = reportResponse
+        self.isReported = true
+                
+        if(reportResponse == 200){
+            self.showToast(message: "신고가 접수되었어요.")
+        }else if(reportResponse == 400){
+            self.isCanceled = true
+            self.showToast(message: "이미 신고한 번개예요.")
+        }
+    }
+    
     func cancelUpdate(isCanceled: Bool) {
         if(isCanceled){
             self.isCanceled = isCanceled
@@ -377,14 +391,14 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         profileImg.kf.indicatorType = .activity
         
         profileImg.kf.setImage(
-          with: url,
-          placeholder: nil,
-          options: [
-            .transition(.fade(1.0)),
-            .forceTransition,
-            .processor(processor)
-          ],
-          completionHandler: nil
+            with: url,
+            placeholder: nil,
+            options: [
+                .transition(.fade(1.0)),
+                .forceTransition,
+                .processor(processor)
+            ],
+            completionHandler: nil
         )
         
         //친구 번개 - 참여중일 때, 참여중이지 않을 때를 구분하여 UI를 변경함
@@ -403,8 +417,8 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         joinBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                print("\(self.atndFlag)")
-                if(!(self.atndFlag)){
+                
+                if(!self.atndFlag){
                     self.participant()
                 }else{
                     self.clickCancelBtn()
@@ -461,6 +475,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                     let report = UIAlertAction(title: "신고하기", style: .default, handler: {_ in
                         let reportVC = ReportVC()
                         reportVC.rendezvousId = self.item.id
+                        reportVC.reportDelegate = self
                         reportVC.modalPresentationStyle = .fullScreen
                         self.present(reportVC, animated: true)
                     })
@@ -491,7 +506,7 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                     
                     let participantCount = (self?.item.participants?.count ?? 0) + 1
                     self?.countLabel.text = "\(participantCount)/\((self?.item.requiredParticipantsCount)!)"
-
+                    
                     self?.atndFlag = true
                     self?.showToast(message: "친구 번개에 참여했어요!")
                     print("participant success: \(self!.item.id)")
@@ -594,6 +609,15 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 $0.backgroundColor = .yellow50
             }
             
+            //신고 토스트
+            if self.isReported {
+                if self.reportResponse == 200{
+                    $0.backgroundColor = .grayScale200
+                }else if self.reportResponse == 400 {
+                    $0.backgroundColor = .red10
+                }
+            }
+            
         }
         
         let toastLabel = UILabel().then{
@@ -608,6 +632,14 @@ extension JoinVC: CancelDelegate, FinishDelegate {
             }else{
                 $0.textColor = .orange100
             }
+            
+            if self.isReported {
+                if self.reportResponse == 200{
+                    $0.textColor = .grayScale800
+                }else if self.reportResponse == 400 {
+                    $0.textColor = .red100
+                }
+            }
         }
         
         let toastIcon = UIImageView().then {
@@ -618,6 +650,14 @@ extension JoinVC: CancelDelegate, FinishDelegate {
                 $0.image = UIImage(named: "icon_info")
             }else{
                 $0.image = UIImage(named: "icon_thunder1")
+            }
+            
+            if self.isReported {
+                if self.reportResponse == 200{
+                    $0.image = UIImage(named: "icon_circle")
+                }else if self.reportResponse == 400 {
+                    $0.image = UIImage(named: "icon_info")
+                }
             }
         }
         
@@ -633,8 +673,8 @@ extension JoinVC: CancelDelegate, FinishDelegate {
         
         toastIcon.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(21)
-            $0.width.equalTo(14)
-            $0.height.equalTo(18)
+            $0.width.equalTo(24)
+            $0.height.equalTo(24)
             $0.centerY.equalToSuperview()
         }
         

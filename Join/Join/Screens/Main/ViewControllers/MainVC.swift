@@ -448,7 +448,6 @@ extension MainVC: MainCellDelegate {
 extension MainVC: FinishMainDelegate {
     //마감 - 홈
     func finishMainUpdate() {
-        print("finishToMain")
         popupBackgroundView.isHidden = false
         getNetworkData()
     }

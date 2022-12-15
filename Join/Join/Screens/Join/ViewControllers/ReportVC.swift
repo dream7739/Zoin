@@ -15,15 +15,24 @@ import SwiftyJSON
 
 
 protocol ReportDelegate : NSObjectProtocol {
+    func reportUpdate(reportResponse: Int)
+}
+
+protocol ReportCellDelegate : NSObjectProtocol {
     func cellClick(index : Int)
 }
 
+
 class ReportVC: BaseViewController {
     private let reportProvider = MoyaProvider<ReportServices>()
+    
+    var reportDelegate: ReportDelegate?
+    var reportResponse: Int = 0
     var reasonId: Int = -1
     var rendezvousId: Int = 0
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
     let textViewPlaceHolder = "신고 사유를 입력해 주세요."
+    let reportReason: [String] = ["영리목적/홍보성", "욕설/인신공격", "음란/선정성","같은 내용 도배", "기타"]
     
     var popupViewTopConstraint: Constraint? = nil
     
@@ -192,6 +201,14 @@ extension ReportVC {
     private func bind(){
         descriptionTextView.text = textViewPlaceHolder
         
+        reportBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.reportRendezvous()
+            })
+            .disposed(by: disposeBag)
+        
+        
         cancelBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -216,7 +233,6 @@ extension ReportVC {
             }
         }, onCompleted: {
         })
-        
         
         
         descriptionTextView.rx.text
@@ -275,6 +291,40 @@ extension ReportVC {
         }
     }
     
+    
+    //신고하기 서버통신
+    @objc func reportRendezvous() {
+        let reason  = self.reportReason[reasonId]   //선택한 신고사유
+        let etcDesc = self.descriptionTextView.text ?? ""
+        
+        let reportRequest = ReportRequest(rendezvousId: self.rendezvousId, reportReason: reason, etcDesc: etcDesc)
+        
+        reportProvider.rx.request(.report(param: reportRequest))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                let status = JSON(response.data)["status"]
+                
+                if status == 200 {
+                    self?.reportResponse = 200  //정상 신고
+                    self?.closePopup()
+                }else if status == 400 {
+                    self?.reportResponse = 400  //기신고 건일 경우
+                    self?.closePopup()
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
+    }
+    
+    
+    private func closePopup(){
+        self.dismiss(animated:true, completion: {
+            self.reportDelegate?.reportUpdate(reportResponse: self.reportResponse)
+        })
+    }
+    
 }
 
 
@@ -290,21 +340,11 @@ extension ReportVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReportCell.identifier, for: indexPath) as! ReportCell
         
-        switch indexPath.row {
-        case 0:
-            cell.titleLabel.text = "영리목적/홍보성"
-        case 1:
-            cell.titleLabel.text = "욕설/인신공격"
-        case 2:
-            cell.titleLabel.text = "음란/선정성"
-        case 3:
-            cell.titleLabel.text = "같은 내용 도배"
-        case 4:
-            cell.titleLabel.text = "기타"
-        default:
-            break
-        }
+        //신고 사유 표시
+        let reason = reportReason[indexPath.row]
+        cell.titleLabel.text = reason
         
+        //테이블 셀 클릭 시 라디오버튼 처리
         if reasonId == indexPath.row {
             cell.isClicked = true
         }else{
@@ -313,14 +353,14 @@ extension ReportVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.indexNumber = indexPath.row
         
-        cell.reportDelegate = self
+        cell.reportCellDelegate = self
         
         return cell
     }
 }
 
 
-extension ReportVC: ReportDelegate {
+extension ReportVC: ReportCellDelegate {
     func cellClick(index: Int) {
         
         //초기 1회만 활성화 처리

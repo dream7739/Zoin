@@ -151,7 +151,6 @@ extension MakeDetailVC {
                 if let description = self.descriptionTextView.text{
                     self.makeDescription = description
                 }
-                print("\(self.makeTitle):\(self.appointmentTime):\(self.location):\(self.requiredParticipantsCount)")
                 self.rendezvous()
             })
             .disposed(by: disposeBag)
