@@ -202,7 +202,7 @@ extension ProfileChangeVC {
         profileProvider.rx.request(.changeImage(image: profileImageView.image ?? UIImage()))
             .asObservable()
             .subscribe(onNext: {[weak self] response in
-                let msg = JSON(response.data)["status"]
+                let msg = JSON(response.data)["message"]
                 print(msg)
 
                 if response.statusCode == 200 {
