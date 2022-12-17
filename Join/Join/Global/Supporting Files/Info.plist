@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>FirebaseDynamicLinksCustomDomains</key>
+	<array>
+		<string>https://teamzoin.page.link</string>
+	</array>
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>CFBundleURLTypes</key>
@@ -12,6 +16,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakaod039d43d8f47e803cd5dd890c4052dfc</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>ZoinDynamicLink</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.teamBunggae.Join</string>
 			</array>
 		</dict>
 	</array>

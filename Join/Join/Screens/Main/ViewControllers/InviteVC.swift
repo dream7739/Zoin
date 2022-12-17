@@ -186,7 +186,13 @@ extension InviteVC {
             linkBuilder?.iOSParameters?.minimumAppVersion = "1.0.0"
             linkBuilder?.iOSParameters?.appStoreID = "1642760099"
            // referralLink?.iOSParameters?.customScheme = "커스텀 스키마가 설정되어 있을 경우 추가"
-
+            
+            // 소셜미디어 미리보기 설정
+            linkBuilder?.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
+            
+            linkBuilder?.socialMetaTagParameters?.title = "우리 앱에 참여해보세요!"
+            linkBuilder?.socialMetaTagParameters?.imageURL = URL(string: "https://zoin-bucket.s3.ap-northeast-2.amazonaws.com/images/Mask+group.png")
+            
             // 단축 URL 생성
             linkBuilder?.shorten { (shortURL, warnings, error) in
                 if let error = error {
