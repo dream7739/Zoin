@@ -22,6 +22,7 @@ struct KeychainHandler {
     private let kakaoIdkey = "kakaoId"
     private let friendCountkey = "friendCountkey"
     private let appleIdkey = "appleId"
+    private let fcmTokenKey = "fcmToken"
 
     var accessToken: String {
         get {
@@ -113,13 +114,17 @@ struct KeychainHandler {
         }
     }
 
+    var fcmToken: String {
+        get {
+            return keychain.string(forKey: fcmTokenKey) ?? ""
+        }
+        set {
+            keychain.set(newValue, forKey: fcmTokenKey)
+        }
+    }
+
     func logout() {
-        keychain.remove(forKey: KeychainWrapper.Key(rawValue: accessTokenKey))
-        keychain.remove(forKey: KeychainWrapper.Key(rawValue: refreshTokenKey))
-        keychain.remove(forKey: KeychainWrapper.Key(rawValue: emailKey))
-        keychain.remove(forKey: KeychainWrapper.Key(rawValue: passwordKey))
-        keychain.remove(forKey: KeychainWrapper.Key(rawValue: serviceIdKey))
-        keychain.remove(forKey: KeychainWrapper.Key(rawValue: usernameKey))
+        keychain.removeAllKeys()
     }
 
     func removeAllKeys() {
