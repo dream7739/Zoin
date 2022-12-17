@@ -8,6 +8,7 @@ target 'Join' do
   # Pods for Join
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging' 
+  pod 'Firebase/DynamicLinks'
   pod 'KakaoSDKAuth', '~> 2.11.3' # 카카오 로그인
   pod 'KakaoSDKUser', '~> 2.11.3' # 사용자 관리
   pod 'Kingfisher', '~> 7.0'

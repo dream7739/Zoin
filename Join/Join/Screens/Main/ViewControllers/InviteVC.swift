@@ -10,18 +10,19 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
-
+import FirebaseDynamicLinks
+import Moya
+import SwiftyJSON
 
 
 class InviteVC: BaseViewController {
-    
-    
+    private let inviteProvider = MoyaProvider<InviteServices>()
+
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .grayScale900
         $0.layer.cornerRadius = 32
     }
-    
     
     var titleLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +62,6 @@ class InviteVC: BaseViewController {
         $0.layer.cornerRadius = 20
         $0.setBackgroundImage(UIImage(named: "icon_close"), for: .normal)
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,16 +138,66 @@ extension InviteVC {
         
         kakaoBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                print("iam kakao")
+               getInvitorId()
             })
             .disposed(by: disposeBag)
         
         linkBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                print("iam link")
+                getInvitorId()
                 self?.showToast(message: "초대 링크가 복사되었습니다!")
             })
             .disposed(by: disposeBag)
+
+        // JWT 토큰으로 초대자 정보 가져오기
+        func getInvitorId(){
+            
+            inviteProvider.rx.request(.me)
+                .asObservable()
+                .subscribe(onNext: { [weak self] response in
+                    let status = JSON(response.data)["status"]
+                    
+                    if status == 200 {
+                        let data = JSON(response.data)["data"]
+                        let userId = data["id"].intValue
+                        createDynamicLink(userId: userId)
+                        print("userId: \(userId)")
+                    }
+                    
+                }, onError: { [weak self] _ in
+                    print("error occured")
+                }, onCompleted: {
+                }).disposed(by: disposeBag)
+        }
+        
+        
+        func createDynamicLink(userId : Int) {
+            //firebase console에서 생성한 URL prefix
+            let dynamicLinksDomainURIPrefix = "https://teamzoin.page.link"
+            
+            //dynamic link 수신 시 얻는 값
+            let link = URL(string: dynamicLinksDomainURIPrefix + "/?userId=\(userId)")!
+            print("generate link : \(link)")
+            
+            let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix: dynamicLinksDomainURIPrefix)
+
+            // iOS 설정
+            linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID: "com.teamBunggae.Join")
+            linkBuilder?.iOSParameters?.minimumAppVersion = "1.0.0"
+            linkBuilder?.iOSParameters?.appStoreID = "1642760099"
+           // referralLink?.iOSParameters?.customScheme = "커스텀 스키마가 설정되어 있을 경우 추가"
+
+            // 단축 URL 생성
+            linkBuilder?.shorten { (shortURL, warnings, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+
+                print(shortURL)
+               // self.sendSMS(dynamicLink: shortURL)
+            }
+        }
         
     }
     
