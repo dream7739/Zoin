@@ -17,11 +17,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(getInviteUserId),
-                                               name: NSNotification.Name("inviteUserId"),
-                                               object: nil)
       
         setTabBar()
         // 임시로 만들어놓은 탭바 컨트롤러
@@ -29,7 +24,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
         // 스토리보드 대신 코드로 연결을 해놓았습니다.
         let scene = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
         
-        if (scene.inviteUserId != nil) {
+        if scene.isInvited {
             self.selectedIndex = 2
         }
 

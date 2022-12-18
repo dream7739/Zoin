@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     var inviteUserId: Int?
+    var isInvited: Bool = false
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url {
@@ -51,6 +52,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let queryItems = URLComponents(url: dynamicLink.url!, resolvingAgainstBaseURL: true)?.queryItems
                 let userId = queryItems?.filter({$0.name == "userId"}).first?.value!
                 inviteUserId = Int(userId!)!
+                isInvited = true
                 
                 print("\(inviteUserId)")
                 

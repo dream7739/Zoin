@@ -136,21 +136,24 @@ extension InviteVC {
             })
             .disposed(by: disposeBag)
         
+        /* 초대하기 기능 */
+       
+        // 1) 카카오 공유
         kakaoBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-               getInvitorId()
+                getInvitorId(type: "kakao")
             })
             .disposed(by: disposeBag)
         
+        // 2) 링크 공유
         linkBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                getInvitorId()
-                self?.showToast(message: "초대 링크가 복사되었습니다!")
+                getInvitorId(type: "link")
             })
             .disposed(by: disposeBag)
 
         // JWT 토큰으로 초대자 정보 가져오기
-        func getInvitorId(){
+        func getInvitorId(type: String){
             
             inviteProvider.rx.request(.me)
                 .asObservable()
@@ -160,8 +163,8 @@ extension InviteVC {
                     if status == 200 {
                         let data = JSON(response.data)["data"]
                         let userId = data["id"].intValue
-                        createDynamicLink(userId: userId)
-                        print("userId: \(userId)")
+                        createDynamicLink(userId: userId, type: type)
+                        
                     }
                     
                 }, onError: { [weak self] _ in
@@ -171,7 +174,7 @@ extension InviteVC {
         }
         
         
-        func createDynamicLink(userId : Int) {
+        func createDynamicLink(userId : Int, type: String) {
             //firebase console에서 생성한 URL prefix
             let dynamicLinksDomainURIPrefix = "https://teamzoin.page.link"
             
@@ -201,10 +204,24 @@ extension InviteVC {
                     return
                 }
 
-                print(shortURL)
-               // self.sendSMS(dynamicLink: shortURL)
+                guard let sharedURL = shortURL else { return }
+                print(sharedURL)
+                
+                if type == "kakao" {
+                    // 카카오톡 공유기능 사용
+                    // self.sendSMS(dynamicLink: shortURL)
+                }else if type == "link" {
+                    //클립보드 저장
+                    UIPasteboard.general.string = "\(sharedURL)"
+                    copyPasteBoard()
+                }
             }
         }
+        
+        func copyPasteBoard(){
+            self.showToast(message: "초대 링크가 복사되었습니다!")
+        }
+        
         
     }
     
