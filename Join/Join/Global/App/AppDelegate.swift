@@ -16,56 +16,6 @@ import FirebaseDynamicLinks
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    /* Dynamic link 관련 메소드 추가 */
-    @available(iOS 9.0, *)
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-      return application(app, open: url,
-                         sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-                         annotation: "")
-    }
-
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-      if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
-        // Handle the deep link. For example, show the deep-linked content or
-        // apply a promotional offer to the user's account.
-        // ...
-        return true
-      }
-      return false
-    }
-    
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-      guard let weburl = URL(string: userActivity.webpageURL?.absoluteString.removingPercentEncoding ?? "") else {
-        return false
-      }
-
-      let handled = DynamicLinks.dynamicLinks().handleUniversalLink(weburl) { dynamicLink, error in
-        print("dynamicLink : \(dynamicLink?.url?.absoluteString ?? "")")
-        if dynamicLink != nil, !(error != nil) {
-          self.handleDynamicLink(dynamicLink)
-        }
-      }
-
-      return handled
-    }
-    
-    @discardableResult
-    func handleDynamicLink(_ dynamicLink: DynamicLink?) -> Bool {
-        guard let dynamicLink = dynamicLink, let deepLink = dynamicLink.url else {
-            return false
-        }
-
-        let queryItems = URLComponents(url: deepLink, resolvingAgainstBaseURL: true)?.queryItems
-
-        let userId = queryItems?.filter({$0.name == "userId"}).first?.value
-
-        print("category : \(userId ?? "")")
-
-        return true
-    }
-
-
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

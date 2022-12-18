@@ -190,8 +190,9 @@ extension InviteVC {
             // 소셜미디어 미리보기 설정
             linkBuilder?.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
             
-            linkBuilder?.socialMetaTagParameters?.title = "우리 앱에 참여해보세요!"
-            linkBuilder?.socialMetaTagParameters?.imageURL = URL(string: "https://zoin-bucket.s3.ap-northeast-2.amazonaws.com/images/Mask+group.png")
+            linkBuilder?.socialMetaTagParameters?.title = "너만 볼 수 있는 번개, 쪼인할래?"
+            linkBuilder?.socialMetaTagParameters?.descriptionText = "우리끼리 편한번개, 쪼인"
+            linkBuilder?.socialMetaTagParameters?.imageURL = URL(string: "https://zoin-bucket.s3.ap-northeast-2.amazonaws.com/D408D8B4-0953-49AB-AC50-65BA5FA6BBD3.png")
             
             // 단축 URL 생성
             linkBuilder?.shorten { (shortURL, warnings, error) in
