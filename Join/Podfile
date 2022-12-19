@@ -12,6 +12,7 @@ target 'Join' do
   pod 'KakaoSDKAuth', '~> 2.11.3' # 카카오 로그인
   pod 'KakaoSDKUser', '~> 2.11.3' # 사용자 관리
   pod 'KakaoSDKShare'
+  pod 'KakaoSDKTalk'
   pod 'Kingfisher', '~> 7.0'
   pod 'Moya/RxSwift', '~> 14.0'
   pod 'ReactorKit', '~> 2.1.1'

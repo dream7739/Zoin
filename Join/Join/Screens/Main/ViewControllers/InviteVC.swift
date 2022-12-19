@@ -13,11 +13,20 @@ import RxSwift
 import FirebaseDynamicLinks
 import Moya
 import SwiftyJSON
+import KakaoSDKShare
+import KakaoSDKTemplate
+import KakaoSDKAuth
+import KakaoSDKUser
+import KakaoSDKTalk
+import KakaoSDKCommon
 
 
 class InviteVC: BaseViewController {
     private let inviteProvider = MoyaProvider<InviteServices>()
-
+    private let inviteImgURL = "https://zoin-bucket.s3.ap-northeast-2.amazonaws.com/D408D8B4-0953-49AB-AC50-65BA5FA6BBD3.png"
+    private let inviteTitle = "너만 볼 수 있는 번개, 쪼인할래?"
+    private let inviteDescription = "우리끼리 편한번개, 쪼인"
+    
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .grayScale900
@@ -137,7 +146,7 @@ extension InviteVC {
             .disposed(by: disposeBag)
         
         /* 초대하기 기능 */
-       
+        
         // 1) 카카오 공유
         kakaoBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
@@ -151,7 +160,7 @@ extension InviteVC {
                 getInvitorId(type: "link")
             })
             .disposed(by: disposeBag)
-
+        
         // JWT 토큰으로 초대자 정보 가져오기
         func getInvitorId(type: String){
             
@@ -183,19 +192,19 @@ extension InviteVC {
             print("generate link : \(link)")
             
             let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix: dynamicLinksDomainURIPrefix)
-
+            
             // iOS 설정
             linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID: "com.teamBunggae.Join")
             linkBuilder?.iOSParameters?.minimumAppVersion = "1.0.0"
             linkBuilder?.iOSParameters?.appStoreID = "1642760099"
-           // referralLink?.iOSParameters?.customScheme = "커스텀 스키마가 설정되어 있을 경우 추가"
+            // referralLink?.iOSParameters?.customScheme = "커스텀 스키마가 설정되어 있을 경우 추가"
             
             // 소셜미디어 미리보기 설정
             linkBuilder?.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
             
-            linkBuilder?.socialMetaTagParameters?.title = "너만 볼 수 있는 번개, 쪼인할래?"
-            linkBuilder?.socialMetaTagParameters?.descriptionText = "우리끼리 편한번개, 쪼인"
-            linkBuilder?.socialMetaTagParameters?.imageURL = URL(string: "https://zoin-bucket.s3.ap-northeast-2.amazonaws.com/D408D8B4-0953-49AB-AC50-65BA5FA6BBD3.png")
+            linkBuilder?.socialMetaTagParameters?.title = inviteTitle
+            linkBuilder?.socialMetaTagParameters?.descriptionText = inviteDescription
+            linkBuilder?.socialMetaTagParameters?.imageURL = URL(string: inviteImgURL)
             
             // 단축 URL 생성
             linkBuilder?.shorten { (shortURL, warnings, error) in
@@ -203,13 +212,13 @@ extension InviteVC {
                     print(error.localizedDescription)
                     return
                 }
-
+                
                 guard let sharedURL = shortURL else { return }
                 print(sharedURL)
                 
                 if type == "kakao" {
                     // 카카오톡 공유기능 사용
-                    // self.sendSMS(dynamicLink: shortURL)
+                    sendKakaoMessage(sharedURL: "\(sharedURL)")
                 }else if type == "link" {
                     //클립보드 저장
                     UIPasteboard.general.string = "\(sharedURL)"
@@ -218,8 +227,55 @@ extension InviteVC {
             }
         }
         
+        // 클립보드 복사 후 토스트 메시지
         func copyPasteBoard(){
             self.showToast(message: "초대 링크가 복사되었습니다!")
+        }
+        
+        // 카카오톡 공유하기
+        func sendKakaoMessage(sharedURL: String){
+            
+            let link = Link(webUrl: URL(string: sharedURL),
+                            mobileWebUrl: URL(string: sharedURL))
+            let appLink = Link(androidExecutionParams: ["key1": "value1", "key2": "value2"],
+                               iosExecutionParams: ["key1": "value1", "key2": "value2"])
+            
+            let button1 = Button(title: "웹으로 보기", link: link)
+            let button2 = Button(title: "앱으로 보기", link: appLink)
+            
+            let content = Content(title: inviteTitle,
+                                  imageUrl: URL(string: inviteImgURL)!,
+                                  imageWidth: 264,
+                                  imageHeight: 130,
+                                  description: inviteDescription,
+                                  link: link)
+            let feedTemplate = FeedTemplate(content: content, buttons: [button1, button2])
+            
+            //메시지 템플릿 encode
+            if let feedTemplateJsonData = (try? SdkJSONEncoder.custom.encode(feedTemplate)) {
+                
+                //생성한 메시지 템플릿 객체를 jsonObject로 변환
+                if let templateJsonObject = SdkUtils.toJsonObject(feedTemplateJsonData) {
+                    ShareApi.shared.shareDefault(templateObject:templateJsonObject) {(sharingResult, error) in
+                        if let error = error {
+                            print("\(error)")
+                        }
+                        else {
+                            print("shareDefault(templateObject:templateJsonObject) success.")
+                            
+                            //do something
+                            guard let sharingResult = sharingResult else { return }
+                            UIApplication.shared.open(sharingResult.url, options: [:], completionHandler: nil)
+                            
+                            //카카오 공유가 불가능 할 경우
+                            if !UserApi.isKakaoTalkLoginAvailable() {
+                                let kakaoUrl = URL(string: "https://accounts.kakao.com")
+                                UIApplication.shared.open(kakaoUrl!, options: [:], completionHandler: nil)
+                            }
+                        }
+                    }
+                }
+            }
         }
         
         

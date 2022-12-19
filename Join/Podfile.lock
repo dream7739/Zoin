@@ -108,6 +108,9 @@ PODS:
   - KakaoSDKShare (2.11.3):
     - KakaoSDKCommon (= 2.11.3)
     - KakaoSDKTemplate (= 2.11.3)
+  - KakaoSDKTalk (2.11.3):
+    - KakaoSDKTemplate (= 2.11.3)
+    - KakaoSDKUser (= 2.11.3)
   - KakaoSDKTemplate (2.11.3):
     - KakaoSDKCommon/Common (= 2.11.3)
   - KakaoSDKUser (2.11.3):
@@ -151,6 +154,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - KakaoSDKAuth (~> 2.11.3)
   - KakaoSDKShare
+  - KakaoSDKTalk
   - KakaoSDKUser (~> 2.11.3)
   - Kingfisher (~> 7.0)
   - Moya/RxSwift (~> 14.0)
@@ -179,6 +183,7 @@ SPEC REPOS:
     - KakaoSDKAuth
     - KakaoSDKCommon
     - KakaoSDKShare
+    - KakaoSDKTalk
     - KakaoSDKTemplate
     - KakaoSDKUser
     - Kingfisher
@@ -212,6 +217,7 @@ SPEC CHECKSUMS:
   KakaoSDKAuth: a64dde90516e18fdfc35b83bbad2677c3675c329
   KakaoSDKCommon: b4235203f67a5b6ee2df75eaf9bbc863c6d92e09
   KakaoSDKShare: 1a43689303e049a9b61a10e079ddb66e6e4a9806
+  KakaoSDKTalk: f20736b6016c25b136cfc62b1949dc15686a2751
   KakaoSDKTemplate: 295e57cf2826bc2cbdaf2c37e1ee62e69ea58d74
   KakaoSDKUser: 9a42e9b74855ce876b071c841418aa6726534010
   Kingfisher: f738f9c4a3415823b8e2985d10aa2d6a9f37bc4d
@@ -230,6 +236,6 @@ SPEC CHECKSUMS:
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: de402e7426db21225197a1d425d0f23c4a092821
+PODFILE CHECKSUM: 1d70e9fe42a79b20100b1a21134cdb662a3c2b93
 
 COCOAPODS: 1.11.3
