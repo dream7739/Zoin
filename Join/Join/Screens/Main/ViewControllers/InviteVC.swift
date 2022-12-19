@@ -27,6 +27,8 @@ class InviteVC: BaseViewController {
     private let inviteTitle = "너만 볼 수 있는 번개, 쪼인할래?"
     private let inviteDescription = "우리끼리 편한번개, 쪼인"
     
+    var inviteUserId:String = ""
+    
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .grayScale900
@@ -172,6 +174,7 @@ extension InviteVC {
                     if status == 200 {
                         let data = JSON(response.data)["data"]
                         let userId = data["id"].intValue
+                        self?.inviteUserId = "\(userId)"
                         createDynamicLink(userId: userId, type: type)
                         
                     }
@@ -237,11 +240,11 @@ extension InviteVC {
             
             let link = Link(webUrl: URL(string: sharedURL),
                             mobileWebUrl: URL(string: sharedURL))
-            let appLink = Link(androidExecutionParams: ["key1": "value1", "key2": "value2"],
-                               iosExecutionParams: ["key1": "value1", "key2": "value2"])
             
-            let button1 = Button(title: "웹으로 보기", link: link)
-            let button2 = Button(title: "앱으로 보기", link: appLink)
+            let appLink = Link(androidExecutionParams: ["key1": "value1", "key2": "value2"],
+                               iosExecutionParams: ["isInvited": "true", "inviteUserId": inviteUserId])
+            
+            let button1 = Button(title: "앱으로 보기", link: appLink)
             
             let content = Content(title: inviteTitle,
                                   imageUrl: URL(string: inviteImgURL)!,
@@ -249,7 +252,7 @@ extension InviteVC {
                                   imageHeight: 130,
                                   description: inviteDescription,
                                   link: link)
-            let feedTemplate = FeedTemplate(content: content, buttons: [button1, button2])
+            let feedTemplate = FeedTemplate(content: content, buttons: [button1])
             
             //메시지 템플릿 encode
             if let feedTemplateJsonData = (try? SdkJSONEncoder.custom.encode(feedTemplate)) {

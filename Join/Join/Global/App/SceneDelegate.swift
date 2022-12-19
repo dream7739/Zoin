@@ -21,8 +21,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if (AuthApi.isKakaoTalkLoginUrl(url)) {
                 _ = AuthController.handleOpenUrl(url: url)
             }
+            
+            print("url : \(url)")
+            let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems
+            
+            let userId = queryItems?.filter({$0.name == "inviteUserId"}).first?.value!
+            inviteUserId = Int(userId!)!
+            isInvited = true
+            
+            linkToProfile()
         }
     }
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -53,24 +63,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let userId = queryItems?.filter({$0.name == "userId"}).first?.value!
                 inviteUserId = Int(userId!)!
                 isInvited = true
-                
-                print("\(inviteUserId)")
-                
-                guard let windowScene = (scene as? UIWindowScene) else { return }
-                self.window = UIWindow(windowScene: windowScene)
-                
-                let tabBarVC: TabBarController = TabBarController()
-
-                self.window?.rootViewController = tabBarVC
-                self.window?.makeKeyAndVisible()
+                                
+                linkToProfile()
                 
             }
             
         }
-        
-  
-        
     }
+    
+    //링크 진입 시 탭바 -> 프로필 화면으로 이동
+    func linkToProfile(){
+        
+        let tabBarVC: TabBarController = TabBarController()
+
+        self.window?.rootViewController = tabBarVC
+        self.window?.makeKeyAndVisible()
+    }
+    
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
