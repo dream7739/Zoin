@@ -12,16 +12,30 @@ import RxCocoa
 import RxSwift
 
 final class TabBarController: UITabBarController, UITabBarControllerDelegate {
-    
-    
+    var isLinkAccess:Bool?
+    var inviteUserId:Int?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      
         setTabBar()
         // 임시로 만들어놓은 탭바 컨트롤러
         // 보통 탭바 커스텀시에 코드를 많이 사용하길래
         // 스토리보드 대신 코드로 연결을 해놓았습니다.
+        let scene = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+        
+        if scene.isInvited {
+            self.selectedIndex = 2
+        }
+
     }
+    
+    @objc func getInviteUserId(notification: Notification) {
+           // notification.userInfo 값을 받아온다.
+        if let item = notification.object as? String{
+            print("\(item)")
+        }
+       }
     
     
 }
@@ -81,5 +95,7 @@ extension TabBarController {
         let profileViewController = UINavigationController(rootViewController: profileView)
         
         viewControllers = [mainViewController, makeViewcontroller, profileViewController]
+        
+       
     }
 }

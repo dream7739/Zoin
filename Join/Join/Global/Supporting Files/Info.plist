@@ -14,6 +14,20 @@
 				<string>kakaod039d43d8f47e803cd5dd890c4052dfc</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>ZoinDynamicLink</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.teamBunggae.Join</string>
+			</array>
+		</dict>
+	</array>
+	<key>FirebaseDynamicLinksCustomDomains</key>
+	<array>
+		<string>https://teamzoin.page.link</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>

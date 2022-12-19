@@ -12,10 +12,10 @@ import KakaoSDKCommon
 import KakaoSDKUser
 import KakaoSDKAuth
 import UserNotifications
+import FirebaseDynamicLinks
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -54,6 +54,8 @@ extension AppDelegate : MessagingDelegate {
     }
 }
 
+
+
 extension AppDelegate : UNUserNotificationCenterDelegate {
 
     // 푸시알림이 수신되었을 때 수행되는 메소드
@@ -66,3 +68,5 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler()
     }
 }
+
+

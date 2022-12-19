@@ -11,6 +11,7 @@
 		881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */; };
 		8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */; };
 		8835FA4528B6715A00665297 /* UIDevice+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8835FA4428B6715A00665297 /* UIDevice+.swift */; };
+		883E8410294D7CE6009B7C3C /* InviteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883E840F294D7CE6009B7C3C /* InviteService.swift */; };
 		8869F32828744C9D00F71C9F /* TermDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8869F32728744C9D00F71C9F /* TermDetailVC.swift */; };
 		8869F32C2876EAC800F71C9F /* MakeServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8869F32B2876EAC800F71C9F /* MakeServices.swift */; };
 		886C16AB286B32680041FA05 /* InviteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886C16AA286B32680041FA05 /* InviteVC.swift */; };
@@ -108,6 +109,7 @@
 		881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinListTableViewCell.swift; sourceTree = "<group>"; };
 		8835FA4428B6715A00665297 /* UIDevice+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+.swift"; sourceTree = "<group>"; };
+		883E840F294D7CE6009B7C3C /* InviteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteService.swift; sourceTree = "<group>"; };
 		8869F32728744C9D00F71C9F /* TermDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermDetailVC.swift; sourceTree = "<group>"; };
 		8869F32B2876EAC800F71C9F /* MakeServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeServices.swift; sourceTree = "<group>"; };
 		886C16AA286B32680041FA05 /* InviteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteVC.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 				F21EBA10288597AF004EA599 /* ProfileServices.swift */,
 				F2159EF9289BE91E0083A127 /* SettingServices.swift */,
 				8875C5922920FB000039C3F0 /* ReportServices.swift */,
+				883E840F294D7CE6009B7C3C /* InviteService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				F216ECBE286CB50B000210F7 /* EmailLoginVC.swift in Sources */,
 				F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */,
 				F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */,
+				883E8410294D7CE6009B7C3C /* InviteService.swift in Sources */,
 				881DFEF628157FB200960AFA /* MainCollectionViewCell.swift in Sources */,
 				8820E93C2819645E00C02971 /* JoinListTableViewCell.swift in Sources */,
 				888FEE72286DEFB00013939B /* TermTVCell.swift in Sources */,
@@ -962,6 +966,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5Y6TG9W2Y6;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Join/Global/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -969,11 +974,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = com.teamBunggae.Join;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -992,6 +998,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5Y6TG9W2Y6;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Join/Global/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -999,11 +1006,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.teamBunggae.Join;
 				PRODUCT_NAME = "$(TARGET_NAME)";
