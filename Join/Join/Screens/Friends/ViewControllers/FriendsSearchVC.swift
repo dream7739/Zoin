@@ -54,6 +54,7 @@ class FriendsSearchVC: BaseViewController {
         $0.image = Image.search3D1
     }
 
+    private var friendId: Int?
     private let profileProvider = MoyaProvider<ProfileServices>()
     var friendInfo = [userData]()
     override func viewDidLoad() {
@@ -194,6 +195,21 @@ extension FriendsSearchVC {
             .disposed(by: disposeBag)
     }
 
+    @objc func addFriend(){
+        profileProvider.rx.request(.addFriend(targetUserId: friendId ?? 0)).asObservable().subscribe(onNext: { [weak self] response in
+            print(response)
+            let msg = JSON(response.data)["message"]
+            print(msg)
+            if response.statusCode == 200 {
+
+            }
+        }, onError: {[weak self] err in
+
+        }, onCompleted: {
+
+        }).disposed(by: disposeBag)
+    }
+
 }
 
 extension FriendsSearchVC: UICollectionViewDataSource {
@@ -203,9 +219,11 @@ extension FriendsSearchVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: FriendsSearchCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendsSearchCVCell.identififer, for: indexPath) as! FriendsSearchCVCell
-        cell.profileImageView.image = Image.profile
+        cell.profileImageView.image(url: friendInfo[indexPath.item].user.profileImgUrl)
         cell.userNameLabel.text = friendInfo[indexPath.item].user.userName
         cell.userIdLabel.text = friendInfo[indexPath.item].user.serviceId
+        friendId = friendInfo[indexPath.item].user.id
+        cell.addButton.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
         return cell
     }
 }

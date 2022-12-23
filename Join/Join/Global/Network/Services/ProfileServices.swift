@@ -15,6 +15,7 @@ enum ProfileServices {
     case getParticipatedHistory(isClosed: String)
     case getCreatedHistory(isClosed: String)
     case changeImage(image: UIImage)
+    case addFriend(targetUserId: Int)
 }
 
 struct searchIdRequest: Encodable {
@@ -63,6 +64,7 @@ struct creater: Codable {
     var updatedAt: String
 }
 
+
 extension ProfileServices: TargetType {
     private var token: String {
         return KeychainHandler.shared.accessToken
@@ -84,6 +86,8 @@ extension ProfileServices: TargetType {
             return "/api/v1/user/rendezvous/created"
         case .changeImage:
             return "/api/v1/user/profile/demo"
+        case .addFriend:
+            return "/api/v1/friend"
         }
     }
 
@@ -99,6 +103,8 @@ extension ProfileServices: TargetType {
             return .get
         case .changeImage:
             return .put
+        case .addFriend:
+            return .post
         }
     }
 
@@ -125,6 +131,9 @@ extension ProfileServices: TargetType {
                 multipartData.append(.init(provider: .data(Data()), name: "file", fileName: "file"))
             }
             return .uploadMultipart(multipartData)
+        case .addFriend(targetUserId: let targetUserId):
+            return .requestJSONEncodable(targetUserId)
+
         }
     }
 
