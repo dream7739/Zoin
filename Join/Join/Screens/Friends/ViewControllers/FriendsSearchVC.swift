@@ -195,8 +195,14 @@ extension FriendsSearchVC {
             .disposed(by: disposeBag)
     }
 
-    @objc func addFriend(){
-        profileProvider.rx.request(.addFriend(targetUserId: friendId ?? 0)).asObservable().subscribe(onNext: { [weak self] response in
+    @objc func requestButtonDidTap(sender: UIButton!){
+        print("tag>>",sender.tag)
+        print("info>>", friendInfo[sender.tag].user.id)
+        addFriend(friendInfo[sender.tag].user.id, sender: sender)
+    }
+    @objc func addFriend(_ id: Int, sender: UIButton){
+        let requestId = userId(targetUserId: id ?? 0)
+        profileProvider.rx.request(.addFriend(param: requestId)).asObservable().subscribe(onNext: { [weak self] response in
             print(response)
             let msg = JSON(response.data)["message"]
             print(msg)
@@ -223,7 +229,8 @@ extension FriendsSearchVC: UICollectionViewDataSource {
         cell.userNameLabel.text = friendInfo[indexPath.item].user.userName
         cell.userIdLabel.text = friendInfo[indexPath.item].user.serviceId
         friendId = friendInfo[indexPath.item].user.id
-        cell.addButton.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
+        cell.addButton.tag = indexPath.item
+        cell.addButton.addTarget(self, action: #selector(requestButtonDidTap), for: .touchUpInside)
         return cell
     }
 }

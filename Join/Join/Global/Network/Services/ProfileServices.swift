@@ -15,7 +15,7 @@ enum ProfileServices {
     case getParticipatedHistory(isClosed: String)
     case getCreatedHistory(isClosed: String)
     case changeImage(image: UIImage)
-    case addFriend(targetUserId: Int)
+    case addFriend(param: userId)
 }
 
 struct searchIdRequest: Encodable {
@@ -64,6 +64,9 @@ struct creater: Codable {
     var updatedAt: String
 }
 
+struct userId: Codable {
+    var targetUserId: Int
+}
 
 extension ProfileServices: TargetType {
     private var token: String {
@@ -131,8 +134,8 @@ extension ProfileServices: TargetType {
                 multipartData.append(.init(provider: .data(Data()), name: "file", fileName: "file"))
             }
             return .uploadMultipart(multipartData)
-        case .addFriend(targetUserId: let targetUserId):
-            return .requestJSONEncodable(targetUserId)
+        case .addFriend(let param):
+            return .requestJSONEncodable(param)
 
         }
     }
