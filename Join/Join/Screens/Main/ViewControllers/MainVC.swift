@@ -126,7 +126,8 @@ class MainVC: BaseViewController {
         $0.contentHorizontalAlignment = .center
         $0.layer.cornerRadius = 20
     }
-    
+
+    private let authProvider = MoyaProvider<AuthServices>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,6 +136,7 @@ class MainVC: BaseViewController {
         collectionView.dataSource = self
         bind()
         addNotiObserver()
+        setNotiToken()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -173,6 +175,18 @@ class MainVC: BaseViewController {
             joinVC.modalPresentationStyle = .overFullScreen
             self.present(joinVC, animated: true)
         }
+    }
+
+    @objc func setNotiToken() {
+        let token = fcmToken(token: KeychainHandler.shared.fcmToken)
+        authProvider.rx.request(.addFcmToken(param: token)).asObservable().subscribe(onNext: {[weak self] response in
+            print("setNotification<<", response)
+            if response.statusCode == 200 {
+
+            }
+        }, onError: {[weak self] err in
+            print(err)
+        }, onCompleted: {}).disposed(by: disposeBag)
     }
 }
 

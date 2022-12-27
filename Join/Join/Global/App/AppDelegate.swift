@@ -51,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("firebase token info << \(fcmToken)")
+        KeychainHandler.shared.fcmToken = fcmToken ?? ""
     }
 }
 

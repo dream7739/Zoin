@@ -15,6 +15,7 @@ enum ProfileServices {
     case getParticipatedHistory(isClosed: String)
     case getCreatedHistory(isClosed: String)
     case changeImage(image: UIImage)
+    case addFriend(param: userId)
 }
 
 struct searchIdRequest: Encodable {
@@ -63,6 +64,10 @@ struct creater: Codable {
     var updatedAt: String
 }
 
+struct userId: Codable {
+    var targetUserId: Int
+}
+
 extension ProfileServices: TargetType {
     private var token: String {
         return KeychainHandler.shared.accessToken
@@ -83,7 +88,9 @@ extension ProfileServices: TargetType {
         case .getCreatedHistory(isClosed: let isClosed):
             return "/api/v1/user/rendezvous/created"
         case .changeImage:
-            return "/api/v1/user/profile-image"
+            return "/api/v1/user/profile/demo"
+        case .addFriend:
+            return "/api/v1/friend"
         }
     }
 
@@ -99,6 +106,8 @@ extension ProfileServices: TargetType {
             return .get
         case .changeImage:
             return .put
+        case .addFriend:
+            return .post
         }
     }
 
@@ -119,12 +128,15 @@ extension ProfileServices: TargetType {
         case .changeImage(image: let image):
             var multipartData: [MultipartFormData] = []
             if image != UIImage(){
-                let imageData = MultipartFormData(provider: .data(image.resizeWith(width: 400)?.pngData() ?? Data()), name: "image", fileName: "profile.png")
+                let imageData = MultipartFormData(provider: .data(image.resized(withPercentage: 0.5)?.jpegData(compressionQuality: 0.0) ?? Data()), name: "file", fileName: "file", mimeType: "image/jpg")
                 multipartData.append(imageData)
             } else {
-                multipartData.append(.init(provider: .data(Data()), name: "image", fileName: "profile.png"))
+                multipartData.append(.init(provider: .data(Data()), name: "file", fileName: "file"))
             }
             return .uploadMultipart(multipartData)
+        case .addFriend(let param):
+            return .requestJSONEncodable(param)
+
         }
     }
 

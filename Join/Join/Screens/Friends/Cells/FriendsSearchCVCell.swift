@@ -12,7 +12,7 @@ class FriendsSearchCVCell:
     static let identififer = "FriendsSearchCVCell"
 
     let profileImageView = UIImageView().then {
-        $0.contentMode = .center
+        $0.contentMode = .scaleAspectFit
         $0.layer.cornerRadius = 30
     }
 

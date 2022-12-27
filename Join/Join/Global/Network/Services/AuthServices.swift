@@ -20,6 +20,8 @@ enum AuthServices {
     case checkKakoLogin(param: didSignUpRequest)
     case appleLogin(param: SocialSignUpRequest)
     case checkAppleLogin(param: didSignUpRequest)
+    case addFcmToken(param: fcmToken)
+    case deleteFcmToken
 }
 // MARK: - parameter data
 // 모델데이터 global 파일에 data 하위디렉터리 만들어서 옮기는게 낫지 않을까?
@@ -66,13 +68,20 @@ struct didSignUpRequest: Encodable {
     var accountId: String
 }
 
+struct fcmToken: Encodable {
+    var token: String
+}
+
 extension AuthServices: TargetType {
     // MARK: - 키체인라이브러리 추가 필요
     // 토큰 관련 작업 시 주석 해제
-    // private var token: String {
-    //  return KeychainHandler.shared.accessToken
-    // }
+    private var token: String {
+        return KeychainHandler.shared.accessToken
+    }
 
+    var baseURL: URL {
+        return URL(string: Environment.baseUrl)!
+    }
     // API 별로 경로 설정 (케이스 단위로 접근 가능)
     // baseURL 기준으로 이어서 작성해주면 됩니다.
     var path: String {
@@ -97,6 +106,10 @@ extension AuthServices: TargetType {
             return "/api/v1/user/sign-up/apple"
         case .checkAppleLogin:
             return "/api/v1/user/log-in/apple"
+        case .addFcmToken:
+            return "/api/v1/notification"
+        case .deleteFcmToken:
+            return "/api/v1/notification"
         }
     }
 
@@ -123,6 +136,10 @@ extension AuthServices: TargetType {
             return .post
         case .checkAppleLogin:
             return .post
+        case .addFcmToken:
+            return .patch
+        case .deleteFcmToken:
+            return .delete
         }
     }
 
@@ -157,19 +174,20 @@ extension AuthServices: TargetType {
             return .requestJSONEncodable(param)
         case .checkAppleLogin(param: let param):
             return .requestJSONEncodable(param)
+        case .addFcmToken(let param):
+            return .requestJSONEncodable(param)
+        case .deleteFcmToken:
+            return .requestPlain
         }
     }
 
     // 헤더파일 구성하는부분
     var headers: [String : String]? {
         switch self {
+        case .addFcmToken, .deleteFcmToken:
+            return ["Content-Type": "application/json", "Authorization": token]
         default:
             return ["Content-Type": "application/json"]
         }
-    }
-
-    // 기본적인 경로, baseURL 설정하는부분
-    public var baseURL: URL {
-        return URL(string: Environment.baseUrl)!
     }
 }

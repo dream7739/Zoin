@@ -19,7 +19,7 @@ class FriendsListCVCell: UICollectionViewCell {
     static let identifier = "FriendsListCVCell"
 
     var profileImageView = UIImageView().then {
-        $0.contentMode = .center
+        $0.contentMode = .scaleAspectFit
         $0.layer.cornerRadius = 30
     }
 
