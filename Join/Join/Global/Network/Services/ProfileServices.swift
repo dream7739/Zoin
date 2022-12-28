@@ -16,6 +16,7 @@ enum ProfileServices {
     case getCreatedHistory(isClosed: String)
     case changeImage(image: UIImage)
     case addFriend(param: userId)
+    case deleteFriend(Int)
 }
 
 struct searchIdRequest: Encodable {
@@ -91,6 +92,8 @@ extension ProfileServices: TargetType {
             return "/api/v1/user/profile/demo"
         case .addFriend:
             return "/api/v1/friend"
+        case .deleteFriend(let id):
+            return "/api/v1/user/friends/\(id)"
         }
     }
 
@@ -108,6 +111,8 @@ extension ProfileServices: TargetType {
             return .put
         case .addFriend:
             return .post
+        case .deleteFriend:
+            return .delete
         }
     }
 
@@ -136,7 +141,8 @@ extension ProfileServices: TargetType {
             return .uploadMultipart(multipartData)
         case .addFriend(let param):
             return .requestJSONEncodable(param)
-
+        case .deleteFriend(_):
+            return .requestPlain
         }
     }
 

@@ -108,9 +108,9 @@ extension FriendsListVC {
 
     }
 
-    @objc func showActionSheet() {
+    @objc func showActionSheet(sender: UIButton!) {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let deleteAction = UIAlertAction(title: "삭제", style: .default)
+        let deleteAction = UIAlertAction(title: "삭제", style: .default){_ in self.removeFriend(self.friendsInfo[sender.tag].id)}
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         optionMenu.addAction(deleteAction)
         optionMenu.addAction(cancelAction)
@@ -118,6 +118,22 @@ extension FriendsListVC {
         self.present(optionMenu, animated: true, completion: nil)
     }
 
+    @objc private func removeFriend(_ id: Int) {
+        listProvider.rx.request(.deleteFriend(id))
+            .asObservable()
+            .subscribe(onNext: {[weak self] response in
+                let msg = JSON(response.data)["message"]
+                print("friendsList", response)
+                print("friendsList", msg)
+                if response.statusCode == 200 {
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadData()
+                    }
+                }
+            }, onError: {[weak self] _ in
+
+            }).disposed(by: disposeBag)
+    }
     @objc private func getFriendsList() {
         //let token = tokenRequest(Authorization: KeychainHandler.shared.accessToken)
         listProvider.rx.request(.getFriendsList)
@@ -163,6 +179,7 @@ extension FriendsListVC: UICollectionViewDataSource {
         }
         cell.userIdLabel.text = friendsInfo[indexPath.item].serviceId
         cell.userNameLabel.text = friendsInfo[indexPath.item].userName
+        cell.modalButton.tag = indexPath.item
         cell.modalButton.addTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
         return cell
     }

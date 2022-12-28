@@ -183,12 +183,16 @@ extension LoginVC {
                             self.kakaoId = String(id)
                         }
                         let userEmail = String(email)
-                        // 기기변경 후 처음 로그인하는거 생각해서 accountId 파라미터 self.kakaoId로 변경
-                        // keychainhandler값도 새로 갱신해주기?
+
+                        UserDefaults.standard.set("kakao",forKey: "social")
+                        KeychainHandler.shared.email = userEmail
+                        KeychainHandler.shared.kakaoId = self.kakaoId ?? ""
                         let signUpCheck = didSignUpRequest(accountId: KeychainHandler.shared.kakaoId)
-                        self.authProvider.rx.request(.checkKakoLogin(param: signUpCheck))
+                        self.authProvider.rx.request(.checkKakoLogin(socialId: KeychainHandler.shared.kakaoId))
                             .asObservable()
                             .subscribe(onNext: {[weak self] response in
+                                let msg = JSON(response.data)["message"]
+                                print("뭔데", msg)
                                 if response.statusCode == 200 {
                                     let message = JSON(response.data)["message"]
                                     print(JSON(response.data)["data"])
@@ -249,17 +253,24 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                                  didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             // Create an account in your system.
-            let signUpCheck = didSignUpRequest(accountId: KeychainHandler.shared.appleId)
+
             // email : appleIDCredential.email
             // user : appleIDCredential.user 이게 고유값이라서 이거 써야할듯 (id)
 
             print("User ID : \(appleIDCredential.user)")
             print("User Email : \(appleIDCredential.email ?? "")")
 
-            self.authProvider.rx.request(.checkAppleLogin(param: signUpCheck))
+            UserDefaults.standard.set("apple",forKey: "social")
+            KeychainHandler.shared.email = appleIDCredential.email ?? ""
+            KeychainHandler.shared.appleId = appleIDCredential.user
+            self.authProvider.rx.request(.checkAppleLogin(socialId: KeychainHandler.shared.appleId))
                 .asObservable()
                 .subscribe(onNext: { [weak self] response in
                     guard let self = self else { return }
+                    let msg = JSON(response.data)["message"]
+
+                    print("apple login", response)
+                    print("apple login", msg)
                     if response.statusCode == 200 {
                         let message = JSON(response.data)["message"]
                         print(JSON(response.data)["data"])

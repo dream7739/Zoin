@@ -12,6 +12,7 @@ import Then
 import RxCocoa
 import RxSwift
 import Moya
+import SwiftyJSON
 
 class ProfileVC: BaseViewController {
 
@@ -131,17 +132,26 @@ class ProfileVC: BaseViewController {
         $0.image = Image.arrow3
     }
 
+
+    let listProvider = MoyaProvider<ProfileServices>()
+    var friendsInfo = [user]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         bind()
+        countFriends()
         // Do any additional setup after loading the view.
     }
+
+
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUpNavigation()
         setTabBarHidden(isHidden: false)
+        countFriends()
+
     }
 
 
@@ -423,5 +433,35 @@ extension ProfileVC {
     @objc func moveLast() {
         let viewController = SettingVC()
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    @objc func countFriends() {
+        listProvider.rx.request(.getFriendsList)
+            .asObservable()
+            .subscribe(onNext: {[weak self] response in
+                let msg = JSON(response.data)["message"]
+
+                print("findfriends", response)
+                print("findfriends", msg)
+                if response.statusCode == 200 {
+                    let arr = JSON(response.data)["data"]
+                    self?.friendsInfo = []
+                    for item in arr.arrayValue {
+                        let id = item["id"].intValue
+                        let serviceId = item["serviceId"].stringValue
+                        let userName = item["userName"].stringValue
+                        let email = item["email"].stringValue
+                        let profileImgUrl = item["profileImgUrl"].stringValue
+                        let createdAt = item["createdAt"].stringValue
+                        let updatedAt = item["updatedAt"].stringValue
+                        self?.friendsInfo.append(user(id: id, serviceId: serviceId, userName: userName, email: email, profileImgUrl: profileImgUrl, createdAt: createdAt, updatedAt: updatedAt))
+                        KeychainHandler.shared.friendCount = self?.friendsInfo.count ?? 0
+                        self?.friendsCountLabel.text = String(KeychainHandler.shared.friendCount)
+                    }
+
+                }
+            }, onError: {[weak self] _ in
+
+            }).disposed(by: disposeBag)
     }
 }
