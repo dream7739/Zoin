@@ -180,6 +180,8 @@ class MainVC: BaseViewController {
     @objc func setNotiToken() {
         let token = fcmToken(token: KeychainHandler.shared.fcmToken)
         authProvider.rx.request(.addFcmToken(param: token)).asObservable().subscribe(onNext: {[weak self] response in
+            let msg = JSON(response.data)["message"]
+            print("setNotification<<", msg)
             print("setNotification<<", response)
             if response.statusCode == 200 {
 

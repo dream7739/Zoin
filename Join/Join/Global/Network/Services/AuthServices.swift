@@ -19,7 +19,7 @@ enum AuthServices {
     case kakaoLogin(param: SocialSignUpRequest)
     case checkKakoLogin(socialId: String)
     case appleLogin(param: SocialSignUpRequest)
-    case checkAppleLogin(param: didSignUpRequest)
+    case checkAppleLogin(socialId: String)
     case addFcmToken(param: fcmToken)
     case deleteFcmToken
 }
@@ -180,8 +180,16 @@ extension AuthServices: TargetType {
             return .uploadMultipart(multipartData)
         case .appleLogin(param: let param):
             return .requestJSONEncodable(param)
-        case .checkAppleLogin(param: let param):
-            return .requestJSONEncodable(param)
+        case .checkAppleLogin(socialId: let socialId):
+            let params: [String: String] = [
+                "socialId": "\(socialId)"
+            ]
+            var multipartData: [MultipartFormData] = []
+            for(key, value) in params {
+                let formData = MultipartFormData(provider: .data(value.data(using: .utf8)!), name: key)
+                multipartData.append(formData)
+            }
+            return .uploadMultipart(multipartData)
         case .addFcmToken(let param):
             return .requestJSONEncodable(param)
         case .deleteFcmToken:
