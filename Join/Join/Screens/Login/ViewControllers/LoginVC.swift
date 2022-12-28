@@ -183,12 +183,16 @@ extension LoginVC {
                             self.kakaoId = String(id)
                         }
                         let userEmail = String(email)
-                        // 기기변경 후 처음 로그인하는거 생각해서 accountId 파라미터 self.kakaoId로 변경
-                        // keychainhandler값도 새로 갱신해주기?
+
+                        UserDefaults.standard.set("kakao",forKey: "social")
+                        KeychainHandler.shared.email = userEmail
+                        KeychainHandler.shared.kakaoId = self.kakaoId ?? ""
                         let signUpCheck = didSignUpRequest(accountId: KeychainHandler.shared.kakaoId)
-                        self.authProvider.rx.request(.checkKakoLogin(param: signUpCheck))
+                        self.authProvider.rx.request(.checkKakoLogin(socialId: KeychainHandler.shared.kakaoId))
                             .asObservable()
                             .subscribe(onNext: {[weak self] response in
+                                let msg = JSON(response.data)["message"]
+                                print("뭔데", msg)
                                 if response.statusCode == 200 {
                                     let message = JSON(response.data)["message"]
                                     print(JSON(response.data)["data"])

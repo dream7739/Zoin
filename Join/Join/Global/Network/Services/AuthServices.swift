@@ -17,7 +17,7 @@ enum AuthServices {
     case verifyEmail(param: verifyEmail)
     case checkCode(param: checkCode )
     case kakaoLogin(param: SocialSignUpRequest)
-    case checkKakoLogin(param: didSignUpRequest)
+    case checkKakoLogin(socialId: String)
     case appleLogin(param: SocialSignUpRequest)
     case checkAppleLogin(param: didSignUpRequest)
     case addFcmToken(param: fcmToken)
@@ -168,8 +168,16 @@ extension AuthServices: TargetType {
             return .requestJSONEncodable(param)
         case .kakaoLogin(let param):
             return .requestJSONEncodable(param)
-        case .checkKakoLogin(let param):
-            return .requestJSONEncodable(param)
+        case .checkKakoLogin(socialId: let socialId):
+            let params: [String: String] = [
+                "socialId": "\(socialId)"
+            ]
+            var multipartData: [MultipartFormData] = []
+            for(key, value) in params {
+                let formData = MultipartFormData(provider: .data(value.data(using: .utf8)!), name: key)
+                multipartData.append(formData)
+            }
+            return .uploadMultipart(multipartData)
         case .appleLogin(param: let param):
             return .requestJSONEncodable(param)
         case .checkAppleLogin(param: let param):
@@ -186,6 +194,9 @@ extension AuthServices: TargetType {
         switch self {
         case .addFcmToken, .deleteFcmToken:
             return ["Content-Type": "application/json", "Authorization": token]
+        case .checkKakoLogin, .checkAppleLogin:
+            return ["Content-Type": "multipart/form-data",
+                    "Authorization": token]
         default:
             return ["Content-Type": "application/json"]
         }
