@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>842953377559-8pk5s871cogc96fk28aejj0ogt4bquli.apps.googleusercontent.com</string>
+	<string>213323017667-54m9s69o4j27efkgs0mgndmf0q1t36lg.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.842953377559-8pk5s871cogc96fk28aejj0ogt4bquli</string>
+	<string>com.googleusercontent.apps.213323017667-54m9s69o4j27efkgs0mgndmf0q1t36lg</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCWCLkaB3uW2Idj3-7yVZSO7VwVcjgfass</string>
+	<string>AIzaSyB__0XzQ_tAzOLFXxiH7coPkRf_Wj_Fm5c</string>
 	<key>GCM_SENDER_ID</key>
-	<string>842953377559</string>
+	<string>213323017667</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.teamBunggae.Join</string>
 	<key>PROJECT_ID</key>
-	<string>zoin-895bf</string>
+	<string>rendezvous-app-353809</string>
 	<key>STORAGE_BUCKET</key>
-	<string>zoin-895bf.appspot.com</string>
+	<string>rendezvous-app-353809.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:842953377559:ios:5a8bd6172837b708915952</string>
+	<string>1:213323017667:ios:648847c28724f3c3f8a176</string>
 </dict>
 </plist>
