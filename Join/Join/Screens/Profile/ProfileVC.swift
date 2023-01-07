@@ -141,6 +141,7 @@ class ProfileVC: BaseViewController {
         setLayout()
         bind()
         countFriends()
+        print("hi")
         // Do any additional setup after loading the view.
     }
 

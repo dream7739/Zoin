@@ -170,7 +170,6 @@ extension InviteVC {
                 .asObservable()
                 .subscribe(onNext: { [weak self] response in
                     let status = JSON(response.data)["status"]
-                    
                     if status == 200 {
                         let data = JSON(response.data)["data"]
                         let userId = data["id"].intValue
