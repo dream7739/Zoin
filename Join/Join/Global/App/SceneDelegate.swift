@@ -25,11 +25,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             print("url : \(url)")
             let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems
             
-            let userId = queryItems?.filter({$0.name == "inviteUserId"}).first?.value!
-            inviteUserId = Int(userId!)!
-            isInvited = true
-            
-            linkToProfile()
+            if let userId = queryItems?.filter({$0.name == "inviteUserId"}).first?.value {
+                inviteUserId = Int(userId)
+                isInvited = true
+                linkToProfile()
+            }
+
         }
     }
     
