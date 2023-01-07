@@ -94,6 +94,14 @@ struct ParticipantResponse: Codable {
 
 
 extension MakeServices: TargetType {
+    private var token: String {
+        return KeychainHandler.shared.accessToken
+    }
+    
+    public var baseURL: URL {
+        return URL(string: Environment.baseUrl)!
+    }
+    
     var path: String {
         switch self {
         case .rendezvous:
@@ -164,16 +172,9 @@ extension MakeServices: TargetType {
     var headers: [String : String]? {
         switch self {
         default:
-            return ["Content-Type": "application/json", "Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEyLCJleHAiOjE2OTUxMjg1NjN9.Pcmm3VBs-Obdg8WckQS3OHXlSgdYTj5OIOICGQgj_4k"]
-            
+            return ["Content-Type": "application/json", "Authorization": token]
         }
     }
     
-    private var token: String {
-        return KeychainHandler.shared.accessToken
-    }
-    
-    public var baseURL: URL {
-        return URL(string: Environment.baseUrl)!
-    }
+
 }

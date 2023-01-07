@@ -151,7 +151,7 @@ class ProfileVC: BaseViewController {
         setUpNavigation()
         setTabBarHidden(isHidden: false)
         countFriends()
-
+        makeFriends() //초대하기를 통해 들어온 친구수락
     }
 
 
@@ -464,4 +464,38 @@ extension ProfileVC {
 
             }).disposed(by: disposeBag)
     }
+    
+    @objc func makeFriends() {
+        let scene = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+        
+        if !scene.isInvited { return }
+        
+        guard let inviteUserId = scene.inviteUserId else { return }
+            
+        listProvider.rx.request(.invitation(id: inviteUserId))
+                .asObservable()
+                .subscribe(onNext: { [weak self] response in
+                    guard let self = self else { return }
+                    let status = JSON(response.data)["status"]
+                    if status == 200 {
+                        print("success")
+                        self.showMakeFriendAlert()
+                    }
+                    
+                }, onError: { [weak self] _ in
+                    print("error occured")
+                }, onCompleted: {
+                }).disposed(by: disposeBag)
+        }
+    
+    func showMakeFriendAlert(){
+        let alert = UIAlertController(title: "친구 요청을 수락했어요", message: nil, preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default, handler:  nil)
+        
+        alert.addAction(confirm)
+        
+        alert.view.tintColor = .grayScale900
+        self.present(alert, animated: true)
+    }
+      
 }

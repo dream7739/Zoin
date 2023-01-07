@@ -170,7 +170,6 @@ extension InviteVC {
                 .asObservable()
                 .subscribe(onNext: { [weak self] response in
                     let status = JSON(response.data)["status"]
-                    
                     if status == 200 {
                         let data = JSON(response.data)["data"]
                         let userId = data["id"].intValue
@@ -188,7 +187,7 @@ extension InviteVC {
         
         func createDynamicLink(userId : Int, type: String) {
             //firebase console에서 생성한 URL prefix
-            let dynamicLinksDomainURIPrefix = "https://teamzoin.page.link"
+            let dynamicLinksDomainURIPrefix = "https://teambunggae.page.link"
             
             //dynamic link 수신 시 얻는 값
             let link = URL(string: dynamicLinksDomainURIPrefix + "/?userId=\(userId)")!

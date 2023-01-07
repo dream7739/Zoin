@@ -60,7 +60,8 @@ extension InviteServices: TargetType {
     var headers: [String : String]? {
         switch self {
         default:
-            return ["Content-Type": "application/json", "Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEyLCJleHAiOjE2OTUxMjg1NjN9.Pcmm3VBs-Obdg8WckQS3OHXlSgdYTj5OIOICGQgj_4k"]
+            return ["Content-Type": "application/json",
+                    "Authorization": token]
             
         }
     }
