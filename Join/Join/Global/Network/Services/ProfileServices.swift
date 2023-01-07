@@ -17,6 +17,7 @@ enum ProfileServices {
     case changeImage(image: UIImage)
     case addFriend(param: userId)
     case deleteFriend(Int)
+    case invitation(id: Int)
 }
 
 struct searchIdRequest: Encodable {
@@ -94,6 +95,8 @@ extension ProfileServices: TargetType {
             return "/api/v1/friend"
         case .deleteFriend(let id):
             return "/api/v1/user/friends/\(id)"
+        case .invitation(let id):
+            return "/api/v1/friend/invitation"
         }
     }
 
@@ -113,6 +116,8 @@ extension ProfileServices: TargetType {
             return .post
         case .deleteFriend:
             return .delete
+        case .invitation(let id):
+            return .put
         }
     }
 
@@ -143,6 +148,8 @@ extension ProfileServices: TargetType {
             return .requestJSONEncodable(param)
         case .deleteFriend(_):
             return .requestPlain
+        case .invitation(let param):
+            return .requestJSONEncodable(param)
         }
     }
 
