@@ -218,6 +218,7 @@ class MakeVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: true)
+        setNavigationBar(isHidden: false)
         titleTextField.becomeFirstResponder()
         titleTextField.text = ""
         dateTextField.text = ""
