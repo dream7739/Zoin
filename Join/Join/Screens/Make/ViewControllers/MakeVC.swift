@@ -185,6 +185,7 @@ class MakeVC: BaseViewController {
         $0.datePickerMode = .dateAndTime
         $0.locale = Locale(identifier: "ko-KR")
         $0.timeZone = NSTimeZone.local
+        $0.minimumDate = Date()
         if #available(iOS 13.4, *) {
             $0.preferredDatePickerStyle = .wheels
         }
@@ -237,7 +238,7 @@ extension MakeVC {
     private func setLayout() {
         setTabBarHidden(isHidden: true)
         setNavigationBar(isHidden: false)
-        setNavigationName(title: "번개작성")
+        setNavigationName(title: "번개 만들기")
         
         view.backgroundColor = .grayScale900
         view.isOpaque = true
@@ -588,7 +589,7 @@ extension MakeVC {
         displayDateFormatter.dateStyle = .medium
         displayDateFormatter.timeStyle = .medium
         displayDateFormatter.locale = Locale(identifier: "ko-KR")
-        displayDateFormatter.dateFormat = "yyyy.M.d.EEEE a hh:mm" // 2020.08.13 오후 04시 30분
+        displayDateFormatter.dateFormat = "yyyy. M. d. EEEE a h:mm" // 2020.08.13 오후 4시 30분
         let date = displayDateFormatter.string(from: joinDatePicker.date)
         dateTextField.text = date
         
