@@ -38,7 +38,8 @@ extension BaseViewController {
     }
 
     private func setNavigationItems() {
-        if navigationController?.children.count ?? 0 > 1 {
+        //rootView가 아닌경우 또는 탭바 중앙 버튼(makeVC)인 경우에만 뒤로가기 버튼이 노출됨
+        if navigationController?.children.count ?? 0 > 1 || navigationController?.topViewController is MakeVC {
             let backImage = Image.arrowBack?
                 .withAlignmentRectInsets(UIEdgeInsets(top: 0.0, left: 6.0, bottom: 0.0, right: 0.0))
                 .withTintColor(.white)
