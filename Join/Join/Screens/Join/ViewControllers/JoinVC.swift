@@ -59,6 +59,8 @@ class JoinVC: BaseViewController {
     
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
     }
     
     var moreBtn = UIButton().then {
