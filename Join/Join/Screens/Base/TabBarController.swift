@@ -65,16 +65,14 @@ extension TabBarController {
         lineView.backgroundColor = UIColor.grayScale800
         self.tabBar.addSubview(lineView)
         
-        
         self.tabBar.addSubview(middleButton)
-        self.tabBar.barTintColor = .grayScale900
         self.view.layoutIfNeeded()
         
         let mainView = MainVC()
         let mainViewTabItem = UITabBarItem(
             title: "",
             image: UIImage(named: "home"),
-            selectedImage:  UIImage(named: "home")
+            selectedImage:  UIImage(named: "home_selected")?.withRenderingMode(.alwaysOriginal)
         )
         mainView.tabBarItem = mainViewTabItem
         let mainViewController = UINavigationController(rootViewController: mainView)
@@ -89,7 +87,7 @@ extension TabBarController {
         let profileViewTabItem = UITabBarItem(
             title: "",
             image: UIImage(named: "mypage"),
-            selectedImage: UIImage(named: "mypage")
+            selectedImage: UIImage(named: "mypage_selected")?.withRenderingMode(.alwaysOriginal)
         )
         profileView.tabBarItem = profileViewTabItem
         let profileViewController = UINavigationController(rootViewController: profileView)
