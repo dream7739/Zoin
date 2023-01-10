@@ -382,11 +382,21 @@ extension MainVC {
                                 //스크롤 포지션 변경되지 않도록 변경함
                                 self.collectionView.reloadSections(IndexSet(integer: 0))
                             }
+
+                            //메인리스트 없을 시 전체보기 버튼 숨김
+                            if self.mainList.isEmpty {
+                                self.searchJoinListBtn.isHidden = true
+                                self.indicatorBtn.isHidden = true
+                            }else{
+                                self.searchJoinListBtn.isHidden = false
+                                self.indicatorBtn.isHidden = false
+                            }
                         }
                         
                         if self.hasNext {
                             self.isAvailable = true //isAvailable - 무한로딩 방지(1회 실행)
                         }
+                        
                     case .error(let error):
                         print("failure: \(error)")
                     }
@@ -470,9 +480,7 @@ extension MainVC: FinishMainDelegate {
     
     //참여 - 홈
     func mainReloadView() {
-        print("joinToMain")
         getNetworkData()
-        
     }
 }
 
