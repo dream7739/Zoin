@@ -32,7 +32,8 @@ class MainCollectionViewCell : UICollectionViewCell {
     var profileImg = UIImageView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(named: "profile")
-        $0.contentMode = .scaleToFill
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
     }
     
     var timeImg = UIImageView().then {
