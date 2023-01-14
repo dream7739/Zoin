@@ -470,13 +470,15 @@ extension ProfileVC {
         
         if !scene.isInvited { return }
         
-        guard let inviteUserId = scene.inviteUserId else { return }
-            
-        listProvider.rx.request(.invitation(id: inviteUserId))
+        guard let userId = scene.inviteUserId else { return }
+        
+        listProvider.rx.request(.invitation(param: friendId(invitingFriendId: userId)))
                 .asObservable()
                 .subscribe(onNext: { [weak self] response in
                     guard let self = self else { return }
                     let status = JSON(response.data)["status"]
+                    let message = JSON(response.data)["message"]
+                    print("make status \(status), message: \(message)")
                     if status == 200 {
                         print("success")
                         self.showMakeFriendAlert()

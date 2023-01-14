@@ -17,7 +17,7 @@ enum ProfileServices {
     case changeImage(image: UIImage)
     case addFriend(param: userId)
     case deleteFriend(Int)
-    case invitation(id: Int)
+    case invitation(param: friendId)
 }
 
 struct searchIdRequest: Encodable {
@@ -70,6 +70,10 @@ struct userId: Codable {
     var targetUserId: Int
 }
 
+struct friendId: Codable {
+    var invitingFriendId: Int
+}
+
 extension ProfileServices: TargetType {
     private var token: String {
         return KeychainHandler.shared.accessToken
@@ -95,7 +99,7 @@ extension ProfileServices: TargetType {
             return "/api/v1/friend"
         case .deleteFriend(let id):
             return "/api/v1/user/friends/\(id)"
-        case .invitation(let id):
+        case .invitation:
             return "/api/v1/friend/invitation"
         }
     }
@@ -116,7 +120,7 @@ extension ProfileServices: TargetType {
             return .post
         case .deleteFriend:
             return .delete
-        case .invitation(let id):
+        case .invitation:
             return .put
         }
     }
