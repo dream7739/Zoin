@@ -468,7 +468,11 @@ extension ProfileVC {
     @objc func makeFriends() {
         let scene = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
         
-        if !scene.isInvited { return }
+        if !scene.isInvited {
+            return
+        }else{
+            scene.isInvited = false
+        }
         
         guard let userId = scene.inviteUserId else { return }
         
