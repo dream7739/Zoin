@@ -199,8 +199,8 @@ extension MakeDetailVC {
                     }
                 } else {
                     self.descriptionLengthLabel.text = "0/30"
-                    self.nextButton.backgroundColor = .grayScale500
-                    self.nextButton.isEnabled = false
+                   // self.nextButton.backgroundColor = .grayScale500
+                   // self.nextButton.isEnabled = false
                 }
             }
             .subscribe(onNext:  { [weak self] _ in

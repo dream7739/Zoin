@@ -28,7 +28,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let userId = queryItems?.filter({$0.name == "inviteUserId"}).first?.value {
                 inviteUserId = Int(userId)
                 isInvited = true
-                linkToProfile()
+                
+                if KeychainHandler.shared.accessToken != "" {
+                    linkToProfile()
+                }else {
+                    guard let windowScene = (scene as? UIWindowScene) else { return }
+                    self.window = UIWindow(windowScene: windowScene)
+                    let vc = SplashVC()
+                    window?.rootViewController = vc
+                    window?.makeKeyAndVisible()
+                }
             }
 
         }

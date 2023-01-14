@@ -468,15 +468,21 @@ extension ProfileVC {
     @objc func makeFriends() {
         let scene = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
         
-        if !scene.isInvited { return }
+        if !scene.isInvited {
+            return
+        }else{
+            scene.isInvited = false
+        }
         
-        guard let inviteUserId = scene.inviteUserId else { return }
-            
-        listProvider.rx.request(.invitation(id: inviteUserId))
+        guard let userId = scene.inviteUserId else { return }
+        
+        listProvider.rx.request(.invitation(param: friendId(invitingFriendId: userId)))
                 .asObservable()
                 .subscribe(onNext: { [weak self] response in
                     guard let self = self else { return }
                     let status = JSON(response.data)["status"]
+                    let message = JSON(response.data)["message"]
+                    print("make status \(status), message: \(message)")
                     if status == 200 {
                         print("success")
                         self.showMakeFriendAlert()

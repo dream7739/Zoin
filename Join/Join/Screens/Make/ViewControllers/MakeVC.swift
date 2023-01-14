@@ -185,6 +185,7 @@ class MakeVC: BaseViewController {
         $0.datePickerMode = .dateAndTime
         $0.locale = Locale(identifier: "ko-KR")
         $0.timeZone = NSTimeZone.local
+        $0.minimumDate = Date()
         if #available(iOS 13.4, *) {
             $0.preferredDatePickerStyle = .wheels
         }
@@ -217,6 +218,7 @@ class MakeVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setTabBarHidden(isHidden: true)
+        setNavigationBar(isHidden: false)
         titleTextField.becomeFirstResponder()
         titleTextField.text = ""
         dateTextField.text = ""
@@ -237,7 +239,7 @@ extension MakeVC {
     private func setLayout() {
         setTabBarHidden(isHidden: true)
         setNavigationBar(isHidden: false)
-        setNavigationName(title: "번개작성")
+        setNavigationName(title: "번개 만들기")
         
         view.backgroundColor = .grayScale900
         view.isOpaque = true
@@ -450,7 +452,7 @@ extension MakeVC {
         titleTextField.rx.text
             .do{ [weak self] text in
                 guard let self = self,
-                      let text = text
+                      let text = text?.trimmingCharacters(in: .whitespaces)
                 else { return }
                 if text.count > 0  {
                     self.nextButton.backgroundColor = .yellow200
@@ -482,7 +484,7 @@ extension MakeVC {
         placeTextField.rx.text
             .do{ [weak self] text in
                 guard let self = self,
-                      let text = text
+                      let text = text?.trimmingCharacters(in: .whitespaces)
                 else { return }
                 if text.count > 0  {
                     self.nextButton.backgroundColor = .yellow200
@@ -501,7 +503,7 @@ extension MakeVC {
         participantTextField.rx.text
             .do{ [weak self] text in
                 guard let self = self,
-                      let text = text
+                      let text = text?.trimmingCharacters(in: .whitespaces)
                 else { return }
                 if text.count > 0  {
                     if text == "0" {
@@ -548,6 +550,21 @@ extension MakeVC {
         dateTextField.layer.cornerRadius = 20
         dateTextField.layer.borderWidth = 2.0
         
+        // 기본값을 현재 날짜로 지정하여 값이 없는 채 넘어가는 것을 방지함
+        let currentDate = Date()
+        
+        let displayDateFormatter = DateFormatter()
+        
+        displayDateFormatter.dateStyle = .medium
+        displayDateFormatter.timeStyle = .medium
+        displayDateFormatter.locale = Locale(identifier: "ko-KR")
+        displayDateFormatter.dateFormat = "yyyy. M. d. EEEE a h:mm"
+        dateTextField.text = displayDateFormatter.string(from: currentDate)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:00"
+        self.appointmentTime = dateFormatter.string(from: currentDate)
+        
         stackView1.addArrangedSubview(resetBtn)
         stackView1.addArrangedSubview(confirmBtn)
         
@@ -588,7 +605,7 @@ extension MakeVC {
         displayDateFormatter.dateStyle = .medium
         displayDateFormatter.timeStyle = .medium
         displayDateFormatter.locale = Locale(identifier: "ko-KR")
-        displayDateFormatter.dateFormat = "yyyy.M.d.EEEE a hh:mm" // 2020.08.13 오후 04시 30분
+        displayDateFormatter.dateFormat = "yyyy. M. d. EEEE a h:mm" // 2020.08.13 오후 4시 30분
         let date = displayDateFormatter.string(from: joinDatePicker.date)
         dateTextField.text = date
         
