@@ -452,7 +452,7 @@ extension MakeVC {
         titleTextField.rx.text
             .do{ [weak self] text in
                 guard let self = self,
-                      let text = text
+                      let text = text?.trimmingCharacters(in: .whitespaces)
                 else { return }
                 if text.count > 0  {
                     self.nextButton.backgroundColor = .yellow200
@@ -484,7 +484,7 @@ extension MakeVC {
         placeTextField.rx.text
             .do{ [weak self] text in
                 guard let self = self,
-                      let text = text
+                      let text = text?.trimmingCharacters(in: .whitespaces)
                 else { return }
                 if text.count > 0  {
                     self.nextButton.backgroundColor = .yellow200
@@ -503,7 +503,7 @@ extension MakeVC {
         participantTextField.rx.text
             .do{ [weak self] text in
                 guard let self = self,
-                      let text = text
+                      let text = text?.trimmingCharacters(in: .whitespaces)
                 else { return }
                 if text.count > 0  {
                     if text == "0" {
@@ -549,6 +549,21 @@ extension MakeVC {
         dateTextField.layer.borderColor = UIColor.grayScale400.cgColor
         dateTextField.layer.cornerRadius = 20
         dateTextField.layer.borderWidth = 2.0
+        
+        // 기본값을 현재 날짜로 지정하여 값이 없는 채 넘어가는 것을 방지함
+        let currentDate = Date()
+        
+        let displayDateFormatter = DateFormatter()
+        
+        displayDateFormatter.dateStyle = .medium
+        displayDateFormatter.timeStyle = .medium
+        displayDateFormatter.locale = Locale(identifier: "ko-KR")
+        displayDateFormatter.dateFormat = "yyyy. M. d. EEEE a h:mm"
+        dateTextField.text = displayDateFormatter.string(from: currentDate)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:00"
+        self.appointmentTime = dateFormatter.string(from: currentDate)
         
         stackView1.addArrangedSubview(resetBtn)
         stackView1.addArrangedSubview(confirmBtn)
