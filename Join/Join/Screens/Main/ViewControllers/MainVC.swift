@@ -164,11 +164,12 @@ class MainVC: BaseViewController {
         }
     }
     
-    //번개 생성 - 상세
+    //진입점
+    //1. 번개 생성 - 상세
+    //2. 번개 알림 - 상세
     @objc func openDetail(notification : NSNotification){
-        if let item = notification.object as? MainElements{
+        if let rendezvousId = notification.object as? Int{
             let joinVC = JoinVC()
-            let rendezvousId = item.id
             
             joinVC.rendezvousId = rendezvousId
             joinVC.delegate = self

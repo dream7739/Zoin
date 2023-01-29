@@ -18,7 +18,7 @@ import Kingfisher
 
 class AlarmListVC: BaseViewController {
     private let alarmProvider = MoyaProvider<AlarmServices>()
-    var alarmList:[Alarm] = []
+    var alarmList:[Alarm] = [Alarm(notificationTypeNumber: 1, notiType: "RENDEZVOUS", createdAt: "", message: "ㅇㅇㅇㅇㅇㅇㅇ", rendezvousId: 111, friendUserId: nil)]
     
     var alarmTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -40,7 +40,7 @@ class AlarmListVC: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getAlarmList()
+       // getAlarmList()
     }
     
 }
@@ -108,14 +108,19 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = self.alarmList[indexPath.row]
-        let joinType = item.notificationTypeNumber
+        let notificationType = item.notificationTypeNumber
+        let rendezvousId = item.rendezvousId
+        let friendUserId = item.friendUserId
         
-        switch joinType {
+//        1: 친구가 새로운 번개를 열었을 때
+//        - 대상: 번개 작성자 친구, 이동: 번개 상세
+        switch notificationType {
         case 1:
-            let joinVC = JoinVC()
-            joinVC.joinType = false
+            let tabBar = self.tabBarController
+            tabBar?.selectedIndex = 0
+            self.navigationController?.popToRootViewController(animated: true)
+            NotificationCenter.default.post(name: NSNotification.Name("detailFlag"), object: rendezvousId)
             break
-            
         default:
             return
         }
