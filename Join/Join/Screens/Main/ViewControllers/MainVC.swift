@@ -157,19 +157,20 @@ class MainVC: BaseViewController {
                                                object: nil)
     }
     
+    //번개 생성 - 번개목록
     @objc func openList(notification : NSNotification){
         if notification.object != nil {
             pushJoinListVC()
         }
     }
     
+    //번개 생성 - 상세
     @objc func openDetail(notification : NSNotification){
         if let item = notification.object as? MainElements{
             let joinVC = JoinVC()
-            let item = item
+            let rendezvousId = item.id
             
-            joinVC.item = item
-            joinVC.joinType = true //생성 -> 내번개
+            joinVC.rendezvousId = rendezvousId
             joinVC.delegate = self
             
             joinVC.modalPresentationStyle = .overFullScreen
@@ -471,11 +472,9 @@ extension MainVC: MainCellDelegate {
         //셀 클릭 시 index에 해당하는 정보를 넘겨주면서 modal로 present함
         let joinVC = JoinVC()
         let item = self.mainList[index]
-        let joinType = item.isMyRendezvous
+        let rendezvousId = item.id
         
-        joinVC.item = item
-        joinVC.joinType = joinType
-        joinVC.atndFlag = item.whetherUserParticipateOrNot!
+        joinVC.rendezvousId = rendezvousId
         joinVC.delegate = self
         
         joinVC.modalPresentationStyle = .overFullScreen

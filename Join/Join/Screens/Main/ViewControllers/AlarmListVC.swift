@@ -18,12 +18,7 @@ import Kingfisher
 
 class AlarmListVC: BaseViewController {
     private let alarmProvider = MoyaProvider<AlarmServices>()
-
     var alarmList:[Alarm] = []
-    var popupViewTopConstraint: Constraint? = nil
-
-//    var isAvailable = false
-//    var hasNext = false
     
     var alarmTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -45,13 +40,16 @@ class AlarmListVC: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        alarmList = []
         getAlarmList()
     }
     
 }
 
-extension AlarmListVC {
+extension AlarmListVC: AlarmListCellDelegate {
+    func selectAcceptBtn(friendUserId: Int) {
+        //6번 친구 신청 받은 유저 일 시 수락을 누르면 프로필 이동 및 친구 수락이 이루어짐
+    }
+    
     private func setLayout() {
         self.view.backgroundColor = .grayScale900
         self.alarmTableView.backgroundColor = .grayScale900
@@ -90,19 +88,15 @@ extension AlarmListVC {
                 }
             }.disposed(by: disposeBag)
     }
+    
+    
+    
 }
 
 
+
+
 extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if self.joinTableView.contentOffset.y > joinTableView.contentSize.height-joinTableView.bounds.size.height {
-//            if hasNext && isAvailable {
-//                isAvailable = false
-//                let cursor = mainList[mainList.count-1].id
-//                getMainList(cursor: cursor)
-//            }
-//        }
-//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return alarmList.count
@@ -113,9 +107,18 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let joinVC = JoinVC()
-//        let item = self.mainList[indexPath.row]
-//        let joinType = item.isMyRendezvous
+        let item = self.alarmList[indexPath.row]
+        let joinType = item.notificationTypeNumber
+        
+        switch joinType {
+        case 1:
+            let joinVC = JoinVC()
+            joinVC.joinType = false
+            break
+            
+        default:
+            return
+        }
 //
 //        joinVC.item = item
 //        joinVC.joinType = joinType
@@ -141,39 +144,8 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
         
         //알람 메시지
         cell.alarmMessageLabel.text = message
-//        cell.nameLabel.text = item.creator.userName
-//        cell.idLabel.text = "@\(item.creator.serviceId)"
-//        cell.countLabel.text = "\(item.participants?.count ?? 0)/\(item.requiredParticipantsCount)"
-//        cell.titleLabel.text = item.title
-//
-//        let url = URL(string: item.creator.profileImgUrl)
-//
-//        let processor = (ResizingImageProcessor(referenceSize: CGSize(width: 50, height: 50)) |> RoundCornerImageProcessor(cornerRadius: 15))
-//        cell.profileImg.kf.indicatorType = .activity
-//
-//        cell.profileImg.kf.setImage(
-//          with: url,
-//          placeholder: nil,
-//          options: [
-//            .transition(.fade(1.0)),
-//            .forceTransition,
-//            .processor(processor)
-//          ],
-//          completionHandler: nil
-//        )
-//
-//        let dateStr = item.appointmentTime
-//        let convertStr = dateStr.dateTypeChange(dateStr: dateStr)
-//
-//        //오늘 강조 처리
-//        let attributedStr = NSMutableAttributedString(string: convertStr)
-//        attributedStr.addAttribute(.font, value: UIFont.minsans(size: 14, family: .Bold)!, range: (convertStr as NSString).range(of: "오늘"))
-//        attributedStr.addAttribute(.foregroundColor, value: UIColor.yellow200, range: (convertStr as NSString).range(of: "오늘"))
-//
-//        cell.dateLabel.attributedText = attributedStr
-//        cell.placeLabel.text = item.location
         
-        
+        //알림
         return cell
     }
     
