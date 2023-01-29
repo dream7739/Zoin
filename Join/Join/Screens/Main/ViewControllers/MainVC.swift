@@ -351,11 +351,23 @@ extension MainVC {
                 self.present(inviteVC, animated: true)
             })
             .disposed(by: disposeBag)
+        
+        alarmBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.pushAlarmListVC()
+            })
+            .disposed(by: disposeBag)
     }
     
     func pushJoinListVC(){
         let joinListVC = JoinListVC()
         self.navigationController?.pushViewController(joinListVC, animated: true)
+    }
+    
+    func pushAlarmListVC(){
+        let alarmListVC = AlarmListVC()
+        self.navigationController?.pushViewController(alarmListVC, animated: true)
     }
     
     func getNetworkData(){
