@@ -20,7 +20,7 @@ import Kingfisher
 class AlarmListVC: BaseViewController {
     
     private let alarmProvider = MoyaProvider<AlarmServices>()
-    var alarmList:[Alarm] = [Alarm(notificationTypeNumber: 1, notiType: "RENDEZVOUS", createdAt: "", message: "홍정민님이 번개를 쳤어요! 확인하러 가볼까요?", rendezvousId: 111, friendUserId: nil), Alarm(notificationTypeNumber: 2, notiType: "RENDEZVOUS", createdAt: "", message: "내가 참여한 홍정민님의 번개가 마감되었어요.\n프로필의 번개 보관함(마감)에서 확인해보세요", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 3, notiType: "RENDEZVOUS", createdAt: "", message: "축하합니다!\n참여 인원수가 모두 차서 번개가 자동 마감되었어요.", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 4, notiType: "RENDEZVOUS", createdAt: "", message: "야호 ! 홍정민님이 내 번개에 참여하기를 눌렀어요.", rendezvousId: 111, friendUserId: nil), Alarm(notificationTypeNumber: 5, notiType: "RENDEZVOUS", createdAt: "", message: "홍정민님의 번개에 참여했어요.\n프로필의 번개 보관함에서 확인해보세요!", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 6, notiType: "FRIEND_REQ", createdAt: "", message: "윤가영님이 나에게 친구신청을 보냈어요.", rendezvousId: nil, friendUserId: 12),Alarm(notificationTypeNumber: 6, notiType: "FRIEND_REQ", createdAt: "", message: "윤가영님이 내 친구신청을 수락했어요.", rendezvousId: nil, friendUserId: 12)
+    var alarmList:[Alarm] = [Alarm(notificationTypeNumber: 1, notiType: "RENDEZVOUS", createdAt: "", message: "홍정민님이 번개를 쳤어요! 확인하러 가볼까요?", rendezvousId: 111, friendUserId: nil), Alarm(notificationTypeNumber: 2, notiType: "RENDEZVOUS", createdAt: "", message: "내가 참여한 홍정민님의 번개가 마감되었어요.\n프로필의 번개 보관함(마감)에서 확인해보세요", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 3, notiType: "RENDEZVOUS", createdAt: "", message: "축하합니다!\n참여 인원수가 모두 차서 번개가 자동 마감되었어요.", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 4, notiType: "RENDEZVOUS", createdAt: "", message: "야호 ! 홍정민님이 내 번개에 참여하기를 눌렀어요.", rendezvousId: 111, friendUserId: nil), Alarm(notificationTypeNumber: 5, notiType: "RENDEZVOUS", createdAt: "", message: "홍정민님의 번개에 참여했어요.\n프로필의 번개 보관함에서 확인해보세요!", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 6, notiType: "FRIEND_REQ", createdAt: "", message: "윤가영님이 나에게 친구신청을 보냈어요.", rendezvousId: nil, friendUserId: 12),Alarm(notificationTypeNumber: 7, notiType: "FRIEND_REQ", createdAt: "", message: "윤가영님이 내 친구신청을 수락했어요.", rendezvousId: nil, friendUserId: 12)
     ]
     
     var alarmTableView: UITableView = {
@@ -67,7 +67,7 @@ extension AlarmListVC: AlarmListCellDelegate {
         }
         
         alarmTableView.rowHeight = UITableView.automaticDimension //자동 높이 조절
-        alarmTableView.estimatedRowHeight = 500 //예상값
+        alarmTableView.estimatedRowHeight = 500  //예상값
         alarmTableView.delegate = self
         alarmTableView.dataSource = self
     }
@@ -198,6 +198,7 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
         let item = alarmList[indexPath.row]
         let message = item.message
         let notiType = item.notiType
+        let notificationTypeNumber = item.notificationTypeNumber
         
         //알람 구분 이미지
         if notiType == "RENDEZVOUS" {
@@ -205,6 +206,15 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
         }else if notiType == "FRIEND_REQ" {
             cell.alarmImageView.image = UIImage(named: "icon_alarm_friend")
         }
+
+        if !(notificationTypeNumber == 6) {
+            cell.btnConstraintUpdate()
+        }
+        
+        if notificationTypeNumber == 1 || notificationTypeNumber == 4 || notificationTypeNumber == 7 {
+            cell.labelConstraintUpdate()
+        }
+        
         
         //알람 메시지
         cell.alarmMessageLabel.text = message

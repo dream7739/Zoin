@@ -83,6 +83,7 @@ class AlarmListTableViewCell : UITableViewCell {
             $0.width.height.equalTo(36)
             $0.top.equalToSuperview().offset(16)
             $0.leading.equalToSuperview().offset(24)
+            $0.bottom.lessThanOrEqualToSuperview().offset(-42)
         }
         
         alarmMessageLabel.snp.makeConstraints {
@@ -93,12 +94,25 @@ class AlarmListTableViewCell : UITableViewCell {
         acceptBtn.snp.makeConstraints {
             $0.leading.equalTo(alarmMessageLabel.snp.leading)
             $0.top.equalTo(alarmMessageLabel.snp.bottom).offset(8)
-            $0.bottom.equalToSuperview().offset(-16)
             $0.height.equalTo(32)
             $0.width.equalTo(75)
         }
+    }
+ 
+    func btnConstraintUpdate(){
+        acceptBtn.snp.updateConstraints {
+            $0.height.equalTo(0)
+        }
         
-        
+        alarmImageView.snp.updateConstraints {
+            $0.bottom.lessThanOrEqualToSuperview().offset(-16)
+        }
+    }
+    
+    func labelConstraintUpdate(){
+        alarmMessageLabel.snp.updateConstraints {
+            $0.top.equalTo(alarmImageView.snp.top).offset(7)
+        }
     }
 }
 
