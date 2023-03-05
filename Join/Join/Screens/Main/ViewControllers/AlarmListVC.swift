@@ -20,7 +20,7 @@ import Kingfisher
 class AlarmListVC: BaseViewController {
     
     private let alarmProvider = MoyaProvider<AlarmServices>()
-    var alarmList:[Alarm] = [Alarm(notificationTypeNumber: 1, notiType: "RENDEZVOUS", createdAt: "", message: "홍정민님이 번개를 쳤어요! 확인하러 가볼까요?", rendezvousId: 111, friendUserId: nil), Alarm(notificationTypeNumber: 2, notiType: "RENDEZVOUS", createdAt: "", message: "내가 참여한 홍정민님의 번개가 마감되었어요.\n프로필의 번개 보관함(마감)에서 확인해보세요", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 3, notiType: "RENDEZVOUS", createdAt: "", message: "축하합니다!\n참여 인원수가 모두 차서 번개가 자동 마감되었어요.", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 4, notiType: "RENDEZVOUS", createdAt: "", message: "야호 ! 홍정민님이 내 번개에 참여하기를 눌렀어요.", rendezvousId: 111, friendUserId: nil), Alarm(notificationTypeNumber: 5, notiType: "RENDEZVOUS", createdAt: "", message: "홍정민님의 번개에 참여했어요.\n프로필의 번개 보관함에서 확인해보세요 !", rendezvousId: nil, friendUserId: nil)
+    var alarmList:[Alarm] = [Alarm(notificationTypeNumber: 1, notiType: "RENDEZVOUS", createdAt: "", message: "홍정민님이 번개를 쳤어요! 확인하러 가볼까요?", rendezvousId: 111, friendUserId: nil), Alarm(notificationTypeNumber: 2, notiType: "RENDEZVOUS", createdAt: "", message: "내가 참여한 홍정민님의 번개가 마감되었어요.\n프로필의 번개 보관함(마감)에서 확인해보세요", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 3, notiType: "RENDEZVOUS", createdAt: "", message: "축하합니다!\n참여 인원수가 모두 차서 번개가 자동 마감되었어요.", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 4, notiType: "RENDEZVOUS", createdAt: "", message: "야호 ! 홍정민님이 내 번개에 참여하기를 눌렀어요.", rendezvousId: 111, friendUserId: nil), Alarm(notificationTypeNumber: 5, notiType: "RENDEZVOUS", createdAt: "", message: "홍정민님의 번개에 참여했어요.\n프로필의 번개 보관함에서 확인해보세요!", rendezvousId: nil, friendUserId: nil), Alarm(notificationTypeNumber: 6, notiType: "FRIEND_REQ", createdAt: "", message: "윤가영님이 나에게 친구신청을 보냈어요.", rendezvousId: nil, friendUserId: 12),Alarm(notificationTypeNumber: 6, notiType: "FRIEND_REQ", createdAt: "", message: "윤가영님이 내 친구신청을 수락했어요.", rendezvousId: nil, friendUserId: 12)
     ]
     
     var alarmTableView: UITableView = {
@@ -127,8 +127,7 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = self.alarmList[indexPath.row]
         let notificationType = item.notificationTypeNumber
-        let rendezvousId = item.rendezvousId
-        let friendUserId = item.friendUserId
+        let userId = item.friendUserId
         
         switch notificationType {
         case 1:
@@ -142,7 +141,8 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
             let tabBar = self.tabBarController
             let navVC = tabBar?.viewControllers![2] as! UINavigationController
             navVC.pushViewController(profileVC, animated: false)
-            profileVC.notificationType = 2
+            profileVC.notiType = "RENDEZVOUS"
+            profileVC.notificationTypeNumber = 2
             tabBar?.selectedIndex = 2
             break
         case 3:
@@ -150,7 +150,8 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
             let profileVC = ProfileVC()
             let navVC = tabBar?.viewControllers![2] as! UINavigationController
             navVC.pushViewController(profileVC, animated: false)
-            profileVC.notificationType = 3
+            profileVC.notiType = "RENDEZVOUS"
+            profileVC.notificationTypeNumber = 3
             tabBar?.selectedIndex = 2
             break
         case 4:
@@ -164,19 +165,31 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
             let profileVC = ProfileVC()
             let navVC = tabBar?.viewControllers![2] as! UINavigationController
             navVC.pushViewController(profileVC, animated: false)
-            profileVC.notificationType = 5
+            profileVC.notiType = "RENDEZVOUS"
+            profileVC.notificationTypeNumber = 5
+            tabBar?.selectedIndex = 2
+        case 6:
+            let tabBar = self.tabBarController
+            let profileVC = ProfileVC()
+            let navVC = tabBar?.viewControllers![2] as! UINavigationController
+            navVC.pushViewController(profileVC, animated: false)
+            profileVC.notiType = "FRIEND_REQ"
+            profileVC.notificationTypeNumber = 6
+            profileVC.userId = userId
+            tabBar?.selectedIndex = 2
+            break
+        case 7:
+            let tabBar = self.tabBarController
+            let profileVC = ProfileVC()
+            let navVC = tabBar?.viewControllers![2] as! UINavigationController
+            navVC.pushViewController(profileVC, animated: false)
+            profileVC.notiType = "FRIEND_REQ"
+            profileVC.notificationTypeNumber = 7
             tabBar?.selectedIndex = 2
             break
         default:
             return
         }
-//
-//        joinVC.item = item
-//        joinVC.joinType = joinType
-//        joinVC.delegate = self
-//
-//        joinVC.modalPresentationStyle = .overFullScreen
-//        self.present(joinVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

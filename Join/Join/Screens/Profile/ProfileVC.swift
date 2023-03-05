@@ -15,7 +15,9 @@ import Moya
 import SwiftyJSON
 
 class ProfileVC: BaseViewController {
-    var notificationType:Int?
+    var notificationTypeNumber:Int?
+    var notiType: String?
+    var userId: Int?    //나에게 친구신청을 보낸 유저ID
 
     private let profileBackgroundView = UIView().then {
         $0.backgroundColor = .grayScale800
@@ -150,13 +152,14 @@ class ProfileVC: BaseViewController {
         setUpNavigation()
         setTabBarHidden(isHidden: false)
         countFriends()
-        makeFriends() //초대하기를 통해 들어온 친구수락
+        friend() //초대하기를 통해 들어온 친구수락 및 알림리스트를 통한 친구수락
             
-        //알림 리스트를 통해 진입한 경우 화면 분기
-        if let notificationType = notificationType {
-            openRendezvousList()
+        //알림 리스트를 통해 진입 && 번개 관련
+        if let notiType = notiType {
+            if notiType == "RENDEZVOUS"{
+                openRendezvousList()
+            }
         }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -438,8 +441,9 @@ extension ProfileVC {
             .disposed(by: disposeBag)
     }
     
+    //알림목록에서 들어온 타입별 화면 분기
     func openRendezvousList(){
-        switch notificationType {
+        switch notificationTypeNumber {
         case 2:
             let viewcontroller = EndedMeetingVC()
             self.navigationController?.pushViewController(viewcontroller, animated: true)
@@ -457,8 +461,7 @@ extension ProfileVC {
         }
         
         // 1회 실행 조건
-        notificationType = nil
-    
+        notiType = nil
     }
 
 
@@ -497,17 +500,27 @@ extension ProfileVC {
             }).disposed(by: disposeBag)
     }
     
-    @objc func makeFriends() {
+  
+    //초대하기 - scene에서 진입한 경우
+    //알림리스트에서 진입한 경우
+    func friend() {
         let scene = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
         
-        if !scene.isInvited {
+        if !scene.isInvited && notiType == nil {
             return
-        }else{
+        }else if scene.isInvited {
+            guard let userId = scene.inviteUserId else { return }
             scene.isInvited = false
+            makeFriend(userId: userId)
+        }else if notificationTypeNumber == 6 {
+            if let userId = userId {
+                makeFriend(userId: userId)
+            }
         }
-        
-        guard let userId = scene.inviteUserId else { return }
-        
+    }
+    
+    //친구 맺기 서버통신
+    func makeFriend(userId : Int){
         listProvider.rx.request(.invitation(param: friendId(invitingFriendId: userId)))
                 .asObservable()
                 .subscribe(onNext: { [weak self] response in
@@ -524,7 +537,8 @@ extension ProfileVC {
                     print("error occured")
                 }, onCompleted: {
                 }).disposed(by: disposeBag)
-        }
+    }
+    
     
     func showMakeFriendAlert(){
         let alert = UIAlertController(title: "친구 요청을 수락했어요", message: nil, preferredStyle: .alert)
