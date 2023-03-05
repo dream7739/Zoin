@@ -143,7 +143,8 @@ class ProfileVC: BaseViewController {
         setLayout()
         bind()
         countFriends()
-        // Do any additional setup after loading the view.
+        friend() //초대하기를 통해 들어온 친구수락 및 알림리스트를 통한 친구수락
+
     }
 
 
@@ -152,7 +153,6 @@ class ProfileVC: BaseViewController {
         setUpNavigation()
         setTabBarHidden(isHidden: false)
         countFriends()
-        friend() //초대하기를 통해 들어온 친구수락 및 알림리스트를 통한 친구수락
             
         //알림 리스트를 통해 진입 && 번개 관련
         if let notiType = notiType {
@@ -516,7 +516,10 @@ extension ProfileVC {
             if let userId = userId {
                 makeFriend(userId: userId)
             }
+        }else if notificationTypeNumber == 7 {
+            
         }
+
     }
     
     //친구 맺기 서버통신
@@ -530,7 +533,9 @@ extension ProfileVC {
                     print("make status \(status), message: \(message)")
                     if status == 200 {
                         print("success")
-                        self.showMakeFriendAlert()
+                        self.showMakeFriendAlert(message: "친구 요청을 수락했어요")
+                    }else if status == 400 {
+                        self.showMakeFriendAlert(message: "이미 친구인 유저입니다")
                     }
                     
                 }, onError: { [weak self] _ in
@@ -540,8 +545,8 @@ extension ProfileVC {
     }
     
     
-    func showMakeFriendAlert(){
-        let alert = UIAlertController(title: "친구 요청을 수락했어요", message: nil, preferredStyle: .alert)
+    func showMakeFriendAlert(message: String){
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         let confirm = UIAlertAction(title: "확인", style: .default, handler:  nil)
         
         alert.addAction(confirm)
