@@ -16,9 +16,12 @@ import Moya
 import Kingfisher
 
 
+
 class AlarmListVC: BaseViewController {
+    
     private let alarmProvider = MoyaProvider<AlarmServices>()
-    var alarmList:[Alarm] = [Alarm(notificationTypeNumber: 1, notiType: "RENDEZVOUS", createdAt: "", message: "ㅇㅇㅇㅇㅇㅇㅇ", rendezvousId: 111, friendUserId: nil)]
+    var alarmList:[Alarm] = [Alarm(notificationTypeNumber: 1, notiType: "RENDEZVOUS", createdAt: "", message: "홍정민님이 번개를 쳤어요! 확인하러 가볼까요?", rendezvousId: 111, friendUserId: nil), Alarm(notificationTypeNumber: 2, notiType: "RENDEZVOUS", createdAt: "", message: "내가 참여한 홍정민님의 번개가 마감되었어요.\n프로필의 번개 보관함(마감)에서 확인해보세요", rendezvousId: 111, friendUserId: nil)
+    ]
     
     var alarmTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -59,7 +62,7 @@ extension AlarmListVC: AlarmListCellDelegate {
         alarmTableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
-            $0.left.equalToSuperview().offset(24)
+            $0.left.equalToSuperview().offset(0)
             $0.right.equalToSuperview().offset(-24)
         }
         
@@ -114,6 +117,19 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
         
 //        1: 친구가 새로운 번개를 열었을 때
 //        - 대상: 번개 작성자 친구, 이동: 번개 상세
+//        2: 내가 참여한 번개가 마감되었을 때
+//        - 대상: 번개 참여자, 이동: 내프로필 - 참여 번개 리스트
+//        3: 내가 등록한 번개 마감되었을 때
+//        - 대상: 번개 작성자, 이동: 내프로필 - 마감한 번개 리스트뷰
+//        4: 번개에 내 친구가 참여했을 때
+//        - 대상: 번개 작성자, 이동: 메인 - 번개 상세 - 참여자 목록 모달
+//        5: 친구 번개에 내가 참여했을 때
+//        - 대상: 번개 참여자, 이동: 내 프로필 - 참여 번개 리스트뷰
+//        6: 친구 신청 요청
+//        - 대상: 신청 받은 유저, 이동: 유저 프로필 - 자동 친구 수락
+//        7: 친구 신청 수락
+//        - 대상: 신청한 유저, 이동: 친구 유저 프로필
+        
         switch notificationType {
         case 1:
             let tabBar = self.tabBarController
@@ -121,6 +137,17 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
             self.navigationController?.popToRootViewController(animated: true)
             NotificationCenter.default.post(name: NSNotification.Name("detailFlag"), object: rendezvousId)
             break
+            case 2:
+            let tabBar = self.tabBarController
+            let navVC = tabBar?.viewControllers![2] as! UINavigationController
+            let profileVC = navVC.topViewController as! ProfileVC
+            profileVC.notificationType = 2
+            tabBar?.selectedIndex = 2
+//            tabBar?.selectedIndex = 2
+//            self.navigationController?.popToRootViewController(animated: true)
+//            NotificationCenter.default.post(name: NSNotification.Name("alarmFlag"), object: notificationType)
+            break
+            
         default:
             return
         }

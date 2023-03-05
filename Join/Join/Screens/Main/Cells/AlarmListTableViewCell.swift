@@ -37,6 +37,7 @@ class AlarmListTableViewCell : UITableViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = .minsans(size: 14, family: .Medium)
         $0.textColor = .grayScale100
+        $0.numberOfLines = 0
     }
     
     var acceptBtn = UIButton().then {

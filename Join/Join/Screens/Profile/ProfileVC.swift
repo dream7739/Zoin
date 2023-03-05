@@ -15,7 +15,7 @@ import Moya
 import SwiftyJSON
 
 class ProfileVC: BaseViewController {
-
+    var notificationType:Int?
 
     private let profileBackgroundView = UIView().then {
         $0.backgroundColor = .grayScale800
@@ -142,8 +142,12 @@ class ProfileVC: BaseViewController {
         bind()
         countFriends()
         // Do any additional setup after loading the view.
+        
+        //알림 리스트를 통해 진입한 경우 화면 분기
+        if let notificationType = notificationType {
+            openRendezvousList()
+        }
     }
-
 
 
     override func viewWillAppear(_ animated: Bool) {
@@ -153,7 +157,6 @@ class ProfileVC: BaseViewController {
         countFriends()
         makeFriends() //초대하기를 통해 들어온 친구수락
     }
-
 
 }
 
@@ -429,6 +432,18 @@ extension ProfileVC {
             })
             .disposed(by: disposeBag)
     }
+    
+    func openRendezvousList(){
+        switch notificationType {
+        case 2:
+            let viewcontroller = EndedMeetingVC()
+            self.navigationController?.pushViewController(viewcontroller, animated: true)
+            break
+        default:
+            break
+        }
+    }
+
 
     @objc func moveLast() {
         let viewController = SettingVC()
