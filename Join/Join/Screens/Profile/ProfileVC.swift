@@ -142,11 +142,6 @@ class ProfileVC: BaseViewController {
         bind()
         countFriends()
         // Do any additional setup after loading the view.
-        
-        //알림 리스트를 통해 진입한 경우 화면 분기
-        if let notificationType = notificationType {
-            openRendezvousList()
-        }
     }
 
 
@@ -156,6 +151,16 @@ class ProfileVC: BaseViewController {
         setTabBarHidden(isHidden: false)
         countFriends()
         makeFriends() //초대하기를 통해 들어온 친구수락
+            
+        //알림 리스트를 통해 진입한 경우 화면 분기
+        if let notificationType = notificationType {
+            openRendezvousList()
+        }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        setTabBarHidden(isHidden: false)
     }
 
 }
@@ -439,9 +444,21 @@ extension ProfileVC {
             let viewcontroller = EndedMeetingVC()
             self.navigationController?.pushViewController(viewcontroller, animated: true)
             break
+        case 3:
+            let viewcontroller = ClosedMeetingVC()
+            self.navigationController?.pushViewController(viewcontroller, animated: true)
+            break
+        case 5:
+            let viewcontroller = EndedMeetingVC()
+            self.navigationController?.pushViewController(viewcontroller, animated: true)
+            break
         default:
             break
         }
+        
+        // 1회 실행 조건
+        notificationType = nil
+    
     }
 
 

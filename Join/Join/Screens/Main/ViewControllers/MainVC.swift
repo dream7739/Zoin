@@ -1,4 +1,4 @@
-//
+
 //  MainVC.swift
 //  Join
 //
@@ -126,7 +126,7 @@ class MainVC: BaseViewController {
         $0.contentHorizontalAlignment = .center
         $0.layer.cornerRadius = 20
     }
-
+    
     private let authProvider = MoyaProvider<AuthServices>()
     
     override func viewDidLoad() {
@@ -155,6 +155,10 @@ class MainVC: BaseViewController {
                                                selector: #selector(openDetail),
                                                name: NSNotification.Name("detailFlag"),
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(alarmOpenDetail),
+                                               name: NSNotification.Name("alarmFlag"),
+                                               object: nil)
     }
     
     //번개 생성 - 번개목록
@@ -164,9 +168,7 @@ class MainVC: BaseViewController {
         }
     }
     
-    //진입점
-    //1. 번개 생성 - 상세
-    //2. 번개 알림 - 상세
+    // 번개 생성 - 상세
     @objc func openDetail(notification : NSNotification){
         if let rendezvousId = notification.object as? Int{
             let joinVC = JoinVC()
@@ -178,7 +180,25 @@ class MainVC: BaseViewController {
             self.present(joinVC, animated: true)
         }
     }
-
+    
+    // 알람 - 상세
+    @objc func alarmOpenDetail(notification : NSNotification){
+        if let item = notification.object as? Alarm{
+            let joinVC = JoinVC()
+            
+            let rendezvousId = item.rendezvousId    //번개 ID
+            let notificationTypeNumber = item.notificationTypeNumber    //알람 타입 1-상세만, 4-참여자 목록
+            
+            joinVC.rendezvousId = rendezvousId
+            joinVC.notificationTypeNumber = item.notificationTypeNumber
+            
+            joinVC.delegate = self
+            
+            joinVC.modalPresentationStyle = .overFullScreen
+            self.present(joinVC, animated: true)
+        }
+    }
+    
     @objc func setNotiToken() {
         let token = fcmToken(token: KeychainHandler.shared.fcmToken)
         authProvider.rx.request(.addFcmToken(param: token)).asObservable().subscribe(onNext: {[weak self] response in
@@ -186,7 +206,7 @@ class MainVC: BaseViewController {
             print("setNotification<<", msg)
             print("setNotification<<", response)
             if response.statusCode == 200 {
-
+                
             }
         }, onError: {[weak self] err in
             print(err)
@@ -396,7 +416,7 @@ extension MainVC {
                                 //스크롤 포지션 변경되지 않도록 변경함
                                 self.collectionView.reloadSections(IndexSet(integer: 0))
                             }
-
+                            
                             //메인리스트 없을 시 전체보기 버튼 숨김
                             if self.mainList.isEmpty {
                                 self.searchJoinListBtn.isHidden = true
@@ -538,7 +558,7 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
             let dateStr = item.appointmentTime
             cell.dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
             cell.placeLabel.text = item.location
-        
+            
             
             let url = URL(string: item.creator.profileImgUrl)
             
@@ -546,14 +566,14 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
             cell.profileImg.kf.indicatorType = .activity
             
             cell.profileImg.kf.setImage(
-              with: url,
-              placeholder: nil,
-              options: [
-                .transition(.fade(1.0)),
-                .forceTransition,
-                .processor(processor)
-              ],
-              completionHandler: nil
+                with: url,
+                placeholder: nil,
+                options: [
+                    .transition(.fade(1.0)),
+                    .forceTransition,
+                    .processor(processor)
+                ],
+                completionHandler: nil
             )
             
             let randomVal = Int.random(in: 0...9)

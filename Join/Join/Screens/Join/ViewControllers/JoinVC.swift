@@ -36,6 +36,7 @@ class JoinVC: BaseViewController {
     
     var item: MainElements!
     var rendezvousId: Int!
+    var notificationTypeNumber: Int?
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -176,6 +177,7 @@ class JoinVC: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         getRendezvousData()
+
     }
     
     override func viewDidLoad() {
@@ -202,7 +204,7 @@ extension JoinVC: CancelDelegate, FinishDelegate, ReportDelegate {
     func reportUpdate(reportResponse: Int) {
         self.reportResponse = reportResponse
         self.isReported = true
-                
+        
         if(reportResponse == 200){
             self.showToast(message: "신고가 접수되었어요.")
         }else if(reportResponse == 400){
@@ -538,10 +540,10 @@ extension JoinVC: CancelDelegate, FinishDelegate, ReportDelegate {
                 let message = JSON(response.data)["message"]
                 if status == 200 {
                     guard let value = try? JSONDecoder().decode(RendezvousResponse.self, from: response.data) else {return}
-                     self.item = value.data.rendezvous
-                     self.joinType = value.data.isAuthor
-                     self.atndFlag = self.item!.whetherUserParticipateOrNot!
-                     self.viewBind()
+                    self.item = value.data.rendezvous
+                    self.joinType = value.data.isAuthor
+                    self.atndFlag = self.item!.whetherUserParticipateOrNot!
+                    self.viewBind()
                 }else if status == 400 {
                     if message == "java.lang.IllegalArgumentException: Authorization 헤더가 없습니다." {
                         self.showToast(message: "계정 인증에 문제가 있습니다.")
@@ -552,6 +554,13 @@ extension JoinVC: CancelDelegate, FinishDelegate, ReportDelegate {
             }, onError: { [weak self] _ in
                 print("error occured")
             }, onCompleted: {
+                if let notificationTypeNumber = self.notificationTypeNumber {
+                    if notificationTypeNumber == 4 {
+                        self.clickAttendConfirmBtn()
+                    }
+                }
+                
+                self.notificationTypeNumber = nil
                 
             }).disposed(by: disposeBag)
     }
