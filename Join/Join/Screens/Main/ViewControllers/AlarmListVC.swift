@@ -185,6 +185,7 @@ extension AlarmListVC: UITableViewDelegate, UITableViewDataSource {
             navVC.pushViewController(profileVC, animated: false)
             profileVC.notiType = "FRIEND_REQ"
             profileVC.notificationTypeNumber = 7
+            profileVC.userId = userId
             tabBar?.selectedIndex = 2
             break
         default:

@@ -18,6 +18,7 @@ enum ProfileServices {
     case addFriend(param: userId)
     case deleteFriend(Int)
     case invitation(param: friendId)
+    case other(Int)
 }
 
 struct searchIdRequest: Encodable {
@@ -74,6 +75,20 @@ struct friendId: Codable {
     var invitingFriendId: Int
 }
 
+struct other: Codable {
+    var timestamp: String
+    var status: Int
+    var message: String
+    var data: otherUserInfo
+}
+
+struct otherUserInfo: Codable {
+    var otherUser: user
+    var friendCount: Int
+    var isFriend: Bool
+}
+
+
 extension ProfileServices: TargetType {
     private var token: String {
         return KeychainHandler.shared.accessToken
@@ -81,8 +96,8 @@ extension ProfileServices: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-
-
+    
+    
     var path: String {
         switch self {
         case .searchFriendsId:
@@ -101,9 +116,11 @@ extension ProfileServices: TargetType {
             return "/api/v1/user/friends/\(id)"
         case .invitation:
             return "/api/v1/friend/invitation"
+        case .other(let id):
+            return "api/v1/user/other/\(id)"
         }
     }
-
+    
     var method: Moya.Method {
         switch self {
         case .searchFriendsId:
@@ -122,13 +139,15 @@ extension ProfileServices: TargetType {
             return .delete
         case .invitation:
             return .put
+        case .other:
+            return .get
         }
     }
-
+    
     var sampleData: Data {
         return Data()
     }
-
+    
     var task: Task {
         switch self {
         case.searchFriendsId(id: let id):
@@ -154,9 +173,11 @@ extension ProfileServices: TargetType {
             return .requestPlain
         case .invitation(let param):
             return .requestJSONEncodable(param)
+        case .other(_):
+            return .requestPlain
         }
     }
-
+    
     var headers: [String : String]? {
         switch self {
         case .changeImage:
@@ -167,6 +188,6 @@ extension ProfileServices: TargetType {
                     "Authorization": token]
         }
     }
-
-
+    
+    
 }

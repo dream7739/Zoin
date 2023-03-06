@@ -13,6 +13,7 @@ import RxCocoa
 import RxSwift
 import Moya
 import SwiftyJSON
+import Kingfisher
 
 class ProfileVC: BaseViewController {
     var notificationTypeNumber:Int?
@@ -137,6 +138,7 @@ class ProfileVC: BaseViewController {
 
     let listProvider = MoyaProvider<ProfileServices>()
     var friendsInfo = [user]()
+    var otherInfo = [otherUserInfo]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -517,7 +519,9 @@ extension ProfileVC {
                 makeFriend(userId: userId)
             }
         }else if notificationTypeNumber == 7 {
-            
+            if let userId = userId {
+                getFriendProfile(friendId: userId)
+            }
         }
 
     }
@@ -554,5 +558,63 @@ extension ProfileVC {
         alert.view.tintColor = .grayScale900
         self.present(alert, animated: true)
     }
+    
+    func getFriendProfile(friendId: Int){
+        listProvider.rx.request(.other(friendId))
+                .asObservable()
+                .subscribe(onNext: { [weak self] response in
+                    guard let self = self else { return }
+                    let status = JSON(response.data)["status"]
+                    let message = JSON(response.data)["message"]
+                    if status == 200 {
+                        guard let value = try? JSONDecoder().decode(other.self, from: response.data) else {return}
+                        self.otherInfo = [value.data]
+                        self.bindOtherUserProfile()
+                    }
+                }, onError: { [weak self] _ in
+                    print("error occured")
+                }, onCompleted: {
+                }).disposed(by: disposeBag)
+    }
+    
+    func bindOtherUserProfile(){
+        let info = otherInfo[0]
+        let userInfo = info.otherUser  //유저데이터
+        let friendCount = info.friendCount //친구수
+        let isFriend = info.isFriend   //친구여부
+        let profileImgUrl = userInfo.profileImgUrl //프로필 이미지 URL
+        
+        friendsCountLabel.text = "\(friendCount)"
+        nicknameLabel.text = userInfo.userName
+        userIdLabel.text = userInfo.serviceId
+        
+        if profileImgUrl == "" {
+            profileImageView.image = Image.profileDefault
+        }else{
+            let url = URL(string: profileImgUrl)
+            let processor = (ResizingImageProcessor(referenceSize: CGSize(width: 113, height: 113)) |> RoundCornerImageProcessor(cornerRadius: 50))
+            profileImageView.kf.setImage(with: url, options: [.processor(processor)])
+        }
+        
+        //모집중인 번개 목록을 제외한 나머지를 숨김 처리
+        closedBoxButton.isHidden = true
+        historyBoxButton.isHidden = true
+        closedBoxLabel.isHidden = true
+        historyBoxLabel.isHidden = true
+        closedBoxImage.isHidden = true
+        historyBoxImage.isHidden = true
+        guideImagesecond.isHidden = true
+        guideImagethird.isHidden = true
+        navigationItem.rightBarButtonItem = nil
+        editButton.isHidden = true
+        
+        //친구가 아닌 경우 친구검색을 친구추가로 바꾸어줌
+        if !isFriend{
+            searchButton.setImage(Image.addFriendsBtn, for: .normal)
+        }
+    }
+    
+    
+  
       
 }
