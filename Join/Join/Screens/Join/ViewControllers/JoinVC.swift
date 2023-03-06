@@ -23,8 +23,8 @@ protocol FinishMainDelegate {
 class JoinVC: BaseViewController {
     private let makeProvider = MoyaProvider<MakeServices>()
     
-    var atndFlag = false //참여여부 플래그
-    var joinType: Bool! //true - 내 번개, false - 친구번개
+    var atndFlag: Bool = false //whetherUserParticipateOrNot
+    var joinType: Bool = false //isAuthor
     var isCanceled = false
     var isDeleted = false
     var isExceed = false
@@ -33,7 +33,10 @@ class JoinVC: BaseViewController {
     var viewTranslation:CGPoint = CGPoint(x: 0, y: 0)
     var delegate: FinishMainDelegate?
     var popupViewTopConstraint: Constraint? = nil
+    
     var item: MainElements!
+    var rendezvousId: Int!
+    var notificationTypeNumber: Int?
     
     var popupView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -172,6 +175,11 @@ class JoinVC: BaseViewController {
         $0.layer.cornerRadius = 20
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        getRendezvousData()
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -196,7 +204,7 @@ extension JoinVC: CancelDelegate, FinishDelegate, ReportDelegate {
     func reportUpdate(reportResponse: Int) {
         self.reportResponse = reportResponse
         self.isReported = true
-                
+        
         if(reportResponse == 200){
             self.showToast(message: "신고가 접수되었어요.")
         }else if(reportResponse == 400){
@@ -245,14 +253,6 @@ extension JoinVC: CancelDelegate, FinishDelegate, ReportDelegate {
             joinBtn,
             btnStackView
         ])
-        
-        
-        if !joinType {
-            btnStackView.isHidden = true
-        }else{
-            joinBtn.isHidden = true
-        }
-        
         
         //dismiss gesture 추가
         viewTranslation = CGPoint(x: popupView.frame.minX, y: popupView.frame.minY)
@@ -369,6 +369,13 @@ extension JoinVC: CancelDelegate, FinishDelegate, ReportDelegate {
     }
     
     private func viewBind(){
+        
+        if !joinType {
+            btnStackView.isHidden = true
+        }else{
+            joinBtn.isHidden = true
+        }
+        
         nameLabel.text = item.creator.userName
         idLabel.text = "@\(item.creator.serviceId)"
         titleLabel.text = item.title
@@ -414,7 +421,6 @@ extension JoinVC: CancelDelegate, FinishDelegate, ReportDelegate {
     }
     
     private func bind(){
-        viewBind()
         
         joinBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
@@ -521,6 +527,40 @@ extension JoinVC: CancelDelegate, FinishDelegate, ReportDelegate {
             }, onError: { [weak self] _ in
                 print("error occured")
             }, onCompleted: {
+                
+            }).disposed(by: disposeBag)
+    }
+    
+    func getRendezvousData() {
+        makeProvider.rx.request(.rendezvousDetail(id: rendezvousId))
+            .asObservable()
+            .subscribe(onNext: { [weak self] response in
+                guard let self = self else{ return }
+                let status = JSON(response.data)["status"]
+                let message = JSON(response.data)["message"]
+                if status == 200 {
+                    guard let value = try? JSONDecoder().decode(RendezvousResponse.self, from: response.data) else {return}
+                    self.item = value.data.rendezvous
+                    self.joinType = value.data.isAuthor
+                    self.atndFlag = self.item!.whetherUserParticipateOrNot!
+                    self.viewBind()
+                }else if status == 400 {
+                    if message == "java.lang.IllegalArgumentException: Authorization 헤더가 없습니다." {
+                        self.showToast(message: "계정 인증에 문제가 있습니다.")
+                    }
+                }else if status == 500 {
+                    self.showToast(message: "삭제된 번개입니다")
+                }
+            }, onError: { [weak self] _ in
+                print("error occured")
+            }, onCompleted: {
+                if let notificationTypeNumber = self.notificationTypeNumber {
+                    if notificationTypeNumber == 4 {
+                        self.clickAttendConfirmBtn()
+                    }
+                }
+                
+                self.notificationTypeNumber = nil
                 
             }).disposed(by: disposeBag)
     }

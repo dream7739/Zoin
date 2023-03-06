@@ -1,4 +1,4 @@
-//
+
 //  MainVC.swift
 //  Join
 //
@@ -126,7 +126,7 @@ class MainVC: BaseViewController {
         $0.contentHorizontalAlignment = .center
         $0.layer.cornerRadius = 20
     }
-
+    
     private let authProvider = MoyaProvider<AuthServices>()
     
     override func viewDidLoad() {
@@ -155,28 +155,50 @@ class MainVC: BaseViewController {
                                                selector: #selector(openDetail),
                                                name: NSNotification.Name("detailFlag"),
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(alarmOpenDetail),
+                                               name: NSNotification.Name("alarmFlag"),
+                                               object: nil)
     }
     
+    //번개 생성 - 번개목록
     @objc func openList(notification : NSNotification){
         if notification.object != nil {
             pushJoinListVC()
         }
     }
     
+    // 번개 생성 - 상세
     @objc func openDetail(notification : NSNotification){
-        if let item = notification.object as? MainElements{
+        if let rendezvousId = notification.object as? Int{
             let joinVC = JoinVC()
-            let item = item
             
-            joinVC.item = item
-            joinVC.joinType = true //생성 -> 내번개
+            joinVC.rendezvousId = rendezvousId
             joinVC.delegate = self
             
             joinVC.modalPresentationStyle = .overFullScreen
             self.present(joinVC, animated: true)
         }
     }
-
+    
+    // 알람 - 상세
+    @objc func alarmOpenDetail(notification : NSNotification){
+        if let item = notification.object as? Alarm{
+            let joinVC = JoinVC()
+            
+            let rendezvousId = item.rendezvousId    //번개 ID
+            let notificationTypeNumber = item.notificationTypeNumber    //알람 타입 1-상세만, 4-참여자 목록
+            
+            joinVC.rendezvousId = rendezvousId
+            joinVC.notificationTypeNumber = item.notificationTypeNumber
+            
+            joinVC.delegate = self
+            
+            joinVC.modalPresentationStyle = .overFullScreen
+            self.present(joinVC, animated: true)
+        }
+    }
+    
     @objc func setNotiToken() {
         let token = fcmToken(token: KeychainHandler.shared.fcmToken)
         authProvider.rx.request(.addFcmToken(param: token)).asObservable().subscribe(onNext: {[weak self] response in
@@ -184,7 +206,7 @@ class MainVC: BaseViewController {
             print("setNotification<<", msg)
             print("setNotification<<", response)
             if response.statusCode == 200 {
-
+                
             }
         }, onError: {[weak self] err in
             print(err)
@@ -351,11 +373,23 @@ extension MainVC {
                 self.present(inviteVC, animated: true)
             })
             .disposed(by: disposeBag)
+        
+        alarmBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.pushAlarmListVC()
+            })
+            .disposed(by: disposeBag)
     }
     
     func pushJoinListVC(){
         let joinListVC = JoinListVC()
         self.navigationController?.pushViewController(joinListVC, animated: true)
+    }
+    
+    func pushAlarmListVC(){
+        let alarmListVC = AlarmListVC()
+        self.navigationController?.pushViewController(alarmListVC, animated: true)
     }
     
     func getNetworkData(){
@@ -382,7 +416,7 @@ extension MainVC {
                                 //스크롤 포지션 변경되지 않도록 변경함
                                 self.collectionView.reloadSections(IndexSet(integer: 0))
                             }
-
+                            
                             //메인리스트 없을 시 전체보기 버튼 숨김
                             if self.mainList.isEmpty {
                                 self.searchJoinListBtn.isHidden = true
@@ -459,11 +493,9 @@ extension MainVC: MainCellDelegate {
         //셀 클릭 시 index에 해당하는 정보를 넘겨주면서 modal로 present함
         let joinVC = JoinVC()
         let item = self.mainList[index]
-        let joinType = item.isMyRendezvous
+        let rendezvousId = item.id
         
-        joinVC.item = item
-        joinVC.joinType = joinType
-        joinVC.atndFlag = item.whetherUserParticipateOrNot!
+        joinVC.rendezvousId = rendezvousId
         joinVC.delegate = self
         
         joinVC.modalPresentationStyle = .overFullScreen
@@ -526,7 +558,7 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
             let dateStr = item.appointmentTime
             cell.dateLabel.text = dateStr.dateTypeChange(dateStr: dateStr)
             cell.placeLabel.text = item.location
-        
+            
             
             let url = URL(string: item.creator.profileImgUrl)
             
@@ -534,14 +566,14 @@ extension MainVC : UICollectionViewDelegate, UICollectionViewDataSource {
             cell.profileImg.kf.indicatorType = .activity
             
             cell.profileImg.kf.setImage(
-              with: url,
-              placeholder: nil,
-              options: [
-                .transition(.fade(1.0)),
-                .forceTransition,
-                .processor(processor)
-              ],
-              completionHandler: nil
+                with: url,
+                placeholder: nil,
+                options: [
+                    .transition(.fade(1.0)),
+                    .forceTransition,
+                    .processor(processor)
+                ],
+                completionHandler: nil
             )
             
             let randomVal = Int.random(in: 0...9)

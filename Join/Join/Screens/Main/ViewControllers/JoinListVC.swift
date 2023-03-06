@@ -156,10 +156,8 @@ extension JoinListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let joinVC = JoinVC()
         let item = self.mainList[indexPath.row]
-        let joinType = item.isMyRendezvous
         
-        joinVC.item = item
-        joinVC.joinType = joinType
+        joinVC.rendezvousId = item.id
         joinVC.delegate = self
         
         joinVC.modalPresentationStyle = .overFullScreen

@@ -19,6 +19,9 @@
 		8875C5952921015F0039C3F0 /* ReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8875C5942921015F0039C3F0 /* ReportCell.swift */; };
 		887D597728294A5D0004ED92 /* MainCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */; };
 		8882EAF42823E26F00622FF9 /* JoinMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */; };
+		888616AF2986241600E679A9 /* AlarmServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888616AE2986241600E679A9 /* AlarmServices.swift */; };
+		88889A872973ABE500F04A1D /* AlarmListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88889A862973ABE500F04A1D /* AlarmListVC.swift */; };
+		88889A892973AC4C00F04A1D /* AlarmListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88889A882973AC4C00F04A1D /* AlarmListTableViewCell.swift */; };
 		888FEE70286DEC090013939B /* TermVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FEE6F286DEC090013939B /* TermVC.swift */; };
 		888FEE72286DEFB00013939B /* TermTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888FEE71286DEFB00013939B /* TermTVCell.swift */; };
 		8890DEC72858A90A00AAC380 /* JoinModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */; };
@@ -117,6 +120,9 @@
 		8875C5942921015F0039C3F0 /* ReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCell.swift; sourceTree = "<group>"; };
 		887D597628294A5D0004ED92 /* MainCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8882EAF32823E26F00622FF9 /* JoinMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMemberCell.swift; sourceTree = "<group>"; };
+		888616AE2986241600E679A9 /* AlarmServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmServices.swift; sourceTree = "<group>"; };
+		88889A862973ABE500F04A1D /* AlarmListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListVC.swift; sourceTree = "<group>"; };
+		88889A882973AC4C00F04A1D /* AlarmListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListTableViewCell.swift; sourceTree = "<group>"; };
 		888FEE6F286DEC090013939B /* TermVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermVC.swift; sourceTree = "<group>"; };
 		888FEE71286DEFB00013939B /* TermTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermTVCell.swift; sourceTree = "<group>"; };
 		8890DEC62858A90A00AAC380 /* JoinModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinModifyVC.swift; sourceTree = "<group>"; };
@@ -239,6 +245,7 @@
 			children = (
 				881DFEF528157FB200960AFA /* MainCollectionViewCell.swift */,
 				8820E93B2819645E00C02971 /* JoinListTableViewCell.swift */,
+				88889A882973AC4C00F04A1D /* AlarmListTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -249,6 +256,7 @@
 				889E497D2816ED1900AA2D9C /* JoinListVC.swift */,
 				F214200D28100B73000D102D /* MainVC.swift */,
 				886C16AA286B32680041FA05 /* InviteVC.swift */,
+				88889A862973ABE500F04A1D /* AlarmListVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -457,6 +465,7 @@
 				F2159EF9289BE91E0083A127 /* SettingServices.swift */,
 				8875C5922920FB000039C3F0 /* ReportServices.swift */,
 				883E840F294D7CE6009B7C3C /* InviteService.swift */,
+				888616AE2986241600E679A9 /* AlarmServices.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -769,6 +778,7 @@
 				888FEE70286DEC090013939B /* TermVC.swift in Sources */,
 				F2A4A013285A30F00076A8A1 /* FriendsListViewModel.swift in Sources */,
 				F21EBA11288597AF004EA599 /* ProfileServices.swift in Sources */,
+				888616AF2986241600E679A9 /* AlarmServices.swift in Sources */,
 				8835FA4528B6715A00665297 /* UIDevice+.swift in Sources */,
 				F276337A28BA2ED600800561 /* ClosedMeetingCVCell.swift in Sources */,
 				F2E2C4B228365F3D0094DABD /* MinSansFont.swift in Sources */,
@@ -802,7 +812,9 @@
 				F263F5F628AE7F3C00575CAF /* EndedCVCell.swift in Sources */,
 				F2C0DC9228748056009A1229 /* KeychainHandler.swift in Sources */,
 				F21429F22821968D00E54B57 /* CompleteProfileVC.swift in Sources */,
+				88889A892973AC4C00F04A1D /* AlarmListTableViewCell.swift in Sources */,
 				F216ECBE286CB50B000210F7 /* EmailLoginVC.swift in Sources */,
+				88889A872973ABE500F04A1D /* AlarmListVC.swift in Sources */,
 				F21429F428219BA400E54B57 /* OnboardingVC.swift in Sources */,
 				F28AC7EC282CC02B003EEF8A /* CautionVC.swift in Sources */,
 				883E8410294D7CE6009B7C3C /* InviteService.swift in Sources */,

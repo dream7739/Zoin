@@ -13,9 +13,12 @@ import RxCocoa
 import RxSwift
 import Moya
 import SwiftyJSON
+import Kingfisher
 
 class ProfileVC: BaseViewController {
-
+    var notificationTypeNumber:Int?
+    var notiType: String?
+    var userId: Int?    //나에게 친구신청을 보낸 유저ID
 
     private let profileBackgroundView = UIView().then {
         $0.backgroundColor = .grayScale800
@@ -135,15 +138,16 @@ class ProfileVC: BaseViewController {
 
     let listProvider = MoyaProvider<ProfileServices>()
     var friendsInfo = [user]()
+    var otherInfo = [otherUserInfo]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         bind()
         countFriends()
-        // Do any additional setup after loading the view.
-    }
+        friend() //초대하기를 통해 들어온 친구수락 및 알림리스트를 통한 친구수락
 
+    }
 
 
     override func viewWillAppear(_ animated: Bool) {
@@ -151,9 +155,18 @@ class ProfileVC: BaseViewController {
         setUpNavigation()
         setTabBarHidden(isHidden: false)
         countFriends()
-        makeFriends() //초대하기를 통해 들어온 친구수락
+            
+        //알림 리스트를 통해 진입 && 번개 관련
+        if let notiType = notiType {
+            if notiType == "RENDEZVOUS"{
+                openRendezvousList()
+            }
+        }
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        setTabBarHidden(isHidden: false)
+    }
 
 }
 
@@ -429,6 +442,30 @@ extension ProfileVC {
             })
             .disposed(by: disposeBag)
     }
+    
+    //알림목록에서 들어온 타입별 화면 분기
+    func openRendezvousList(){
+        switch notificationTypeNumber {
+        case 2:
+            let viewcontroller = EndedMeetingVC()
+            self.navigationController?.pushViewController(viewcontroller, animated: true)
+            break
+        case 3:
+            let viewcontroller = ClosedMeetingVC()
+            self.navigationController?.pushViewController(viewcontroller, animated: true)
+            break
+        case 5:
+            let viewcontroller = EndedMeetingVC()
+            self.navigationController?.pushViewController(viewcontroller, animated: true)
+            break
+        default:
+            break
+        }
+        
+        // 1회 실행 조건
+        notiType = nil
+    }
+
 
     @objc func moveLast() {
         let viewController = SettingVC()
@@ -465,17 +502,32 @@ extension ProfileVC {
             }).disposed(by: disposeBag)
     }
     
-    @objc func makeFriends() {
+  
+    //초대하기 - scene에서 진입한 경우
+    //알림리스트에서 진입한 경우
+    func friend() {
         let scene = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
         
-        if !scene.isInvited {
+        if !scene.isInvited && notiType == nil {
             return
-        }else{
+        }else if scene.isInvited {
+            guard let userId = scene.inviteUserId else { return }
             scene.isInvited = false
+            makeFriend(userId: userId)
+        }else if notificationTypeNumber == 6 {
+            if let userId = userId {
+                makeFriend(userId: userId)
+            }
+        }else if notificationTypeNumber == 7 {
+            if let userId = userId {
+                getFriendProfile(friendId: userId)
+            }
         }
-        
-        guard let userId = scene.inviteUserId else { return }
-        
+
+    }
+    
+    //친구 맺기 서버통신
+    func makeFriend(userId : Int){
         listProvider.rx.request(.invitation(param: friendId(invitingFriendId: userId)))
                 .asObservable()
                 .subscribe(onNext: { [weak self] response in
@@ -485,17 +537,20 @@ extension ProfileVC {
                     print("make status \(status), message: \(message)")
                     if status == 200 {
                         print("success")
-                        self.showMakeFriendAlert()
+                        self.showMakeFriendAlert(message: "친구 요청을 수락했어요")
+                    }else if status == 400 {
+                        self.showMakeFriendAlert(message: "이미 친구인 유저입니다")
                     }
                     
                 }, onError: { [weak self] _ in
                     print("error occured")
                 }, onCompleted: {
                 }).disposed(by: disposeBag)
-        }
+    }
     
-    func showMakeFriendAlert(){
-        let alert = UIAlertController(title: "친구 요청을 수락했어요", message: nil, preferredStyle: .alert)
+    
+    func showMakeFriendAlert(message: String){
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         let confirm = UIAlertAction(title: "확인", style: .default, handler:  nil)
         
         alert.addAction(confirm)
@@ -503,5 +558,63 @@ extension ProfileVC {
         alert.view.tintColor = .grayScale900
         self.present(alert, animated: true)
     }
+    
+    func getFriendProfile(friendId: Int){
+        listProvider.rx.request(.other(friendId))
+                .asObservable()
+                .subscribe(onNext: { [weak self] response in
+                    guard let self = self else { return }
+                    let status = JSON(response.data)["status"]
+                    let message = JSON(response.data)["message"]
+                    if status == 200 {
+                        guard let value = try? JSONDecoder().decode(other.self, from: response.data) else {return}
+                        self.otherInfo = [value.data]
+                        self.bindOtherUserProfile()
+                    }
+                }, onError: { [weak self] _ in
+                    print("error occured")
+                }, onCompleted: {
+                }).disposed(by: disposeBag)
+    }
+    
+    func bindOtherUserProfile(){
+        let info = otherInfo[0]
+        let userInfo = info.otherUser  //유저데이터
+        let friendCount = info.friendCount //친구수
+        let isFriend = info.isFriend   //친구여부
+        let profileImgUrl = userInfo.profileImgUrl //프로필 이미지 URL
+        
+        friendsCountLabel.text = "\(friendCount)"
+        nicknameLabel.text = userInfo.userName
+        userIdLabel.text = userInfo.serviceId
+        
+        if profileImgUrl == "" {
+            profileImageView.image = Image.profileDefault
+        }else{
+            let url = URL(string: profileImgUrl)
+            let processor = (ResizingImageProcessor(referenceSize: CGSize(width: 113, height: 113)) |> RoundCornerImageProcessor(cornerRadius: 50))
+            profileImageView.kf.setImage(with: url, options: [.processor(processor)])
+        }
+        
+        //모집중인 번개 목록을 제외한 나머지를 숨김 처리
+        closedBoxButton.isHidden = true
+        historyBoxButton.isHidden = true
+        closedBoxLabel.isHidden = true
+        historyBoxLabel.isHidden = true
+        closedBoxImage.isHidden = true
+        historyBoxImage.isHidden = true
+        guideImagesecond.isHidden = true
+        guideImagethird.isHidden = true
+        navigationItem.rightBarButtonItem = nil
+        editButton.isHidden = true
+        
+        //친구가 아닌 경우 친구검색을 친구추가로 바꾸어줌
+        if !isFriend{
+            searchButton.setImage(Image.addFriendsBtn, for: .normal)
+        }
+    }
+    
+    
+  
       
 }

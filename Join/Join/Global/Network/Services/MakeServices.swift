@@ -14,6 +14,7 @@ enum MakeServices {
     case modifyRendezvous(id: Int, param: MakeRequest) //번개 수정
     case deleteRendezvous(id: Int) //번개 삭제
     case main(size: Int, cursor: Int?) //번개 메인
+    case rendezvousDetail(id: Int) //번개 상세 조회
     case participant(id: Int) //번개 참여
     case deleteParticipant(id: Int) //번개 참여 취소
     case participants(id: Int) //번개 참여자 목록보기
@@ -73,6 +74,19 @@ struct MainElements: Codable {
     var whetherUserParticipateOrNot: Bool?
 }
 
+//번개 상세조회 응답
+struct RendezvousResponse: Codable {
+    var timestamp: String
+    var status: Int
+    var message: String
+    var data: RendezvousData
+}
+
+struct RendezvousData: Codable {
+    var rendezvous: MainElements
+    var isAuthor: Bool
+}
+
 struct MainProfileResponse : Codable {
     var id: Int
     var serviceId: String
@@ -110,6 +124,8 @@ extension MakeServices: TargetType {
             return "/api/v1/rendezvous/\(id)"
         case .main:
             return "/api/v1/rendezvous/main"
+        case .rendezvousDetail(let id):
+            return "/api/v1/rendezvous/\(id)"
         case .participant(let id), .deleteParticipant(let id):
             return "/api/v1/rendezvous/\(id)/participant"
         case .participants(let id):
@@ -129,7 +145,7 @@ extension MakeServices: TargetType {
             return .put
         case .deleteRendezvous:
             return .delete
-        case .main, .participants:
+        case .main, .rendezvousDetail, .participants:
             return .get
         case .participant:
             return .post
@@ -156,6 +172,8 @@ extension MakeServices: TargetType {
             return .requestJSONEncodable(param)
         case .main(let size, let cursor):
             return .requestParameters(parameters: ["size" : size, "cursor" : cursor ?? ""], encoding: URLEncoding.queryString)
+        case .rendezvousDetail:
+            return .requestPlain
         case .participant(let param):
             return .requestJSONEncodable(param)
         case .deleteParticipant(let param):
