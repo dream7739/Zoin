@@ -3,7 +3,7 @@
 
 |번개 참여|번개 추천|번개 목록|
 |--------|-----|------------|
-|<img width = "200" src = "https://github.com/user-attachments/assets/81ab8400-9cd8-4d3c-b9d4-0bb79adcfd9e">|<img width = "200" src = "https://github.com/user-attachments/assets/f1a260be-ef8e-45c4-840d-9d9a8f0b087a">|<img width = "200" src = "https://github.com/user-attachments/assets/83389d6d-6f7a-473f-97e2-8c4d268b0c65">|
+|<img width = "200" src = "https://github.com/user-attachments/assets/81ab8400-9cd8-4d3c-b9d4-0bb79adcfd9e">|<img width = "200" src = "https://github.com/user-attachments/assets/c8097aac-80e6-4143-b08c-0d94022dddb6">|<img width = "200" src = "https://github.com/user-attachments/assets/f1a260be-ef8e-45c4-840d-9d9a8f0b087a">|
 
 ## 프로젝트 환경
 - 인원: iOS 2인, 서버 1인, 디자인 2인, 기획 1인
