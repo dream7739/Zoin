@@ -21,7 +21,7 @@
 - 번개 생성: 번개 모임 생성
 - 친구 초대 및 팔로우: 링크 공유를 통한 친구초대 및 팔로우
   
-## 주요 기술
+## 주요 기술 및 담당 업무
 - UICollectionViewLayoutAttributes를 통한 컬렉션뷰 커스텀
 - Firebase DynamicLinks와 URL Scheme을 사용한 딥링크 구현
 - Github Flow 전략을 사용한 협업 및 이슈 관리
